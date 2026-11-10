@@ -4,7 +4,7 @@ import styles from "./HomePage.module.css";
 import { CinematicHero } from "./components/CinematicHero";
 import { Button, SkeletonCard, EmptyState, ApiErrorCard } from "@bagodi/shared-components";
 import { defaultApiClient } from "@bagodi/api-client";
-import { Product } from "@bagodi/shared-types";
+import { Product, PaginatedResponse } from "@bagodi/shared-types";
 import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
@@ -22,15 +22,24 @@ import { formatINR } from "@bagodi/utilities";
 export const HomePage: React.FC = () => {
   // Query Featured Products from Backend API
   const {
-    data: featuredProducts,
+    data: rawProductsData,
     isLoading: isProductsLoading,
     error: productsError,
     refetch: refetchProducts,
-  } = useQuery<Product[]>({
+  } = useQuery<PaginatedResponse<Product> | Product[]>({
     queryKey: ["home-featured-products"],
-    queryFn: () => defaultApiClient.get<Product[]>("/products", { params: { isFeatured: true, pageSize: 8 } }),
+    queryFn: () =>
+      defaultApiClient.get<PaginatedResponse<Product> | Product[]>("/products", {
+        params: { isFeatured: true, pageSize: 8 },
+      }),
     retry: 1,
   });
+
+  const featuredProducts: Product[] = Array.isArray(rawProductsData)
+    ? rawProductsData
+    : Array.isArray(rawProductsData?.items)
+    ? rawProductsData.items
+    : [];
 
   // Authentic Categories
   const storeCategories = [

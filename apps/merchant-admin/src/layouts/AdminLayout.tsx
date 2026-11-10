@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./AdminLayout.module.css";
 import {
@@ -10,15 +10,16 @@ import {
   Truck,
   Users,
   Settings,
-  Barcode,
   LogOut,
   Store,
   CreditCard,
   Tag,
   BarChart3,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { useAuth } from "@bagodi/authentication";
-import { Button, NetworkStatusBar } from "@bagodi/shared-components";
+import { NetworkStatusBar } from "@bagodi/shared-components";
 
 export interface AdminLayoutProps {
   children: ReactNode;
@@ -28,6 +29,21 @@ export interface AdminLayoutProps {
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onOpenBarcodeModal }) => {
   const location = useLocation();
   const { user, activeStore, logout, hasPermission, hasRole } = useAuth();
+
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("bagodi_admin_theme");
+      if (saved === "dark") return "dark";
+    }
+    // Default to bright mode as requested by user
+    return "light";
+  });
+
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    localStorage.setItem("bagodi_admin_theme", next);
+  };
 
   // Definition of navigation items with required backend permissions
   const navItems = [
@@ -100,7 +116,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onOpenBarcod
   ];
 
   return (
-    <div className={styles.adminShell}>
+    <div className={`${styles.adminShell} ${theme === "light" ? styles.brightTheme : styles.darkTheme}`}>
       {/* Sidebar */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
@@ -125,43 +141,66 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onOpenBarcod
             ))}
         </nav>
 
-        <div style={{ padding: "var(--space-4)", borderTop: "1px solid var(--border-subtle)" }}>
-          <div style={{ marginBottom: "var(--space-3)", padding: "0 var(--space-2)" }}>
-            <p style={{ fontSize: "var(--text-xs)", fontWeight: "bold", color: "var(--text-primary)" }}>
+        <div className={styles.sidebarFooter}>
+          <div className={styles.userBlock}>
+            <p className={styles.userName}>
               {user?.fullName || "Staff Member"}
             </p>
-            <p style={{ fontSize: "11px", color: "var(--text-tertiary)" }}>{user?.email}</p>
+            <p className={styles.userRole}>{user?.role?.replace("_", " ") || "Store Operations"}</p>
           </div>
-          <Button variant="ghost" size="sm" fullWidth leftIcon={<LogOut size={16} />} onClick={() => logout()}>
-            Sign Out
-          </Button>
+          <button type="button" className={styles.logoutBtn} onClick={() => logout()}>
+            <LogOut size={14} />
+            <span>Sign Out</span>
+          </button>
         </div>
       </aside>
 
       {/* Main Content Viewport */}
-      <div className={styles.mainArea}>
-        <header className={styles.topbar}>
-          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
-            <span style={{ fontSize: "var(--text-sm)", color: "var(--text-secondary)" }}>
-              Role: <strong style={{ color: "var(--text-primary)" }}>{user?.role?.replace("_", " ") || "Store Operations"}</strong>
+      <div className={styles.mainWorkspace}>
+        <header className={styles.topBar}>
+          <div className={styles.topBarLeft}>
+            <span className={styles.liveIndicatorDot} />
+            <span className={styles.topBarRole}>
+              Role: <strong>{user?.role?.replace("_", " ") || "Store Operations"}</strong>
             </span>
+            <span className={styles.topBarDivider}>•</span>
+            <span className={styles.topBarStore}>{activeStore?.name || "Bidar Flagship (Store 01)"}</span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+          <div className={styles.topBarRight}>
+            <button
+              type="button"
+              className={styles.themeToggleBtn}
+              onClick={toggleTheme}
+              title={theme === "light" ? "Switch to Dark Theme" : "Switch to Bright Mode"}
+            >
+              {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
+              <span>{theme === "light" ? "Dark Mode" : "Bright Mode"}</span>
+            </button>
+
             {onOpenBarcodeModal && (
-              <Button
-                variant="outline"
-                size="sm"
-                leftIcon={<Barcode size={16} />}
+              <button
+                type="button"
+                className={styles.barcodeScanBtn}
                 onClick={onOpenBarcodeModal}
               >
-                Scan Barcode
-              </Button>
+                Scan Barcode (⌘B)
+              </button>
             )}
+
+            <div className={styles.userProfilePill}>
+              <div className={styles.userAvatar}>
+                {user?.fullName?.charAt(0) || "S"}
+              </div>
+              <div className={styles.userMeta}>
+                <span className={styles.userNameShort}>{user?.fullName || "Staff Member"}</span>
+                <span className={styles.userRoleBadge}>{user?.role?.replace("_", " ")}</span>
+              </div>
+            </div>
           </div>
         </header>
 
-        <main className={styles.contentWrapper}>{children}</main>
+        <main className={styles.contentBody}>{children}</main>
       </div>
 
       {/* Network Resilience Sentinel */}

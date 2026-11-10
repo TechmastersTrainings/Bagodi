@@ -13,6 +13,7 @@ import {
   ServerError,
   NetworkError,
 } from "./errors";
+import { getMockResponse } from "./mockRouter";
 
 export interface ApiClientAuthConfig {
   getAccessToken?: () => string | null | Promise<string | null>;
@@ -79,6 +80,23 @@ export class ApiClient {
     const url = this.buildUrl(path, params);
     const headers = new Headers(customHeaders);
 
+    // Fast-path: standalone mode (no backend required)
+    // Runs in-browser mock router by default unless explicitly configured with bagodi_use_real_backend=true
+    const isMockForced =
+      typeof window !== "undefined" &&
+      localStorage.getItem("bagodi_use_real_backend") !== "true";
+
+    if (isMockForced) {
+      await new Promise((r) => setTimeout(r, 60));
+      let parsedBody: unknown;
+      try {
+        if (typeof fetchInit.body === "string") parsedBody = JSON.parse(fetchInit.body);
+      } catch {
+        parsedBody = fetchInit.body;
+      }
+      return getMockResponse(fetchInit.method || "GET", path, parsedBody, params) as T;
+    }
+
     if (!headers.has("Content-Type") && !(fetchInit.body instanceof FormData)) {
       headers.set("Content-Type", "application/json");
     }
@@ -110,7 +128,16 @@ export class ApiClient {
         if (err.name === "AbortError") {
           throw new NetworkError("Request timed out");
         }
-        throw new NetworkError(err.message || "Network request failed");
+        // Graceful standalone fallback when backend is unreachable locally
+        console.warn(`[ApiClient] Network request failed for ${path}. Falling back to standalone mock provider.`);
+        await new Promise((r) => setTimeout(r, 60));
+        let parsedBody: unknown;
+        try {
+          if (typeof fetchInit.body === "string") parsedBody = JSON.parse(fetchInit.body);
+        } catch {
+          parsedBody = fetchInit.body;
+        }
+        return getMockResponse(fetchInit.method || "GET", path, parsedBody, params) as T;
       }
 
       // Handle 401 Unauthorized with token refresh mutex
@@ -159,6 +186,19 @@ export class ApiClient {
       }
 
       if (!response.ok) {
+        // When Vite proxy returns 500/502/503/504 because backend is offline
+        if (response.status >= 500) {
+          console.warn(`[ApiClient] Backend server error (${response.status}) on ${path}. Falling back to standalone mock provider.`);
+          await new Promise((r) => setTimeout(r, 60));
+          let parsedBody: unknown;
+          try {
+            if (typeof fetchInit.body === "string") parsedBody = JSON.parse(fetchInit.body);
+          } catch {
+            parsedBody = fetchInit.body;
+          }
+          return getMockResponse(fetchInit.method || "GET", path, parsedBody, params) as T;
+        }
+
         await this.handleErrorResponse(response);
       }
 

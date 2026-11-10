@@ -19,8 +19,9 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
   const images = product.images || [];
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  const availableSizes = Array.from(new Set(product.variants?.map((v) => v.size) || []));
-  const [selectedSize, setSelectedSize] = useState<string>(availableSizes[0] || "Free Size");
+  const availableSizes = Array.from(new Set(product.variants?.map((v) => v.size).filter(Boolean) || []));
+  const displaySizes = availableSizes.length > 0 ? availableSizes : ["Free Size"];
+  const [selectedSize, setSelectedSize] = useState<string>(displaySizes[0] || "Free Size");
 
   // Price calculation
   const firstVariant = product.variants?.[0];
@@ -116,30 +117,28 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               )}
 
               {/* Size Selection */}
-              {availableSizes.length > 0 && (
-                <div className={styles.sizeSelectionArea}>
-                  <div className={styles.sizeLabelRow}>
-                    <span>Select Garment Size</span>
-                    <span style={{ color: "#E31B23", cursor: "pointer", fontWeight: 600 }}>
-                      Bidar In-Mall Fit Guide
-                    </span>
-                  </div>
-                  <div className={styles.sizesTrack}>
-                    {availableSizes.map((sz) => (
-                      <button
-                        key={sz}
-                        type="button"
-                        className={`${styles.sizePillBtn} ${
-                          selectedSize === sz ? styles.sizePillBtnActive : ""
-                        }`}
-                        onClick={() => setSelectedSize(sz)}
-                      >
-                        {sz}
-                      </button>
-                    ))}
-                  </div>
+              <div className={styles.sizeSelectionArea}>
+                <div className={styles.sizeLabelRow}>
+                  <span>Select Garment Size</span>
+                  <span style={{ color: "#E31B23", cursor: "pointer", fontWeight: 600 }}>
+                    Bidar In-Mall Fit Guide
+                  </span>
                 </div>
-              )}
+                <div className={styles.sizesTrack}>
+                  {displaySizes.map((sz) => (
+                    <button
+                      key={sz}
+                      type="button"
+                      className={`${styles.sizePillBtn} ${
+                        selectedSize === sz ? styles.sizePillBtnActive : ""
+                      }`}
+                      onClick={() => setSelectedSize(sz)}
+                    >
+                      {sz}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* Modal Actions */}
@@ -147,13 +146,17 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               <button
                 type="button"
                 className={styles.addToBagBtn}
+                style={{
+                  backgroundColor: "#E31B23",
+                  color: "#FFFFFF",
+                }}
                 onClick={() => {
                   onAddToBag(product, selectedSize);
                   onClose();
                 }}
               >
-                <ShoppingBag size={16} />
-                <span>Add to Shopping Bag</span>
+                <ShoppingBag size={16} color="#FFFFFF" />
+                <span style={{ color: "#FFFFFF", fontWeight: 700 }}>Add to Shopping Bag</span>
               </button>
 
               <Link
@@ -161,7 +164,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                 className={styles.viewDetailsLink}
                 onClick={onClose}
               >
-                <span>Full Atelier Story</span>
+                <span style={{ color: "inherit", fontWeight: 700 }}>Full Atelier Story</span>
                 <ArrowRight size={14} />
               </Link>
             </div>

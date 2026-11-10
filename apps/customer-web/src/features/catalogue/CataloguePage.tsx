@@ -210,10 +210,16 @@ export const CataloguePage: React.FC = () => {
   }, [activeCategory, brandId, selectedSizes, minPrice, maxPrice, inStockOnly, debouncedSearch, sortBy]);
 
   // Choose server data if available and non-empty, otherwise use curated dataset
-  const usingCurated = isServerError || !serverProductData || serverProductData.items.length === 0;
-  const products: Product[] = usingCurated ? filteredCuratedProducts : serverProductData.items;
-  const totalCount = usingCurated ? filteredCuratedProducts.length : serverProductData.total;
-  const totalPages = usingCurated ? Math.ceil(filteredCuratedProducts.length / 16) : serverProductData.totalPages;
+  const usingCurated =
+    isServerError ||
+    !serverProductData ||
+    !Array.isArray(serverProductData.items) ||
+    serverProductData.items.length === 0;
+  const products: Product[] = usingCurated
+    ? filteredCuratedProducts
+    : (serverProductData.items as Product[]);
+  const totalCount = usingCurated ? filteredCuratedProducts.length : (serverProductData.total ?? filteredCuratedProducts.length);
+  const totalPages = usingCurated ? Math.ceil(filteredCuratedProducts.length / 16) : (serverProductData.totalPages ?? 1);
 
   // Helper to update searchParams
   const updateParam = (key: string, value: string | undefined) => {

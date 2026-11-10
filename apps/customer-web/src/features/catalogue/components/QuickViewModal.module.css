@@ -268,14 +268,15 @@
   flex-wrap: wrap;
 }
 
-.sizePillBtn {
+.sizePillBtn,
+button.sizePillBtn {
   min-width: 44px;
   height: 40px;
   padding: 0 14px;
   border-radius: 8px;
-  border: 1px solid #D8D2C7;
-  background: #FFFFFF;
-  color: #111111;
+  border: 1px solid #D8D2C7 !important;
+  background-color: #FFFFFF !important;
+  color: #111111 !important;
   font-weight: 700;
   font-size: 12.5px;
   display: flex;
@@ -285,14 +286,16 @@
   transition: all 0.2s ease;
 }
 
-.sizePillBtn:hover {
-  border-color: #0A0A0A;
+.sizePillBtn:hover,
+button.sizePillBtn:hover {
+  border-color: #0A0A0A !important;
 }
 
-.sizePillBtnActive {
-  background: #0A0A0A;
-  color: #FFFFFF;
-  border-color: #0A0A0A;
+.sizePillBtnActive,
+button.sizePillBtnActive {
+  background-color: #0A0A0A !important;
+  color: #FFFFFF !important;
+  border-color: #0A0A0A !important;
 }
 
 /* Action Buttons */
@@ -300,13 +303,16 @@
   display: flex;
   gap: 12px;
   margin-top: auto;
+  align-items: center;
 }
 
-.addToBagBtn {
+.addToBagBtn,
+button.addToBagBtn {
   flex: 1;
-  background: #E31B23;
-  color: #FFFFFF;
-  border: none;
+  background-color: #E31B23 !important;
+  background: #E31B23 !important;
+  color: #FFFFFF !important;
+  border: none !important;
   border-radius: 9999px;
   padding: 14px 24px;
   font-weight: 700;
@@ -321,16 +327,19 @@
   transition: all 0.25s ease;
 }
 
-.addToBagBtn:hover {
-  background: #C8141B;
+.addToBagBtn:hover,
+button.addToBagBtn:hover {
+  background-color: #C8141B !important;
+  background: #C8141B !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 26px rgba(227, 27, 35, 0.45);
 }
 
-.viewDetailsLink {
-  border: 1.5px solid #0A0A0A;
-  background: transparent;
-  color: #0A0A0A;
+.viewDetailsLink,
+a.viewDetailsLink {
+  border: 1.5px solid #0A0A0A !important;
+  background-color: transparent !important;
+  color: #0A0A0A !important;
   border-radius: 9999px;
   padding: 13px 22px;
   font-weight: 700;
@@ -343,9 +352,10 @@
   transition: all 0.25s ease;
 }
 
-.viewDetailsLink:hover {
-  background: #0A0A0A;
-  color: #FFFFFF;
+.viewDetailsLink:hover,
+a.viewDetailsLink:hover {
+  background-color: #0A0A0A !important;
+  color: #FFFFFF !important;
 }
 
 @media (max-width: 800px) {

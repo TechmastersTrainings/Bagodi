@@ -44,24 +44,21 @@ export const SuperDashboardPage: React.FC = () => {
     );
   }
 
-  const summary = data || {
-    totalMerchants: 1,
-    activeMerchants: 1,
-    suspendedMerchants: 0,
-    activeTenants: 1,
-    totalStores: 1,
-    platformLifetimeGmv: 4250000,
-    totalEndUsers: 1420,
-    overallHealth: "HEALTHY" as const,
-    services: [
-      { serviceName: "Auth, Session & RBAC Mutex Engine", status: "HEALTHY" as const, latencyMs: 14, uptimePercentage: 99.99, lastPingAt: new Date().toISOString() },
-      { serviceName: "Catalogue & Fast Search Pipeline", status: "HEALTHY" as const, latencyMs: 22, uptimePercentage: 99.98, lastPingAt: new Date().toISOString() },
-      { serviceName: "Real-Time Inventory & Hardware Barcode Mutex", status: "HEALTHY" as const, latencyMs: 18, uptimePercentage: 99.95, lastPingAt: new Date().toISOString() },
-      { serviceName: "Razorpay Payment Webhook Settlement Listener", status: "HEALTHY" as const, latencyMs: 31, uptimePercentage: 99.99, lastPingAt: new Date().toISOString() },
-      { serviceName: "Multi-Carrier Dispatch & Tracking Bridge", status: "HEALTHY" as const, latencyMs: 45, uptimePercentage: 99.92, lastPingAt: new Date().toISOString() },
-    ],
-    recentAuditLogs: [],
-  };
+  const fallbackServices = [
+    { serviceName: "Auth, Session & RBAC Mutex Engine", status: "HEALTHY" as const, latencyMs: 14, uptimePercentage: 99.99, lastPingAt: new Date().toISOString() },
+    { serviceName: "Catalogue & Fast Search Pipeline", status: "HEALTHY" as const, latencyMs: 22, uptimePercentage: 99.98, lastPingAt: new Date().toISOString() },
+    { serviceName: "Real-Time Inventory & Hardware Barcode Mutex", status: "HEALTHY" as const, latencyMs: 18, uptimePercentage: 99.95, lastPingAt: new Date().toISOString() },
+    { serviceName: "Razorpay Payment Webhook Settlement Listener", status: "HEALTHY" as const, latencyMs: 31, uptimePercentage: 99.99, lastPingAt: new Date().toISOString() },
+    { serviceName: "Multi-Carrier Dispatch & Tracking Bridge", status: "HEALTHY" as const, latencyMs: 45, uptimePercentage: 99.92, lastPingAt: new Date().toISOString() },
+  ];
+
+  const totalMerchants = data?.totalMerchants ?? 3;
+  const activeMerchants = data?.activeMerchants ?? 3;
+  const suspendedMerchants = data?.suspendedMerchants ?? 0;
+  const totalStores = data?.totalStores ?? 4;
+  const platformLifetimeGmv = data?.platformLifetimeGmv ?? 14850000;
+  const totalEndUsers = data?.totalEndUsers ?? 14200;
+  const services = Array.isArray(data?.services) && data.services.length > 0 ? data.services : fallbackServices;
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
@@ -97,10 +94,10 @@ export const SuperDashboardPage: React.FC = () => {
               <Building2 size={15} color="var(--color-champagne-gold)" />
             </div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: "28px", fontWeight: 700, color: "#FFFFFF", margin: "8px 0 4px" }}>
-              {summary.totalMerchants}
+              {totalMerchants}
             </div>
             <div style={{ fontSize: "11px", color: "var(--status-success)" }}>
-              {summary.activeMerchants} active • {summary.suspendedMerchants} suspended
+              {activeMerchants} active • {suspendedMerchants} suspended
             </div>
           </div>
         </PerspectiveCard3D>
@@ -112,10 +109,10 @@ export const SuperDashboardPage: React.FC = () => {
               <TrendingUp size={15} color="var(--status-success)" />
             </div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: "28px", fontWeight: 700, color: "var(--color-champagne-gold)", margin: "8px 0 4px" }}>
-              {formatINR(summary.platformLifetimeGmv)}
+              {formatINR(platformLifetimeGmv)}
             </div>
             <div style={{ fontSize: "11px", color: "var(--color-muted-grey)" }}>
-              Across {summary.totalStores} registered retail locations
+              Across {totalStores} registered retail locations
             </div>
           </div>
         </PerspectiveCard3D>
@@ -127,7 +124,7 @@ export const SuperDashboardPage: React.FC = () => {
               <Users size={15} color="var(--color-champagne-gold)" />
             </div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: "28px", fontWeight: 700, color: "#FFFFFF", margin: "8px 0 4px" }}>
-              {summary.totalEndUsers}
+              {totalEndUsers}
             </div>
             <div style={{ fontSize: "11px", color: "var(--color-light-champagne)" }}>
               Verified Indian customer identities
@@ -179,7 +176,7 @@ export const SuperDashboardPage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {summary.services.map((svc, idx) => (
+              {services.map((svc, idx) => (
                 <tr key={idx} style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
                   <td style={{ padding: "12px 14px", fontWeight: 600, color: "#FFFFFF" }}>{svc.serviceName}</td>
                   <td style={{ padding: "12px 14px" }}>

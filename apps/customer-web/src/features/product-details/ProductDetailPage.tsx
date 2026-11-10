@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "./ProductDetailPage.module.css";
@@ -6,6 +6,7 @@ import { defaultApiClient } from "@bagodi/api-client";
 import { Product, ProductVariant } from "@bagodi/shared-types";
 import { ProductGallery } from "./components/ProductGallery";
 import { SizeChartModal } from "./components/SizeChartModal";
+import { CURATED_GARMENTS } from "../catalogue/data/curatedCatalogueData";
 import {
   Button,
   SkeletonCard,
@@ -36,7 +37,7 @@ export const ProductDetailPage: React.FC = () => {
 
   // 1. Fetch Authoritative Product & Variant Data
   const {
-    data: product,
+    data: productData,
     isLoading,
     error,
     refetch,
@@ -46,6 +47,16 @@ export const ProductDetailPage: React.FC = () => {
     enabled: !!id,
     retry: 1,
   });
+
+  // Resolve authoritative product with curated fallback
+  const product = useMemo(() => {
+    const fromCurated = CURATED_GARMENTS.find((p) => p.slug === id || p.id === id);
+    if (fromCurated) return fromCurated;
+    if (productData && productData.name && productData.variants && productData.variants.length > 0) {
+      return productData;
+    }
+    return productData;
+  }, [productData, id]);
 
   // Extract unique sizes and colors from product variants
   const variants = product?.variants || [];
@@ -140,7 +151,10 @@ export const ProductDetailPage: React.FC = () => {
         {/* Right: Product Details & Variant Resolution */}
         <div className={styles.detailsArea}>
           <div className={styles.brandHeader}>
-            <span className={styles.brandName}>{product.brand?.name || "Bagodi Collection"}</span>
+            <div className={styles.brandBadgeRow}>
+              <span className={styles.brandName}>{product.brand?.name || "Bagodi Collection"}</span>
+              <span className={styles.authenticityTag}>100% Authentic Handloom</span>
+            </div>
             <h1 className={styles.productTitle}>{product.name}</h1>
           </div>
 
@@ -241,29 +255,32 @@ export const ProductDetailPage: React.FC = () => {
 
           {/* Add to Bag & Wishlist Actions */}
           <div className={styles.actionsContainer}>
-            <Button
-              size="lg"
-              fullWidth
-              leftIcon={<ShoppingBag size={20} />}
+            <button
+              type="button"
+              className={styles.addToBagActionBtn}
               disabled={isOutOfStock || !activeVariant}
-              isLoading={addToCartMutation.isPending}
               onClick={() => {
                 if (activeVariant) {
                   addToCartMutation.mutate({ variantId: activeVariant.id, quantity: 1 });
                 }
               }}
             >
-              {isOutOfStock ? "Sold Out" : "Add To Bag"}
-            </Button>
+              <ShoppingBag size={18} />
+              <span>{isOutOfStock ? "Sold Out in This Size" : "Add to Boutique Bag"}</span>
+            </button>
 
-            <Button
-              variant="outline"
-              size="lg"
+            <button
+              type="button"
+              className={styles.wishlistBtn}
               aria-label="Save to Wishlist"
               onClick={() => setIsWishlisted(!isWishlisted)}
             >
-              <Heart size={20} fill={isWishlisted ? "var(--status-danger)" : "none"} color={isWishlisted ? "var(--status-danger)" : "currentColor"} />
-            </Button>
+              <Heart
+                size={20}
+                fill={isWishlisted ? "#E31B23" : "none"}
+                color={isWishlisted ? "#E31B23" : "#111111"}
+              />
+            </button>
           </div>
 
           {cartSuccessNotice && (
@@ -297,7 +314,7 @@ export const ProductDetailPage: React.FC = () => {
 
           {/* Garment Details & Description */}
           <div className={styles.accordionSection}>
-            <h3 style={{ fontSize: "var(--text-sm)", fontWeight: "bold", textTransform: "uppercase" }}>Garment Details</h3>
+            <h3 className={styles.accordionTitle}>Garment Details & Heritage Craft</h3>
             <p className={styles.descriptionText}>{product.description}</p>
             {product.fabricDetails && (
               <p className={styles.descriptionText}>
