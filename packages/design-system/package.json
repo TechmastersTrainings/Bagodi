@@ -1,0 +1,20 @@
+{
+  "name": "@bagodi/design-system",
+  "version": "1.0.0",
+  "description": "Bagodi pure CSS design system, 3D elevation tokens, and typography",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./css": "./src/index.css",
+    "./tokens/*": "./src/tokens/*",
+    "./reset": "./src/reset.css"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
+

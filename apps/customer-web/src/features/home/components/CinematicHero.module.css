@@ -1,0 +1,863 @@
+/* Bagodi High-Fashion Modern Hero — Sticky Switch Deck Architecture
+   - Section 1: Hero Editorial (100% clean above the fold, no clothes cards)
+   - Section 2: Runway Showcase Deck (7 Models + Black Marquee)
+   - Tactile 3D Switch Card Deck Stacking on Scroll across all sections
+   - Strict Rule: Absolutely ZERO emojis.
+*/
+
+.heroRoot {
+  position: sticky;
+  top: 72px;
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  background: #FFFFFF;
+  color: #0A0A0A;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  z-index: 1;
+  transform-origin: center top;
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* ==========================================================================
+   SECTION 1: EDITORIAL HEADLINE & WELCOME PAVILION
+   ========================================================================== */
+
+/* Editorial Haute-Couture Lifestyle Atmosphere */
+.heroBackgroundAtmosphere {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.heroBackgroundImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+  opacity: 0.32;
+  filter: saturate(1.18) contrast(1.05);
+  transform: scale(1.02);
+  animation: heroBgGentleDrift 24s ease-in-out infinite alternate;
+}
+
+@keyframes heroBgGentleDrift {
+  0% {
+    transform: scale(1.02) translateY(0);
+  }
+  100% {
+    transform: scale(1.06) translateY(-8px);
+  }
+}
+
+.heroBackgroundMask {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 72% 62% at 50% 45%,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(255, 255, 255, 0.85) 48%,
+      rgba(255, 255, 255, 0.28) 85%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      #FFFFFF 0%,
+      rgba(255, 255, 255, 0.25) 15%,
+      rgba(255, 255, 255, 0.25) 82%,
+      #FFFFFF 100%
+    ),
+    linear-gradient(
+      to right,
+      #FFFFFF 0%,
+      rgba(255, 255, 255, 0.18) 12%,
+      rgba(255, 255, 255, 0.18) 88%,
+      #FFFFFF 100%
+    );
+}
+
+.editorialHeader {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 3;
+}
+
+/* Subtle Architectural Ambient Glow */
+.sectionGlow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    rgba(227, 27, 35, 0.045) 0%,
+    rgba(212, 175, 55, 0.05) 45%,
+    transparent 75%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Bold Modern Sans Headline — 100% Solid Obsidian Black with Red Accent */
+.mainHeadline {
+  font-family: var(--font-sans);
+  font-size: clamp(2.3rem, 4.4vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.035em;
+  color: #0A0A0A;
+  margin: 0 0 16px 0;
+}
+
+.headlineLineWrapper {
+  display: block;
+  overflow: hidden;
+}
+
+.headlineLine {
+  display: block;
+  color: #0A0A0A;
+  transform: translateY(120%);
+  opacity: 0;
+  filter: blur(4px);
+  animation: smoothRevealUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lineDelay1 { animation-delay: 0.15s; }
+.lineDelay2 { animation-delay: 0.3s; }
+
+@keyframes smoothRevealUp {
+  0% {
+    transform: translateY(120%);
+    opacity: 0;
+    filter: blur(4px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Bagodi Signature Red Accent on "Modern Couture!" */
+.redGradientText {
+  background: linear-gradient(135deg, #E31B23 0%, #D0161E 60%, #B8131A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  display: inline-block;
+  position: relative;
+}
+
+/* Clean Centered Subtitle */
+.subHeadlineWrapper {
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.subHeadline {
+  font-family: var(--font-sans);
+  font-size: clamp(0.96rem, 1.25vw, 1.12rem);
+  color: #4A4A4A;
+  line-height: 1.6;
+  max-width: 660px;
+  margin: 0;
+  font-weight: 450;
+  transform: translateY(100%);
+  opacity: 0;
+  animation: smoothRevealUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+}
+
+/* Rounded Pill CTA Button — Precision Obsidian Edition */
+.ctaWrapper {
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #0A0A0A;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 13px 34px;
+  border-radius: 9999px;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(100%);
+  opacity: 0;
+  animation: smoothRevealUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.58s forwards;
+}
+
+.ctaButton:hover {
+  background: #E31B23;
+  color: #FFFFFF;
+  box-shadow: 0 8px 26px rgba(227, 27, 35, 0.38);
+  transform: translateY(-2px);
+}
+
+/* Grand Majestic "B A G O D I • W E L C O M E S • Y O U" Arch in Hero Center */
+.heroWelcomeArch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 1.6vw, 20px);
+  margin-top: var(--space-4);
+  padding: 0 var(--space-4);
+  width: 100%;
+  max-width: 1200px;
+  z-index: 2;
+  user-select: none;
+  flex-wrap: nowrap;
+}
+
+.archGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(3px, 0.6vw, 8px);
+}
+
+.archDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C5A15B;
+  box-shadow: 0 0 8px rgba(197, 161, 91, 0.6);
+  margin: 0 clamp(4px, 0.8vw, 12px);
+  opacity: 0;
+  animation: stampInkDot 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--char-i, 0) * 0.11s);
+}
+
+.watermarkLetter {
+  position: relative;
+  display: inline-block;
+  font-family: 'Bodoni Moda', 'Playfair Display', 'Cinzel', serif;
+  font-size: clamp(1.2rem, 2.5vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: clamp(0.08em, 0.16vw, 0.18em);
+  text-transform: uppercase;
+  background: linear-gradient(
+    135deg,
+    #E31B23 0%,
+    #C8141B 35%,
+    #C5A15B 70%,
+    #E31B23 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.2px rgba(227, 27, 35, 0.35);
+  filter: drop-shadow(0 1px 4px rgba(227, 27, 35, 0.15));
+  opacity: 0;
+  animation:
+    bookWriteInk 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite,
+    goldShimmerSweep 5s ease-in-out infinite alternate;
+  animation-delay:
+    calc(var(--char-i, 0) * 0.11s),
+    0s;
+  will-change: clip-path, transform, opacity, filter;
+}
+
+/* Golden Nib Gleam at the Tip of the Writing Stroke */
+.watermarkLetter::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: -2px;
+  width: 4px;
+  height: 80%;
+  background: radial-gradient(circle, #FFF4D0 0%, #E3A835 60%, transparent 100%);
+  border-radius: 9999px;
+  opacity: 0;
+  pointer-events: none;
+  animation: nibWritingGleam 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--char-i, 0) * 0.11s);
+}
+
+.primaryBrandLetter {
+  font-size: clamp(1.35rem, 2.8vw, 2.7rem);
+  font-weight: 900;
+  -webkit-text-stroke: 1.4px rgba(227, 27, 35, 0.45);
+}
+
+/* Calligraphic Book Writing Stroke Inscription */
+@keyframes bookWriteInk {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    -webkit-clip-path: inset(0 100% 0 0);
+    transform: translateY(5px) skewX(-4deg) scale(0.92);
+    filter: blur(3px) brightness(1.3) drop-shadow(0 0 6px rgba(227, 27, 35, 0.7));
+  }
+  1.4% {
+    opacity: 0.95;
+    clip-path: inset(0 30% 0 0);
+    -webkit-clip-path: inset(0 30% 0 0);
+    transform: translateY(2px) skewX(-2deg) scale(0.98);
+    filter: blur(1px) brightness(1.15) drop-shadow(0 0 4px rgba(197, 161, 91, 0.5));
+  }
+  2.8% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(0 0 0 0);
+    transform: translateY(0) skewX(0deg) scale(1);
+    filter: blur(0px) brightness(1) drop-shadow(0 1px 4px rgba(227, 27, 35, 0.18));
+  }
+  72% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(0 0 0 0);
+    transform: translateY(0) skewX(0deg) scale(1);
+    filter: blur(0px) brightness(1) drop-shadow(0 1px 4px rgba(227, 27, 35, 0.18));
+  }
+  82% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(0 0 0 0);
+    transform: translateY(-3px) scale(0.98);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    -webkit-clip-path: inset(0 100% 0 0);
+    transform: translateY(5px) scale(0.92);
+    filter: blur(3px);
+  }
+}
+
+/* Nib Flare Animation */
+@keyframes nibWritingGleam {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  0.8% {
+    opacity: 1;
+    transform: scale(1.6);
+    box-shadow: 0 0 10px #FFF4D0, 0 0 18px rgba(227, 168, 53, 0.85);
+  }
+  2.4% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Dot Wax / Ink Stamp Pulse */
+@keyframes stampInkDot {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+    box-shadow: 0 0 0 rgba(197, 161, 91, 0);
+  }
+  0.6% {
+    opacity: 1;
+    transform: scale(2.2);
+    box-shadow: 0 0 16px rgba(197, 161, 91, 1);
+  }
+  1.8% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(197, 161, 91, 0.6);
+  }
+  72% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(197, 161, 91, 0.6);
+  }
+  82% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Shimmer of Drying Calligraphy Ink */
+@keyframes goldShimmerSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Archival Book Ruled Underline */
+.bookArchivalRule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: min(100%, 460px);
+  margin-top: 6px;
+  opacity: 0;
+  animation: bookRuleFadeIn 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: 1.6s;
+  z-index: 2;
+  user-select: none;
+}
+
+.bookRuleLineLeft,
+.bookRuleLineRight {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(197, 161, 91, 0.6), transparent);
+}
+
+.bookRuleFlourish {
+  font-size: 10px;
+  color: #C5A15B;
+  opacity: 0.85;
+  text-shadow: 0 0 6px rgba(197, 161, 91, 0.5);
+}
+
+@keyframes bookRuleFadeIn {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.4);
+  }
+  6% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  72% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  82% {
+    opacity: 0;
+    transform: scaleX(0.8);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Pause animation on hover so user can inspect details */
+.heroWelcomeArch:hover .watermarkLetter,
+.heroWelcomeArch:hover .watermarkLetter::after,
+.heroWelcomeArch:hover .archDot,
+.heroWelcomeArch:hover ~ .bookArchivalRule {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .watermarkLetter,
+  .watermarkLetter::after,
+  .archDot,
+  .bookArchivalRule {
+    opacity: 1 !important;
+    animation: none !important;
+    clip-path: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* Subtle Animated Scroll Fold Indicator */
+.scrollFoldIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #777777;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding-bottom: var(--space-4);
+  z-index: 2;
+}
+
+.scrollFoldIndicator:hover {
+  color: #E31B23;
+}
+
+.scrollSwitchPill {
+  width: 20px;
+  height: 32px;
+  border: 1.5px solid rgba(0, 0, 0, 0.25);
+  border-radius: 9999px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.scrollSwitchDot {
+  width: 4px;
+  height: 7px;
+  border-radius: 2px;
+  background: #E31B23;
+  box-shadow: 0 0 10px #E31B23;
+  position: absolute;
+  top: 5px;
+  animation: switchTravel 1.8s infinite ease-in-out;
+}
+
+@keyframes switchTravel {
+  0% { transform: translateY(0); opacity: 1; }
+  60% { transform: translateY(13px); opacity: 0.2; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   SECTION 2: RUNWAY SHOWCASE DECK (MOVED DOWN)
+   This section slides OVER Section 1 with physical switch card deck folding
+   ========================================================================== */
+
+.runwayDeckSection {
+  position: sticky;
+  top: 72px;
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  background: linear-gradient(180deg, #FAF8F5 0%, #FFFFFF 30%, #F5F0E8 100%);
+  border-top-left-radius: 36px;
+  border-top-right-radius: 36px;
+  box-shadow: 0 -25px 65px rgba(0, 0, 0, 0.14);
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: var(--space-8);
+  z-index: 2;
+  overflow: hidden;
+  transform-origin: center top;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.runwaySectionHeader {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 18px;
+  padding: 0 var(--space-4);
+}
+
+.runwaySuperTitle {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #E31B23;
+  margin-bottom: 6px;
+}
+
+.runwayTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #121212;
+  margin: 0 0 6px 0;
+}
+
+.runwaySubtitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #666666;
+  margin: 0;
+}
+
+/* 7-Model Panoramic Runway Lineup */
+.modelLineupWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 var(--space-4);
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  z-index: 2;
+}
+
+.modelLineupWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Single Model Figure Card */
+.modelCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-decoration: none;
+  color: inherit;
+  flex: 0 0 135px;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 768px) {
+  .modelCard {
+    flex: 0 0 150px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .modelCard {
+    flex: 1 1 0;
+    max-width: 172px;
+  }
+
+  .modelCard:nth-child(1) { height: 235px; }
+  .modelCard:nth-child(2) { height: 265px; }
+  .modelCard:nth-child(3) { height: 295px; }
+  .modelCard:nth-child(4) { height: 320px; }
+  .modelCard:nth-child(5) { height: 300px; }
+  .modelCard:nth-child(6) { height: 270px; }
+  .modelCard:nth-child(7) { height: 245px; }
+}
+
+.modelCard:hover {
+  transform: translateY(-8px);
+}
+
+/* Model Image Container */
+.modelImageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #FFFFFF;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modelCard:hover .modelImageContainer {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  border-color: #E31B23;
+}
+
+.modelImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modelCard:hover .modelImage {
+  transform: scale(1.07);
+}
+
+/* Soft Ground Shadow */
+.modelGroundShadow {
+  width: 75%;
+  height: 6px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.22) 0%, transparent 75%);
+  margin-top: 5px;
+  transition: all 0.35s ease;
+}
+
+.modelCard:hover .modelGroundShadow {
+  transform: scale(0.85);
+  opacity: 0.5;
+}
+
+/* Floating Hover Category Badge */
+.modelCategoryBadge {
+  position: absolute;
+  bottom: 12px;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 5;
+}
+
+.modelCard:hover .modelCategoryBadge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modelCardTitle {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #444444;
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.modelCard:hover .modelCardTitle {
+  color: #E31B23;
+}
+
+/* ==========================================================================
+   SLEEK FULL-WIDTH BLACK BRAND MARQUEE BAR
+   ========================================================================== */
+
+.brandMarqueeBar {
+  position: relative;
+  width: 100%;
+  background: #000000;
+  color: #FFFFFF;
+  padding: 16px 0;
+  overflow: hidden;
+  margin-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 4;
+}
+
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: marqueeScroll 30s linear infinite;
+}
+
+.brandMarqueeBar:hover .marqueeTrack {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.marqueeGroup {
+  display: flex;
+  align-items: center;
+  gap: 52px;
+  padding-right: 52px;
+}
+
+.brandLogoItem {
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.brandLogoItem:hover {
+  opacity: 1;
+  color: #E31B23;
+  transform: scale(1.06);
+}
+
+.brandDotSeparator {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .heroRoot {
+    padding: var(--space-6) var(--space-4) var(--space-4);
+    min-height: auto;
+  }
+
+  .mainHeadline {
+    font-size: 1.85rem;
+  }
+
+  .subHeadline {
+    font-size: 0.88rem;
+  }
+
+  .heroWelcomeArch {
+    margin-top: 12px;
+  }
+
+  .watermarkLetter {
+    font-size: 1.25rem;
+  }
+
+  .primaryBrandLetter {
+    font-size: 1.45rem;
+  }
+
+  .runwayDeckSection {
+    min-height: auto;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .modelCard {
+    height: 190px !important;
+  }
+
+  .brandMarqueeBar {
+    padding: 14px 0;
+    margin-top: 8px;
+  }
+
+  .marqueeGroup {
+    gap: 28px;
+    padding-right: 28px;
+  }
+
+  .brandLogoItem {
+    font-size: 12px;
+  }
+}

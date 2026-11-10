@@ -1,0 +1,96 @@
+/* TechMasters Super Admin - Platform Governance Layout */
+
+.superShell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-obsidian);
+  color: #F7F1E7;
+  font-family: var(--font-interface);
+}
+
+.sidebar {
+  width: 280px;
+  background: #171918;
+  border-right: 1px solid rgba(197, 161, 91, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: var(--space-6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-champagne-gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: var(--color-muted-grey);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+.nav {
+  padding: var(--space-4) var(--space-3);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  color: #A3A199;
+  text-decoration: none;
+  transition: all var(--duration-fast) ease;
+  font-weight: 500;
+}
+
+.navLink:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #FFFFFF;
+}
+
+.navLinkActive {
+  background: rgba(197, 161, 91, 0.12);
+  color: var(--color-champagne-gold);
+  border-left: 3px solid var(--color-champagne-gold);
+  font-weight: 600;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  height: 64px;
+  background: #171918;
+  border-bottom: 1px solid rgba(197, 161, 91, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-8);
+}
+
+.content {
+  flex: 1;
+  padding: var(--space-8);
+  overflow-y: auto;
+}

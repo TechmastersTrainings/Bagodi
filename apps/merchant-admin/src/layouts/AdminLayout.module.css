@@ -1,0 +1,168 @@
+/* Bagodi Merchant Admin - Professional Luxury Operations Layout */
+
+.adminShell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-obsidian);
+  color: #F7F1E7;
+  font-family: var(--font-interface);
+}
+
+.sidebar {
+  width: 270px;
+  background: #191B1A;
+  border-right: 1px solid rgba(197, 161, 91, 0.2);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 50;
+}
+
+.sidebarHeader {
+  padding: var(--space-6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.brandTitle {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #FFFFFF;
+}
+
+.brandTitleGold {
+  color: var(--color-champagne-gold);
+}
+
+.storePill {
+  font-size: 11px;
+  color: var(--color-champagne-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  letter-spacing: var(--tracking-wide);
+  background: rgba(197, 161, 91, 0.1);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  width: fit-content;
+  border: 1px solid rgba(197, 161, 91, 0.25);
+}
+
+.navSection {
+  flex: 1;
+  padding: var(--space-4) var(--space-3);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.navGroupTitle {
+  font-size: 10px;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-muted-grey);
+  padding: var(--space-3) var(--space-3) var(--space-1);
+  font-weight: 700;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 9px var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  color: #B5B2AB;
+  text-decoration: none;
+  transition: all var(--duration-fast) ease;
+  font-weight: 500;
+}
+
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #FFFFFF;
+}
+
+.navItemActive {
+  background: rgba(197, 161, 91, 0.15);
+  color: var(--color-champagne-gold);
+  border-left: 3px solid var(--color-champagne-gold);
+  font-weight: 600;
+}
+
+.sidebarFooter {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.userBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.userRole {
+  font-size: 10px;
+  color: var(--color-champagne-gold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.logoutBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-muted-grey);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) ease;
+}
+
+.logoutBtn:hover {
+  color: var(--status-danger);
+}
+
+/* Main Workspace */
+.mainWorkspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--color-obsidian);
+}
+
+.topBar {
+  height: 64px;
+  background: #191B1A;
+  border-bottom: 1px solid rgba(197, 161, 91, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-8);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.contentBody {
+  flex: 1;
+  padding: var(--space-8);
+  overflow-y: auto;
+}

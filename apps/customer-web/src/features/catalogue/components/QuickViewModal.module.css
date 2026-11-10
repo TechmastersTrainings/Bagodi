@@ -1,0 +1,359 @@
+/* ==========================================================================
+   Bagodi Quick View Modal Atelier — Luxury Floating Dialogue
+   ========================================================================== */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 10, 12, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  animation: modalFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalContainer {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  background: #FFFFFF;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #E5E0D8;
+  color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: #E31B23;
+  color: #FFFFFF;
+  border-color: #E31B23;
+  transform: rotate(90deg);
+}
+
+.modalContentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Left Image Atelier */
+.imageSection {
+  background: #F7F5F0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  position: relative;
+}
+
+.mainImageWrapper {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ECE7DE;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.mainImage:hover {
+  transform: scale(1.04);
+}
+
+.thumbnailsRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.thumbnailBtn {
+  width: 58px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  transition: border-color 0.2s ease;
+}
+
+.thumbnailBtnActive {
+  border-color: #E31B23;
+}
+
+.thumbnailImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Right Information Pavilion */
+.infoSection {
+  padding: var(--space-8) var(--space-8) var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.brandBadgeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.brandTag {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #E31B23;
+}
+
+.authenticityPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: rgba(197, 161, 91, 0.12);
+  border: 1px solid rgba(197, 161, 91, 0.4);
+  color: #8C6D28;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.garmentTitle {
+  font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #0A0A0A;
+  margin: 0 0 14px 0;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #ECE7DE;
+}
+
+.sellingPrice {
+  font-family: var(--font-sans);
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #0A0A0A;
+}
+
+.mrp {
+  font-size: 1.05rem;
+  color: #888888;
+  text-decoration: line-through;
+}
+
+.discountBadge {
+  background: #E31B23;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  letter-spacing: 0.04em;
+}
+
+.descriptionText {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #4A4A4A;
+  margin-bottom: 18px;
+}
+
+.fabricBox {
+  background: #FAF8F5;
+  border: 1px solid #ECE7DE;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+
+.fabricTitle {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #111111;
+  margin-bottom: 4px;
+}
+
+.fabricContent {
+  font-size: 12.5px;
+  color: #555555;
+  line-height: 1.4;
+}
+
+/* Size Selection */
+.sizeSelectionArea {
+  margin-bottom: 24px;
+}
+
+.sizeLabelRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #222222;
+}
+
+.sizesTrack {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sizePillBtn {
+  min-width: 44px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid #D8D2C7;
+  background: #FFFFFF;
+  color: #111111;
+  font-weight: 700;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sizePillBtn:hover {
+  border-color: #0A0A0A;
+}
+
+.sizePillBtnActive {
+  background: #0A0A0A;
+  color: #FFFFFF;
+  border-color: #0A0A0A;
+}
+
+/* Action Buttons */
+.modalActionsRow {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.addToBagBtn {
+  flex: 1;
+  background: #E31B23;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  padding: 14px 24px;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(227, 27, 35, 0.35);
+  transition: all 0.25s ease;
+}
+
+.addToBagBtn:hover {
+  background: #C8141B;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(227, 27, 35, 0.45);
+}
+
+.viewDetailsLink {
+  border: 1.5px solid #0A0A0A;
+  background: transparent;
+  color: #0A0A0A;
+  border-radius: 9999px;
+  padding: 13px 22px;
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+}
+
+.viewDetailsLink:hover {
+  background: #0A0A0A;
+  color: #FFFFFF;
+}
+
+@media (max-width: 800px) {
+  .modalContentGrid {
+    grid-template-columns: 1fr;
+  }
+  .infoSection {
+    padding: var(--space-6);
+  }
+}
+

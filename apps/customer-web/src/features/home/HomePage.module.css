@@ -1,0 +1,288 @@
+/* Bagodi Homepage - Tactile Switch Deck Folding Architecture
+   - Every section acts like a luxury card in a mechanical switch deck
+   - As you scroll, the current section folds/depresses back smoothly while the next deck slides over it
+   - Strict Rule: Absolutely ZERO emojis.
+*/
+
+.homepageContainer {
+  width: 100%;
+  position: relative;
+  background: var(--bg-primary);
+}
+
+/* ==========================================================================
+   SWITCH CARD DECK SECTIONS (Scroll Stacking & Folding Effect)
+   ========================================================================== */
+
+.deckCard {
+  position: sticky;
+  top: 72px;
+  width: 100%;
+  border-top-left-radius: 36px;
+  border-top-right-radius: 36px;
+  box-shadow: 0 -25px 65px rgba(0, 0, 0, 0.12);
+  transform-origin: center top;
+  transition: transform 0.35s ease, filter 0.35s ease, opacity 0.35s ease;
+  overflow: hidden;
+}
+
+/* Deck Depth Levels */
+.deckLevel1 { z-index: 1; }
+.deckLevel2 { z-index: 2; }
+.deckLevel3 { z-index: 3; background: #FFFFFF; }
+.deckLevel4 { z-index: 4; background: var(--color-obsidian); }
+.deckLevel5 { z-index: 5; background: #FFFFFF; }
+.deckLevel6 { z-index: 6; background: #FAF8F5; }
+
+/* 2. Brand Trust Strip */
+.trustStrip {
+  background: var(--color-heritage-olive);
+  color: var(--color-warm-ivory);
+  padding: var(--space-4) var(--space-8);
+  border-bottom: 1px solid rgba(197, 161, 91, 0.2);
+}
+
+.trustGrid {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .trustGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-warm-beige);
+}
+
+/* 3. Section Container */
+.sectionWrapper {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-8);
+}
+
+.sectionHeader {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-12);
+}
+
+.sectionSuperTitle {
+  font-size: 11px;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-champagne-gold);
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--color-obsidian);
+  margin-bottom: var(--space-3);
+}
+
+.sectionSubtitle {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* 4. Category Grid */
+.categoryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .categoryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .categoryGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.categoryCard {
+  background: #FFFFFF;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--duration-normal) ease;
+  position: relative;
+  box-shadow: 0 4px 14px rgba(32, 35, 33, 0.04);
+}
+
+.categoryCard:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-champagne-gold);
+  box-shadow: 0 12px 28px rgba(32, 35, 33, 0.1);
+}
+
+.categoryVisual {
+  height: 280px;
+  background: var(--color-warm-beige);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.categoryVisualPattern {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(197, 161, 91, 0.15) 0%, transparent 70%);
+}
+
+.categoryInfo {
+  padding: var(--space-6);
+  background: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.categoryName {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  color: var(--color-obsidian);
+  margin-bottom: var(--space-1);
+}
+
+.categoryMeta {
+  font-size: var(--text-xs);
+  color: var(--color-muted-grey);
+}
+
+.categoryArrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-warm-ivory);
+  border: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-obsidian);
+  transition: all var(--duration-fast) ease;
+}
+
+.categoryCard:hover .categoryArrow {
+  background: var(--color-champagne-gold);
+  color: #FFFFFF;
+  border-color: var(--color-champagne-gold);
+}
+
+/* 5. Featured Multi-Brand Showcase */
+.brandShowcaseSection {
+  background: var(--color-obsidian);
+  color: var(--color-warm-ivory);
+  padding: var(--space-16) var(--space-8);
+  border-top: 1px solid var(--color-champagne-gold);
+  border-bottom: 1px solid var(--color-champagne-gold);
+}
+
+.brandGrid {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .brandGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.brandTile {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(197, 161, 91, 0.25);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: all var(--duration-fast) ease;
+}
+
+.brandTile:hover {
+  background: rgba(197, 161, 91, 0.1);
+  border-color: var(--color-champagne-gold);
+  transform: translateY(-4px);
+}
+
+.brandTileName {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin-bottom: var(--space-1);
+}
+
+.brandTileTag {
+  font-size: 10px;
+  color: var(--color-champagne-gold);
+  letter-spacing: var(--tracking-wide);
+}
+
+/* 6. Physical Store Experience & Heritage Story */
+.storeStorySection {
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.storeStoryGrid {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-8);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+@media (min-width: 960px) {
+  .storeStoryGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.storeDetailsCard {
+  background: var(--color-warm-ivory);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+}
+
+.storeInfoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}

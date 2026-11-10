@@ -1,0 +1,82 @@
+.stateContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface);
+  border: 1px dashed var(--border-default);
+  margin: var(--space-4) 0;
+  width: 100%;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow-inner-highlight);
+}
+
+.iconError {
+  background: var(--status-danger-bg);
+  color: var(--status-danger);
+}
+
+.iconWarning {
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+}
+
+.iconSuccess {
+  background: var(--status-success-bg);
+  color: var(--status-success);
+}
+
+.title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.description {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  max-width: 440px;
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-6);
+}
+
+/* Skeleton Loaders */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite linear;
+  border-radius: var(--radius-md);
+}
+
+.skeletonText {
+  height: 16px;
+  margin-bottom: var(--space-2);
+  width: 100%;
+}
+
+.skeletonCard {
+  height: 240px;
+  width: 100%;
+  border-radius: var(--radius-xl);
+}
+

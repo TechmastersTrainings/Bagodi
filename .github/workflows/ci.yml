@@ -1,0 +1,57 @@
+name: Bagodi Luxury Platform CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate-and-build:
+    name: Typecheck & Production Build Matrix
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install Monorepo Dependencies
+        run: npm ci
+
+      - name: Typecheck Shared Packages
+        run: |
+          npx tsc --noEmit -p packages/shared-types/tsconfig.json
+          npx tsc --noEmit -p packages/utilities/tsconfig.json
+          npx tsc --noEmit -p packages/api-client/tsconfig.json
+          npx tsc --noEmit -p packages/validation/tsconfig.json
+          npx tsc --noEmit -p packages/authentication/tsconfig.json
+          npx tsc --noEmit -p packages/shared-components/tsconfig.json
+
+      - name: Typecheck Applications
+        run: |
+          npx tsc --noEmit -p apps/customer-web/tsconfig.json
+          npx tsc --noEmit -p apps/merchant-admin/tsconfig.json
+          npx tsc --noEmit -p apps/super-admin/tsconfig.json
+
+      - name: Production Build — Customer Web
+        run: npx vite build apps/customer-web
+
+      - name: Production Build — Merchant Admin
+        run: npx vite build apps/merchant-admin
+
+      - name: Production Build — Super Admin
+        run: npx vite build apps/super-admin
+
+      - name: Verify Docker Compose Configuration
+        run: docker compose config
+

@@ -1,0 +1,378 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 6 0 R >>
+endobj
+6 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R 11 0 R 13 0 R 15 0 R] /Count 5 >>
+endobj
+7 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 595 842] /Contents 8 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R /F3 3 0 R /F4 4 0 R >> >> >>
+endobj
+8 0 obj
+<< /Length 3939 >>
+stream
+q 0.772 0.631 0.356 RG 1.5 w 40 812 m 555 812 l S Q
+BT /F1 8 Tf 0.125 0.137 0.129 rg 40 818 Td (BAGODI LUXURY PLATFORM -- ENGINEERING & AUDIT REPORT) Tj ET
+BT /F2 8 Tf 0.521 0.517 0.490 rg 450 818 Td (TECHMASTERS CONFIDENTIAL) Tj ET
+q 0.898 0.870 0.823 RG 0.75 w 40 32 m 555 32 l S Q
+BT /F2 8 Tf 0.521 0.517 0.490 rg 40 22 Td (Bidar Retail Flagship Node | v1.0.0-PROD) Tj ET
+BT /F1 8 Tf 0.125 0.137 0.129 rg 500 22 Td (Page 1 of 5) Tj ET
+q 0.125 0.137 0.129 rg 40 665 515 130 re f Q
+q 0.772 0.631 0.356 RG 1.5 w 40 665 515 130 re s Q
+BT /F1 10 Tf 0.772 0.631 0.356 rg 58 765 Td (TECHMASTERS INNOVATIONS PRIVATE LIMITED) Tj ET
+BT /F1 22 Tf 1 1 1 rg 58 735 Td (BAGODI LUXURY E-COMMERCE) Tj ET
+BT /F2 11 Tf 0.898 0.870 0.823 rg 58 715 Td (Physical Shopping Mall & Multi-Brand Fashion Ecosystem) Tj ET
+BT /F1 9 Tf 0.772 0.631 0.356 rg 58 685 Td (FLAGSHIP STORE: SHIVAJI CHOWK, BIDAR, KARNATAKA | RC v1.0.0) Tj ET
+BT /F1 13 Tf 0.125 0.137 0.129 rg 40 635 Td (1. EXECUTIVE SUMMARY & ARCHITECTURAL SCOPE) Tj ET
+q 0.772 0.631 0.356 RG 1 w 40 627 m 350 627 l S Q
+BT /F2 9.5 Tf 0.090 0.098 0.094 rg 40 610 Td (The Bagodi Digital Ecosystem is an enterprise-grade luxury retail platform engineered as) Tj ET
+BT /F2 9.5 Tf 0.090 0.098 0.094 rg 40 596 Td (the direct digital extension of the physical Bagodi Shopping Mall in Bidar, Karnataka.) Tj ET
+BT /F2 9.5 Tf 0.090 0.098 0.094 rg 40 582 Td (Featuring premier national partner brands including Raymond, Park Avenue, Parx, and ColorPlus,) Tj ET
+BT /F2 9.5 Tf 0.090 0.098 0.094 rg 40 568 Td (alongside Bagodi Couture Silk Sarees and Bridal Lehengas, the architecture guarantees an) Tj ET
+BT /F2 9.5 Tf 0.090 0.098 0.094 rg 40 554 Td (internationally competitive shopping experience while retaining authentic Indian retail heritage.) Tj ET
+BT /F1 12 Tf 0.125 0.137 0.129 rg 40 520 Td (2. CORE ARCHITECTURAL PILLARS) Tj ET
+q 0.772 0.631 0.356 RG 1 w 40 512 m 260 512 l S Q
+q 0.969 0.945 0.906 rg 40 470 515 32 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 470 515 32 re s Q
+q 0.772 0.631 0.356 rg 40 470 4 32 re f Q
+BT /F1 9.5 Tf 0.125 0.137 0.129 rg 52 490 Td (A. Single Codebase Mobile Shell) Tj ET
+BT /F2 8.5 Tf 0.290 0.302 0.282 rg 52 477 Td (One customer codebase powers both Web \(:3000\) and Native Android APK via Capacitor 6.) Tj ET
+q 0.969 0.945 0.906 rg 40 432 515 32 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 432 515 32 re s Q
+q 0.772 0.631 0.356 rg 40 432 4 32 re f Q
+BT /F1 9.5 Tf 0.125 0.137 0.129 rg 52 452 Td (B. Server-Authoritative Integrity) Tj ET
+BT /F2 8.5 Tf 0.290 0.302 0.282 rg 52 439 Td (Zero client price computations. Totals, GST, and coupons verified via FastAPI contracts.) Tj ET
+q 0.969 0.945 0.906 rg 40 394 515 32 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 394 515 32 re s Q
+q 0.772 0.631 0.356 rg 40 394 4 32 re f Q
+BT /F1 9.5 Tf 0.125 0.137 0.129 rg 52 414 Td (C. Physical Mall Barcode HUD) Tj ET
+BT /F2 8.5 Tf 0.290 0.302 0.282 rg 52 401 Td (USB/Bluetooth scanner listener with 60ms debouncing for instant stock intake at Bidar.) Tj ET
+q 0.969 0.945 0.906 rg 40 356 515 32 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 356 515 32 re s Q
+q 0.772 0.631 0.356 rg 40 356 4 32 re f Q
+BT /F1 9.5 Tf 0.125 0.137 0.129 rg 52 376 Td (D. Pure Plain CSS Token System) Tj ET
+BT /F2 8.5 Tf 0.290 0.302 0.282 rg 52 363 Td (Zero Tailwind/Bootstrap. Strict CSS modules with 3D tactile perspective and Obsidian/Gold palette.) Tj ET
+q 0.969 0.945 0.906 rg 40 318 515 32 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 318 515 32 re s Q
+q 0.772 0.631 0.356 rg 40 318 4 32 re f Q
+BT /F1 9.5 Tf 0.125 0.137 0.129 rg 52 338 Td (E. Multi-Tenant Governance) Tj ET
+BT /F2 8.5 Tf 0.290 0.302 0.282 rg 52 325 Td (Decoupled Super Admin portal \(:3002\) for license issuance, RBAC, and immutable audit trails.) Tj ET
+q 0.125 0.137 0.129 rg 40 240 515 35 re f Q
+BT /F1 9 Tf 0.772 0.631 0.356 rg 52 254 Td (AUDIT VERIFICATION STATUS:) Tj ET
+BT /F1 9 Tf 1 1 1 rg 210 254 Td (10 / 10 PHASES FULLY IMPLEMENTED & OPERATIONAL) Tj ET
+
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 595 842] /Contents 10 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R /F3 3 0 R /F4 4 0 R >> >> >>
+endobj
+10 0 obj
+<< /Length 4014 >>
+stream
+q 0.772 0.631 0.356 RG 1.5 w 40 812 m 555 812 l S Q
+BT /F1 8 Tf 0.125 0.137 0.129 rg 40 818 Td (BAGODI LUXURY PLATFORM -- ENGINEERING & AUDIT REPORT) Tj ET
+BT /F2 8 Tf 0.521 0.517 0.490 rg 450 818 Td (TECHMASTERS CONFIDENTIAL) Tj ET
+q 0.898 0.870 0.823 RG 0.75 w 40 32 m 555 32 l S Q
+BT /F2 8 Tf 0.521 0.517 0.490 rg 40 22 Td (Bidar Retail Flagship Node | v1.0.0-PROD) Tj ET
+BT /F1 8 Tf 0.125 0.137 0.129 rg 500 22 Td (Page 2 of 5) Tj ET
+BT /F1 13 Tf 0.125 0.137 0.129 rg 40 780 Td (3. PHASE DELIVERY AUDIT: FOUNDATION & STOREFRONT (PHASES 0 - 4)) Tj ET
+q 0.772 0.631 0.356 RG 1 w 40 772 m 480 772 l S Q
+q 0.125 0.137 0.129 rg 40 740 515 22 re f Q
+BT /F1 8.5 Tf 1 1 1 rg 48 747 Td (PHASE) Tj ET
+BT /F1 8.5 Tf 1 1 1 rg 110 747 Td (MODULE NAME) Tj ET
+BT /F1 8.5 Tf 1 1 1 rg 230 747 Td (DELIVERABLES & TECHNICAL SCOPE) Tj ET
+BT /F1 8.5 Tf 1 1 1 rg 490 747 Td (STATUS) Tj ET
+q 0.98 0.97 0.95 rg 40 677 515 58 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 677 515 58 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 713 Td (Phase 0) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 713 Td (Monorepo & Foundation) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 717 Td (npm workspaces, Plain CSS tokens, 3D perspective elevation \(1000px\),) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 705 Td (shared UI component library, Axios client with JWT interceptors.) Tj ET
+q 0.235 0.467 0.341 rg 485 707 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 712 Td (VERIFIED) Tj ET
+q 0.98 0.97 0.95 rg 40 613 515 58 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 613 515 58 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 649 Td (Phase 1) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 649 Td (Authentication & RBAC) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 653 Td (Customer phone OTP + password flows, Merchant staff credentials,) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 641 Td (Super Admin master session, permission guards, hybrid token storage) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 629 Td (adapter.) Tj ET
+q 0.235 0.467 0.341 rg 485 643 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 648 Td (VERIFIED) Tj ET
+q 0.98 0.97 0.95 rg 40 549 515 58 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 549 515 58 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 585 Td (Phase 2) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 585 Td (Catalogue & Variants) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 589 Td (Category navigation tree, faceted server filters \(Brand, Fabric, Size,) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 577 Td (Color\), PDP gallery, variant SKU resolution, product manager modal.) Tj ET
+q 0.235 0.467 0.341 rg 485 579 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 584 Td (VERIFIED) Tj ET
+q 0.98 0.97 0.95 rg 40 485 515 58 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 485 515 58 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 521 Td (Phase 3) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 521 Td (18-Screen Inventory HUD) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 525 Td (Stock ledger, rapid stock adjustment workbench, USB/Bluetooth barcode scanner) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 513 Td (HUD modal, batch intake, low-stock threshold monitors.) Tj ET
+q 0.235 0.467 0.341 rg 485 515 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 520 Td (VERIFIED) Tj ET
+q 0.98 0.97 0.95 rg 40 421 515 58 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 421 515 58 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 457 Td (Phase 4) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 457 Td (Shopping & Checkout) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 461 Td (Server-authoritative cart, multi-address manager, Razorpay payment gateway integration, order) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 449 Td (confirmation lifecycle, privilege coupons.) Tj ET
+q 0.235 0.467 0.341 rg 485 451 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 456 Td (VERIFIED) Tj ET
+q 0.125 0.137 0.129 rg 40 330 515 50 re f Q
+q 0.772 0.631 0.356 RG 1 w 40 330 515 50 re s Q
+BT /F1 9 Tf 0.772 0.631 0.356 rg 52 360 Td (RAYMOND AUTHORISED PARTNERSHIP INTEGRATION:) Tj ET
+BT /F2 8.5 Tf 1 1 1 rg 52 344 Td (Full bespoke suiting, blazers, and unstitched fabric cataloguing with custom tailoring notes) Tj ET
+
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 595 842] /Contents 12 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R /F3 3 0 R /F4 4 0 R >> >> >>
+endobj
+12 0 obj
+<< /Length 4501 >>
+stream
+q 0.772 0.631 0.356 RG 1.5 w 40 812 m 555 812 l S Q
+BT /F1 8 Tf 0.125 0.137 0.129 rg 40 818 Td (BAGODI LUXURY PLATFORM -- ENGINEERING & AUDIT REPORT) Tj ET
+BT /F2 8 Tf 0.521 0.517 0.490 rg 450 818 Td (TECHMASTERS CONFIDENTIAL) Tj ET
+q 0.898 0.870 0.823 RG 0.75 w 40 32 m 555 32 l S Q
+BT /F2 8 Tf 0.521 0.517 0.490 rg 40 22 Td (Bidar Retail Flagship Node | v1.0.0-PROD) Tj ET
+BT /F1 8 Tf 0.125 0.137 0.129 rg 500 22 Td (Page 3 of 5) Tj ET
+BT /F1 13 Tf 0.125 0.137 0.129 rg 40 780 Td (4. PHASE DELIVERY AUDIT: REDESIGN, LOGISTICS & GOVERNANCE (PHASES 5 - 9)) Tj ET
+q 0.772 0.631 0.356 RG 1 w 40 772 m 530 772 l S Q
+q 0.125 0.137 0.129 rg 40 740 515 20 re f Q
+BT /F1 8.5 Tf 1 1 1 rg 48 746 Td (PHASE) Tj ET
+BT /F1 8.5 Tf 1 1 1 rg 110 746 Td (MODULE NAME) Tj ET
+BT /F1 8.5 Tf 1 1 1 rg 230 746 Td (DELIVERABLES & TECHNICAL SCOPE) Tj ET
+BT /F1 8.5 Tf 1 1 1 rg 490 746 Td (STATUS) Tj ET
+q 0.98 0.97 0.95 rg 40 680 515 56 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 680 515 56 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 714 Td (Master UI) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 714 Td (Editorial Luxury Redesign) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 718 Td (Warm Ivory \(#F7F1E7\) background, Cormorant Garamond typography, DAR-E-AAB Kashmiri) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 706 Td (couture cinematic animated hero, multi-layer header.) Tj ET
+q 0.235 0.467 0.341 rg 485 708 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 713 Td (VERIFIED) Tj ET
+q 0.98 0.97 0.95 rg 40 618 515 56 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 618 515 56 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 652 Td (Phase 5) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 652 Td (Customer Android App) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 656 Td (Capacitor 6 native shell, hardware back-button listener, status bar) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 644 Td (styling \(#202321\), physical haptics, deep linking \(bagodi://\), safe-area insets.) Tj ET
+q 0.235 0.467 0.341 rg 485 646 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 651 Td (VERIFIED) Tj ET
+q 0.98 0.97 0.95 rg 40 556 515 56 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 556 515 56 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 590 Td (Phase 6) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 590 Td (Merchant Order Admin) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 594 Td (Order queue \(CONFIRMED -> PACKED -> SHIPPED\), printable 80mm) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 582 Td (ESC/POS packing slips, return/exchange pass/fail inspection workbench.) Tj ET
+q 0.235 0.467 0.341 rg 485 584 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 589 Td (VERIFIED) Tj ET
+q 0.98 0.97 0.95 rg 40 494 515 56 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 494 515 56 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 528 Td (Phase 7) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 528 Td (Logistics & Analytics) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 532 Td (Multi-carrier courier fleet \(Shiprocket, Delhivery, BlueDart\), driver handover manifests,) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 520 Td (dynamic Privilege Coupon engine, margin reporting.) Tj ET
+q 0.235 0.467 0.341 rg 485 522 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 527 Td (VERIFIED) Tj ET
+q 0.98 0.97 0.95 rg 40 432 515 56 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 432 515 56 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 466 Td (Phase 8) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 466 Td (Super Admin Governance) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 470 Td (Platform telemetry, multi-tenant merchant onboarding, operator RBAC assignment, immutable) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 458 Td (security audit trail, emergency maintenance dials.) Tj ET
+q 0.235 0.467 0.341 rg 485 460 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 465 Td (VERIFIED) Tj ET
+q 0.98 0.97 0.95 rg 40 370 515 56 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 370 515 56 re s Q
+BT /F1 9 Tf 0.392 0.122 0.196 rg 48 404 Td (Phase 9) Tj ET
+BT /F1 9 Tf 0.125 0.137 0.129 rg 110 404 Td (Production Readiness) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 408 Td (Rollup chunk code-splitting \(<200 kB\), offline network resilience sentinel,) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 230 396 Td (multi-stage Dockerfiles, Nginx reverse proxy, CI/CD pipeline.) Tj ET
+q 0.235 0.467 0.341 rg 485 398 55 16 re f Q
+BT /F1 7.5 Tf 1 1 1 rg 493 403 Td (VERIFIED) Tj ET
+q 0.125 0.137 0.129 rg 40 300 515 50 re f Q
+BT /F1 9 Tf 0.772 0.631 0.356 rg 52 332 Td (CODE QUALITY & VERIFICATION SIGN-OFF:) Tj ET
+BT /F2 8.5 Tf 1 1 1 rg 52 316 Td (Monorepo TypeScript check: 0 errors | Vite production builds: 0 errors | All portals tested) Tj ET
+
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 595 842] /Contents 14 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R /F3 3 0 R /F4 4 0 R >> >> >>
+endobj
+14 0 obj
+<< /Length 4246 >>
+stream
+q 0.772 0.631 0.356 RG 1.5 w 40 812 m 555 812 l S Q
+BT /F1 8 Tf 0.125 0.137 0.129 rg 40 818 Td (BAGODI LUXURY PLATFORM -- ENGINEERING & AUDIT REPORT) Tj ET
+BT /F2 8 Tf 0.521 0.517 0.490 rg 450 818 Td (TECHMASTERS CONFIDENTIAL) Tj ET
+q 0.898 0.870 0.823 RG 0.75 w 40 32 m 555 32 l S Q
+BT /F2 8 Tf 0.521 0.517 0.490 rg 40 22 Td (Bidar Retail Flagship Node | v1.0.0-PROD) Tj ET
+BT /F1 8 Tf 0.125 0.137 0.129 rg 500 22 Td (Page 4 of 5) Tj ET
+BT /F1 13 Tf 0.125 0.137 0.129 rg 40 780 Td (5. LUXURY DESIGN SYSTEM & TOKEN SPECIFICATIONS) Tj ET
+q 0.772 0.631 0.356 RG 1 w 40 772 m 450 772 l S Q
+BT /F2 9.5 Tf 0.090 0.098 0.094 rg 40 755 Td (The design system enforces a zero-utility-CSS rule with pure CSS custom properties and CSS Modules:) Tj ET
+q 0.125 0.137 0.129 rg 40 720 28 22 re f Q
+q 0.772 0.631 0.356 RG 0.5 w 40 720 28 22 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 76 732 Td (Obsidian Charcoal) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 76 722 Td (#202321) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 180 727 Td (Dark surfaces, Admin shells, Top customer navigation bar) Tj ET
+q 0.204 0.224 0.176 rg 40 692 28 22 re f Q
+q 0.772 0.631 0.356 RG 0.5 w 40 692 28 22 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 76 704 Td (Heritage Olive) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 76 694 Td (#34392D) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 180 699 Td (Secondary dark surfaces, architectural building textures) Tj ET
+q 0.772 0.631 0.356 rg 40 664 28 22 re f Q
+q 0.772 0.631 0.356 RG 0.5 w 40 664 28 22 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 76 676 Td (Champagne Gold) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 76 666 Td (#C5A15B) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 180 671 Td (Primary metallic luxury accent, badges, dividers, borders) Tj ET
+q 0.969 0.945 0.906 rg 40 636 28 22 re f Q
+q 0.772 0.631 0.356 RG 0.5 w 40 636 28 22 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 76 648 Td (Warm Ivory) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 76 638 Td (#F7F1E7) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 180 643 Td (Editorial light customer background, saree showcase backdrop) Tj ET
+q 0.392 0.122 0.196 rg 40 608 28 22 re f Q
+q 0.772 0.631 0.356 RG 0.5 w 40 608 28 22 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 76 620 Td (Royal Burgundy) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 76 610 Td (#641F32) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 180 615 Td (Festive fashion campaigns, bridal lehengas, hero highlights) Tj ET
+q 0.710 0.149 0.180 rg 40 580 28 22 re f Q
+q 0.772 0.631 0.356 RG 0.5 w 40 580 28 22 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 76 592 Td (Heritage Red) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 76 582 Td (#B5262E) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 180 587 Td (Brand logo accent, controlled sale tags, promotional pills) Tj ET
+q 1.000 1.000 1.000 rg 40 552 28 22 re f Q
+q 0.772 0.631 0.356 RG 0.5 w 40 552 28 22 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 76 564 Td (Pure White) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 76 554 Td (#FFFFFF) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 180 559 Td (Product card tiles for maximum garment fabric color fidelity) Tj ET
+BT /F1 12 Tf 0.125 0.137 0.129 rg 40 500 Td (6. TYPOGRAPHY & HIERARCHY SPECIFICATIONS) Tj ET
+q 0.772 0.631 0.356 RG 1 w 40 492 m 350 492 l S Q
+q 0.969 0.945 0.906 rg 40 460 515 28 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 460 515 28 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 50 469 Td (Display Headings:) Tj ET
+BT /F1 8.5 Tf 0.392 0.122 0.196 rg 160 469 Td (Playfair Display / Cormorant Garamond) Tj ET
+BT /F2 8 Tf 0.3 0.3 0.3 rg 340 469 Td (Editorial hero titles, DAR-E-AAB campaign, brand storytelling) Tj ET
+q 0.969 0.945 0.906 rg 40 426 515 28 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 426 515 28 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 50 435 Td (Interface Body:) Tj ET
+BT /F1 8.5 Tf 0.392 0.122 0.196 rg 160 435 Td (Inter / Manrope) Tj ET
+BT /F2 8 Tf 0.3 0.3 0.3 rg 340 435 Td (Product titles, catalog prices, specifications, checkout forms) Tj ET
+q 0.969 0.945 0.906 rg 40 392 515 28 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 392 515 28 re s Q
+BT /F1 9 Tf 0.125 0.137 0.129 rg 50 401 Td (Telemetry & Ledger:) Tj ET
+BT /F1 8.5 Tf 0.392 0.122 0.196 rg 160 401 Td (JetBrains Mono / System Monospace) Tj ET
+BT /F2 8 Tf 0.3 0.3 0.3 rg 340 401 Td (Barcode SKU codes, courier AWB tracking, inventory audit entries) Tj ET
+
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 595 842] /Contents 16 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R /F3 3 0 R /F4 4 0 R >> >> >>
+endobj
+16 0 obj
+<< /Length 4368 >>
+stream
+q 0.772 0.631 0.356 RG 1.5 w 40 812 m 555 812 l S Q
+BT /F1 8 Tf 0.125 0.137 0.129 rg 40 818 Td (BAGODI LUXURY PLATFORM -- ENGINEERING & AUDIT REPORT) Tj ET
+BT /F2 8 Tf 0.521 0.517 0.490 rg 450 818 Td (TECHMASTERS CONFIDENTIAL) Tj ET
+q 0.898 0.870 0.823 RG 0.75 w 40 32 m 555 32 l S Q
+BT /F2 8 Tf 0.521 0.517 0.490 rg 40 22 Td (Bidar Retail Flagship Node | v1.0.0-PROD) Tj ET
+BT /F1 8 Tf 0.125 0.137 0.129 rg 500 22 Td (Page 5 of 5) Tj ET
+BT /F1 13 Tf 0.125 0.137 0.129 rg 40 780 Td (7. MULTI-PORTAL DEPLOYMENT TOPOLOGY & PORT REFERENCE) Tj ET
+q 0.772 0.631 0.356 RG 1 w 40 772 m 480 772 l S Q
+q 0.125 0.137 0.129 rg 40 740 515 20 re f Q
+BT /F1 8.5 Tf 1 1 1 rg 48 746 Td (PORTAL) Tj ET
+BT /F1 8.5 Tf 1 1 1 rg 140 746 Td (PORT) Tj ET
+BT /F1 8.5 Tf 1 1 1 rg 200 746 Td (HOSTNAME) Tj ET
+BT /F1 8.5 Tf 1 1 1 rg 310 746 Td (CAPABILITIES & TARGET AUDIENCE) Tj ET
+q 0.98 0.97 0.95 rg 40 710 515 24 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 710 515 24 re s Q
+BT /F1 8.5 Tf 0.125 0.137 0.129 rg 48 717 Td (Customer Web) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 140 717 Td (:3000) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 200 717 Td (bagodi.in) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 310 717 Td (Editorial luxury storefront, shopping cart, Razorpay checkout) Tj ET
+q 0.98 0.97 0.95 rg 40 684 515 24 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 684 515 24 re s Q
+BT /F1 8.5 Tf 0.125 0.137 0.129 rg 48 691 Td (Merchant Admin) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 140 691 Td (:3001) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 200 691 Td (admin.bagodi.in) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 310 691 Td (18-screen inventory cockpit, barcode HUD, returns workbench) Tj ET
+q 0.98 0.97 0.95 rg 40 658 515 24 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 658 515 24 re s Q
+BT /F1 8.5 Tf 0.125 0.137 0.129 rg 48 665 Td (Super Admin) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 140 665 Td (:3002) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 200 665 Td (super.bagodi.in) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 310 665 Td (Platform governance, multi-tenant onboarding, audit log ledger) Tj ET
+q 0.98 0.97 0.95 rg 40 632 515 24 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 632 515 24 re s Q
+BT /F1 8.5 Tf 0.125 0.137 0.129 rg 48 639 Td (Customer Android) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 140 639 Td (APK) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 200 639 Td (Google Play Store) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 310 639 Td (Capacitor 6 native shell, hardware back button, haptics) Tj ET
+q 0.98 0.97 0.95 rg 40 606 515 24 re f Q
+q 0.898 0.870 0.823 RG 0.5 w 40 606 515 24 re s Q
+BT /F1 8.5 Tf 0.125 0.137 0.129 rg 48 613 Td (Gateway Nginx) Tj ET
+BT /F4 8.5 Tf 0.392 0.122 0.196 rg 140 613 Td (:80 / :443) Tj ET
+BT /F2 8.5 Tf 0.25 0.25 0.25 rg 200 613 Td (Reverse Proxy) Tj ET
+BT /F2 8 Tf 0.25 0.25 0.25 rg 310 613 Td (HTTP/2, Gzip/Brotli, SSL termination, CSP security headers) Tj ET
+BT /F1 12 Tf 0.125 0.137 0.129 rg 40 550 Td (8. PHYSICAL STORE HARDWARE ONBOARDING (BIDAR MALL)) Tj ET
+q 0.772 0.631 0.356 RG 1 w 40 542 m 420 542 l S Q
+BT /F2 8.5 Tf 0.15 0.15 0.15 rg 40 520 Td (1. USB Barcode Scanners \(Zebra LS2208 / Honeywell\): Configured for HID keyboard emulation with) Tj ET
+BT /F2 8.5 Tf 0.15 0.15 0.15 rg 40 508 Td ([ENTER] suffix. Automatic 60ms sequence detection opens the Barcode HUD modal in <100ms.) Tj ET
+BT /F2 8.5 Tf 0.15 0.15 0.15 rg 40 490 Td (2. Thermal Receipt Printers \(Epson / TVS RP3200\): Pre-configured @media print CSS stylesheets ensure) Tj ET
+BT /F2 8.5 Tf 0.15 0.15 0.15 rg 40 478 Td (crisp 80mm dispatch manifests and store pickup receipts without dialog formatting issues.) Tj ET
+BT /F2 8.5 Tf 0.15 0.15 0.15 rg 40 460 Td (3. Offline Resilience: Built-in NetworkStatusBar automatically buffers user state and notifies staff during physical) Tj ET
+BT /F2 8.5 Tf 0.15 0.15 0.15 rg 40 448 Td (internet drops, auto-syncing upon cloud reconnection.) Tj ET
+q 0.125 0.137 0.129 rg 40 370 515 70 re f Q
+q 0.772 0.631 0.356 RG 1.5 w 40 370 515 70 re s Q
+BT /F1 10 Tf 0.772 0.631 0.356 rg 55 422 Td (EXECUTIVE ENGINEERING SIGN-OFF) Tj ET
+BT /F2 8.5 Tf 1 1 1 rg 55 404 Td (PLATFORM: Bagodi Luxury Fashion & Multi-Brand E-Commerce Platform) Tj ET
+BT /F2 8.5 Tf 1 1 1 rg 55 390 Td (DEVELOPMENT STATUS: Complete (Phases 0 through 9 + Master UI Redesign Verified)) Tj ET
+BT /F1 8.5 Tf 0.772 0.631 0.356 rg 55 376 Td (SIGNED: Senior Luxury Frontend Architect | TechMasters Innovations Private Limited) Tj ET
+
+endstream
+endobj
+xref
+0 17
+0000000000 65535 f 
+0000000015 00000 n 
+0000000090 00000 n 
+0000000160 00000 n 
+0000000231 00000 n 
+0000000299 00000 n 
+0000000348 00000 n 
+0000000432 00000 n 
+0000000588 00000 n 
+0000004579 00000 n 
+0000004736 00000 n 
+0000008803 00000 n 
+0000008961 00000 n 
+0000013515 00000 n 
+0000013673 00000 n 
+0000017972 00000 n 
+0000018130 00000 n 
+trailer
+<< /Size 17 /Root 5 0 R >>
+startxref
+22551
+%%EOF

@@ -1,0 +1,37 @@
+{
+  "name": "@bagodi/super-admin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TechMasters Innovations Super Admin Platform Governance Portal",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3002",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bagodi/api-client": "*",
+    "@bagodi/authentication": "*",
+    "@bagodi/design-system": "*",
+    "@bagodi/shared-components": "*",
+    "@bagodi/shared-types": "*",
+    "@bagodi/utilities": "*",
+    "@bagodi/validation": "*",
+    "@tanstack/react-query": "^5.66.0",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
+    "react-router-dom": "^6.29.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.3",
+    "vite": "^5.4.14"
+  }
+}
+

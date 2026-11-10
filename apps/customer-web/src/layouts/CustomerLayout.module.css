@@ -1,0 +1,794 @@
+/* Bagodi Customer Layout - Master Luxury Redesign */
+
+.layoutRoot {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* 1. Top Announcement Strip (Deep Obsidian Velvet & Royal Gold) */
+.announcementBar {
+  background: linear-gradient(90deg, #131514 0%, #1e2220 50%, #131514 100%);
+  color: var(--color-light-champagne, #F7F1E7);
+  padding: calc(7px + env(safe-area-inset-top, 0px)) var(--space-8) 7px var(--space-8);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(197, 161, 91, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  position: relative;
+  z-index: 101;
+}
+
+.announcementInner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.announcementLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+  .announcementLeft {
+    margin: 0;
+  }
+}
+
+.announcementBadge {
+  background: linear-gradient(135deg, #6A1A24 0%, #8E2331 100%);
+  color: #FFFFFF;
+  padding: 2.5px 9px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 8.5px;
+  letter-spacing: 0.16em;
+  border: 1px solid rgba(197, 161, 91, 0.45);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.announcementText {
+  color: rgba(247, 241, 231, 0.92);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bulletOrnament {
+  color: #C5A15B;
+  font-size: 7px;
+  opacity: 0.85;
+}
+
+.announcementRight {
+  display: none;
+  align-items: center;
+  gap: var(--space-6);
+  font-size: 9.5px;
+  color: rgba(247, 241, 231, 0.85);
+}
+
+@media (min-width: 900px) {
+  .announcementRight {
+    display: flex;
+  }
+}
+
+.storeStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #C5A15B;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.statusPulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+  animation: pulseLight 2s infinite;
+}
+
+@keyframes pulseLight {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+
+.storeLocationTag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: rgba(247, 241, 231, 0.75);
+  letter-spacing: 0.08em;
+}
+
+/* 2. Main Luxury Header (Snitch-Style Clean Architecture) */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #FFFFFF;
+  border-bottom: 1px solid #ECEAE6;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  padding: 0 0 6px 0;
+  transition: all 0.25s ease;
+}
+
+.headerMainRow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 24px 6px 24px;
+  width: 100%;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+}
+
+.menuIconBtn {
+  background: transparent;
+  border: none;
+  color: #171A18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 6px;
+  margin-left: -6px;
+  border-radius: 6px;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.menuIconBtn:hover {
+  color: #6A1A24;
+  transform: scale(1.06);
+}
+
+.headerCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.brandTextCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.brandWordmarkAnimated {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  background: linear-gradient(
+    110deg,
+    #D0161E 0%,
+    #E31B23 35%,
+    #FFA8AC 50%,
+    #E31B23 65%,
+    #D0161E 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bagodiSheen 3.6s ease-in-out infinite;
+  filter: drop-shadow(0 1px 2px rgba(227, 27, 35, 0.18));
+  display: block;
+}
+
+@keyframes bagodiSheen {
+  0%, 15% {
+    background-position: 150% 0;
+  }
+  55%, 100% {
+    background-position: -50% 0;
+  }
+}
+
+.brandSubtitleRed {
+  font-family: var(--font-sans);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #6E726F;
+  margin-top: 4px;
+  display: block;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .brandWordmarkAnimated {
+    font-size: 1.45rem;
+    letter-spacing: 0.15em;
+  }
+  .brandSubtitleRed {
+    font-size: 7.5px;
+    letter-spacing: 0.18em;
+  }
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .headerRight {
+    gap: 14px;
+  }
+}
+
+.headerActionLink {
+  background: transparent;
+  border: none;
+  color: #171A18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 4px;
+  position: relative;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.headerActionLink:hover {
+  color: #6A1A24;
+  transform: scale(1.08);
+}
+
+.actionBadge {
+  position: absolute;
+  top: -3px;
+  right: -5px;
+  background: linear-gradient(135deg, #6A1A24 0%, #8E2331 100%);
+  color: #FFFFFF;
+  font-size: 8.5px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0 1px 4px rgba(106, 26, 36, 0.4);
+}
+
+/* Expandable Luxury Search Dropdown */
+.searchBarDropdown {
+  width: 100%;
+  background: #FAF7F2;
+  border-top: 1px solid #ECE7E0;
+  border-bottom: 1px solid #ECE7E0;
+  padding: 10px 24px;
+  animation: slideDropdown 0.22s ease-out;
+}
+
+@keyframes slideDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.searchDropdownForm {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid rgba(197, 161, 91, 0.4);
+  border-radius: 9999px;
+  padding: 4px 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.searchDropdownIcon {
+  color: #C5A15B;
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.searchDropdownInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 6px 4px;
+  font-size: 12px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+.searchCloseBtn {
+  background: transparent;
+  border: none;
+  color: #8A8F8C;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.searchCloseBtn:hover {
+  color: #171A18;
+}
+
+/* 3. Luxury Category Navigation Bar Stage */
+.navBar {
+  margin-top: 4px;
+  padding-top: 2px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(227, 27, 35, 0.035) 0%,
+    transparent 70%
+  );
+}
+
+@media (max-width: 768px) {
+  .navBar {
+    padding-top: 0;
+  }
+}
+
+/* Slide-Out Navigation Drawer */
+.drawerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1200;
+  display: flex;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.drawerContent {
+  width: 320px;
+  max-width: 85vw;
+  height: 100%;
+  background: #FFFFFF;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  animation: slideDrawer 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+
+@keyframes slideDrawer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #F0EEEA;
+}
+
+.drawerLogoWrap {
+  display: flex;
+  align-items: center;
+}
+
+.drawerLogoImg {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.drawerCloseBtn {
+  background: transparent;
+  border: none;
+  color: #171A18;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.drawerCloseBtn:hover {
+  color: #6A1A24;
+}
+
+.drawerNav {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.drawerSectionTitle {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-champagne-gold, #C5A15B);
+  margin-bottom: 8px;
+}
+
+.drawerLinksList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawerLinksList li a {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: #171A18;
+  text-decoration: none;
+  display: block;
+  transition: color 0.15s ease, padding-left 0.15s ease;
+}
+
+.drawerLinksList li a:hover {
+  color: #6A1A24;
+  padding-left: 6px;
+}
+
+.drawerFeaturedLink {
+  color: #B42318 !important;
+  font-weight: 700 !important;
+}
+
+.drawerDivider {
+  height: 1px;
+  background: #F0EEEA;
+  margin: 8px 0;
+}
+
+.drawerStoreCard {
+  background: #FAF7F2;
+  border: 1px solid rgba(197, 161, 91, 0.25);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.drawerStoreTitle {
+  font-weight: 700;
+  font-size: 12px;
+  color: #171A18;
+  margin-bottom: 4px;
+}
+
+.drawerStoreText {
+  font-size: 11px;
+  color: #6E726F;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.drawerStoreHours {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #C5A15B;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  list-style: none;
+}
+
+.navLink {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 6px 0;
+  position: relative;
+  transition: color var(--duration-fast) ease;
+}
+
+.navLink:hover,
+.navLinkActive {
+  color: var(--color-obsidian);
+}
+
+.navLinkActive::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-champagne-gold);
+}
+
+.navLinkFeatured {
+  color: var(--color-royal-burgundy);
+  font-weight: 700;
+}
+
+/* 4. Main Body Content */
+.mainContent {
+  flex: 1;
+  width: 100%;
+}
+
+/* 5. Luxury Multi-Brand Footer */
+.footer {
+  background-color: var(--color-obsidian);
+  color: var(--color-warm-ivory);
+  border-top: 2px solid var(--color-champagne-gold);
+  padding: var(--space-16) var(--space-8) var(--space-8);
+  margin-top: var(--space-16);
+}
+
+.footerGrid {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+}
+
+@media (min-width: 640px) {
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footerGrid {
+    grid-template-columns: 2fr 1.2fr 1.2fr 1.6fr;
+  }
+}
+
+.footerBrandColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.footerLogoContainer {
+  display: inline-flex;
+  align-items: center;
+  background: #FFFFFF;
+  padding: 6px 14px;
+  border-radius: 10px;
+  margin-bottom: var(--space-4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(197, 161, 91, 0.4);
+  width: fit-content;
+}
+
+.footerLogoImg {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.footerLogo {
+  display: none;
+}
+
+.footerTagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-sm);
+  color: var(--color-champagne-gold);
+  margin-bottom: var(--space-4);
+}
+
+.footerDescription {
+  font-size: var(--text-xs);
+  color: var(--color-muted-grey);
+  line-height: 1.8;
+  max-width: 360px;
+  margin-bottom: var(--space-6);
+}
+
+.footerStoreCard {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(197, 161, 91, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  max-width: 360px;
+}
+
+.footerColumnTitle {
+  font-family: var(--font-serif);
+  font-size: var(--text-base);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin-bottom: var(--space-4);
+  position: relative;
+  padding-bottom: var(--space-2);
+}
+
+.footerColumnTitle::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 28px;
+  height: 1px;
+  background: var(--color-champagne-gold);
+}
+
+.footerList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.footerLink {
+  font-size: var(--text-xs);
+  color: var(--color-muted-grey);
+  text-decoration: none;
+  transition: all var(--duration-fast) ease;
+}
+
+.footerLink:hover {
+  color: var(--color-light-champagne);
+  padding-left: 4px;
+}
+
+.brandPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.brandPill {
+  font-size: 10px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  color: var(--color-warm-ivory);
+  letter-spacing: var(--tracking-wide);
+}
+
+.footerBottom {
+  max-width: var(--container-2xl);
+  margin: var(--space-12) auto 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: 11px;
+  color: var(--color-muted-grey);
+}
+
+@media (min-width: 768px) {
+  .footerBottom {
+    flex-direction: row;
+  }
+}
+
+/* 6. Mobile Bottom Navigation Bar (Floating Liquid Glass Island) */
+.mobileBottomNav {
+  display: flex;
+  position: fixed;
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  left: 16px;
+  right: 16px;
+  max-width: 440px;
+  margin: 0 auto;
+  z-index: 1000;
+  background: rgba(28, 30, 29, 0.88);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+  padding: 8px 18px;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow:
+    0 12px 36px -6px rgba(0, 0, 0, 0.4),
+    0 4px 16px -2px rgba(197, 161, 91, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+@media (min-width: 900px) {
+  .mobileBottomNav {
+    display: none;
+  }
+}
+
+.mobileNavItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: rgba(230, 230, 230, 0.75);
+  text-decoration: none;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  position: relative;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.mobileNavItem:active {
+  transform: scale(0.92);
+}
+
+.mobileNavItemActive {
+  color: var(--color-champagne-gold, #C5A15B);
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(197, 161, 91, 0.5);
+}

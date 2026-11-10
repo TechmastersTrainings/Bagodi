@@ -1,0 +1,577 @@
+/* ==========================================================================
+   Bagodi Master Catalogue Page — Luxury High Fashion Design Language
+   ========================================================================== */
+
+.catalogueRoot {
+  width: 100%;
+  min-height: 100vh;
+  background: #FFFFFF;
+  color: #111111;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContentContainer {
+  max-width: 1380px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-6) var(--space-12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Compact Luxury Category Title Header */
+.categoryTitleHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: var(--space-4) 0 var(--space-2);
+  border-bottom: 1px solid #EAEAEA;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.categoryTitleLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.breadcrumbsRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888888;
+}
+
+.breadcrumbLink {
+  color: #777777;
+}
+
+.breadcrumbDivider {
+  color: #C5A15B;
+  font-size: 10px;
+}
+
+.breadcrumbCurrent {
+  color: #0A0A0A;
+  font-weight: 700;
+}
+
+.pageCategoryTitle {
+  font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #0A0A0A;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.categoryTitleRight {
+  display: flex;
+  align-items: center;
+}
+
+.curatedCounterPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FAFAFA;
+  border: 1px solid #EAEAEA;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #222222;
+  letter-spacing: 0.02em;
+}
+
+/* Luxury Interactive Top Toolbar */
+.topToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #FFFFFF;
+  border: 1px solid #EAEAEA;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.itemCountText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: #222222;
+  letter-spacing: -0.01em;
+}
+
+.itemCountText span {
+  color: #E31B23;
+  font-weight: 800;
+}
+
+.mobileFilterBtn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: #0A0A0A;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.mobileFilterBtn:hover {
+  background: #E31B23;
+}
+
+.filterBadgeCount {
+  background: #E31B23;
+  color: #FFFFFF;
+  font-size: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.searchWrapper {
+  position: relative;
+  width: 260px;
+}
+
+.searchInput {
+  width: 100%;
+  height: 40px;
+  padding: 0 36px 0 38px;
+  background: #FAFAFA;
+  border: 1px solid #EAEAEA;
+  border-radius: 9999px;
+  font-size: 12.5px;
+  color: #111111;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  background: #FFFFFF;
+  border-color: #0A0A0A;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888888;
+  pointer-events: none;
+}
+
+.searchClearBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #888888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.searchClearBtn:hover {
+  color: #E31B23;
+}
+
+/* Luxury Glass Sort Select */
+.sortContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sortSelect {
+  height: 40px;
+  background: #FAFAFA;
+  border: 1px solid #EAEAEA;
+  border-radius: 9999px;
+  padding: 0 34px 0 16px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #111111;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all 0.2s ease;
+}
+
+.sortSelect:focus {
+  border-color: #0A0A0A;
+  background: #FFFFFF;
+}
+
+.sortChevron {
+  position: absolute;
+  right: 14px;
+  color: #666666;
+  pointer-events: none;
+}
+
+/* Grid Column View Switcher */
+.viewSwitcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #FAFAFA;
+  border: 1px solid #EAEAEA;
+  border-radius: 9999px;
+  padding: 3px;
+}
+
+.viewBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #777777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewBtn:hover {
+  color: #111111;
+}
+
+.viewBtnActive {
+  background: #FFFFFF;
+  color: #0A0A0A;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Active Filter Chips Bar */
+.activeFiltersBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+
+.filterPrefix {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #777777;
+  margin-right: 4px;
+}
+
+.filterPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FAFAFA;
+  border: 1px solid #EAEAEA;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #111111;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.removeFilterBtn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #888888;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+
+.removeFilterBtn:hover {
+  color: #E31B23;
+}
+
+.clearAllFiltersBtn {
+  background: none;
+  border: none;
+  color: #E31B23;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* Main Two-Column Layout */
+.mainLayout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.sidebarDesktop {
+  width: 280px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.productGridArea {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Flexible Responsive Product Grid */
+.gridFourCol {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.gridThreeCol {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+/* Empty State Atelier Card */
+.emptyAtelierCard {
+  background: #FAFAFA;
+  border: 1px solid #EAEAEA;
+  border-radius: 24px;
+  padding: var(--space-12) var(--space-8);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin: var(--space-8) auto;
+}
+
+.emptyIconWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid #EAEAEA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C5A15B;
+  margin-bottom: var(--space-4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.emptyTitle {
+  font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0A0A0A;
+  margin: 0 0 10px 0;
+}
+
+.emptyDesc {
+  font-size: 13.5px;
+  color: #666666;
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 0 var(--space-6) 0;
+}
+
+.emptyResetBtn,
+button.emptyResetBtn {
+  background-color: #0A0A0A !important;
+  color: #FFFFFF !important;
+  border: 1px solid #0A0A0A !important;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyResetBtn:hover,
+button.emptyResetBtn:hover {
+  background-color: #E31B23 !important;
+  border-color: #E31B23 !important;
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(227, 27, 35, 0.35);
+}
+
+/* Pagination Controls */
+.paginationRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: var(--space-10);
+  padding-top: var(--space-6);
+  border-top: 1px solid #EAEAEA;
+}
+
+.pageBtn,
+button.pageBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 9999px;
+  background-color: #FFFFFF !important;
+  border: 1px solid #D8D2C7 !important;
+  color: #111111 !important;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageBtn:hover:not(:disabled),
+button.pageBtn:hover:not(:disabled) {
+  border-color: #0A0A0A !important;
+  background-color: #F5F5F5 !important;
+  color: #0A0A0A !important;
+}
+
+.pageBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pageText {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #666666;
+  margin: 0 8px;
+}
+
+/* Mobile Slide-Out Filter Drawer */
+.mobileDrawerOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1001;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mobileDrawerContent {
+  width: 85%;
+  max-width: 360px;
+  height: 100%;
+  background: #FFFFFF;
+  padding: var(--space-6);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.2);
+}
+
+.drawerCloseHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.drawerTitle {
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #0A0A0A;
+}
+
+.drawerCloseBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #111111;
+}
+
+@media (max-width: 992px) {
+  .sidebarDesktop {
+    display: none;
+  }
+  .mobileFilterBtn {
+    display: inline-flex;
+  }
+  .gridFourCol {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .topToolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .toolbarLeft, .toolbarRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .searchWrapper {
+    width: 100%;
+  }
+  .viewSwitcher {
+    display: none;
+  }
+  .gridFourCol, .gridThreeCol {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}

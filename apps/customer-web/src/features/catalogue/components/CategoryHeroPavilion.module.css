@@ -1,0 +1,249 @@
+/* ==========================================================================
+   Bagodi Category Hero Pavilion — High Fashion Editorial Banner
+   ========================================================================== */
+
+.heroRoot {
+  position: relative;
+  width: 100%;
+  background: #FFFFFF;
+  border-bottom: 1px solid #ECEAE5;
+  overflow: hidden;
+  padding: var(--space-8) var(--space-6) var(--space-6);
+}
+
+.heroBackgroundAtmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.heroBackgroundImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  opacity: 0.16;
+  filter: saturate(1.1) contrast(1.04);
+}
+
+.heroBackgroundMask {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 50% 45%,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.88) 50%,
+      rgba(255, 255, 255, 0.45) 85%,
+      #FFFFFF 100%
+    ),
+    linear-gradient(to bottom, #FFFFFF 0%, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.2) 80%, #FFFFFF 100%);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.breadcrumbsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #777777;
+  margin-bottom: 14px;
+}
+
+.breadcrumbLink {
+  color: #555555;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: #E31B23;
+}
+
+.breadcrumbDivider {
+  color: #C5A15B;
+  font-size: 10px;
+}
+
+.breadcrumbCurrent {
+  color: #111111;
+  font-weight: 700;
+}
+
+.categoryTitle {
+  font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: #0A0A0A;
+  margin: 0 0 12px 0;
+}
+
+.crimsonAccent {
+  background: linear-gradient(135deg, #E31B23 0%, #D0161E 60%, #B8131A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+}
+
+.categorySubtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+  color: #4A4A4A;
+  max-width: 720px;
+  line-height: 1.6;
+  margin: 0 0 var(--space-6) 0;
+}
+
+/* Category Quick Navigation Carousel */
+.categoryPillsTrack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+  width: 100%;
+}
+
+.categoryPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #333333;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D8;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  white-space: nowrap;
+}
+
+.categoryPill:hover {
+  border-color: #0A0A0A;
+  color: #0A0A0A;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.categoryPillActive {
+  background: #0A0A0A;
+  color: #FFFFFF;
+  border-color: #0A0A0A;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+}
+
+.categoryPillActive:hover {
+  background: #E31B23;
+  color: #FFFFFF;
+  border-color: #E31B23;
+}
+
+.pillBadgeCount {
+  font-size: 10px;
+  opacity: 0.75;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.categoryPillActive .pillBadgeCount {
+  background: rgba(255, 255, 255, 0.22);
+  color: #FFFFFF;
+  opacity: 1;
+}
+
+/* Four Trust Hallmark Pillars */
+.trustPillarsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  width: 100%;
+  max-width: 1100px;
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.pillarCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(250, 248, 245, 0.85);
+  border: 1px solid #ECE7DE;
+  font-family: var(--font-sans);
+  text-align: left;
+}
+
+.pillarIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #E31B23;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.pillarText {
+  display: flex;
+  flex-direction: column;
+}
+
+.pillarTitle {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #121212;
+  letter-spacing: -0.01em;
+}
+
+.pillarDesc {
+  font-size: 10px;
+  color: #666666;
+}
+
+@media (max-width: 960px) {
+  .trustPillarsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .trustPillarsRow {
+    grid-template-columns: 1fr;
+  }
+  .categoryPillsTrack {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+

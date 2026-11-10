@@ -1,0 +1,15 @@
+:root {
+  --perspective-subtle: 1200px;
+  --perspective-default: 1000px;
+  --perspective-dramatic: 600px;
+
+  --transform-tilt-base: rotateX(0deg) rotateY(0deg) translateZ(0);
+  --transform-tilt-hover: rotateX(4deg) rotateY(-4deg) translateZ(12px);
+  --transform-press: scale(0.98) translateZ(-4px);
+
+  --elevation-surface: translateZ(0);
+  --elevation-raised: translateZ(10px);
+  --elevation-floating: translateZ(24px);
+  --elevation-overlay: translateZ(48px);
+}
+

@@ -1,0 +1,20 @@
+{
+  "name": "bagodi-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bagodi E-Commerce Frontend Platform Monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:customer": "npm run dev --workspace=@bagodi/customer-web",
+    "dev:admin": "npm run dev --workspace=@bagodi/merchant-admin",
+    "dev:super": "npm run dev --workspace=@bagodi/super-admin",
+    "build:all": "npm run build --workspaces --if-present",
+    "typecheck:all": "npm run typecheck --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

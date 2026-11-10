@@ -1,0 +1,338 @@
+/* ==========================================================================
+   Bagodi Luxury Filter Sidebar — Refined Atelier Drawer & Rail
+   ========================================================================== */
+
+.sidebarRoot {
+  width: 100%;
+  max-width: 280px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid #EAEAEA;
+  padding: var(--space-6);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.filterHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.filterTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filterIcon {
+  color: #E31B23;
+}
+
+.filterTitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #0A0A0A;
+}
+
+.clearButton {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #E31B23;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.clearButton:hover {
+  background: rgba(227, 27, 35, 0.08);
+}
+
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.filterSection:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.sectionHeading {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #222222;
+  margin: 0;
+}
+
+/* Category List */
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.categoryItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: #444444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.categoryItem:hover {
+  background: #F8F8F8;
+  color: #0A0A0A;
+}
+
+.categoryItemActive {
+  background: rgba(227, 27, 35, 0.06);
+  color: #E31B23;
+  font-weight: 700;
+  border-left: 3px solid #E31B23;
+}
+
+.categoryCountBadge {
+  font-size: 10.5px;
+  color: #888888;
+  padding: 1px 6px;
+  background: #F2F2F2;
+  border-radius: 9999px;
+}
+
+.categoryItemActive .categoryCountBadge {
+  background: rgba(227, 27, 35, 0.14);
+  color: #E31B23;
+}
+
+/* Brand Pills */
+.brandsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brandCheckItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: #444444;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.brandCheckItem:hover {
+  background: #F8F8F8;
+}
+
+.brandCheckItemActive {
+  background: rgba(227, 27, 35, 0.06);
+  color: #E31B23;
+  font-weight: 700;
+}
+
+/* Price Range Brackets */
+.priceBracketsTrack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.priceBracketPill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333333 !important;
+  background-color: #FAFAFA !important;
+  border: 1px solid #EAEAEA !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.priceBracketPill:hover {
+  border-color: #E31B23 !important;
+  color: #E31B23 !important;
+  background-color: #FFFFFF !important;
+}
+
+.priceBracketPillActive,
+button.priceBracketPillActive {
+  background-color: #0A0A0A !important;
+  color: #FFFFFF !important;
+  border-color: #0A0A0A !important;
+}
+
+.priceInputsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.priceInputBox {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: 8px;
+  border: 1px solid #DDDDDD;
+  font-size: 12px;
+  color: #111111;
+  background: #FFFFFF;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.priceInputBox:focus {
+  border-color: #E31B23;
+  box-shadow: 0 0 0 2px rgba(227, 27, 35, 0.1);
+}
+
+.priceSeparator {
+  font-size: 12px;
+  color: #888888;
+}
+
+/* Size Chips Grid */
+.sizeGroupLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: #888888;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 6px 0 4px;
+}
+
+.sizesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.sizeChipBtn {
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid #DDDDDD !important;
+  background-color: #FFFFFF !important;
+  color: #111111 !important;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.sizeChipBtn:hover {
+  border-color: #E31B23 !important;
+  color: #E31B23 !important;
+}
+
+.sizeChipBtnActive,
+button.sizeChipBtnActive {
+  background-color: #0A0A0A !important;
+  color: #FFFFFF !important;
+  border-color: #0A0A0A !important;
+}
+
+/* In Stock iOS Switch */
+.stockRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 0;
+}
+
+.stockLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111111;
+}
+
+button.iosToggle,
+.iosToggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 9999px;
+  background-color: #D1D5DB !important;
+  border: 1px solid #9CA3AF !important;
+  position: relative;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  padding: 0;
+  display: inline-block;
+  outline: none;
+}
+
+button.iosToggle:hover,
+.iosToggle:hover {
+  background-color: #9CA3AF !important;
+}
+
+button.iosToggleChecked,
+.iosToggleChecked {
+  background-color: #E31B23 !important;
+  border-color: #E31B23 !important;
+}
+
+button.iosToggleChecked:hover,
+.iosToggleChecked:hover {
+  background-color: #C41219 !important;
+  border-color: #C41219 !important;
+}
+
+.iosThumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #FFFFFF !important;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.iosToggleChecked .iosThumb {
+  transform: translateX(20px);
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@bagodi/shared-components",
+  "version": "1.0.0",
+  "description": "Bagodi Shared Reusable React + Plain CSS Component Library with 3D Depth",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@bagodi/design-system": "*",
+    "@bagodi/shared-types": "*",
+    "@bagodi/utilities": "*",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "typescript": "^5.7.3"
+  }
+}
+

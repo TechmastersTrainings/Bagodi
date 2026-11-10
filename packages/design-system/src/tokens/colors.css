@@ -1,0 +1,72 @@
+:root {
+  /* Official Primary Palette */
+  --color-obsidian: #202321;
+  --color-heritage-olive: #34392D;
+  --color-champagne-gold: #C5A15B;
+  --color-warm-ivory: #F7F1E7;
+  --color-royal-burgundy: #641F32;
+  --color-heritage-red: #B5262E;
+  --color-pure-white: #FFFFFF;
+  --color-soft-black: #171918;
+
+  /* Official Supporting Palette */
+  --color-light-champagne: #E5D3A8;
+  --color-warm-beige: #EAE0D0;
+  --color-muted-grey: #85847D;
+  --color-border-standard: #E5DED2;
+
+  /* Semantic Status Tokens */
+  --status-success: #3C7757;
+  --status-success-bg: rgba(60, 119, 87, 0.12);
+  --status-success-border: rgba(60, 119, 87, 0.28);
+
+  --status-warning: #B68A39;
+  --status-warning-bg: rgba(182, 138, 57, 0.12);
+  --status-warning-border: rgba(182, 138, 57, 0.28);
+
+  --status-danger: #B33A3A;
+  --status-danger-bg: rgba(179, 58, 58, 0.12);
+  --status-danger-border: rgba(179, 58, 58, 0.28);
+
+  --status-info: #34392D;
+  --status-info-bg: rgba(52, 57, 45, 0.08);
+  --status-info-border: rgba(52, 57, 45, 0.2);
+
+  /* Customer Storefront Theme — Modern Luminous White with Obsidian, Crimson & Gold */
+  --bg-primary: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --bg-secondary: #F8F7F5;
+  --bg-tertiary: #F2EFEA;
+  --bg-elevated: #FFFFFF;
+  --bg-surface-glass: rgba(255, 255, 255, 0.92);
+  --bg-overlay: rgba(10, 10, 12, 0.65);
+  --bg-obsidian: #0A0A0C;
+  --bg-olive: #242921;
+
+  /* Typography Colors */
+  --text-primary: #0A0A0A;
+  --text-secondary: #4A4A4A;
+  --text-tertiary: #777777;
+  --text-inverse: #FFFFFF;
+  --text-gold: #C5A15B;
+  --text-burgundy: #641F32;
+  --text-red: #E31B23;
+
+  /* Borders & Highlights */
+  --border-subtle: #F0EDE6;
+  --border-default: #E5E1D8;
+  --border-prominent: #E31B23;
+  --border-dark: rgba(255, 255, 255, 0.15);
+
+  /* Accents */
+  --accent-primary: #E31B23;
+  --accent-primary-hover: #C8141B;
+  --accent-primary-glow: rgba(227, 27, 35, 0.35);
+  --accent-subtle: rgba(227, 27, 35, 0.08);
+  --accent-contrast: #0A0A0A;
+  --accent-burgundy: #641F32;
+  --accent-red: #E31B23;
+
+  /* Layout Containers */
+  --container-2xl: 1400px;
+}

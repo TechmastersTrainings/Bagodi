@@ -1,0 +1,210 @@
+/* Merchant Delivery Logistics & Courier Fleet - Aurélien Luxe Theme */
+
+.pageRoot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.pageTitle {
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: var(--tracking-wide);
+}
+
+.pageSubtitle {
+  font-size: var(--text-xs);
+  color: var(--color-muted-grey);
+  margin-top: 2px;
+}
+
+/* Quick Metrics Row */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 900px) {
+  .metricsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.metricCard {
+  background: #191B1A;
+  border: 1px solid rgba(197, 161, 91, 0.2);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all var(--duration-fast) ease;
+}
+
+.metricCard:hover {
+  border-color: var(--color-champagne-gold);
+  transform: translateY(-2px);
+}
+
+.metricLabel {
+  font-size: 11px;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-muted-grey);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metricValue {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-top: var(--space-2);
+}
+
+.metricSubtext {
+  font-size: 10px;
+  color: var(--color-champagne-gold);
+  margin-top: 4px;
+}
+
+/* Operational Filter Bar */
+.filterBar {
+  background: #191B1A;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 240px;
+  background: #121413;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  color: #FFFFFF;
+  font-size: var(--text-xs);
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: var(--color-champagne-gold);
+}
+
+.filterSelect {
+  background: #121413;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  color: #FFFFFF;
+  font-size: var(--text-xs);
+  outline: none;
+  cursor: pointer;
+}
+
+.filterSelect:focus {
+  border-color: var(--color-champagne-gold);
+}
+
+/* Action Group */
+.actionGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.iconActionBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  color: #C5A15B;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--duration-fast) ease;
+}
+
+.iconActionBtn:hover {
+  background: rgba(197, 161, 91, 0.2);
+  border-color: var(--color-champagne-gold);
+  color: #FFFFFF;
+}
+
+/* Timeline Styles inside Detail Modal */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: relative;
+  padding-left: var(--space-6);
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: rgba(197, 161, 91, 0.25);
+}
+
+.timelineNode {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -22px;
+  top: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-champagne-gold);
+  border: 2px solid #191B1A;
+}
+
+.timelineDate {
+  font-size: 11px;
+  color: var(--color-muted-grey);
+}
+
+.timelineTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.timelineLocation {
+  font-size: 11px;
+  color: var(--color-light-champagne);
+}
+
