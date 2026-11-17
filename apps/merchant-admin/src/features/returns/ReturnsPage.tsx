@@ -6,6 +6,8 @@ import { DataTable, Column, StatusBadge, ApiErrorCard, Button } from "@bagodi/sh
 import { formatDateTime } from "@bagodi/utilities";
 import styles from "./ReturnsPage.module.css";
 import { ReturnInspectionModal } from "./ReturnInspectionModal";
+import { ReturnDecisionModal } from "./ReturnDecisionModal";
+import { ScheduleReturnDeliveryModal } from "./ScheduleReturnDeliveryModal";
 import {
   RotateCcw,
   CheckCircle2,
@@ -15,6 +17,10 @@ import {
   RefreshCw,
   ClipboardCheck,
   Package,
+  Truck,
+  Check,
+  X,
+  Camera,
 } from "lucide-react";
 
 export const ReturnsPage: React.FC = () => {
@@ -26,6 +32,12 @@ export const ReturnsPage: React.FC = () => {
   // Inspection Modal State
   const [selectedRequest, setSelectedRequest] = useState<ReturnRequest | null>(null);
   const [isInspectionOpen, setIsInspectionOpen] = useState(false);
+
+  // Decision & Return Delivery State
+  const [decisionRequest, setDecisionRequest] = useState<ReturnRequest | null>(null);
+  const [decisionMode, setDecisionMode] = useState<"ACCEPT" | "REJECT">("ACCEPT");
+  const [scheduleDeliveryReq, setScheduleDeliveryReq] = useState<ReturnRequest | null>(null);
+  const [zoomImageUrl, setZoomImageUrl] = useState<string | null>(null);
 
   // Real backend query for Return Requests
   const { data, isLoading, error, refetch, isFetching } = useQuery<PaginatedResponse<ReturnRequest>>({
@@ -124,19 +136,59 @@ export const ReturnsPage: React.FC = () => {
     },
     {
       key: "reason",
-      header: "Customer Reason",
-      render: (row) => (
-        <div style={{ maxWidth: 220 }}>
-          <div style={{ color: "var(--color-light-champagne)", fontSize: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {row.reason}
-          </div>
-          {row.conditionNotes && (
-            <div style={{ fontSize: "11px", color: "var(--color-muted-grey)", marginTop: "2px" }}>
-              Notes: {row.conditionNotes}
+      header: "Customer Issue & Photo",
+      render: (row) => {
+        const sampleCustomerPhoto =
+          (row as any).customerIssueImageUrl ||
+          "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80";
+
+        return (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, maxWidth: 280 }}>
+            <div
+              style={{
+                width: 42,
+                height: 48,
+                borderRadius: 6,
+                background: "#F0EDE6",
+                border: "1px solid #E5E1D8",
+                overflow: "hidden",
+                flexShrink: 0,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={() => setZoomImageUrl(sampleCustomerPhoto)}
+              title="Click to zoom customer defect photo"
+            >
+              <img
+                src={sampleCustomerPhoto}
+                alt="Customer Issue"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
             </div>
-          )}
-        </div>
-      ),
+            <div>
+              <div style={{ color: "#FFFFFF", fontSize: "12px", fontWeight: 500 }}>
+                {row.reason}
+              </div>
+              <div
+                style={{
+                  fontSize: "10px",
+                  color: "#C5A15B",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 3,
+                  marginTop: 2,
+                }}
+                onClick={() => setZoomImageUrl(sampleCustomerPhoto)}
+              >
+                <Camera size={10} /> View Customer Photo
+              </div>
+            </div>
+          </div>
+        );
+      },
     },
     {
       key: "status",
@@ -154,9 +206,85 @@ export const ReturnsPage: React.FC = () => {
     },
     {
       key: "actions",
-      header: "Inspection & Actions",
+      header: "Merchant Decision & Operations",
       render: (row) => (
-        <div className={styles.actionGroup}>
+        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+          {row.status === "PENDING_APPROVAL" && (
+            <>
+              <Button
+                size="sm"
+                variant="outline"
+                leftIcon={<Check size={12} />}
+                style={{
+                  borderColor: "#A5D6A7",
+                  color: "#2E7D32",
+                  background: "#F1F8F1",
+                  fontSize: "11px",
+                  padding: "4px 8px",
+                  fontWeight: 600,
+                }}
+                onClick={() => {
+                  setDecisionRequest(row);
+                  setDecisionMode("ACCEPT");
+                }}
+              >
+                Accept
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                leftIcon={<X size={12} />}
+                style={{
+                  borderColor: "#FFCDD2",
+                  color: "#C62828",
+                  background: "#FFF5F5",
+                  fontSize: "11px",
+                  padding: "4px 8px",
+                  fontWeight: 600,
+                }}
+                onClick={() => {
+                  setDecisionRequest(row);
+                  setDecisionMode("REJECT");
+                }}
+              >
+                Reject
+              </Button>
+            </>
+          )}
+
+          {row.status === "APPROVED" && (
+            <Button
+              size="sm"
+              leftIcon={<Truck size={13} />}
+              style={{
+                background: "#2E7D32",
+                color: "#FFFFFF",
+                fontSize: "11px",
+                padding: "4px 10px",
+                fontWeight: 600,
+              }}
+              onClick={() => setScheduleDeliveryReq(row)}
+            >
+              Schedule Return Delivery
+            </Button>
+          )}
+
+          {row.status === "PICKUP_SCHEDULED" && (
+            <span
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                color: "#2E7D32",
+                background: "#E8F5E9",
+                border: "1px solid #A5D6A7",
+                padding: "3px 8px",
+                borderRadius: 4,
+              }}
+            >
+              Delivery Scheduled
+            </span>
+          )}
+
           <button
             type="button"
             className={styles.iconActionBtn}
@@ -164,7 +292,6 @@ export const ReturnsPage: React.FC = () => {
             title="Perform Physical Quality Inspection"
           >
             <ClipboardCheck size={14} />
-            <span>Inspect Garment</span>
           </button>
         </div>
       ),
@@ -320,6 +447,68 @@ export const ReturnsPage: React.FC = () => {
           setSelectedRequest(null);
         }}
       />
+
+      {/* 6. Accept / Reject Return Decision Modal */}
+      <ReturnDecisionModal
+        returnRequest={decisionRequest}
+        mode={decisionMode}
+        isOpen={Boolean(decisionRequest)}
+        onClose={() => setDecisionRequest(null)}
+        onAcceptedSuccess={(acceptedReq) => {
+          setScheduleDeliveryReq(acceptedReq);
+        }}
+      />
+
+      {/* 7. Schedule Return Delivery Modal */}
+      <ScheduleReturnDeliveryModal
+        returnRequest={scheduleDeliveryReq}
+        isOpen={Boolean(scheduleDeliveryReq)}
+        onClose={() => setScheduleDeliveryReq(null)}
+      />
+
+      {/* 8. Customer Issue Image Zoom Modal */}
+      {zoomImageUrl && (
+        <div
+          onClick={() => setZoomImageUrl(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.8)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "zoom-out",
+            padding: 24,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "#FFFFFF",
+              borderRadius: 12,
+              overflow: "hidden",
+              maxWidth: 600,
+              width: "100%",
+              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)",
+            }}
+          >
+            <div style={{ padding: "12px 16px", background: "#F8F7F5", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #E5E1D8" }}>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#111412", textTransform: "uppercase" }}>
+                Customer Uploaded Issue Photo
+              </span>
+              <button
+                type="button"
+                onClick={() => setZoomImageUrl(null)}
+                style={{ background: "none", border: "none", fontSize: "16px", cursor: "pointer", color: "#7A807C" }}
+              >
+                ✕
+              </button>
+            </div>
+            <img src={zoomImageUrl} alt="Customer Defect Inspection" style={{ width: "100%", maxHeight: 500, objectFit: "contain", display: "block" }} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -12,7 +12,9 @@ import {
 } from "@bagodi/shared-components";
 import { ProductCreateModal } from "./ProductCreateModal";
 import { VariantManagerModal } from "./VariantManagerModal";
-import { Plus, Search, Layers, Archive, RefreshCw } from "lucide-react";
+import { ProductPhotosModal } from "./ProductPhotosModal";
+import { ProductEditModal } from "./ProductEditModal";
+import { Plus, Search, Layers, Archive, RefreshCw, Camera, Edit3, ExternalLink } from "lucide-react";
 import { formatINR, useDebounce } from "@bagodi/utilities";
 
 export const ProductListPage: React.FC = () => {
@@ -21,9 +23,12 @@ export const ProductListPage: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const debouncedSearch = useDebounce(search, 400);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [statusFilterTab, setStatusFilterTab] = useState<"ALL" | "STAGED" | "LIVE">("ALL");
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [selectedProductForVariants, setSelectedProductForVariants] = useState<Product | null>(null);
+  const [selectedProductForPhotos, setSelectedProductForPhotos] = useState<Product | null>(null);
+  const [selectedProductForEdit, setSelectedProductForEdit] = useState<Product | null>(null);
 
   // Fetch categories
   const { data: categories = [] } = useQuery<Category[]>({
@@ -53,16 +58,99 @@ export const ProductListPage: React.FC = () => {
     },
   });
 
+  const allItems = data?.items || [];
+  const stagedItems = allItems.filter((p) => !p.isActive && !p.isArchived);
+  const liveItems = allItems.filter((p) => p.isActive && !p.isArchived);
+
+  const displayedItems =
+    statusFilterTab === "STAGED"
+      ? stagedItems
+      : statusFilterTab === "LIVE"
+      ? liveItems
+      : allItems;
+
   const columns: Column<Product>[] = [
     {
       key: "name",
-      header: "Garment Name",
-      render: (r) => (
-        <div>
-          <strong style={{ fontSize: "var(--text-sm)", color: "var(--text-primary)" }}>{r.name}</strong>
-          <p style={{ fontSize: "11px", color: "var(--text-tertiary)" }}>Slug: {r.slug}</p>
-        </div>
-      ),
+      header: "Garment Name & Cover",
+      render: (r) => {
+        const coverPhoto = r.images?.find((img) => img.isPrimary) || r.images?.[0];
+        return (
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div
+              style={{
+                width: 44,
+                height: 52,
+                borderRadius: 6,
+                background: "#F0EDE6",
+                border: "1px solid #E5E1D8",
+                overflow: "hidden",
+                flexShrink: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => setSelectedProductForEdit(r)}
+              title="Click to edit photos, price, category or make live"
+            >
+              {coverPhoto ? (
+                <img
+                  src={coverPhoto.url}
+                  alt={coverPhoto.altText || r.name}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              ) : (
+                <Camera size={18} color="#8C938E" />
+              )}
+            </div>
+            <div>
+              <strong
+                style={{ fontSize: "var(--text-sm)", color: "var(--text-primary)", cursor: "pointer" }}
+                onClick={() => setSelectedProductForEdit(r)}
+              >
+                {r.name}
+              </strong>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2, flexWrap: "wrap" }}>
+                <span style={{ fontSize: "11px", color: "var(--text-tertiary)" }}>{r.slug}</span>
+                <span
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: 600,
+                    padding: "1px 6px",
+                    borderRadius: 4,
+                    background: r.images?.length ? "#FFF9EE" : "#F5F5F5",
+                    color: r.images?.length ? "#C5A15B" : "#8C938E",
+                    border: `1px solid ${r.images?.length ? "#E8D8B0" : "#E0E0E0"}`,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setSelectedProductForPhotos(r)}
+                >
+                  {r.images?.length || 0}/4 Photos
+                </span>
+                {r.isActive && (
+                  <a
+                    href={`http://localhost:3000/product/${r.slug}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      fontSize: "10px",
+                      color: "#2E7D32",
+                      fontWeight: 600,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                      textDecoration: "underline",
+                    }}
+                  >
+                    View Live <ExternalLink size={10} />
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      },
     },
     { key: "category", header: "Category", render: (r) => r.category?.name || "-" },
     { key: "brand", header: "Brand", render: (r) => r.brand?.name || "-" },
@@ -86,7 +174,7 @@ export const ProductListPage: React.FC = () => {
       render: (r) => (
         <StatusBadge
           variant={r.isArchived ? "neutral" : r.isActive ? "success" : "warning"}
-          label={r.isArchived ? "Archived" : r.isActive ? "Active" : "Draft"}
+          label={r.isArchived ? "Archived" : r.isActive ? "Live" : "Staged Draft"}
         />
       ),
     },
@@ -98,7 +186,29 @@ export const ProductListPage: React.FC = () => {
           <Button
             size="sm"
             variant="outline"
-            leftIcon={<Layers size={14} />}
+            leftIcon={<Edit3 size={13} />}
+            style={{
+              borderColor: r.isActive ? "#A5D6A7" : "#E31B23",
+              color: r.isActive ? "#2E7D32" : "#E31B23",
+              background: r.isActive ? "#F1F8F1" : "#FFF5F5",
+              fontWeight: 600,
+            }}
+            onClick={() => setSelectedProductForEdit(r)}
+          >
+            {r.isActive ? "Edit" : "Edit & Make Live"}
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            leftIcon={<Camera size={13} />}
+            onClick={() => setSelectedProductForPhotos(r)}
+          >
+            Photos ({r.images?.length || 0}/4)
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            leftIcon={<Layers size={13} />}
             onClick={() => setSelectedProductForVariants(r)}
           >
             Variants ({r.variants?.length || 0})
@@ -107,7 +217,7 @@ export const ProductListPage: React.FC = () => {
             <Button
               size="sm"
               variant="ghost"
-              leftIcon={<Archive size={14} />}
+              leftIcon={<Archive size={13} />}
               onClick={() => {
                 if (window.confirm(`Archive "${r.name}"? It will be hidden from customer storefront.`)) {
                   archiveMutation.mutate(r.id);
@@ -145,6 +255,59 @@ export const ProductListPage: React.FC = () => {
             New Garment
           </Button>
         </div>
+      </div>
+
+      {/* Staging & Live Status Tabs */}
+      <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
+        <button
+          type="button"
+          onClick={() => setStatusFilterTab("ALL")}
+          style={{
+            padding: "8px 16px",
+            borderRadius: 20,
+            border: `1px solid ${statusFilterTab === "ALL" ? "#E31B23" : "#E5E1D8"}`,
+            background: statusFilterTab === "ALL" ? "#E31B23" : "#FFFFFF",
+            color: statusFilterTab === "ALL" ? "#FFFFFF" : "#111412",
+            fontSize: "12px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          All Garments ({allItems.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setStatusFilterTab("STAGED")}
+          style={{
+            padding: "8px 16px",
+            borderRadius: 20,
+            border: `1px solid ${statusFilterTab === "STAGED" ? "#E31B23" : "#E5E1D8"}`,
+            background: statusFilterTab === "STAGED" ? "#FFF9EE" : "#FFFFFF",
+            color: statusFilterTab === "STAGED" ? "#B08A3E" : "#4A4E4B",
+            borderColor: statusFilterTab === "STAGED" ? "#C5A15B" : "#E5E1D8",
+            fontSize: "12px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Staged from Inventory ({stagedItems.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setStatusFilterTab("LIVE")}
+          style={{
+            padding: "8px 16px",
+            borderRadius: 20,
+            border: `1px solid ${statusFilterTab === "LIVE" ? "#2E7D32" : "#E5E1D8"}`,
+            background: statusFilterTab === "LIVE" ? "#E8F5E9" : "#FFFFFF",
+            color: statusFilterTab === "LIVE" ? "#1B5E20" : "#4A4E4B",
+            fontSize: "12px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Live on Storefront ({liveItems.length})
+        </button>
       </div>
 
       {/* Filter and Search Bar */}
@@ -185,11 +348,11 @@ export const ProductListPage: React.FC = () => {
       ) : (
         <DataTable
           columns={columns}
-          data={data?.items || []}
+          data={displayedItems}
           isLoading={isLoading}
           page={data?.page || 1}
           totalPages={data?.totalPages || 1}
-          totalItems={data?.total || 0}
+          totalItems={displayedItems.length}
           onPageChange={(p) => setPage(p)}
           emptyTitle="Catalogue Empty"
           emptyDescription="No apparel has been created yet. Click 'New Garment' to add your first product."
@@ -200,6 +363,18 @@ export const ProductListPage: React.FC = () => {
       <ProductCreateModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
+      />
+
+      <ProductEditModal
+        isOpen={Boolean(selectedProductForEdit)}
+        onClose={() => setSelectedProductForEdit(null)}
+        product={selectedProductForEdit}
+      />
+
+      <ProductPhotosModal
+        isOpen={Boolean(selectedProductForPhotos)}
+        onClose={() => setSelectedProductForPhotos(null)}
+        product={selectedProductForPhotos}
       />
 
       <VariantManagerModal

@@ -4,6 +4,14 @@
 
 import { z } from "zod";
 
+export const productImageSchema = z.object({
+  id: z.string().optional(),
+  url: z.string().min(1, "Image URL or data is required"),
+  altText: z.string().optional(),
+  isPrimary: z.boolean().default(false),
+  displayOrder: z.number().int().min(1).max(4).default(1),
+});
+
 export const productCreateSchema = z.object({
   name: z.string().min(3, "Product name must be at least 3 characters"),
   slug: z
@@ -20,6 +28,7 @@ export const productCreateSchema = z.object({
   returnEligible: z.boolean().default(true),
   exchangeEligible: z.boolean().default(true),
   returnWindowDays: z.number().int().min(0).max(30).default(7),
+  images: z.array(productImageSchema).max(4, "A product can have a maximum of 4 photos").optional(),
 });
 
 export const variantCreateSchema = z.object({

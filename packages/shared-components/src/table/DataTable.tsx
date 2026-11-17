@@ -42,7 +42,11 @@ export function DataTable<T extends { id?: string | number }>({
           <thead>
             <tr>
               {columns.map((col) => (
-                <th key={col.key} className={styles.th} style={{ width: col.width }}>
+                <th
+                  key={col.key}
+                  className={styles.th}
+                  style={col.width ? { width: col.width, minWidth: col.width } : undefined}
+                >
                   {col.header}
                 </th>
               ))}
@@ -52,7 +56,11 @@ export function DataTable<T extends { id?: string | number }>({
             {[...Array(5)].map((_, idx) => (
               <tr key={idx} className={styles.tr}>
                 {columns.map((col) => (
-                  <td key={col.key} className={styles.td}>
+                  <td
+                    key={col.key}
+                    className={styles.td}
+                    style={col.width ? { width: col.width, minWidth: col.width } : undefined}
+                  >
                     <SkeletonLine height="14px" width="80%" />
                   </td>
                 ))}
@@ -78,7 +86,11 @@ export function DataTable<T extends { id?: string | number }>({
         <thead>
           <tr>
             {columns.map((col) => (
-              <th key={col.key} className={styles.th} style={{ width: col.width }}>
+              <th
+                key={col.key}
+                className={styles.th}
+                style={col.width ? { width: col.width, minWidth: col.width } : undefined}
+              >
                 {col.header}
               </th>
             ))}
@@ -88,7 +100,11 @@ export function DataTable<T extends { id?: string | number }>({
           {data.map((row, rowIdx) => (
             <tr key={row.id !== undefined ? String(row.id) : rowIdx} className={styles.tr}>
               {columns.map((col) => (
-                <td key={col.key} className={styles.td}>
+                <td
+                  key={col.key}
+                  className={styles.td}
+                  style={col.width ? { width: col.width, minWidth: col.width } : undefined}
+                >
                   {col.render ? col.render(row) : (row as Record<string, unknown>)[col.key] as ReactNode}
                 </td>
               ))}

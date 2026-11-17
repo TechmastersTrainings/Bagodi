@@ -8,7 +8,7 @@ import { Button, TextInput, ApiErrorCard } from "@bagodi/shared-components";
 import { defaultApiClient } from "@bagodi/api-client";
 import { useAuth } from "@bagodi/authentication";
 import { AuthSessionResponse } from "@bagodi/shared-types";
-import { Shield, Mail, Lock, ArrowRight, Store, KeyRound } from "lucide-react";
+import { ShieldCheck, Mail, Lock, ArrowRight, Store, KeyRound, CheckCircle2 } from "lucide-react";
 
 export const MerchantLoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -45,17 +45,17 @@ export const MerchantLoginPage: React.FC = () => {
         { skipAuth: true }
       );
 
-      // Verify that the user has store staff privileges
+      // Verify authorized store personnel roles
       const allowedRoles = ["MERCHANT_ADMIN", "STORE_MANAGER", "INVENTORY_STAFF", "DELIVERY_STAFF", "SUPER_ADMIN"];
       if (!allowedRoles.includes(response.user.role)) {
-        throw new Error("Access restricted to authorized Bagodi store staff.");
+        throw new Error("Access restricted to authorized Bagodi retail staff.");
       }
 
       login(response.tokens, response.user);
       navigate(from, { replace: true });
     } catch (err: unknown) {
-      // Offline local development fallback when backend service is unreachable
-      const isOfflineError =
+      // Offline fallback: when mock or backend service is used locally
+      const isOfflineFallback =
         err instanceof Error &&
         (err.message.includes("Network") ||
           err.message.includes("unreachable") ||
@@ -64,8 +64,7 @@ export const MerchantLoginPage: React.FC = () => {
           err.message.includes("404") ||
           err.message.includes("EPERM"));
 
-      if (isOfflineError) {
-        console.warn("Backend offline: initializing local developer staff session.");
+      if (isOfflineFallback) {
         const mockStaffSession: AuthSessionResponse = {
           user: {
             id: "usr_staff_12",
@@ -123,36 +122,53 @@ export const MerchantLoginPage: React.FC = () => {
   return (
     <div className={styles.loginWrapper}>
       <div className={styles.loginCard}>
+        {/* Brand Header matching Customer Web Storefront */}
         <div className={styles.header}>
           <div className={styles.badge}>
-            <Shield size={14} /> Operations Portal
+            <ShieldCheck size={14} color="#C5A15B" />
+            <span>Store Operations Portal</span>
           </div>
-          <h1 className={styles.title}>Bagodi Merchant Admin</h1>
+
+          <div className={styles.brandWordmarkCol}>
+            <span className={styles.brandWordmarkAnimated}>BAGODI</span>
+            <span className={styles.brandSubtitle}>RETAIL OPERATIONS • BIDAR MALL</span>
+          </div>
+
           <p className={styles.subtitle}>
-            Secure sign in for store managers, inventory supervisors, and retail staff
+            Authorized sign in for store managers, inventory supervisors, and cashier staff
           </p>
         </div>
 
+        {/* Static Official Store Notice */}
         <div className={styles.storeNotice}>
           <Store size={16} className={styles.storeIcon} />
-          <span>Target Location: <strong>Bidar Flagship (Store 01)</strong></span>
+          <span>Assigned Store: <strong>Bidar Flagship (Store 01)</strong></span>
         </div>
 
+        {/* Static Staff Test Credentials Helper Box */}
         <div className={styles.demoCredsBox}>
           <div className={styles.demoCredsHeader}>
-            <KeyRound size={13} />
-            <span>Staff Test Credentials</span>
+            <KeyRound size={14} color="#E31B23" />
+            <span className={styles.demoCredsTitle}>Pre-Configured Demo Staff Credentials</span>
           </div>
-          <div className={styles.demoCredsRow}>
-            <span>Email: <code>manager@bagodi.in</code></span>
-            <span>Password: <code>StorePassword@123</code></span>
+          <div className={styles.demoCredsGrid}>
+            <div className={styles.demoCredItem}>
+              <span className={styles.demoCredLabel}>Staff Email</span>
+              <code className={styles.demoCredCode}>manager@bagodi.in</code>
+            </div>
+            <div className={styles.demoCredItem}>
+              <span className={styles.demoCredLabel}>Password</span>
+              <code className={styles.demoCredCode}>StorePassword@123</code>
+            </div>
           </div>
           <button
             type="button"
             className={styles.autoFillBtn}
             onClick={handleFillDemoCreds}
+            title="Click to auto-fill the login form with test credentials"
           >
-            Auto-fill credentials
+            <CheckCircle2 size={13} />
+            <span>Auto-fill credentials</span>
           </button>
         </div>
 
@@ -162,43 +178,50 @@ export const MerchantLoginPage: React.FC = () => {
           </div>
         )}
 
+        {/* Login Form */}
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          <TextInput
-            label="Staff Email"
-            type="email"
-            placeholder="manager@bagodi.in"
-            leftIcon={<Mail size={18} />}
-            isRequired
-            error={errors.email?.message}
-            {...register("email")}
-          />
+          <div className={styles.formGroup}>
+            <TextInput
+              label="Staff Email Address"
+              type="email"
+              placeholder="manager@bagodi.in"
+              leftIcon={<Mail size={17} />}
+              isRequired
+              error={errors.email?.message}
+              {...register("email")}
+            />
+          </div>
 
-          <TextInput
-            label="Password"
-            type="password"
-            placeholder="StorePassword@123"
-            leftIcon={<Lock size={18} />}
-            isRequired
-            error={errors.password?.message}
-            {...register("password")}
-          />
+          <div className={styles.formGroup}>
+            <TextInput
+              label="Store Password"
+              type="password"
+              placeholder="StorePassword@123"
+              leftIcon={<Lock size={17} />}
+              isRequired
+              error={errors.password?.message}
+              {...register("password")}
+            />
+          </div>
 
-          <Button
-            type="submit"
-            size="lg"
-            isLoading={isSubmitting}
-            fullWidth
-            rightIcon={<ArrowRight size={18} />}
-          >
-            Sign In to Command Center
-          </Button>
+          <div className={styles.submitBtnWrap}>
+            <Button
+              type="submit"
+              size="lg"
+              isLoading={isSubmitting}
+              fullWidth
+              rightIcon={<ArrowRight size={18} />}
+            >
+              Sign In to Command Center
+            </Button>
+          </div>
         </form>
 
+        {/* Footer Security Note */}
         <div className={styles.footerNote}>
-          <span>Protected by TechMasters Enterprise Access Guard</span>
+          <span>Protected by TechMasters Enterprise Access Guard • Store ID: STR-BDR-01</span>
         </div>
       </div>
     </div>
   );
 };
-

@@ -201,7 +201,119 @@ export function getMockResponse(
     ]);
   }
 
+  if (cleanPath === "/inventory/push-to-catalogue" && normalizedMethod === "POST") {
+    const { inventoryId } = (body as any) || {};
+    const inv = MOCK_INVENTORY_ITEMS.find((i) => i.id === inventoryId);
+    if (inv) {
+      (inv as any).isPushedToCatalogue = true;
+      const matchedCategory = MOCK_CATEGORIES.find((c) => c.name.toLowerCase().includes((inv as any).categoryName?.toLowerCase() || "")) || MOCK_CATEGORIES[0];
+      const newProduct = {
+        id: inv.productId || "prod-" + Date.now(),
+        name: inv.productName,
+        slug: inv.productName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""),
+        description: `Handcrafted luxury apparel from in-store inventory. Serial/Barcode: ${inv.barcode}.`,
+        details: "Pushed from physical warehouse inventory. Review and enrich details before publishing.",
+        fabricDetails: "Pure Indian Handloom / Fine Fabric",
+        careInstructions: "Dry Clean Only",
+        category: matchedCategory,
+        brand: MOCK_BRANDS[0],
+        basePrice: inv.variant?.sellingPrice || 19999,
+        currency: "INR",
+        isActive: false, // Staged, not live until merchant clicks "Make Live"
+        isArchived: false,
+        isFeatured: false,
+        returnEligible: true,
+        exchangeEligible: true,
+        returnWindowDays: 7,
+        images: (inv as any).images || [],
+        variants: inv.variant ? [inv.variant] : [],
+        createdAt: new Date().toISOString(),
+      };
+      // Check if already in catalogue
+      const existingIdx = MOCK_PRODUCTS.findIndex((p) => p.id === newProduct.id);
+      if (existingIdx >= 0) {
+        MOCK_PRODUCTS[existingIdx] = { ...MOCK_PRODUCTS[existingIdx], ...newProduct };
+      } else {
+        MOCK_PRODUCTS.unshift(newProduct as any);
+      }
+      return { success: true, product: newProduct };
+    }
+    return { success: false, message: "Inventory item not found" };
+  }
+
   if (cleanPath === "/inventory") {
+    if (normalizedMethod === "POST") {
+      const invData = body as any;
+      const newId = "inv-" + Date.now();
+      const newProductId = "prod-" + Date.now();
+      const newVariantId = "var-" + Date.now();
+      const variant = {
+        id: newVariantId,
+        productId: newProductId,
+        sku: invData.sku || invData.serialNumber || `SKU-${Date.now()}`,
+        barcode: invData.barcode || invData.serialNumber || `${Date.now()}`,
+        size: invData.size || "Free Size",
+        colorName: invData.colorName || "Crimson Red",
+        mrp: Number(invData.mrp) || Number(invData.price) || 29999,
+        sellingPrice: Number(invData.price) || 24999,
+        availableStock: Number(invData.onHandQuantity) || 10,
+        reservedStock: 0,
+        isActive: true,
+      };
+
+      const newItem = {
+        id: newId,
+        productId: newProductId,
+        productName: invData.productName || "New In-Store Garment",
+        variantId: newVariantId,
+        variant,
+        sku: variant.sku,
+        barcode: variant.barcode,
+        storeId: "str_bidar_01",
+        storeName: "Bagodi Flagship Store (Bidar)",
+        onHandQuantity: Number(invData.onHandQuantity) || 10,
+        reservedQuantity: 0,
+        availableQuantity: Number(invData.onHandQuantity) || 10,
+        reorderLevel: 2,
+        stockStatus: "IN_STOCK",
+        updatedAt: new Date().toISOString(),
+        categoryName: invData.categoryName || "Silk Sarees",
+        images: invData.images || [],
+        isPushedToCatalogue: Boolean(invData.pushToCatalogue),
+      };
+
+      MOCK_INVENTORY_ITEMS.unshift(newItem as any);
+
+      if (invData.pushToCatalogue) {
+        const matchedCategory = MOCK_CATEGORIES.find((c) => c.name.toLowerCase().includes(invData.categoryName?.toLowerCase() || "")) || MOCK_CATEGORIES[0];
+        const newProduct = {
+          id: newProductId,
+          name: newItem.productName,
+          slug: newItem.productName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""),
+          description: `Handcrafted luxury apparel from in-store inventory. Serial/Barcode: ${newItem.barcode}.`,
+          details: "Pushed from physical warehouse inventory. Ready for photography and price review.",
+          fabricDetails: "Pure Indian Silk / Couture Fabric",
+          careInstructions: "Dry Clean Only",
+          category: matchedCategory,
+          brand: MOCK_BRANDS[0],
+          basePrice: variant.sellingPrice,
+          currency: "INR",
+          isActive: false, // Staged, merchant must click "Make Live"
+          isArchived: false,
+          isFeatured: false,
+          returnEligible: true,
+          exchangeEligible: true,
+          returnWindowDays: 7,
+          images: invData.images || [],
+          variants: [variant],
+          createdAt: new Date().toISOString(),
+        };
+        MOCK_PRODUCTS.unshift(newProduct as any);
+      }
+
+      return newItem;
+    }
+
     const search = String(params?.search || "").toLowerCase();
     let items = [...MOCK_INVENTORY_ITEMS];
     if (search) {
@@ -229,13 +341,43 @@ export function getMockResponse(
   }
 
   if (cleanPath === "/products") {
+    if (normalizedMethod === "POST") {
+      const pData = body as any;
+      const category = MOCK_CATEGORIES.find((c) => c.id === pData?.categoryId) || MOCK_CATEGORIES[0];
+      const brand = MOCK_BRANDS.find((b) => b.id === pData?.brandId) || MOCK_BRANDS[0];
+      const newProduct = {
+        id: "prod-" + Date.now(),
+        name: pData?.name || "New Garment",
+        slug: pData?.slug || "garment-" + Date.now(),
+        description: pData?.description || "",
+        details: pData?.details || "",
+        fabricDetails: pData?.fabricDetails || "",
+        careInstructions: pData?.careInstructions || "",
+        category,
+        brand,
+        basePrice: Number(pData?.basePrice) || 0,
+        currency: "INR",
+        isActive: true,
+        isArchived: false,
+        isFeatured: false,
+        returnEligible: pData?.returnEligible ?? true,
+        exchangeEligible: pData?.exchangeEligible ?? true,
+        returnWindowDays: pData?.returnWindowDays || 7,
+        images: Array.isArray(pData?.images) ? pData.images : [],
+        variants: [],
+        createdAt: new Date().toISOString(),
+      };
+      MOCK_PRODUCTS.unshift(newProduct as any);
+      return newProduct;
+    }
+
     let list = [...MOCK_PRODUCTS];
     if (params?.isFeatured === true || params?.isFeatured === "true") {
       const featured = list.filter((p) => p.isFeatured);
       if (featured.length > 0) list = featured;
     }
     if (params?.categoryId) {
-      list = list.filter((p) => p.categoryId === params.categoryId);
+      list = list.filter((p) => p.category?.id === params.categoryId || (p as any).categoryId === params.categoryId);
     }
     if (params?.search && typeof params.search === "string") {
       const q = params.search.toLowerCase();
@@ -245,15 +387,32 @@ export function getMockResponse(
   }
 
   if (cleanPath.startsWith("/products/")) {
-    const identifier = decodeURIComponent(cleanPath.replace("/products/", "").trim());
-    const matched = MOCK_PRODUCTS.find(
+    const rawId = cleanPath.replace("/products/", "").replace(/\/images$/, "").trim();
+    const identifier = decodeURIComponent(rawId);
+    const matchedIndex = MOCK_PRODUCTS.findIndex(
       (p) =>
         p.id === identifier ||
         p.slug === identifier ||
         p.id.toLowerCase() === identifier.toLowerCase() ||
         p.slug.toLowerCase() === identifier.toLowerCase()
     );
-    if (matched) return matched;
+
+    if (matchedIndex >= 0) {
+      if (normalizedMethod === "PUT" || normalizedMethod === "PATCH") {
+        const updateData = body as any;
+        const updated = {
+          ...MOCK_PRODUCTS[matchedIndex],
+          ...(updateData?.images ? { images: updateData.images } : updateData),
+        };
+        MOCK_PRODUCTS[matchedIndex] = updated;
+        return updated;
+      }
+      if (normalizedMethod === "DELETE") {
+        MOCK_PRODUCTS[matchedIndex].isArchived = true;
+        return { success: true };
+      }
+      return MOCK_PRODUCTS[matchedIndex];
+    }
     return null;
   }
 
@@ -273,6 +432,26 @@ export function getMockResponse(
 
   if (cleanPath.startsWith("/returns/") && cleanPath.endsWith("/inspect")) {
     return { ...MOCK_RETURNS[0], status: "INSPECTED_ACCEPTED" };
+  }
+
+  if (cleanPath.startsWith("/returns/") && cleanPath.endsWith("/decision")) {
+    const decBody = body as any;
+    if (MOCK_RETURNS[0]) {
+      MOCK_RETURNS[0].status = decBody.status || "APPROVED";
+      (MOCK_RETURNS[0] as any).merchantNote = decBody.merchantNote;
+      return MOCK_RETURNS[0];
+    }
+    return { success: true };
+  }
+
+  if (cleanPath.startsWith("/returns/") && cleanPath.endsWith("/schedule-pickup")) {
+    const scBody = body as any;
+    if (MOCK_RETURNS[0]) {
+      MOCK_RETURNS[0].status = "PICKUP_SCHEDULED";
+      (MOCK_RETURNS[0] as any).returnAwb = scBody.returnAwb;
+      return MOCK_RETURNS[0];
+    }
+    return { success: true };
   }
 
   // --- 7. Payments ---

@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./AdminLayout.module.css";
 import {
@@ -7,16 +7,13 @@ import {
   Boxes,
   ShoppingBag,
   RotateCcw,
-  Truck,
-  Users,
-  Settings,
-  LogOut,
-  Store,
   CreditCard,
   Tag,
-  BarChart3,
-  Sun,
-  Moon,
+  LogOut,
+  Store,
+  Barcode,
+  ExternalLink,
+  ShieldCheck,
 } from "lucide-react";
 import { useAuth } from "@bagodi/authentication";
 import { NetworkStatusBar } from "@bagodi/shared-components";
@@ -30,180 +27,184 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onOpenBarcod
   const location = useLocation();
   const { user, activeStore, logout, hasPermission, hasRole } = useAuth();
 
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("bagodi_admin_theme");
-      if (saved === "dark") return "dark";
-    }
-    // Default to bright mode as requested by user
-    return "light";
-  });
-
-  const toggleTheme = () => {
-    const next = theme === "light" ? "dark" : "light";
-    setTheme(next);
-    localStorage.setItem("bagodi_admin_theme", next);
-  };
-
-  // Definition of navigation items with required backend permissions
+  // Navigation module buttons (Replacing the old sidebar with a single-page ribbon)
   const navItems = [
     {
       label: "Dashboard",
       path: "/dashboard",
-      icon: <LayoutDashboard size={18} />,
+      icon: <LayoutDashboard size={15} />,
       visible: true,
+      badge: "Live",
     },
     {
       label: "Products & Catalogue",
       path: "/products",
-      icon: <Shirt size={18} />,
+      icon: <Shirt size={15} />,
       visible: hasPermission("products:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
+      badge: "148 SKUs",
     },
     {
       label: "Inventory & Barcodes",
       path: "/inventory",
-      icon: <Boxes size={18} />,
+      icon: <Boxes size={15} />,
       visible: hasPermission("inventory:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER", "INVENTORY_STAFF"]),
+      badge: "Scanner",
     },
     {
-      label: "Orders",
+      label: "Orders & Dispatch",
       path: "/orders",
-      icon: <ShoppingBag size={18} />,
+      icon: <ShoppingBag size={15} />,
       visible: hasPermission("orders:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
+      badge: "14 Pending",
     },
     {
       label: "Returns & Exchanges",
       path: "/returns",
-      icon: <RotateCcw size={18} />,
+      icon: <RotateCcw size={15} />,
       visible: hasPermission("returns:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
+      badge: "3 Inspect",
     },
     {
       label: "Payments & Ledger",
       path: "/payments",
-      icon: <CreditCard size={18} />,
+      icon: <CreditCard size={15} />,
       visible: hasPermission("orders:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER", "SUPER_ADMIN"]),
-    },
-    {
-      label: "Delivery Logistics",
-      path: "/delivery",
-      icon: <Truck size={18} />,
-      visible: hasPermission("delivery:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER", "DELIVERY_STAFF"]),
+      badge: "₹28.45L",
     },
     {
       label: "Coupons & Discounts",
       path: "/coupons",
-      icon: <Tag size={18} />,
+      icon: <Tag size={15} />,
       visible: hasPermission("orders:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
-    },
-    {
-      label: "Operations Reports",
-      path: "/reports",
-      icon: <BarChart3 size={18} />,
-      visible: hasPermission("reports:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER", "SUPER_ADMIN"]),
-    },
-    {
-      label: "Customers & Staff",
-      path: "/users",
-      icon: <Users size={18} />,
-      visible: hasPermission("staff:read") || hasRole(["MERCHANT_ADMIN", "SUPER_ADMIN"]),
-    },
-    {
-      label: "Settings",
-      path: "/settings",
-      icon: <Settings size={18} />,
-      visible: hasPermission("settings:read") || hasRole(["MERCHANT_ADMIN"]),
+      badge: "Festive",
     },
   ];
 
   return (
-    <div className={`${styles.adminShell} ${theme === "light" ? styles.brightTheme : styles.darkTheme}`}>
-      {/* Sidebar */}
-      <aside className={styles.sidebar}>
-        <div className={styles.sidebarHeader}>
-          <span className={styles.brandTitle}>BAGODI ADMIN</span>
-          <span className={styles.storePill}>
-            <Store size={14} /> {activeStore?.name || "Bidar Flagship (Store 01)"}
-          </span>
-        </div>
-
-        <nav className={styles.navSection}>
-          {navItems
-            .filter((item) => item.visible)
-            .map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`${styles.navItem} ${location.pathname.startsWith(item.path) ? styles.navItemActive : ""}`}
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </Link>
-            ))}
-        </nav>
-
-        <div className={styles.sidebarFooter}>
-          <div className={styles.userBlock}>
-            <p className={styles.userName}>
-              {user?.fullName || "Staff Member"}
-            </p>
-            <p className={styles.userRole}>{user?.role?.replace("_", " ") || "Store Operations"}</p>
-          </div>
-          <button type="button" className={styles.logoutBtn} onClick={() => logout()}>
-            <LogOut size={14} />
-            <span>Sign Out</span>
-          </button>
-        </div>
-      </aside>
-
-      {/* Main Content Viewport */}
-      <div className={styles.mainWorkspace}>
-        <header className={styles.topBar}>
-          <div className={styles.topBarLeft}>
-            <span className={styles.liveIndicatorDot} />
-            <span className={styles.topBarRole}>
-              Role: <strong>{user?.role?.replace("_", " ") || "Store Operations"}</strong>
+    <div className={styles.adminShell}>
+      {/* 1. Top Operations Notification & Utility Strip */}
+      <div className={styles.announcementStrip}>
+        <div className={styles.stripInner}>
+          <div className={styles.stripLeft}>
+            <span className={styles.pulseDot} />
+            <span className={styles.stripText}>
+              <strong>BAGODI RETAIL COMMAND</strong> • Flagship Terminal 01 (Bidar Mall)
             </span>
-            <span className={styles.topBarDivider}>•</span>
-            <span className={styles.topBarStore}>{activeStore?.name || "Bidar Flagship (Store 01)"}</span>
+            <span className={styles.stripDivider}>|</span>
+            <span className={styles.stripSubtext}>Real-time Local Mutex Active</span>
           </div>
 
-          <div className={styles.topBarRight}>
-            <button
-              type="button"
-              className={styles.themeToggleBtn}
-              onClick={toggleTheme}
-              title={theme === "light" ? "Switch to Dark Theme" : "Switch to Bright Mode"}
+          <div className={styles.stripRight}>
+            <a
+              href="http://localhost:3000"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.stripLink}
+              title="Open Live Customer Web Storefront in a new tab"
             >
-              {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
-              <span>{theme === "light" ? "Dark Mode" : "Bright Mode"}</span>
-            </button>
+              <span>View Customer Storefront</span>
+              <ExternalLink size={12} />
+            </a>
+            <span className={styles.stripDivider}>|</span>
+            <div className={styles.securityBadge}>
+              <ShieldCheck size={13} color="#C5A15B" />
+              <span>Enterprise Guard</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      {/* 2. Main Luxury Executive Header */}
+      <header className={styles.mainHeader}>
+        <div className={styles.headerInner}>
+          {/* Left: Brand Identity matching Customer Web Storefront */}
+          <div className={styles.brandContainer}>
+            <Link to="/dashboard" className={styles.brandLink}>
+              <div className={styles.brandWordmarkCol}>
+                <span className={styles.brandWordmarkAnimated}>BAGODI</span>
+                <span className={styles.brandSubtitle}>MERCHANT OPERATIONS • BIDAR MALL</span>
+              </div>
+            </Link>
+
+            <div className={styles.storeLocationBadge}>
+              <Store size={13} className={styles.storeIcon} />
+              <span>{activeStore?.name || "Bidar Flagship (Store 01)"}</span>
+            </div>
+          </div>
+
+          {/* Right: User Profile, Scan Shortcut, Sign Out */}
+          <div className={styles.headerRightActions}>
             {onOpenBarcodeModal && (
               <button
                 type="button"
                 className={styles.barcodeScanBtn}
                 onClick={onOpenBarcodeModal}
+                title="Scan Item Barcode (Shortcut: ⌘B)"
               >
-                Scan Barcode (⌘B)
+                <Barcode size={16} />
+                <span>Quick Scan (⌘B)</span>
               </button>
             )}
 
-            <div className={styles.userProfilePill}>
-              <div className={styles.userAvatar}>
-                {user?.fullName?.charAt(0) || "S"}
+            <div className={styles.staffProfileCard}>
+              <div className={styles.avatarCircle}>
+                {user?.fullName?.charAt(0) || "R"}
               </div>
-              <div className={styles.userMeta}>
-                <span className={styles.userNameShort}>{user?.fullName || "Staff Member"}</span>
-                <span className={styles.userRoleBadge}>{user?.role?.replace("_", " ")}</span>
+              <div className={styles.staffInfoCol}>
+                <span className={styles.staffName}>{user?.fullName || "Rajesh Sharma"}</span>
+                <span className={styles.staffRole}>{user?.role?.replace("_", " ") || "STORE MANAGER"}</span>
               </div>
             </div>
+
+            <button
+              type="button"
+              className={styles.signOutBtn}
+              onClick={() => logout()}
+              title="Sign Out of Operations Terminal"
+            >
+              <LogOut size={14} />
+              <span>Sign Out</span>
+            </button>
           </div>
-        </header>
+        </div>
+      </header>
 
-        <main className={styles.contentBody}>{children}</main>
-      </div>
+      {/* 3. Horizontal Operations Action Ribbon (Replaces the Sidebar) */}
+      <nav className={styles.operationsRibbon}>
+        <div className={styles.ribbonScrollContainer}>
+          {navItems
+            .filter((item) => item.visible)
+            .map((item) => {
+              const isActive =
+                item.path === "/dashboard"
+                  ? location.pathname === "/dashboard"
+                  : location.pathname.startsWith(item.path);
 
-      {/* Network Resilience Sentinel */}
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`${styles.ribbonButton} ${isActive ? styles.ribbonButtonActive : ""}`}
+                >
+                  <span className={styles.buttonIconWrap}>{item.icon}</span>
+                  <span className={styles.buttonLabel}>{item.label}</span>
+                  {item.badge && (
+                    <span className={`${styles.ribbonBadge} ${isActive ? styles.ribbonBadgeActive : ""}`}>
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+        </div>
+      </nav>
+
+      {/* 4. Full-Width Main Workspace Body */}
+      <main className={styles.mainCanvas}>
+        <div className={styles.canvasContainer}>{children}</div>
+      </main>
+
+      {/* Network Connectivity Status Sentinel */}
       <NetworkStatusBar />
     </div>
   );

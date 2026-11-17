@@ -3,9 +3,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { defaultApiClient } from "@bagodi/api-client";
-import { Category, Brand, Product } from "@bagodi/shared-types";
+import { Category, Brand, Product, ProductImage } from "@bagodi/shared-types";
 import { productCreateSchema, ProductCreateFormData } from "@bagodi/validation";
 import { Modal, Button, TextInput, ApiErrorCard } from "@bagodi/shared-components";
+import { ProductPhotoManager } from "./ProductPhotoManager";
 
 export interface ProductCreateModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ export interface ProductCreateModalProps {
 export const ProductCreateModal: React.FC<ProductCreateModalProps> = ({ isOpen, onClose }) => {
   const queryClient = useQueryClient();
   const [apiError, setApiError] = useState<string | null>(null);
+  const [photos, setPhotos] = useState<ProductImage[]>([]);
 
   // Fetch categories and brands
   const { data: categories = [] } = useQuery<Category[]>({
@@ -58,13 +60,18 @@ export const ProductCreateModal: React.FC<ProductCreateModalProps> = ({ isOpen, 
     }
   }, [nameValue, setValue]);
 
+  const handleClose = () => {
+    reset();
+    setPhotos([]);
+    onClose();
+  };
+
   const createMutation = useMutation({
-    mutationFn: (data: ProductCreateFormData) =>
+    mutationFn: (data: ProductCreateFormData & { images?: ProductImage[] }) =>
       defaultApiClient.post<Product>("/products", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-products-list"] });
-      reset();
-      onClose();
+      handleClose();
     },
     onError: (err: unknown) => {
       setApiError(err instanceof Error ? err.message : "Failed to create garment. Verify product details.");
@@ -73,11 +80,14 @@ export const ProductCreateModal: React.FC<ProductCreateModalProps> = ({ isOpen, 
 
   const onSubmit = (data: ProductCreateFormData) => {
     setApiError(null);
-    createMutation.mutate(data);
+    createMutation.mutate({
+      ...data,
+      images: photos,
+    });
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Add New Garment to Catalogue" maxWidth="680px">
+    <Modal isOpen={isOpen} onClose={handleClose} title="Add New Garment to Catalogue" maxWidth="820px">
       <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
         {apiError && <ApiErrorCard message={apiError} />}
 
@@ -213,12 +223,15 @@ export const ProductCreateModal: React.FC<ProductCreateModalProps> = ({ isOpen, 
           />
         </div>
 
+        {/* 1 - 4 Product Photography Manager */}
+        <ProductPhotoManager images={photos} onChange={setPhotos} maxPhotos={4} />
+
         <div style={{ display: "flex", gap: "var(--space-3)", justifyContent: "flex-end", marginTop: "var(--space-4)" }}>
-          <Button type="button" variant="outline" size="sm" onClick={onClose}>
+          <Button type="button" variant="outline" size="sm" onClick={handleClose}>
             Cancel
           </Button>
           <Button type="submit" size="sm" isLoading={isSubmitting || createMutation.isPending}>
-            Save Garment
+            Save Garment ({photos.length} Photo{photos.length === 1 ? "" : "s"})
           </Button>
         </div>
       </form>

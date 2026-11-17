@@ -7,6 +7,8 @@ import { formatINR, formatDateTime } from "@bagodi/utilities";
 import styles from "./AdminOrdersPage.module.css";
 import { OrderDetailModal } from "./OrderDetailModal";
 import { PackingSlipModal } from "./PackingSlipModal";
+import { NotifyCustomerModal } from "./NotifyCustomerModal";
+import { PushToDeliveryModal } from "./PushToDeliveryModal";
 import {
   Package,
   Truck,
@@ -17,6 +19,8 @@ import {
   Filter,
   RefreshCw,
   ShoppingBag,
+  Send,
+  Calendar,
 } from "lucide-react";
 
 export const AdminOrdersPage: React.FC = () => {
@@ -24,12 +28,15 @@ export const AdminOrdersPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [paymentFilter, setPaymentFilter] = useState<string>("ALL");
+  const [timeFilter, setTimeFilter] = useState<"ALL" | "TODAY" | "WEEK" | "MONTH">("ALL");
 
   // Modal State
   const [activeDetailOrder, setActiveDetailOrder] = useState<Order | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [activeSlipOrder, setActiveSlipOrder] = useState<Order | null>(null);
   const [isSlipOpen, setIsSlipOpen] = useState(false);
+  const [notifyOrder, setNotifyOrder] = useState<Order | null>(null);
+  const [deliveryOrder, setDeliveryOrder] = useState<Order | null>(null);
 
   // Fetch Orders Query with query params
   const { data, isLoading, error, refetch, isFetching } = useQuery<PaginatedResponse<Order>>({
@@ -174,16 +181,47 @@ export const AdminOrdersPage: React.FC = () => {
     },
     {
       key: "actions",
-      header: "Actions",
+      header: "Operations",
       render: (row) => (
-        <div className={styles.actionGroup}>
+        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+          <Button
+            size="sm"
+            variant="outline"
+            leftIcon={<Send size={12} />}
+            style={{ fontSize: "11px", padding: "4px 8px" }}
+            title="Send dispatch notification to customer"
+            onClick={() => setNotifyOrder(row)}
+          >
+            Notify
+          </Button>
+
+          {row.status !== "DELIVERED" && row.status !== "CANCELLED" && (
+            <Button
+              size="sm"
+              variant="outline"
+              leftIcon={<Truck size={12} />}
+              style={{
+                fontSize: "11px",
+                padding: "4px 8px",
+                borderColor: row.status === "SHIPPED" ? "#A5D6A7" : "#E31B23",
+                color: row.status === "SHIPPED" ? "#2E7D32" : "#E31B23",
+                background: row.status === "SHIPPED" ? "#F1F8F1" : "#FFF5F5",
+                fontWeight: 600,
+              }}
+              title="Push to Delivery Partner Portal"
+              onClick={() => setDeliveryOrder(row)}
+            >
+              {row.status === "SHIPPED" ? "In Delivery" : "Push Delivery"}
+            </Button>
+          )}
+
           <button
             type="button"
             className={styles.iconActionBtn}
-            title="Inspect Order Details & Fulfillment"
+            title="Inspect Order Details"
             onClick={() => handleOpenDetail(row)}
           >
-            <Eye size={15} />
+            <Eye size={14} />
           </button>
           <button
             type="button"
@@ -191,7 +229,7 @@ export const AdminOrdersPage: React.FC = () => {
             title="Print Store Packing Slip & Tax Invoice"
             onClick={() => handleOpenSlip(row)}
           >
-            <Printer size={15} />
+            <Printer size={14} />
           </button>
         </div>
       ),
@@ -218,6 +256,86 @@ export const AdminOrdersPage: React.FC = () => {
             Refresh
           </Button>
         </div>
+      </div>
+
+      {/* 1b. Time Period Record Tabs (Today, Week, Month) */}
+      <div style={{ display: "flex", gap: 10, margin: "16px 0 20px 0", flexWrap: "wrap" }}>
+        <button
+          type="button"
+          onClick={() => setTimeFilter("TODAY")}
+          style={{
+            padding: "8px 18px",
+            borderRadius: 20,
+            border: `1.5px solid ${timeFilter === "TODAY" ? "#E31B23" : "#E5E1D8"}`,
+            background: timeFilter === "TODAY" ? "#E31B23" : "#FFFFFF",
+            color: timeFilter === "TODAY" ? "#FFFFFF" : "#111412",
+            fontSize: "12px",
+            fontWeight: 700,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <Calendar size={13} />
+          Today's Orders (1)
+        </button>
+        <button
+          type="button"
+          onClick={() => setTimeFilter("WEEK")}
+          style={{
+            padding: "8px 18px",
+            borderRadius: 20,
+            border: `1.5px solid ${timeFilter === "WEEK" ? "#C5A15B" : "#E5E1D8"}`,
+            background: timeFilter === "WEEK" ? "#FFF9EE" : "#FFFFFF",
+            color: timeFilter === "WEEK" ? "#B08A3E" : "#4A4E4B",
+            fontSize: "12px",
+            fontWeight: 700,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <Clock size={13} />
+          This Week's Orders (3)
+        </button>
+        <button
+          type="button"
+          onClick={() => setTimeFilter("MONTH")}
+          style={{
+            padding: "8px 18px",
+            borderRadius: 20,
+            border: `1.5px solid ${timeFilter === "MONTH" ? "#2E7D32" : "#E5E1D8"}`,
+            background: timeFilter === "MONTH" ? "#E8F5E9" : "#FFFFFF",
+            color: timeFilter === "MONTH" ? "#1B5E20" : "#4A4E4B",
+            fontSize: "12px",
+            fontWeight: 700,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <Package size={13} />
+          This Month's Orders (3)
+        </button>
+        <button
+          type="button"
+          onClick={() => setTimeFilter("ALL")}
+          style={{
+            padding: "8px 18px",
+            borderRadius: 20,
+            border: `1.5px solid ${timeFilter === "ALL" ? "#111412" : "#E5E1D8"}`,
+            background: timeFilter === "ALL" ? "#111412" : "#FFFFFF",
+            color: timeFilter === "ALL" ? "#FFFFFF" : "#7A807C",
+            fontSize: "12px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          All Recorded Orders
+        </button>
       </div>
 
       {/* 2. Quick Metrics Row (Aurélien Luxe Operations Style) */}
@@ -362,6 +480,20 @@ export const AdminOrdersPage: React.FC = () => {
           setIsSlipOpen(false);
           setActiveSlipOrder(null);
         }}
+      />
+
+      {/* 7. Dispatch Notification to Customer Modal */}
+      <NotifyCustomerModal
+        order={notifyOrder}
+        isOpen={Boolean(notifyOrder)}
+        onClose={() => setNotifyOrder(null)}
+      />
+
+      {/* 8. Handover & Push to Delivery Partner Modal */}
+      <PushToDeliveryModal
+        order={deliveryOrder}
+        isOpen={Boolean(deliveryOrder)}
+        onClose={() => setDeliveryOrder(null)}
       />
     </div>
   );

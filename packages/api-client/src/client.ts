@@ -22,6 +22,25 @@ export interface ApiClientAuthConfig {
   onUnauthorized?: () => void | Promise<void>;
 }
 
+function getEnvVar(key: string): string | undefined {
+  try {
+    const metaEnv = (import.meta as any)?.env;
+    if (metaEnv && typeof metaEnv[key] === "string" && metaEnv[key].trim() !== "") {
+      return metaEnv[key].trim();
+    }
+  } catch {
+    // Ignore in environments where import.meta is unavailable
+  }
+  try {
+    if (typeof process !== "undefined" && process?.env && process.env[key]) {
+      return String(process.env[key]).trim();
+    }
+  } catch {
+    // Ignore
+  }
+  return undefined;
+}
+
 export class ApiClient {
   private baseUrl: string;
   private defaultTimeoutMs: number;
@@ -32,7 +51,21 @@ export class ApiClient {
   private refreshPromise: Promise<string | null> | null = null;
 
   constructor(config: ApiClientConfig = {}) {
-    this.baseUrl = config.baseUrl || (typeof window !== "undefined" && (window as any).__API_BASE_URL__) || "/api/v1";
+    const envBase = getEnvVar("VITE_API_BASE_URL");
+    const windowBase = typeof window !== "undefined" && (window as any).__API_BASE_URL__;
+
+    let resolvedBase = config.baseUrl || envBase || windowBase || "/api/v1";
+
+    if (resolvedBase.startsWith("http://") || resolvedBase.startsWith("https://")) {
+      const clean = resolvedBase.replace(/\/+$/, "");
+      if (!clean.endsWith("/api/v1")) {
+        resolvedBase = `${clean}/api/v1`;
+      } else {
+        resolvedBase = clean;
+      }
+    }
+
+    this.baseUrl = resolvedBase;
     this.defaultTimeoutMs = config.defaultTimeoutMs || 30000;
   }
 
@@ -61,7 +94,13 @@ export class ApiClient {
 
   private buildUrl(path: string, params?: Record<string, string | number | boolean | undefined | null>): string {
     const cleanPath = path.startsWith("/") ? path : `/${path}`;
-    const url = new URL(this.baseUrl + cleanPath, typeof window !== "undefined" ? window.location.origin : "http://localhost");
+    const isAbsolute = this.baseUrl.startsWith("http://") || this.baseUrl.startsWith("https://");
+    const fullTarget = `${this.baseUrl.replace(/\/+$/, "")}${cleanPath}`;
+
+    const url = new URL(
+      fullTarget,
+      typeof window !== "undefined" ? window.location.origin : "http://localhost"
+    );
 
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
@@ -71,7 +110,7 @@ export class ApiClient {
       });
     }
 
-    return url.pathname + url.search;
+    return isAbsolute ? url.toString() : url.pathname + url.search;
   }
 
   public async request<T = unknown>(path: string, config: RequestConfig = {}): Promise<T> {
@@ -80,13 +119,23 @@ export class ApiClient {
     const url = this.buildUrl(path, params);
     const headers = new Headers(customHeaders);
 
-    // Fast-path: standalone mode (no backend required)
-    // Runs in-browser mock router by default unless explicitly configured with bagodi_use_real_backend=true
-    const isMockForced =
+    const appEnv = getEnvVar("VITE_APP_ENV");
+    const isAbsoluteBase = this.baseUrl.startsWith("http://") || this.baseUrl.startsWith("https://");
+    const isExplicitlyForcedReal =
       typeof window !== "undefined" &&
-      localStorage.getItem("bagodi_use_real_backend") !== "true";
+      localStorage.getItem("bagodi_use_real_backend") === "true";
+    const isExplicitlyForcedMock =
+      typeof window !== "undefined" &&
+      localStorage.getItem("bagodi_use_mock_backend") === "true";
 
-    if (isMockForced) {
+    const shouldUseRealBackend =
+      isExplicitlyForcedReal ||
+      (appEnv === "production" && !isExplicitlyForcedMock) ||
+      (isAbsoluteBase && !isExplicitlyForcedMock);
+
+    const isMock = !shouldUseRealBackend;
+
+    if (isMock) {
       await new Promise((r) => setTimeout(r, 60));
       let parsedBody: unknown;
       try {

@@ -14,6 +14,8 @@ import {
   Filter,
   RefreshCw,
   Plus,
+  Copy,
+  Check,
 } from "lucide-react";
 
 export const CouponsPage: React.FC = () => {
@@ -22,6 +24,13 @@ export const CouponsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
+
+  const handleCopy = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2000);
+  };
 
   // Real backend query for coupons
   const { data, isLoading, error, refetch, isFetching } = useQuery<PaginatedResponse<Coupon>>({
@@ -69,8 +78,26 @@ export const CouponsPage: React.FC = () => {
       header: "Coupon Code & Details",
       render: (row) => (
         <div>
-          <div style={{ fontWeight: 700, color: "var(--color-champagne-gold)", fontFamily: "var(--font-mono)", fontSize: "14px", letterSpacing: "0.05em" }}>
-            {row.code}
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontWeight: 700, color: "var(--color-champagne-gold)", fontFamily: "var(--font-mono)", fontSize: "14px", letterSpacing: "0.05em" }}>
+              {row.code}
+            </span>
+            <button
+              type="button"
+              onClick={() => handleCopy(row.code)}
+              title="Copy promo code"
+              style={{
+                background: "none",
+                border: "none",
+                color: copiedCode === row.code ? "#2E7D32" : "#7A807C",
+                cursor: "pointer",
+                padding: "2px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {copiedCode === row.code ? <Check size={12} color="#2E7D32" /> : <Copy size={12} />}
+            </button>
           </div>
           {row.description && (
             <div style={{ fontSize: "11px", color: "var(--color-muted-grey)", marginTop: "2px", maxWidth: 220 }}>
@@ -210,6 +237,58 @@ export const CouponsPage: React.FC = () => {
           <div className={styles.metricValue}>{metrics.totalRedemptions}</div>
           <div className={styles.metricSubtext}>Customer orders placed with promo codes</div>
         </div>
+      </div>
+
+      {/* Quick Campaign Filter Pills */}
+      <div style={{ display: "flex", gap: 10, margin: "16px 0 20px 0" }}>
+        <button
+          type="button"
+          onClick={() => setStatusFilter("ALL")}
+          style={{
+            padding: "8px 18px",
+            borderRadius: 20,
+            border: `1.5px solid ${statusFilter === "ALL" ? "#E31B23" : "#E5E1D8"}`,
+            background: statusFilter === "ALL" ? "#E31B23" : "#FFFFFF",
+            color: statusFilter === "ALL" ? "#FFFFFF" : "#111412",
+            fontSize: "12px",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          All Coupons ({metrics.totalCoupons})
+        </button>
+        <button
+          type="button"
+          onClick={() => setStatusFilter("ACTIVE")}
+          style={{
+            padding: "8px 18px",
+            borderRadius: 20,
+            border: `1.5px solid ${statusFilter === "ACTIVE" ? "#2E7D32" : "#E5E1D8"}`,
+            background: statusFilter === "ACTIVE" ? "#E8F5E9" : "#FFFFFF",
+            color: statusFilter === "ACTIVE" ? "#1B5E20" : "#4A4E4B",
+            fontSize: "12px",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          Active Codes ({metrics.activeCount})
+        </button>
+        <button
+          type="button"
+          onClick={() => setStatusFilter("INACTIVE")}
+          style={{
+            padding: "8px 18px",
+            borderRadius: 20,
+            border: `1.5px solid ${statusFilter === "INACTIVE" ? "#7A807C" : "#E5E1D8"}`,
+            background: statusFilter === "INACTIVE" ? "#F5F5F5" : "#FFFFFF",
+            color: statusFilter === "INACTIVE" ? "#111412" : "#7A807C",
+            fontSize: "12px",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          Paused / Expired ({metrics.totalCoupons - metrics.activeCount})
+        </button>
       </div>
 
       {/* 3. Operational Filter Bar */}
