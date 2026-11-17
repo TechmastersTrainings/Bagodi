@@ -4,54 +4,64 @@
  * Transparently degrades to safe browser fallbacks on standard desktop/mobile web.
  */
 
-import { Capacitor } from "@capacitor/core";
-import { Haptics, ImpactStyle, NotificationType } from "@capacitor/haptics";
-import { StatusBar, Style } from "@capacitor/status-bar";
-import { App } from "@capacitor/app";
-import { Preferences } from "@capacitor/preferences";
+const getGlobalCapacitor = () => {
+  if (typeof window !== "undefined" && (window as any).Capacitor) {
+    return (window as any).Capacitor;
+  }
+  return null;
+};
+
+const getPlugin = (name: string): any | null => {
+  const cap = getGlobalCapacitor();
+  if (cap) {
+    return cap.Plugins?.[name] || null;
+  }
+  return null;
+};
 
 /**
  * Returns true if running within the native Android or iOS application container.
  */
 export function isNativePlatform(): boolean {
-  return typeof window !== "undefined" && Capacitor.isNativePlatform();
+  const cap = getGlobalCapacitor();
+  return Boolean(cap && typeof cap.isNativePlatform === "function" && cap.isNativePlatform());
 }
+
+export type HapticType = "light" | "medium" | "heavy" | "selection" | "success" | "warning" | "error";
 
 /**
  * Triggers physical haptic feedback for user interactions (Add to Bag, Wishlist, Size Selection).
  */
-export async function triggerHaptic(
-  type: "light" | "medium" | "heavy" | "selection" | "success" | "warning" | "error" = "light"
-): Promise<void> {
+export async function triggerHaptic(type: HapticType = "light"): Promise<void> {
   try {
-    if (isNativePlatform()) {
+    const Haptics = getPlugin("Haptics");
+    if (isNativePlatform() && Haptics) {
       switch (type) {
         case "light":
-          await Haptics.impact({ style: ImpactStyle.Light });
+          await Haptics.impact?.({ style: "LIGHT" });
           break;
         case "medium":
-          await Haptics.impact({ style: ImpactStyle.Medium });
+          await Haptics.impact?.({ style: "MEDIUM" });
           break;
         case "heavy":
-          await Haptics.impact({ style: ImpactStyle.Heavy });
+          await Haptics.impact?.({ style: "HEAVY" });
           break;
         case "selection":
-          await Haptics.selectionStart();
-          await Haptics.selectionChanged();
-          await Haptics.selectionEnd();
+          await Haptics.selectionStart?.();
+          await Haptics.selectionChanged?.();
+          await Haptics.selectionEnd?.();
           break;
         case "success":
-          await Haptics.notification({ type: NotificationType.Success });
+          await Haptics.notification?.({ type: "SUCCESS" });
           break;
         case "warning":
-          await Haptics.notification({ type: NotificationType.Warning });
+          await Haptics.notification?.({ type: "WARNING" });
           break;
         case "error":
-          await Haptics.notification({ type: NotificationType.Error });
+          await Haptics.notification?.({ type: "ERROR" });
           break;
       }
     } else if (typeof navigator !== "undefined" && "vibrate" in navigator) {
-      // Safe fallback on mobile browsers
       navigator.vibrate(type === "heavy" ? 40 : 15);
     }
   } catch {
@@ -64,13 +74,14 @@ export async function triggerHaptic(
  */
 export async function configureNativeStatusBar(theme: "dark" | "light" = "dark"): Promise<void> {
   try {
-    if (isNativePlatform()) {
+    const StatusBar = getPlugin("StatusBar");
+    if (isNativePlatform() && StatusBar) {
       if (theme === "dark") {
-        await StatusBar.setStyle({ style: Style.Dark });
-        await StatusBar.setBackgroundColor({ color: "#202321" });
+        await StatusBar.setStyle?.({ style: "DARK" });
+        await StatusBar.setBackgroundColor?.({ color: "#202321" });
       } else {
-        await StatusBar.setStyle({ style: Style.Light });
-        await StatusBar.setBackgroundColor({ color: "#F7F1E7" });
+        await StatusBar.setStyle?.({ style: "LIGHT" });
+        await StatusBar.setBackgroundColor?.({ color: "#F7F1E7" });
       }
     }
   } catch {
@@ -80,9 +91,6 @@ export async function configureNativeStatusBar(theme: "dark" | "light" = "dark")
 
 /**
  * Connects the Android hardware back button to React Router and modal controllers.
- * - Dismisses open modals / drawers first.
- * - Navigates backward in history if available.
- * - Prompts or exits if on root screen.
  */
 export function setupHardwareBackButton(
   navigate: (delta: number) => void,
@@ -92,9 +100,15 @@ export function setupHardwareBackButton(
     return () => {};
   }
 
+  const App = getPlugin("App");
+  if (!App || typeof App.addListener !== "function") {
+    return () => {};
+  }
+
   let lastBackPressTime = 0;
 
-  const listenerHandle = App.addListener("backButton", ({ canGoBack }) => {
+  const listenerHandle = App.addListener("backButton", (data: { canGoBack?: boolean }) => {
+    const canGoBack = Boolean(data?.canGoBack);
     // 1. Check if any modal or bottom sheet is open in DOM
     const openModal = document.querySelector("[role='dialog'][aria-modal='true']");
     if (openModal) {
@@ -116,7 +130,7 @@ export function setupHardwareBackButton(
     // 3. Double-tap to exit app on root screen
     const now = Date.now();
     if (now - lastBackPressTime < 2000) {
-      App.exitApp();
+      App.exitApp?.();
     } else {
       lastBackPressTime = now;
       triggerHaptic("warning");
@@ -143,7 +157,7 @@ export function setupHardwareBackButton(
   });
 
   return () => {
-    listenerHandle.then((h) => h.remove()).catch(() => {});
+    Promise.resolve(listenerHandle).then((h: any) => h?.remove?.()).catch(() => {});
   };
 }
 
@@ -155,7 +169,12 @@ export function setupDeepLinkListener(navigate: (path: string) => void): () => v
     return () => {};
   }
 
-  const listenerHandle = App.addListener("appUrlOpen", (event) => {
+  const App = getPlugin("App");
+  if (!App || typeof App.addListener !== "function") {
+    return () => {};
+  }
+
+  const listenerHandle = App.addListener("appUrlOpen", (event: { url: string }) => {
     try {
       const url = new URL(event.url);
       const pathname = url.pathname;
@@ -165,7 +184,6 @@ export function setupDeepLinkListener(navigate: (path: string) => void): () => v
         triggerHaptic("selection");
       }
     } catch {
-      // Direct path handling for custom schema bagodi://product/xyz
       const slug = event.url.replace(/^bagodi:\/\//, "/");
       if (slug) {
         navigate(slug);
@@ -175,16 +193,17 @@ export function setupDeepLinkListener(navigate: (path: string) => void): () => v
   });
 
   return () => {
-    listenerHandle.then((h) => h.remove()).catch(() => {});
+    Promise.resolve(listenerHandle).then((h: any) => h?.remove?.()).catch(() => {});
   };
 }
 
 /**
- * Native Secure Token Storage Adapter (Android SharedPreferences via @capacitor/preferences)
+ * Native Secure Token Storage Adapter
  */
 export async function saveSecureToken(key: string, value: string): Promise<void> {
-  if (isNativePlatform()) {
-    await Preferences.set({ key, value });
+  const Preferences = getPlugin("Preferences");
+  if (isNativePlatform() && Preferences) {
+    await Preferences.set?.({ key, value });
   } else {
     try {
       sessionStorage.setItem(key, value);
@@ -195,9 +214,10 @@ export async function saveSecureToken(key: string, value: string): Promise<void>
 }
 
 export async function getSecureToken(key: string): Promise<string | null> {
-  if (isNativePlatform()) {
-    const { value } = await Preferences.get({ key });
-    return value;
+  const Preferences = getPlugin("Preferences");
+  if (isNativePlatform() && Preferences) {
+    const res = await Preferences.get?.({ key });
+    return res?.value ?? null;
   }
   try {
     return sessionStorage.getItem(key);
@@ -207,8 +227,9 @@ export async function getSecureToken(key: string): Promise<string | null> {
 }
 
 export async function removeSecureToken(key: string): Promise<void> {
-  if (isNativePlatform()) {
-    await Preferences.remove({ key });
+  const Preferences = getPlugin("Preferences");
+  if (isNativePlatform() && Preferences) {
+    await Preferences.remove?.({ key });
   } else {
     try {
       sessionStorage.removeItem(key);
