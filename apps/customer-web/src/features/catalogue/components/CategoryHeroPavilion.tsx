@@ -2,16 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./CategoryHeroPavilion.module.css";
 import { Category } from "@bagodi/shared-types";
-import { CURATED_CATEGORIES } from "../data/curatedCatalogueData";
 import { Award, ShieldCheck, Scissors, Truck } from "lucide-react";
 
 interface CategoryHeroPavilionProps {
+  categories?: Category[];
   activeCategory?: Category;
   totalGarments: number;
   onSelectCategory: (slug?: string) => void;
 }
 
 export const CategoryHeroPavilion: React.FC<CategoryHeroPavilionProps> = ({
+  categories = [],
   activeCategory,
   totalGarments,
   onSelectCategory,
@@ -113,7 +114,7 @@ export const CategoryHeroPavilion: React.FC<CategoryHeroPavilionProps> = ({
             <span className={styles.pillBadgeCount}>{totalGarments}</span>
           </button>
 
-          {CURATED_CATEGORIES.map((cat) => {
+          {categories.map((cat) => {
             const isCatActive = activeCategory?.slug === cat.slug || activeCategory?.id === cat.id;
             return (
               <button

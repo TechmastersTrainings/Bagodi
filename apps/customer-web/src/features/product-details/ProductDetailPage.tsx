@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "./ProductDetailPage.module.css";
@@ -6,7 +6,6 @@ import { defaultApiClient } from "@bagodi/api-client";
 import { Product, ProductVariant } from "@bagodi/shared-types";
 import { ProductGallery } from "./components/ProductGallery";
 import { SizeChartModal } from "./components/SizeChartModal";
-import { CURATED_GARMENTS } from "../catalogue/data/curatedCatalogueData";
 import {
   Button,
   SkeletonCard,
@@ -48,15 +47,8 @@ export const ProductDetailPage: React.FC = () => {
     retry: 1,
   });
 
-  // Resolve authoritative product with curated fallback
-  const product = useMemo(() => {
-    const fromCurated = CURATED_GARMENTS.find((p) => p.slug === id || p.id === id);
-    if (fromCurated) return fromCurated;
-    if (productData && productData.name && productData.variants && productData.variants.length > 0) {
-      return productData;
-    }
-    return productData;
-  }, [productData, id]);
+  // Resolve authoritative product from backend
+  const product = productData;
 
   // Extract unique sizes and colors from product variants
   const variants = product?.variants || [];

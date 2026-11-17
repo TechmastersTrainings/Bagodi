@@ -13,12 +13,6 @@ import { FilterSidebar } from "./components/FilterSidebar";
 import { ProductCard } from "./components/ProductCard";
 import { QuickViewModal } from "./components/QuickViewModal";
 import {
-  CURATED_GARMENTS,
-  CURATED_CATEGORIES,
-  CURATED_BRANDS,
-  getCategoryBySlug,
-} from "./data/curatedCatalogueData";
-import {
   Search,
   X,
   ChevronLeft,
@@ -68,36 +62,32 @@ export const CataloguePage: React.FC = () => {
     }
   }, [debouncedSearch]);
 
-  // Query Categories from API with fallback
-  const { data: serverCategories = [] } = useQuery<Category[]>({
+  // Query Categories from API
+  const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ["catalogue-categories"],
     queryFn: () => defaultApiClient.get<Category[]>("/categories"),
     staleTime: 1000 * 60 * 10,
     retry: false,
   });
 
-  const categories = serverCategories.length > 0 ? serverCategories : CURATED_CATEGORIES;
-
-  // Query Brands from API with fallback
-  const { data: serverBrands = [] } = useQuery<Brand[]>({
+  // Query Brands from API
+  const { data: brands = [] } = useQuery<Brand[]>({
     queryKey: ["catalogue-brands"],
     queryFn: () => defaultApiClient.get<Brand[]>("/brands"),
     staleTime: 1000 * 60 * 10,
     retry: false,
   });
 
-  const brands = serverBrands.length > 0 ? serverBrands : CURATED_BRANDS;
-
   // Active Category resolution
   const activeCategory = useMemo(() => {
     if (!categoryParam) return undefined;
-    return getCategoryBySlug(categoryParam) || categories.find((c) => c.id === categoryParam || c.slug === categoryParam);
+    return categories.find((c) => c.id === categoryParam || c.slug === categoryParam);
   }, [categoryParam, categories]);
 
-  // Query Server Products
+  // Query Server Products strictly from Backend
   const {
     data: serverProductData,
-    isError: isServerError,
+    isLoading: isProductsLoading,
   } = useQuery<PaginatedResponse<Product>>({
     queryKey: [
       "catalogue-products",
@@ -129,97 +119,14 @@ export const CataloguePage: React.FC = () => {
     retry: false,
   });
 
-  // Client-Side Curated Fallback Filtering Engine (Active when backend is offline/empty)
-  const filteredCuratedProducts = useMemo(() => {
-    let result = [...CURATED_GARMENTS];
+  const products: Product[] = Array.isArray(serverProductData?.items)
+    ? (serverProductData.items as Product[])
+    : Array.isArray(serverProductData)
+    ? (serverProductData as unknown as Product[])
+    : [];
 
-    // Filter by Category
-    if (activeCategory) {
-      result = result.filter(
-        (p) =>
-          p.category.slug === activeCategory.slug ||
-          p.category.id === activeCategory.id ||
-          (activeCategory.slug === "offers" && p.variants.some((v) => (v.discountPercentage || 0) >= 15))
-      );
-    }
-
-    // Filter by Brand
-    if (brandId) {
-      result = result.filter((p) => p.brand.id === brandId || p.brand.slug === brandId);
-    }
-
-    // Filter by Selected Sizes
-    if (selectedSizes.length > 0) {
-      result = result.filter((p) =>
-        p.variants.some((v) => selectedSizes.includes(v.size) || selectedSizes.includes("Free Size"))
-      );
-    }
-
-    // Filter by Price
-    if (minPrice !== undefined) {
-      result = result.filter((p) => {
-        const price = p.variants?.[0]?.sellingPrice ?? p.basePrice;
-        return price >= minPrice;
-      });
-    }
-    if (maxPrice !== undefined) {
-      result = result.filter((p) => {
-        const price = p.variants?.[0]?.sellingPrice ?? p.basePrice;
-        return price <= maxPrice;
-      });
-    }
-
-    // Filter by Stock
-    if (inStockOnly) {
-      result = result.filter((p) => p.variants.some((v) => v.availableStock > 0));
-    }
-
-    // Filter by Search
-    if (debouncedSearch) {
-      const q = debouncedSearch.toLowerCase().trim();
-      result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q) ||
-          p.brand.name.toLowerCase().includes(q) ||
-          (p.fabricDetails && p.fabricDetails.toLowerCase().includes(q))
-      );
-    }
-
-    // Sort Products
-    if (sortBy === "price_asc") {
-      result.sort((a, b) => {
-        const priceA = a.variants?.[0]?.sellingPrice ?? a.basePrice;
-        const priceB = b.variants?.[0]?.sellingPrice ?? b.basePrice;
-        return priceA - priceB;
-      });
-    } else if (sortBy === "price_desc") {
-      result.sort((a, b) => {
-        const priceA = a.variants?.[0]?.sellingPrice ?? a.basePrice;
-        const priceB = b.variants?.[0]?.sellingPrice ?? b.basePrice;
-        return priceB - priceA;
-      });
-    } else if (sortBy === "popular") {
-      result.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
-    } else {
-      // Default: Newest
-      result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    }
-
-    return result;
-  }, [activeCategory, brandId, selectedSizes, minPrice, maxPrice, inStockOnly, debouncedSearch, sortBy]);
-
-  // Choose server data if available and non-empty, otherwise use curated dataset
-  const usingCurated =
-    isServerError ||
-    !serverProductData ||
-    !Array.isArray(serverProductData.items) ||
-    serverProductData.items.length === 0;
-  const products: Product[] = usingCurated
-    ? filteredCuratedProducts
-    : (serverProductData.items as Product[]);
-  const totalCount = usingCurated ? filteredCuratedProducts.length : (serverProductData.total ?? filteredCuratedProducts.length);
-  const totalPages = usingCurated ? Math.ceil(filteredCuratedProducts.length / 16) : (serverProductData.totalPages ?? 1);
+  const totalCount = serverProductData?.total ?? products.length;
+  const totalPages = serverProductData?.totalPages ?? Math.max(1, Math.ceil(totalCount / 16));
 
   // Helper to update searchParams
   const updateParam = (key: string, value: string | undefined) => {
@@ -529,7 +436,13 @@ export const CataloguePage: React.FC = () => {
 
           {/* Product Grid Area */}
           <div className={styles.productGridArea}>
-            {products.length === 0 ? (
+            {isProductsLoading ? (
+              <div className={gridCols === "four" ? styles.gridFourCol : styles.gridThreeCol}>
+                {[...Array(8)].map((_, i) => (
+                  <div key={i} style={{ height: 380, background: "#f5f5f5", borderRadius: 18 }} />
+                ))}
+              </div>
+            ) : products.length === 0 ? (
               <div className={styles.emptyAtelierCard}>
                 <div className={styles.emptyIconWrapper}>
                   <Sparkles size={28} />
