@@ -75,7 +75,7 @@ export const DashboardPage: React.FC = () => {
       <div className={styles.dashboardRoot}>
         <ApiErrorCard
           title="Dashboard Metrics Unavailable"
-          message="Could not connect to the operational metrics stream. Verify that local mock data is active."
+          message="Could not connect to the operational metrics stream. Please verify your connection to the Bagodi API."
           onRetry={() => refetchMetrics()}
         />
       </div>

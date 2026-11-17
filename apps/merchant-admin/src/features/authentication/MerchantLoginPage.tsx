@@ -8,7 +8,7 @@ import { Button, TextInput, ApiErrorCard } from "@bagodi/shared-components";
 import { defaultApiClient } from "@bagodi/api-client";
 import { useAuth } from "@bagodi/authentication";
 import { AuthSessionResponse } from "@bagodi/shared-types";
-import { ShieldCheck, Mail, Lock, ArrowRight, Store, KeyRound, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Mail, Lock, ArrowRight, Store } from "lucide-react";
 
 export const MerchantLoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,20 +21,14 @@ export const MerchantLoginPage: React.FC = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm<MerchantLoginFormData>({
     resolver: zodResolver(merchantLoginSchema),
     defaultValues: {
-      email: "merchant@bagodi.in",
-      password: "Fri10Feb@2023",
+      email: "",
+      password: "",
     },
   });
-
-  const handleFillDemoCreds = () => {
-    setValue("email", "merchant@bagodi.in", { shouldValidate: true });
-    setValue("password", "Fri10Feb@2023", { shouldValidate: true });
-  };
 
   const onSubmit = async (data: MerchantLoginFormData) => {
     setApiError(null);
@@ -61,65 +55,6 @@ export const MerchantLoginPage: React.FC = () => {
       login(response.tokens, response.user);
       navigate(from, { replace: true });
     } catch (err: unknown) {
-      // Offline fallback: when mock or backend service is used locally
-      const isOfflineFallback =
-        err instanceof Error &&
-        (err.message.includes("Network") ||
-          err.message.includes("unreachable") ||
-          err.message.includes("Failed to fetch") ||
-          err.message.includes("500") ||
-          err.message.includes("404") ||
-          err.message.includes("EPERM"));
-
-      if (isOfflineFallback) {
-        const mockStaffSession: AuthSessionResponse = {
-          user: {
-            id: "usr_staff_12",
-            fullName: "Rajesh Sharma",
-            email: data.email,
-            role: "STORE_MANAGER",
-            merchantId: "mer_bagodi",
-            storeId: "str_bidar_01",
-            activeStore: {
-              id: "str_bidar_01",
-              name: "Bagodi Flagship Store",
-              code: "BDR-01",
-              city: "Bidar",
-              isFlagship: true,
-            },
-            availableStores: [
-              {
-                id: "str_bidar_01",
-                name: "Bagodi Flagship Store",
-                code: "BDR-01",
-                city: "Bidar",
-                isFlagship: true,
-              },
-            ],
-            permissions: [
-              "inventory:read",
-              "inventory:write",
-              "orders:read",
-              "orders:manage",
-              "returns:read",
-              "returns:inspect",
-            ],
-            isActive: true,
-            createdAt: "2026-01-10T09:00:00Z",
-          },
-          tokens: {
-            accessToken: "mock_staff_access_token_" + Date.now(),
-            refreshToken: "mock_staff_refresh_token_" + Date.now(),
-            tokenType: "Bearer",
-            expiresIn: 3600,
-          },
-        };
-
-        login(mockStaffSession.tokens, mockStaffSession.user);
-        navigate(from, { replace: true });
-        return;
-      }
-
       setApiError(
         err instanceof Error ? err.message : "Staff authentication failed. Please verify your credentials."
       );
@@ -152,33 +87,6 @@ export const MerchantLoginPage: React.FC = () => {
           <span>Assigned Store: <strong>Bidar Flagship (Store 01)</strong></span>
         </div>
 
-        {/* Static Staff Test Credentials Helper Box */}
-        <div className={styles.demoCredsBox}>
-          <div className={styles.demoCredsHeader}>
-            <KeyRound size={14} color="#E31B23" />
-            <span className={styles.demoCredsTitle}>Pre-Configured Demo Staff Credentials</span>
-          </div>
-          <div className={styles.demoCredsGrid}>
-            <div className={styles.demoCredItem}>
-              <span className={styles.demoCredLabel}>Staff Email</span>
-              <code className={styles.demoCredCode}>merchant@bagodi.in</code>
-            </div>
-            <div className={styles.demoCredItem}>
-              <span className={styles.demoCredLabel}>Password</span>
-              <code className={styles.demoCredCode}>Fri10Feb@2023</code>
-            </div>
-          </div>
-          <button
-            type="button"
-            className={styles.autoFillBtn}
-            onClick={handleFillDemoCreds}
-            title="Click to auto-fill the login form with test credentials"
-          >
-            <CheckCircle2 size={13} />
-            <span>Auto-fill credentials</span>
-          </button>
-        </div>
-
         {apiError && (
           <div style={{ margin: "var(--space-4) 0" }}>
             <ApiErrorCard message={apiError} />
@@ -191,7 +99,7 @@ export const MerchantLoginPage: React.FC = () => {
             <TextInput
               label="Staff Email Address"
               type="email"
-              placeholder="manager@bagodi.in"
+              placeholder="staff@bagodi.in"
               leftIcon={<Mail size={17} />}
               isRequired
               error={errors.email?.message}
@@ -203,7 +111,7 @@ export const MerchantLoginPage: React.FC = () => {
             <TextInput
               label="Store Password"
               type="password"
-              placeholder="StorePassword@123"
+              placeholder="Enter your store password"
               leftIcon={<Lock size={17} />}
               isRequired
               error={errors.password?.message}

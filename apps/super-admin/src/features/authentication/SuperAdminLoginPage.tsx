@@ -8,7 +8,7 @@ import { Button, TextInput, ApiErrorCard } from "@bagodi/shared-components";
 import { defaultApiClient } from "@bagodi/api-client";
 import { useAuth } from "@bagodi/authentication";
 import { AuthSessionResponse } from "@bagodi/shared-types";
-import { ShieldAlert, Mail, Lock, Key, ArrowRight, Terminal } from "lucide-react";
+import { ShieldAlert, Mail, Lock, Key, ArrowRight } from "lucide-react";
 
 export const SuperAdminLoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,20 +21,14 @@ export const SuperAdminLoginPage: React.FC = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm<SuperAdminLoginFormData>({
     resolver: zodResolver(superAdminLoginSchema),
     defaultValues: {
-      email: "admin@techmasters.in",
-      password: "Fri10Feb@2023",
+      email: "",
+      password: "",
     },
   });
-
-  const handleFillDemoCreds = () => {
-    setValue("email", "admin@techmasters.in", { shouldValidate: true });
-    setValue("password", "Fri10Feb@2023", { shouldValidate: true });
-  };
 
   const onSubmit = async (data: SuperAdminLoginFormData) => {
     setApiError(null);
@@ -53,41 +47,6 @@ export const SuperAdminLoginPage: React.FC = () => {
       login(response.tokens, response.user);
       navigate(from, { replace: true });
     } catch (err: unknown) {
-      // Offline local development fallback when backend service is unreachable
-      const isOfflineError =
-        err instanceof Error &&
-        (err.message.includes("Network") ||
-          err.message.includes("unreachable") ||
-          err.message.includes("Failed to fetch") ||
-          err.message.includes("500") ||
-          err.message.includes("404") ||
-          err.message.includes("EPERM"));
-
-      if (isOfflineError) {
-        console.warn("Backend offline: initializing local developer super admin session.");
-        const mockSuperSession: AuthSessionResponse = {
-          user: {
-            id: "usr_super_01",
-            fullName: "TechMasters Root Admin",
-            email: data.email,
-            role: "SUPER_ADMIN",
-            permissions: ["*"],
-            isActive: true,
-            createdAt: "2026-01-01T00:00:00Z",
-          },
-          tokens: {
-            accessToken: "mock_super_access_token_" + Date.now(),
-            refreshToken: "mock_super_refresh_token_" + Date.now(),
-            tokenType: "Bearer",
-            expiresIn: 3600,
-          },
-        };
-
-        login(mockSuperSession.tokens, mockSuperSession.user);
-        navigate(from, { replace: true });
-        return;
-      }
-
       setApiError(
         err instanceof Error ? err.message : "Platform authentication failed. Access attempt logged."
       );
@@ -105,24 +64,6 @@ export const SuperAdminLoginPage: React.FC = () => {
           <p className={styles.subtitle}>Super Administrator Multi-Tenant Platform Gateway</p>
         </div>
 
-        <div className={styles.demoCredsBox}>
-          <div className={styles.demoCredsHeader}>
-            <Terminal size={13} />
-            <span>Root Test Credentials</span>
-          </div>
-          <div className={styles.demoCredsRow}>
-            <span>Email: <code>admin@techmasters.in</code></span>
-            <span>Password: <code>Fri10Feb@2023</code></span>
-          </div>
-          <button
-            type="button"
-            className={styles.autoFillBtn}
-            onClick={handleFillDemoCreds}
-          >
-            Auto-fill credentials
-          </button>
-        </div>
-
         {apiError && (
           <div style={{ margin: "var(--space-4) 0" }}>
             <ApiErrorCard message={apiError} />
@@ -133,7 +74,7 @@ export const SuperAdminLoginPage: React.FC = () => {
           <TextInput
             label="Platform Admin Email"
             type="email"
-            placeholder="root@techmasters.in"
+            placeholder="admin@techmasters.in"
             leftIcon={<Mail size={18} />}
             isRequired
             error={errors.email?.message}
@@ -143,7 +84,7 @@ export const SuperAdminLoginPage: React.FC = () => {
           <TextInput
             label="Master Password"
             type="password"
-            placeholder="SuperSecretPlatformKey@123"
+            placeholder="Enter master password"
             leftIcon={<Lock size={18} />}
             isRequired
             error={errors.password?.message}
@@ -182,4 +123,3 @@ export const SuperAdminLoginPage: React.FC = () => {
     </div>
   );
 };
-

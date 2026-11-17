@@ -13,7 +13,6 @@ import {
   ServerError,
   NetworkError,
 } from "./errors";
-import { getMockResponse } from "./mockRouter";
 
 export interface ApiClientAuthConfig {
   getAccessToken?: () => string | null | Promise<string | null>;
@@ -119,33 +118,6 @@ export class ApiClient {
     const url = this.buildUrl(path, params);
     const headers = new Headers(customHeaders);
 
-    const appEnv = getEnvVar("VITE_APP_ENV");
-    const isAbsoluteBase = this.baseUrl.startsWith("http://") || this.baseUrl.startsWith("https://");
-    const isExplicitlyForcedReal =
-      typeof window !== "undefined" &&
-      localStorage.getItem("bagodi_use_real_backend") === "true";
-    const isExplicitlyForcedMock =
-      typeof window !== "undefined" &&
-      localStorage.getItem("bagodi_use_mock_backend") === "true";
-
-    const shouldUseRealBackend =
-      isExplicitlyForcedReal ||
-      (appEnv === "production" && !isExplicitlyForcedMock) ||
-      (isAbsoluteBase && !isExplicitlyForcedMock);
-
-    const isMock = !shouldUseRealBackend;
-
-    if (isMock) {
-      await new Promise((r) => setTimeout(r, 60));
-      let parsedBody: unknown;
-      try {
-        if (typeof fetchInit.body === "string") parsedBody = JSON.parse(fetchInit.body);
-      } catch {
-        parsedBody = fetchInit.body;
-      }
-      return getMockResponse(fetchInit.method || "GET", path, parsedBody, params) as T;
-    }
-
     if (!headers.has("Content-Type") && !(fetchInit.body instanceof FormData)) {
       headers.set("Content-Type", "application/json");
     }
@@ -177,16 +149,7 @@ export class ApiClient {
         if (err.name === "AbortError") {
           throw new NetworkError("Request timed out");
         }
-        // Graceful standalone fallback when backend is unreachable locally
-        console.warn(`[ApiClient] Network request failed for ${path}. Falling back to standalone mock provider.`);
-        await new Promise((r) => setTimeout(r, 60));
-        let parsedBody: unknown;
-        try {
-          if (typeof fetchInit.body === "string") parsedBody = JSON.parse(fetchInit.body);
-        } catch {
-          parsedBody = fetchInit.body;
-        }
-        return getMockResponse(fetchInit.method || "GET", path, parsedBody, params) as T;
+        throw new NetworkError(err?.message || "Network request failed. Ensure backend service is reachable.");
       }
 
       // Handle 401 Unauthorized with token refresh mutex
@@ -235,19 +198,6 @@ export class ApiClient {
       }
 
       if (!response.ok) {
-        // When Vite proxy returns 500/502/503/504 because backend is offline
-        if (response.status >= 500) {
-          console.warn(`[ApiClient] Backend server error (${response.status}) on ${path}. Falling back to standalone mock provider.`);
-          await new Promise((r) => setTimeout(r, 60));
-          let parsedBody: unknown;
-          try {
-            if (typeof fetchInit.body === "string") parsedBody = JSON.parse(fetchInit.body);
-          } catch {
-            parsedBody = fetchInit.body;
-          }
-          return getMockResponse(fetchInit.method || "GET", path, parsedBody, params) as T;
-        }
-
         await this.handleErrorResponse(response);
       }
 
