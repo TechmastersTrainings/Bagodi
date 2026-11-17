@@ -9,6 +9,7 @@ import {
   Plus,
   RefreshCw,
   Search,
+  ShieldCheck,
 } from "lucide-react";
 
 export const PlatformUsersPage: React.FC = () => {
@@ -50,8 +51,8 @@ export const PlatformUsersPage: React.FC = () => {
       header: "Platform Operator",
       render: (row) => (
         <div>
-          <div style={{ fontWeight: 600, color: "#FFFFFF", fontSize: "13px" }}>{row.fullName}</div>
-          <div style={{ fontSize: "11px", color: "var(--color-muted-grey)" }}>{row.email}</div>
+          <div style={{ fontWeight: 600, color: "#111412", fontSize: "13.5px" }}>{row.fullName}</div>
+          <div style={{ fontSize: "11px", color: "#7A807C" }}>{row.email}</div>
         </div>
       ),
     },
@@ -59,7 +60,18 @@ export const PlatformUsersPage: React.FC = () => {
       key: "role",
       header: "Platform Role",
       render: (row) => (
-        <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--color-champagne-gold)" }}>
+        <span
+          style={{
+            fontSize: "11px",
+            fontFamily: "var(--font-mono)",
+            fontWeight: 700,
+            color: "#8C6A18",
+            background: "#FFF8E7",
+            padding: "3px 8px",
+            borderRadius: "4px",
+            border: "1px solid rgba(197, 161, 91, 0.3)",
+          }}
+        >
           {row.role}
         </span>
       ),
@@ -67,55 +79,63 @@ export const PlatformUsersPage: React.FC = () => {
     {
       key: "twoFactorEnabled",
       header: "Hardware / MFA",
-      render: (row) => (
+      render: (row) =>
         row.twoFactorEnabled ? (
-          <StatusBadge variant="success" label="MFA Enforced" />
+          <span style={{ fontSize: "11.5px", color: "#2E7D32", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
+            <ShieldCheck size={14} /> Enabled
+          </span>
         ) : (
-          <StatusBadge variant="warning" label="Password Only" />
-        )
+          <span style={{ fontSize: "11.5px", color: "#7A807C" }}>Optional</span>
+        ),
+    },
+    {
+      key: "isActive",
+      header: "Account State",
+      render: (row) => (
+        <StatusBadge
+          variant={row.isActive ? "success" : "danger"}
+          label={row.isActive ? "Active" : "Disabled"}
+        />
       ),
     },
     {
       key: "lastLoginAt",
-      header: "Last Session Access",
+      header: "Last Master Auth",
       render: (row) => (
-        <div style={{ fontSize: "11px", color: "var(--color-muted-grey)" }}>
-          <div>{row.lastLoginAt ? formatDateTime(row.lastLoginAt) : "Never"}</div>
-          {row.lastLoginIp && <div style={{ fontFamily: "var(--font-mono)", color: "#999" }}>IP: {row.lastLoginIp}</div>}
+        <div>
+          <div style={{ fontSize: "11.5px", color: "#111412", fontFamily: "var(--font-mono)" }}>
+            {row.lastLoginAt ? formatDateTime(row.lastLoginAt) : "Never"}
+          </div>
+          {row.lastLoginIp && (
+            <div style={{ fontSize: "10.5px", color: "#7A807C", fontFamily: "var(--font-mono)" }}>
+              IP: {row.lastLoginIp}
+            </div>
+          )}
         </div>
-      ),
-    },
-    {
-      key: "isActive",
-      header: "Status",
-      render: (row) => (
-        row.isActive ? (
-          <StatusBadge variant="success" label="Active" />
-        ) : (
-          <StatusBadge variant="danger" label="Revoked" />
-        )
       ),
     },
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "var(--space-4)" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      {/* 1. Header */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
         <div>
-          <h1 style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-2xl)", fontWeight: 700, color: "#FFFFFF", letterSpacing: "0.04em", margin: 0 }}>
-            PLATFORM GOVERNANCE OPERATORS & RBAC
+          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "1.75rem", fontWeight: 800, color: "#111412", letterSpacing: "0.02em", margin: 0 }}>
+            Platform Users & Governance RBAC
           </h1>
-          <p style={{ fontSize: "var(--text-xs)", color: "var(--color-muted-grey)", marginTop: 4 }}>
-            Privileged super administrators, security auditors, and operations personnel.
+          <p style={{ fontSize: "13px", color: "#7A807C", marginTop: 4 }}>
+            System engineers, infrastructure operators, and master security officers.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: "var(--space-3)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <Button
             variant="ghost"
             size="sm"
             leftIcon={<RefreshCw size={14} className={isFetching ? "animate-spin" : ""} />}
             onClick={() => refetch()}
+            style={{ border: "1px solid #E5E1D8", background: "#FFFFFF", color: "#111412" }}
           >
             Refresh
           </Button>
@@ -124,53 +144,76 @@ export const PlatformUsersPage: React.FC = () => {
             size="sm"
             leftIcon={<Plus size={14} />}
             onClick={() => setIsCreateOpen(true)}
+            style={{ background: "#E31B23", borderColor: "#E31B23" }}
           >
-            Authorize Operator
+            Provision Platform User
           </Button>
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "var(--space-3)", alignItems: "center" }}>
-        <div style={{ position: "relative", flex: 1, maxWidth: 360 }}>
-          <Search size={14} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "var(--color-muted-grey)" }} />
-          <input
-            type="text"
-            placeholder="Search operators by name or email..."
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setPage(1);
-            }}
-            style={{
-              width: "100%",
-              background: "#161917",
-              border: "1px solid rgba(255, 255, 255, 0.12)",
-              borderRadius: "var(--radius-md)",
-              padding: "8px 12px 8px 34px",
-              color: "#FFFFFF",
-              fontSize: "13px",
-              outline: "none",
-            }}
-          />
-        </div>
+      {/* 2. Search Bar */}
+      <div
+        style={{
+          background: "#FFFFFF",
+          border: "1px solid #E5E1D8",
+          borderRadius: "16px",
+          padding: "16px 20px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05)",
+          display: "flex",
+          alignItems: "center",
+          gap: "16px",
+        }}
+      >
+        <Search size={16} color="#7A807C" />
+        <input
+          type="text"
+          placeholder="Search by full name, operator email, or platform ID..."
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setPage(1);
+          }}
+          style={{
+            flex: 1,
+            background: "#F8F7F5",
+            border: "1px solid #E5E1D8",
+            borderRadius: "8px",
+            padding: "9px 14px",
+            color: "#111412",
+            fontSize: "13px",
+            outline: "none",
+          }}
+        />
       </div>
 
+      {/* 3. Table */}
       {error ? (
         <ApiErrorCard message="Failed to load platform users." onRetry={() => refetch()} />
       ) : (
-        <DataTable
-          columns={columns}
-          data={users}
-          isLoading={isLoading}
-          page={data?.page || 1}
-          totalPages={data?.totalPages || 1}
-          totalItems={data?.total || users.length}
-          onPageChange={(p) => setPage(p)}
-          emptyTitle="No Platform Users"
-          emptyDescription="Issue platform administrator privileges to authorized personnel."
-        />
+        <div
+          style={{
+            background: "#FFFFFF",
+            border: "1px solid #E5E1D8",
+            borderRadius: "16px",
+            padding: "8px",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05)",
+          }}
+        >
+          <DataTable
+            columns={columns}
+            data={users}
+            isLoading={isLoading}
+            page={data?.page || 1}
+            totalPages={data?.totalPages || 1}
+            totalItems={data?.total || users.length}
+            onPageChange={(p) => setPage(p)}
+            emptyTitle="No Platform Operators"
+            emptyDescription="Add platform operators to delegate multi-tenant infrastructure responsibilities."
+          />
+        </div>
       )}
 
+      {/* 4. Create Modal */}
       <CreatePlatformUserModal
         isOpen={isCreateOpen}
         onClose={() => setIsCreateOpen(false)}

@@ -1,96 +1,404 @@
-/* TechMasters Super Admin - Platform Governance Layout */
+/* Bagodi Super Admin - Customer & Merchant Aligned Luxury Platform Governance Layout */
 
 .superShell {
-  display: flex;
-  min-height: 100vh;
-  background: var(--color-obsidian);
-  color: #F7F1E7;
-  font-family: var(--font-interface);
-}
+  --bg-primary: #F8F7F5;
+  --bg-surface: #FFFFFF;
+  --bg-secondary: #F2EFEA;
+  --bg-tertiary: #EBE6DE;
+  --text-primary: #111412;
+  --text-secondary: #4A4E4B;
+  --text-muted: #7A807C;
+  --border-default: #E5E1D8;
+  --border-subtle: #F0EDE6;
+  --brand-crimson: #E31B23;
+  --brand-crimson-hover: #C8141B;
+  --brand-crimson-subtle: rgba(227, 27, 35, 0.08);
+  --color-gold: #C5A15B;
+  --color-gold-subtle: rgba(197, 161, 91, 0.12);
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05);
 
-.sidebar {
-  width: 280px;
-  background: #171918;
-  border-right: 1px solid rgba(197, 161, 91, 0.2);
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  box-sizing: border-box;
 }
 
-.header {
-  padding: var(--space-6);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+/* 1. Top Operations Notification & Utility Strip */
+.announcementStrip {
+  background: #111412;
+  color: #F7F1E7;
+  padding: 8px var(--space-6);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid rgba(197, 161, 91, 0.3);
+  position: relative;
+  z-index: 100;
 }
 
-.title {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  letter-spacing: var(--tracking-wider);
-  color: var(--color-champagne-gold);
+.stripInner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.stripLeft {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.subtitle {
-  font-size: 11px;
-  color: var(--color-muted-grey);
-  margin-top: 4px;
-  letter-spacing: 0.04em;
+.pulseDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #2E7D32;
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.25);
+  animation: pulseAnim 2s infinite ease-in-out;
 }
 
-.nav {
-  padding: var(--space-4) var(--space-3);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+@keyframes pulseAnim {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
 }
 
-.navLink {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: 10px var(--space-4);
-  border-radius: var(--radius-md);
-  font-size: var(--text-xs);
-  color: #A3A199;
-  text-decoration: none;
-  transition: all var(--duration-fast) ease;
+.stripText {
+  color: #FFFFFF;
   font-weight: 500;
 }
 
-.navLink:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #FFFFFF;
+.stripText strong {
+  color: var(--color-gold);
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
-.navLinkActive {
-  background: rgba(197, 161, 91, 0.12);
-  color: var(--color-champagne-gold);
-  border-left: 3px solid var(--color-champagne-gold);
-  font-weight: 600;
+.stripDivider {
+  color: rgba(255, 255, 255, 0.2);
 }
 
-.main {
-  flex: 1;
+.stripSubtext {
+  color: #B5B2AB;
+  font-size: 10.5px;
+}
+
+.stripRight {
   display: flex;
-  flex-direction: column;
-  min-width: 0;
+  align-items: center;
+  gap: var(--space-3);
 }
 
-.topbar {
-  height: 64px;
-  background: #171918;
-  border-bottom: 1px solid rgba(197, 161, 91, 0.2);
+.stripLink {
+  color: #E5E1D8;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.stripLink:hover {
+  color: var(--color-gold);
+}
+
+.securityBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-gold);
+  font-weight: 600;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 2. Main Luxury Executive Header */
+.mainHeader {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-default);
+  padding: 14px var(--space-6);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.headerInner {
+  max-width: 1440px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-8);
+  gap: var(--space-4);
 }
 
-.content {
+.brandContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.brandLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandWordmarkCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandWordmarkAnimated {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.05;
+  background: linear-gradient(
+    110deg,
+    #D0161E 0%,
+    #E31B23 35%,
+    #FFA8AC 50%,
+    #E31B23 65%,
+    #D0161E 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bagodiSheen 4s ease-in-out infinite;
+}
+
+@keyframes bagodiSheen {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.brandSubtitle {
+  font-size: 8.5px;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  color: #8C6A18;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.nodeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.nodeIcon {
+  color: var(--brand-crimson);
+}
+
+.headerRightActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.uptimeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #E8F5E9;
+  border: 1px solid #C8E6C9;
+  color: #2E7D32;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+.staffProfileCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  padding: 5px 14px 5px 6px;
+  border-radius: 9999px;
+}
+
+.avatarCircle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #111412;
+  color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  border: 1px solid rgba(197, 161, 91, 0.4);
+}
+
+.staffInfoCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.staffName {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.staffRole {
+  font-size: 9.5px;
+  color: #8C6A18;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.signOutBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  padding: 8px 14px;
+  border-radius: 9999px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.signOutBtn:hover {
+  background: #FFF1F0;
+  border-color: #FFA39E;
+  color: #CF1322;
+}
+
+/* 3. Horizontal Operations Action Ribbon */
+.operationsRibbon {
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--border-default);
+  position: sticky;
+  top: 61px;
+  z-index: 80;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.ribbonScrollContainer {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ribbonScrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.ribbonButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.ribbonButton:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.ribbonButtonActive {
+  color: var(--brand-crimson);
+  font-weight: 700;
+  border-bottom: 2px solid var(--brand-crimson);
+  background: rgba(227, 27, 35, 0.04);
+}
+
+.buttonIconWrap {
+  display: flex;
+  align-items: center;
+  color: currentColor;
+}
+
+.ribbonBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border: 1px solid var(--border-default);
+}
+
+.ribbonBadgeActive {
+  background: #FFEAEB;
+  color: #CF1322;
+  border-color: rgba(227, 27, 35, 0.25);
+}
+
+/* 4. Main Content Canvas */
+.contentShell {
   flex: 1;
-  padding: var(--space-8);
-  overflow-y: auto;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-6);
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .headerInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerRightActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .contentShell {
+    padding: var(--space-4);
+  }
 }

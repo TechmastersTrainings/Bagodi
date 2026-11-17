@@ -1,14 +1,40 @@
+/* Bagodi Super Admin - Platform Governance Luxury Login Aligned with Customer & Merchant Portals */
+
 .superLoginWrapper {
+  --bg-primary: #F8F7F5;
+  --bg-surface: #FFFFFF;
+  --text-primary: #111412;
+  --text-secondary: #4A4E4B;
+  --text-muted: #7A807C;
+  --border-default: #E5E1D8;
+  --border-subtle: #F0EDE6;
+  --brand-crimson: #E31B23;
+  --brand-crimson-hover: #C8141B;
+  --color-gold: #C5A15B;
+
   min-height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at 50% 20%, #16122a 0%, #08090d 100%);
+  background: radial-gradient(circle at 50% 20%, #FFFFFF 0%, #F8F7F5 65%, #F0EDE6 100%);
   padding: var(--space-6) var(--space-4);
   box-sizing: border-box;
+  position: relative;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.superLoginWrapper::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 450px;
+  background: radial-gradient(ellipse, rgba(197, 161, 91, 0.12) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 @media (max-width: 640px), (max-height: 720px) {
@@ -20,53 +46,109 @@
 
 .card {
   width: 100%;
-  max-width: 440px;
-  background: #0f1118;
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  max-width: 480px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-default);
   border-radius: 20px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 0 0 20px -4px rgba(139, 92, 246, 0.15);
-  padding: clamp(20px, 4.5vw, 32px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: clamp(24px, 5vw, 38px);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .header {
   text-align: center;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
 }
 
 .shieldPill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-mono);
   font-size: 11px;
   text-transform: uppercase;
-  color: var(--super-accent);
-  background: var(--super-accent-subtle);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  padding: 4px 12px;
+  letter-spacing: 0.1em;
+  color: #8C6A18;
+  background: #FFF8E7;
+  border: 1px solid rgba(197, 161, 91, 0.4);
+  padding: 5px 14px;
   border-radius: 9999px;
   margin-bottom: var(--space-3);
-  letter-spacing: var(--tracking-wider);
+  font-weight: 700;
 }
 
-.title {
-  font-family: var(--font-mono);
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
-  font-weight: bold;
-  color: #ffffff;
-  letter-spacing: var(--tracking-wider);
-  margin: 0 0 6px 0;
-  line-height: 1.2;
+.brandWordmarkCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.brandWordmarkAnimated {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  line-height: 1.1;
+  background: linear-gradient(
+    110deg,
+    #D0161E 0%,
+    #E31B23 35%,
+    #FFA8AC 50%,
+    #E31B23 65%,
+    #D0161E 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bagodiSheen 3.6s ease-in-out infinite;
+}
+
+@keyframes bagodiSheen {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.brandSubtitle {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  color: #8C6A18;
+  text-transform: uppercase;
+  margin-top: 3px;
 }
 
 .subtitle {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
   margin: 0;
   line-height: 1.5;
+  font-weight: 400;
+}
+
+.noticeBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #F8F7F5;
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: var(--space-4);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.noticeIcon {
+  color: #C5A15B;
+  flex-shrink: 0;
 }
 
 .form {
@@ -75,15 +157,39 @@
   gap: var(--space-4);
 }
 
-.securityWarning {
-  margin-top: var(--space-5);
-  padding: var(--space-3);
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 8px;
-  font-size: 11px;
-  color: #fca5a5;
-  text-align: center;
-  line-height: 1.4;
+.formGroup {
+  display: flex;
+  flex-direction: column;
 }
 
+.submitBtn {
+  background: #E31B23 !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 12px 20px !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background: #C8141B !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(227, 27, 35, 0.25);
+}
+
+.securityWarning {
+  margin-top: var(--space-4);
+  padding: 10px 14px;
+  background: #FFF8E7;
+  border: 1px solid rgba(197, 161, 91, 0.35);
+  border-radius: 8px;
+  font-size: 11px;
+  color: #8C6A18;
+  text-align: center;
+  line-height: 1.4;
+  font-weight: 500;
+}

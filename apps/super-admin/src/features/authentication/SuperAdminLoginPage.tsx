@@ -8,7 +8,7 @@ import { Button, TextInput, ApiErrorCard } from "@bagodi/shared-components";
 import { defaultApiClient } from "@bagodi/api-client";
 import { useAuth } from "@bagodi/authentication";
 import { AuthSessionResponse } from "@bagodi/shared-types";
-import { ShieldAlert, Mail, Lock, Key, ArrowRight } from "lucide-react";
+import { ShieldCheck, Mail, Lock, Key, ArrowRight, Server } from "lucide-react";
 
 export const SuperAdminLoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -58,10 +58,23 @@ export const SuperAdminLoginPage: React.FC = () => {
       <div className={styles.card}>
         <div className={styles.header}>
           <div className={styles.shieldPill}>
-            <ShieldAlert size={14} /> Platform Security
+            <ShieldCheck size={14} color="#C5A15B" />
+            <span>Platform Governance Portal</span>
           </div>
-          <h1 className={styles.title}>TECHMASTERS GOVERNANCE</h1>
-          <p className={styles.subtitle}>Super Administrator Multi-Tenant Platform Gateway</p>
+
+          <div className={styles.brandWordmarkCol}>
+            <span className={styles.brandWordmarkAnimated}>BAGODI</span>
+            <span className={styles.brandSubtitle}>SUPER ADMIN • PLATFORM GOVERNANCE</span>
+          </div>
+
+          <p className={styles.subtitle}>
+            Authorized sign in for TechMasters Innovations platform operators & governance architects
+          </p>
+        </div>
+
+        <div className={styles.noticeBox}>
+          <Server size={16} className={styles.noticeIcon} />
+          <span>Cluster Node: <strong>India-Central (Multi-Tenant Master)</strong></span>
         </div>
 
         {apiError && (
@@ -71,53 +84,55 @@ export const SuperAdminLoginPage: React.FC = () => {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          <TextInput
-            label="Platform Admin Email"
-            type="email"
-            placeholder="admin@techmasters.in"
-            leftIcon={<Mail size={18} />}
-            isRequired
-            error={errors.email?.message}
-            {...register("email")}
-          />
+          <div className={styles.formGroup}>
+            <TextInput
+              label="Master Administrator Email"
+              type="email"
+              placeholder="admin@techmasters.in"
+              leftIcon={<Mail size={18} />}
+              isRequired
+              error={errors.email?.message}
+              {...register("email")}
+            />
+          </div>
 
-          <TextInput
-            label="Master Password"
-            type="password"
-            placeholder="Enter master password"
-            leftIcon={<Lock size={18} />}
-            isRequired
-            error={errors.password?.message}
-            {...register("password")}
-          />
+          <div className={styles.formGroup}>
+            <TextInput
+              label="Master Password"
+              type="password"
+              placeholder="Enter master password"
+              leftIcon={<Lock size={18} />}
+              isRequired
+              error={errors.password?.message}
+              {...register("password")}
+            />
+          </div>
 
-          <TextInput
-            label="Hardware Key / 2FA Token (Optional)"
-            type="password"
-            placeholder="Security Key"
-            leftIcon={<Key size={18} />}
-            error={errors.securityKey?.message}
-            {...register("securityKey")}
-          />
+          <div className={styles.formGroup}>
+            <TextInput
+              label="Hardware Key / 2FA Token (Optional)"
+              type="password"
+              placeholder="Security Key"
+              leftIcon={<Key size={18} />}
+              error={errors.securityKey?.message}
+              {...register("securityKey")}
+            />
+          </div>
 
           <Button
             type="submit"
+            variant="primary"
             size="lg"
             isLoading={isSubmitting}
-            fullWidth
-            rightIcon={<ArrowRight size={18} />}
-            style={{
-              background: "var(--super-accent)",
-              color: "#ffffff",
-              boxShadow: "0 0 16px -2px rgba(139, 92, 246, 0.4)",
-            }}
+            rightIcon={<ArrowRight size={16} />}
+            className={styles.submitBtn}
           >
-            Authenticate & Unlock Terminal
+            Authenticate Platform Session
           </Button>
         </form>
 
         <div className={styles.securityWarning}>
-          Notice: All platform access attempts, IP addresses, and administrative activities are auditable and permanently recorded in the immutable platform log.
+          Multi-tenant platform mutations are cryptographically signed and audited to immutable master ledger.
         </div>
       </div>
     </div>

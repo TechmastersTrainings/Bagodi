@@ -10,7 +10,6 @@ import {
   RefreshCw,
   Search,
   Filter,
-  Store,
 } from "lucide-react";
 
 export const MerchantsPage: React.FC = () => {
@@ -57,7 +56,6 @@ export const MerchantsPage: React.FC = () => {
     },
   ];
 
-  // Suspend/Activate mutation
   const toggleTenantMutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: "ACTIVE" | "SUSPENDED" }) =>
       defaultApiClient.patch<MerchantTenant>(`/super/merchants/${id}/status`, { status }),
@@ -88,12 +86,12 @@ export const MerchantsPage: React.FC = () => {
       header: "Merchant & Legal Entity",
       render: (row) => (
         <div>
-          <div style={{ fontWeight: 700, color: "#FFFFFF", fontSize: "14px" }}>{row.name}</div>
-          <div style={{ fontSize: "11px", color: "var(--color-muted-grey)", marginTop: "2px" }}>
+          <div style={{ fontWeight: 700, color: "#111412", fontSize: "14px" }}>{row.name}</div>
+          <div style={{ fontSize: "11px", color: "#7A807C", marginTop: "2px" }}>
             Entity: {row.legalEntityName}
           </div>
           {row.gstin && (
-            <div style={{ fontSize: "10px", color: "var(--color-champagne-gold)", fontFamily: "var(--font-mono)" }}>
+            <div style={{ fontSize: "10.5px", color: "#8C6A18", fontFamily: "var(--font-mono)", fontWeight: 600 }}>
               GSTIN: {row.gstin}
             </div>
           )}
@@ -105,10 +103,10 @@ export const MerchantsPage: React.FC = () => {
       header: "Tenant Domain & Slug",
       render: (row) => (
         <div>
-          <div style={{ fontFamily: "var(--font-mono)", color: "var(--color-champagne-gold)", fontWeight: 600, fontSize: "13px" }}>
+          <div style={{ fontFamily: "var(--font-mono)", color: "#E31B23", fontWeight: 600, fontSize: "13px" }}>
             {row.slug}.bagodi.in
           </div>
-          <div style={{ fontSize: "10px", color: "var(--color-muted-grey)", fontFamily: "var(--font-mono)" }}>
+          <div style={{ fontSize: "10px", color: "#7A807C", fontFamily: "var(--font-mono)" }}>
             Key: {row.apiKeyPrefix}
           </div>
         </div>
@@ -118,70 +116,97 @@ export const MerchantsPage: React.FC = () => {
       key: "plan",
       header: "Subscription Plan",
       render: (row) => (
-        <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--color-light-champagne)" }}>
+        <span
+          style={{
+            fontSize: "10.5px",
+            fontFamily: "var(--font-mono)",
+            fontWeight: 700,
+            color: "#8C6A18",
+            background: "#FFF8E7",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            border: "1px solid rgba(197, 161, 91, 0.3)",
+          }}
+        >
           {row.plan}
         </span>
       ),
     },
     {
       key: "storeCount",
-      header: "Stores & GMV",
+      header: "Outlets & SKUs",
       render: (row) => (
-        <div>
-          <div style={{ fontSize: "12px", color: "#FFFFFF", display: "flex", alignItems: "center", gap: 4 }}>
-            <Store size={13} color="var(--color-champagne-gold)" />
-            {row.storeCount} Store Location{row.storeCount === 1 ? "" : "s"}
-          </div>
-          <div style={{ fontSize: "11px", color: "var(--color-champagne-gold)", fontFamily: "var(--font-mono)", fontWeight: 700, marginTop: "2px" }}>
-            {formatINR(row.grossSalesVolume)}
-          </div>
+        <div style={{ fontSize: "12px", color: "#111412" }}>
+          <div><strong>{row.storeCount}</strong> Physical Store</div>
+          <div style={{ fontSize: "11px", color: "#7A807C" }}>{row.totalProductsCount} Live SKUs</div>
+        </div>
+      ),
+    },
+    {
+      key: "grossSalesVolume",
+      header: "Lifetime GMV",
+      render: (row) => (
+        <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, color: "#111412" }}>
+          {formatINR(row.grossSalesVolume)}
         </div>
       ),
     },
     {
       key: "status",
-      header: "Platform Status",
+      header: "Status",
       render: (row) => getStatusBadge(row.status),
     },
     {
-      key: "actions",
-      header: "Governance Actions",
+      key: "id",
+      header: "Actions",
       render: (row) => (
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => {
-              const nextStatus = row.status === "ACTIVE" ? "SUSPENDED" : "ACTIVE";
-              toggleTenantMutation.mutate({ id: row.id, status: nextStatus });
-            }}
-          >
-            {row.status === "ACTIVE" ? "Suspend" : "Activate"}
-          </Button>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "6px" }}>
+          {row.status === "ACTIVE" ? (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => toggleTenantMutation.mutate({ id: row.id, status: "SUSPENDED" })}
+              isLoading={toggleTenantMutation.isPending}
+              style={{ fontSize: "11px", borderColor: "#FFA39E", color: "#CF1322" }}
+            >
+              Suspend
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => toggleTenantMutation.mutate({ id: row.id, status: "ACTIVE" })}
+              isLoading={toggleTenantMutation.isPending}
+              style={{ fontSize: "11px", borderColor: "#B7EB8F", color: "#389E0D" }}
+            >
+              Activate
+            </Button>
+          )}
         </div>
       ),
     },
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
       {/* 1. Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "var(--space-4)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
         <div>
-          <h1 style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-2xl)", fontWeight: 700, color: "#FFFFFF", letterSpacing: "0.04em", margin: 0 }}>
-            MERCHANTS & TENANTS DIRECTORY
+          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "1.75rem", fontWeight: 800, color: "#111412", letterSpacing: "0.02em", margin: 0 }}>
+            Commercial Tenants
           </h1>
-          <p style={{ fontSize: "var(--text-xs)", color: "var(--color-muted-grey)", marginTop: 4 }}>
-            Multi-tenant isolation, provisioning, API authentication keys, and commercial licensing.
+          <p style={{ fontSize: "13px", color: "#7A807C", marginTop: 4 }}>
+            Multi-tenant brand segregation, retail merchant stores, and commercial subscription quotas.
           </p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <Button
             variant="ghost"
             size="sm"
             leftIcon={<RefreshCw size={14} className={isFetching ? "animate-spin" : ""} />}
             onClick={() => refetch()}
+            style={{ border: "1px solid #E5E1D8", background: "#FFFFFF", color: "#111412" }}
           >
             Refresh
           </Button>
@@ -190,6 +215,7 @@ export const MerchantsPage: React.FC = () => {
             size="sm"
             leftIcon={<Plus size={14} />}
             onClick={() => setIsOnboardOpen(true)}
+            style={{ background: "#E31B23", borderColor: "#E31B23" }}
           >
             Onboard Merchant Tenant
           </Button>
@@ -199,18 +225,19 @@ export const MerchantsPage: React.FC = () => {
       {/* 2. Filter Bar */}
       <div
         style={{
-          background: "#191B1A",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-          borderRadius: "var(--radius-xl)",
-          padding: "var(--space-4)",
+          background: "#FFFFFF",
+          border: "1px solid #E5E1D8",
+          borderRadius: "16px",
+          padding: "16px 20px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05)",
           display: "flex",
           alignItems: "center",
-          gap: "var(--space-4)",
+          gap: "16px",
           flexWrap: "wrap",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 260 }}>
-          <Search size={16} color="var(--color-muted-grey)" />
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1, minWidth: 260 }}>
+          <Search size={16} color="#7A807C" />
           <input
             type="text"
             placeholder="Search by merchant name, slug, legal entity, or GSTIN..."
@@ -221,20 +248,20 @@ export const MerchantsPage: React.FC = () => {
             }}
             style={{
               flex: 1,
-              background: "#121413",
-              border: "1px solid rgba(255, 255, 255, 0.12)",
-              borderRadius: "var(--radius-md)",
-              padding: "8px 14px",
-              color: "#FFFFFF",
-              fontSize: "12px",
+              background: "#F8F7F5",
+              border: "1px solid #E5E1D8",
+              borderRadius: "8px",
+              padding: "9px 14px",
+              color: "#111412",
+              fontSize: "13px",
               outline: "none",
             }}
           />
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
-          <label style={{ fontSize: "11px", color: "var(--color-muted-grey)", display: "flex", alignItems: "center", gap: 4 }}>
-            <Filter size={12} /> Status:
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <label style={{ fontSize: "12px", color: "#7A807C", display: "flex", alignItems: "center", gap: 4, fontWeight: 500 }}>
+            <Filter size={13} /> Status:
           </label>
           <select
             value={statusFilter}
@@ -243,12 +270,12 @@ export const MerchantsPage: React.FC = () => {
               setPage(1);
             }}
             style={{
-              background: "#121413",
-              border: "1px solid rgba(255, 255, 255, 0.12)",
-              borderRadius: "var(--radius-md)",
-              padding: "8px 14px",
-              color: "#FFFFFF",
-              fontSize: "12px",
+              background: "#F8F7F5",
+              border: "1px solid #E5E1D8",
+              borderRadius: "8px",
+              padding: "9px 14px",
+              color: "#111412",
+              fontSize: "12.5px",
               outline: "none",
               cursor: "pointer",
             }}
@@ -265,17 +292,27 @@ export const MerchantsPage: React.FC = () => {
       {error ? (
         <ApiErrorCard message="Failed to load merchant tenants." onRetry={() => refetch()} />
       ) : (
-        <DataTable
-          columns={columns}
-          data={merchants}
-          isLoading={isLoading}
-          page={data?.page || 1}
-          totalPages={data?.totalPages || 1}
-          totalItems={data?.total || merchants.length}
-          onPageChange={(p) => setPage(p)}
-          emptyTitle="No Merchants Found"
-          emptyDescription="Provision commercial retail tenants to grant storefront and back-office management access."
-        />
+        <div
+          style={{
+            background: "#FFFFFF",
+            border: "1px solid #E5E1D8",
+            borderRadius: "16px",
+            padding: "8px",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05)",
+          }}
+        >
+          <DataTable
+            columns={columns}
+            data={merchants}
+            isLoading={isLoading}
+            page={data?.page || 1}
+            totalPages={data?.totalPages || 1}
+            totalItems={data?.total || merchants.length}
+            onPageChange={(p) => setPage(p)}
+            emptyTitle="No Merchants Found"
+            emptyDescription="Provision commercial retail tenants to grant storefront and back-office management access."
+          />
+        </div>
       )}
 
       {/* 4. Onboard Modal */}

@@ -1,73 +1,185 @@
 import React, { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./SuperAdminLayout.module.css";
-import { ShieldCheck, Building2, Users, Activity, FileText, Settings, LogOut } from "lucide-react";
+import {
+  LayoutDashboard,
+  Building2,
+  Users,
+  ShieldCheck,
+  Server,
+  LogOut,
+  ExternalLink,
+  Activity,
+  Cpu,
+} from "lucide-react";
 import { useAuth } from "@bagodi/authentication";
-import { Button, NetworkStatusBar } from "@bagodi/shared-components";
 
-export const SuperAdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
+export interface SuperAdminLayoutProps {
+  children: ReactNode;
+}
+
+export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({ children }) => {
   const location = useLocation();
   const { user, logout } = useAuth();
 
-  const nav = [
-    { label: "Platform Cockpit", path: "/dashboard", icon: <Activity size={18} /> },
-    { label: "Merchants & Tenants", path: "/merchants", icon: <Building2 size={18} /> },
-    { label: "Platform Users", path: "/platform-users", icon: <Users size={18} /> },
-    { label: "Audit Logs", path: "/audit-logs", icon: <FileText size={18} /> },
-    { label: "System Config", path: "/settings", icon: <Settings size={18} /> },
+  const navItems = [
+    {
+      label: "Platform Cockpit",
+      path: "/dashboard",
+      icon: <LayoutDashboard size={15} />,
+      badge: "Live",
+    },
+    {
+      label: "Commercial Tenants",
+      path: "/merchants",
+      icon: <Building2 size={15} />,
+      badge: "Multi-Tenant",
+    },
+    {
+      label: "Platform Users & RBAC",
+      path: "/platform-users",
+      icon: <Users size={15} />,
+      badge: "Security",
+    },
+    {
+      label: "Security & Audit Logs",
+      path: "/audit-logs",
+      icon: <ShieldCheck size={15} />,
+      badge: "Immutable",
+    },
+    {
+      label: "System Parameters",
+      path: "/settings",
+      icon: <Server size={15} />,
+      badge: "Config",
+    },
   ];
 
   return (
     <div className={styles.superShell}>
-      <aside className={styles.sidebar}>
-        <div className={styles.header}>
-          <div className={styles.title}>
-            <ShieldCheck size={18} color="var(--color-champagne-gold)" />
-            TECHMASTERS
+      {/* 1. Top Operations Notification & Utility Strip */}
+      <div className={styles.announcementStrip}>
+        <div className={styles.stripInner}>
+          <div className={styles.stripLeft}>
+            <span className={styles.pulseDot} />
+            <span className={styles.stripText}>
+              <strong>TECHMASTERS CLOUD GOVERNANCE</strong> • Multi-Tenant Platform Cluster
+            </span>
+            <span className={styles.stripDivider}>|</span>
+            <span className={styles.stripSubtext}>Node: India-Central (Bidar Primary)</span>
           </div>
-          <div className={styles.subtitle}>E-Commerce Platform Governance</div>
-        </div>
 
-        <nav className={styles.nav}>
-          {nav.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`${styles.navLink} ${location.pathname.startsWith(item.path) ? styles.navLinkActive : ""}`}
+          <div className={styles.stripRight}>
+            <a
+              href="http://localhost:3000"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.stripLink}
+              title="Open Live Customer Web Storefront"
             >
-              {item.icon}
-              <span>{item.label}</span>
-            </Link>
-          ))}
-        </nav>
-
-        <div style={{ padding: "var(--space-4)", borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}>
-          <Button variant="ghost" size="sm" fullWidth leftIcon={<LogOut size={16} />} onClick={() => logout()}>
-            Sign Out
-          </Button>
+              <span>View Storefront</span>
+              <ExternalLink size={12} />
+            </a>
+            <span className={styles.stripDivider}>|</span>
+            <a
+              href="http://localhost:3001"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.stripLink}
+              title="Open Merchant Operations Portal"
+            >
+              <span>Merchant Terminal</span>
+              <ExternalLink size={12} />
+            </a>
+            <span className={styles.stripDivider}>|</span>
+            <div className={styles.securityBadge}>
+              <Cpu size={13} color="#C5A15B" />
+              <span>Master Root Key</span>
+            </div>
+          </div>
         </div>
-      </aside>
+      </div>
 
-      <main className={styles.main}>
-        <header className={styles.topbar}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--color-champagne-gold)" }}>
-              Platform Master Session
-            </span>
+      {/* 2. Main Luxury Executive Header */}
+      <header className={styles.mainHeader}>
+        <div className={styles.headerInner}>
+          {/* Left: Brand Identity matching Customer Web & Merchant Admin */}
+          <div className={styles.brandContainer}>
+            <Link to="/dashboard" className={styles.brandLink}>
+              <div className={styles.brandWordmarkCol}>
+                <span className={styles.brandWordmarkAnimated}>BAGODI</span>
+                <span className={styles.brandSubtitle}>SUPER ADMIN • PLATFORM GOVERNANCE</span>
+              </div>
+            </Link>
+
+            <div className={styles.nodeBadge}>
+              <Server size={13} className={styles.nodeIcon} />
+              <span>TechMasters Master Cluster</span>
+            </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)", fontSize: "12px", color: "var(--color-muted-grey)" }}>
-            <span>Operator: <strong style={{ color: "#FFFFFF" }}>{user?.fullName || "Super Administrator"}</strong></span>
-            <span style={{ background: "rgba(60, 119, 87, 0.15)", border: "1px solid var(--status-success)", color: "var(--status-success)", padding: "2px 8px", borderRadius: "var(--radius-sm)", fontSize: "10px", fontWeight: 700 }}>
-              PRODUCTION NODE
-            </span>
+
+          {/* Right: Telemetry, Master Admin Profile, Sign Out */}
+          <div className={styles.headerRightActions}>
+            <div className={styles.uptimeBadge}>
+              <Activity size={14} />
+              <span>99.98% Uptime</span>
+            </div>
+
+            <div className={styles.staffProfileCard}>
+              <div className={styles.avatarCircle}>
+                {user?.fullName?.charAt(0) || "T"}
+              </div>
+              <div className={styles.staffInfoCol}>
+                <span className={styles.staffName}>{user?.fullName || "TechMasters Root Admin"}</span>
+                <span className={styles.staffRole}>SUPER ADMIN</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className={styles.signOutBtn}
+              onClick={() => logout()}
+              title="Sign Out of Platform Governance Portal"
+            >
+              <LogOut size={14} />
+              <span>Sign Out</span>
+            </button>
           </div>
-        </header>
-        <div className={styles.content}>{children}</div>
+        </div>
+      </header>
+
+      {/* 3. Horizontal Operations Ribbon */}
+      <nav className={styles.operationsRibbon}>
+        <div className={styles.ribbonScrollContainer}>
+          {navItems.map((item) => {
+            const isActive =
+              item.path === "/dashboard"
+                ? location.pathname === "/dashboard"
+                : location.pathname.startsWith(item.path);
+
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`${styles.ribbonButton} ${isActive ? styles.ribbonButtonActive : ""}`}
+              >
+                <span className={styles.buttonIconWrap}>{item.icon}</span>
+                <span>{item.label}</span>
+                {item.badge && (
+                  <span className={`${styles.ribbonBadge} ${isActive ? styles.ribbonBadgeActive : ""}`}>
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* 4. Main Content Canvas */}
+      <main className={styles.contentShell}>
+        {children}
       </main>
-
-      {/* Network Resilience Sentinel */}
-      <NetworkStatusBar />
     </div>
   );
 };
-

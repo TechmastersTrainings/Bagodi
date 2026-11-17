@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { defaultApiClient } from "@bagodi/api-client";
 import { CreatePlatformUserPayload, PlatformRole, PlatformUser } from "@bagodi/shared-types";
 import { Modal, Button } from "@bagodi/shared-components";
-import { AlertTriangle, ShieldCheck } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 
 export interface CreatePlatformUserModalProps {
   isOpen: boolean;
@@ -55,77 +55,115 @@ export const CreatePlatformUserModal: React.FC<CreatePlatformUserModalProps> = (
     createMutation.mutate(payload);
   };
 
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    background: "#F8F7F5",
+    border: "1px solid #E5E1D8",
+    borderRadius: "8px",
+    padding: "9px 12px",
+    color: "#111412",
+    fontSize: "13px",
+    outline: "none",
+    boxSizing: "border-box",
+  };
+
+  const labelStyle: React.CSSProperties = {
+    fontSize: "11px",
+    color: "#7A807C",
+    textTransform: "uppercase",
+    display: "block",
+    marginBottom: "4px",
+    fontWeight: 600,
+    letterSpacing: "0.04em",
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Authorize Platform Super User" maxWidth="540px">
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Provision Platform Operator Account"
+      maxWidth="540px"
+    >
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        {formError && (
+          <div
+            style={{
+              padding: "10px 14px",
+              background: "#FFF1F0",
+              border: "1px solid #FFA39E",
+              borderRadius: "8px",
+              color: "#CF1322",
+              fontSize: "12px",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <AlertTriangle size={15} />
+            <span>{formError}</span>
+          </div>
+        )}
+
         <div>
-          <label style={{ fontSize: "11px", color: "var(--color-muted-grey)", textTransform: "uppercase", display: "block", marginBottom: "4px" }}>
-            Operator Full Name *
-          </label>
+          <label style={labelStyle}>Operator Full Name *</label>
           <input
             type="text"
-            placeholder="e.g. Anand Kulkarni"
+            placeholder="Kavita Reddy"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            style={{ width: "100%", background: "#121413", border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "var(--radius-md)", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
+            style={inputStyle}
             required
           />
         </div>
 
         <div>
-          <label style={{ fontSize: "11px", color: "var(--color-muted-grey)", textTransform: "uppercase", display: "block", marginBottom: "4px" }}>
-            Corporate Email *
-          </label>
+          <label style={labelStyle}>Platform Email Address *</label>
           <input
             type="email"
-            placeholder="operator@techmasters.in"
+            placeholder="kavita@techmasters.in"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", background: "#121413", border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "var(--radius-md)", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
+            style={inputStyle}
             required
           />
         </div>
 
         <div>
-          <label style={{ fontSize: "11px", color: "var(--color-muted-grey)", textTransform: "uppercase", display: "block", marginBottom: "4px" }}>
-            Assigned Platform Governance Role *
-          </label>
+          <label style={labelStyle}>Platform Governance Role *</label>
           <select
             value={role}
             onChange={(e) => setRole(e.target.value as PlatformRole)}
-            style={{ width: "100%", background: "#121413", border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "var(--radius-md)", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
+            style={inputStyle}
           >
-            <option value="SUPER_ADMIN">Super Administrator (Full Root Access)</option>
-            <option value="PLATFORM_OPERATIONS">Platform Operations (Tenant & Logistics)</option>
-            <option value="SECURITY_AUDITOR">Security & Compliance Auditor (Read-Only)</option>
+            <option value="PLATFORM_OPERATIONS">Platform Operations Specialist</option>
+            <option value="SECURITY_AUDITOR">Platform Security & Audit Officer</option>
+            <option value="SUPER_ADMIN">TechMasters Master Super Administrator</option>
           </select>
         </div>
 
         <div>
-          <label style={{ fontSize: "11px", color: "var(--color-muted-grey)", textTransform: "uppercase", display: "block", marginBottom: "4px" }}>
-            Temporary Password (Optional)
-          </label>
+          <label style={labelStyle}>Initial Master Password *</label>
           <input
             type="password"
-            placeholder="Minimum 8 characters"
+            placeholder="Min 10 characters with symbols"
             value={tempPassword}
             onChange={(e) => setTempPassword(e.target.value)}
-            style={{ width: "100%", background: "#121413", border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "var(--radius-md)", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
+            style={inputStyle}
+            required
           />
         </div>
 
-        {formError && (
-          <div style={{ color: "#FF8F8F", fontSize: "12px", display: "flex", alignItems: "center", gap: 6 }}>
-            <AlertTriangle size={14} /> {formError}
-          </div>
-        )}
-
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "var(--space-3)", marginTop: "var(--space-2)" }}>
-          <Button type="button" variant="ghost" onClick={onClose} disabled={createMutation.isPending}>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginTop: "12px", borderTop: "1px solid #F0EDE6", paddingTop: "16px" }}>
+          <Button type="button" variant="ghost" onClick={onClose} style={{ color: "#7A807C" }}>
             Cancel
           </Button>
-          <Button type="submit" isLoading={createMutation.isPending} leftIcon={<ShieldCheck size={14} />}>
-            Issue Platform Operator Access
+          <Button
+            type="submit"
+            variant="primary"
+            isLoading={createMutation.isPending}
+            style={{ background: "#E31B23", borderColor: "#E31B23" }}
+          >
+            Provision Account
           </Button>
         </div>
       </form>

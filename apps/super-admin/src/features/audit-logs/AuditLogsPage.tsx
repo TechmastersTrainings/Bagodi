@@ -64,7 +64,7 @@ export const AuditLogsPage: React.FC = () => {
       key: "timestamp",
       header: "Timestamp",
       render: (row) => (
-        <span style={{ fontSize: "11px", color: "var(--color-muted-grey)", fontFamily: "var(--font-mono)" }}>
+        <span style={{ fontSize: "11.5px", color: "#7A807C", fontFamily: "var(--font-mono)" }}>
           {formatDateTime(row.timestamp)}
         </span>
       ),
@@ -74,8 +74,8 @@ export const AuditLogsPage: React.FC = () => {
       header: "Operator / Actor",
       render: (row) => (
         <div>
-          <div style={{ fontWeight: 600, color: "#FFFFFF", fontSize: "12px" }}>{row.actorEmail}</div>
-          <div style={{ fontSize: "10px", color: "var(--color-champagne-gold)", fontFamily: "var(--font-mono)" }}>
+          <div style={{ fontWeight: 600, color: "#111412", fontSize: "12.5px" }}>{row.actorEmail}</div>
+          <div style={{ fontSize: "10.5px", color: "#8C6A18", fontFamily: "var(--font-mono)", fontWeight: 500 }}>
             IP: {row.ipAddress}
           </div>
         </div>
@@ -85,7 +85,18 @@ export const AuditLogsPage: React.FC = () => {
       key: "action",
       header: "Action Event",
       render: (row) => (
-        <span style={{ fontSize: "11px", fontFamily: "var(--font-mono)", fontWeight: 700, color: "var(--color-light-champagne)" }}>
+        <span
+          style={{
+            fontSize: "11px",
+            fontFamily: "var(--font-mono)",
+            fontWeight: 700,
+            color: "#111412",
+            background: "#F8F7F5",
+            padding: "3px 8px",
+            borderRadius: "4px",
+            border: "1px solid #E5E1D8",
+          }}
+        >
           {row.action}
         </span>
       ),
@@ -94,7 +105,7 @@ export const AuditLogsPage: React.FC = () => {
       key: "targetResource",
       header: "Target Resource",
       render: (row) => (
-        <span style={{ fontSize: "12px", color: "#FFFFFF" }}>{row.targetResource}</span>
+        <span style={{ fontSize: "12.5px", color: "#111412", fontWeight: 500 }}>{row.targetResource}</span>
       ),
     },
     {
@@ -111,28 +122,35 @@ export const AuditLogsPage: React.FC = () => {
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
       {/* 1. Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "var(--space-4)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
         <div>
-          <h1 style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-2xl)", fontWeight: 700, color: "#FFFFFF", letterSpacing: "0.04em", margin: 0 }}>
-            IMMUTABLE SECURITY AUDIT TRAIL
+          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "1.75rem", fontWeight: 800, color: "#111412", letterSpacing: "0.02em", margin: 0 }}>
+            Immutable Security Audit Trail
           </h1>
-          <p style={{ fontSize: "var(--text-xs)", color: "var(--color-muted-grey)", marginTop: 4 }}>
+          <p style={{ fontSize: "13px", color: "#7A807C", marginTop: 4 }}>
             Tamper-evident system access, administrative privilege mutations, and compliance logging.
           </p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <Button
             variant="ghost"
             size="sm"
             leftIcon={<RefreshCw size={14} className={isFetching ? "animate-spin" : ""} />}
             onClick={() => refetch()}
+            style={{ border: "1px solid #E5E1D8", background: "#FFFFFF", color: "#111412" }}
           >
             Refresh
           </Button>
-          <Button variant="secondary" size="sm" leftIcon={<Printer size={14} />} onClick={handlePrint}>
+          <Button
+            variant="secondary"
+            size="sm"
+            leftIcon={<Printer size={14} />}
+            onClick={handlePrint}
+            style={{ border: "1px solid #E5E1D8", background: "#FFFFFF", color: "#111412" }}
+          >
             Export Audit Trail (PDF)
           </Button>
         </div>
@@ -141,18 +159,19 @@ export const AuditLogsPage: React.FC = () => {
       {/* 2. Filter Bar */}
       <div
         style={{
-          background: "#191B1A",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-          borderRadius: "var(--radius-xl)",
-          padding: "var(--space-4)",
+          background: "#FFFFFF",
+          border: "1px solid #E5E1D8",
+          borderRadius: "16px",
+          padding: "16px 20px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05)",
           display: "flex",
           alignItems: "center",
-          gap: "var(--space-4)",
+          gap: "16px",
           flexWrap: "wrap",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 260 }}>
-          <Search size={16} color="var(--color-muted-grey)" />
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1, minWidth: 260 }}>
+          <Search size={16} color="#7A807C" />
           <input
             type="text"
             placeholder="Search audit trail by operator email, action type, IP address, or target ID..."
@@ -163,20 +182,20 @@ export const AuditLogsPage: React.FC = () => {
             }}
             style={{
               flex: 1,
-              background: "#121413",
-              border: "1px solid rgba(255, 255, 255, 0.12)",
-              borderRadius: "var(--radius-md)",
-              padding: "8px 14px",
-              color: "#FFFFFF",
-              fontSize: "12px",
+              background: "#F8F7F5",
+              border: "1px solid #E5E1D8",
+              borderRadius: "8px",
+              padding: "9px 14px",
+              color: "#111412",
+              fontSize: "13px",
               outline: "none",
             }}
           />
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
-          <label style={{ fontSize: "11px", color: "var(--color-muted-grey)", display: "flex", alignItems: "center", gap: 4 }}>
-            <Filter size={12} /> Event Type:
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <label style={{ fontSize: "12px", color: "#7A807C", display: "flex", alignItems: "center", gap: 4, fontWeight: 500 }}>
+            <Filter size={13} /> Event Type:
           </label>
           <select
             value={actionFilter}
@@ -185,12 +204,12 @@ export const AuditLogsPage: React.FC = () => {
               setPage(1);
             }}
             style={{
-              background: "#121413",
-              border: "1px solid rgba(255, 255, 255, 0.12)",
-              borderRadius: "var(--radius-md)",
-              padding: "8px 14px",
-              color: "#FFFFFF",
-              fontSize: "12px",
+              background: "#F8F7F5",
+              border: "1px solid #E5E1D8",
+              borderRadius: "8px",
+              padding: "9px 14px",
+              color: "#111412",
+              fontSize: "12.5px",
               outline: "none",
               cursor: "pointer",
             }}
@@ -209,17 +228,27 @@ export const AuditLogsPage: React.FC = () => {
       {error ? (
         <ApiErrorCard message="Failed to load security audit logs." onRetry={() => refetch()} />
       ) : (
-        <DataTable
-          columns={columns}
-          data={logs}
-          isLoading={isLoading}
-          page={data?.page || 1}
-          totalPages={data?.totalPages || 1}
-          totalItems={data?.total || logs.length}
-          onPageChange={(p) => setPage(p)}
-          emptyTitle="No Security Events Recorded"
-          emptyDescription="Administrative operations and tenant provisioning events will record automatically."
-        />
+        <div
+          style={{
+            background: "#FFFFFF",
+            border: "1px solid #E5E1D8",
+            borderRadius: "16px",
+            padding: "8px",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05)",
+          }}
+        >
+          <DataTable
+            columns={columns}
+            data={logs}
+            isLoading={isLoading}
+            page={data?.page || 1}
+            totalPages={data?.totalPages || 1}
+            totalItems={data?.total || logs.length}
+            onPageChange={(p) => setPage(p)}
+            emptyTitle="No Security Events Recorded"
+            emptyDescription="Administrative operations and tenant provisioning events will record automatically."
+          />
+        </div>
       )}
     </div>
   );
