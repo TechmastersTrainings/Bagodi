@@ -20,9 +20,12 @@
   width: 100%;
   border-top-left-radius: 36px;
   border-top-right-radius: 36px;
-  box-shadow: 0 -25px 65px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 -25px 65px rgba(0, 0, 0, 0.14);
+  border-top: 1.5px solid rgba(197, 161, 91, 0.35);
   transform-origin: center top;
-  transition: transform 0.35s ease, filter 0.35s ease, opacity 0.35s ease;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
   overflow: hidden;
 }
 
@@ -290,11 +293,15 @@
 /* Responsive Mobile & Tablet Adjustments */
 @media (max-width: 900px) {
   .deckCard {
-    position: relative !important;
-    top: auto !important;
-    border-radius: 20px 20px 0 0;
-    box-shadow: none;
-    transform: none !important;
+    position: sticky;
+    top: 58px;
+    border-top-left-radius: 26px;
+    border-top-right-radius: 26px;
+    box-shadow: 0 -22px 55px rgba(0, 0, 0, 0.18);
+    border-top: 1.5px solid rgba(197, 161, 91, 0.45);
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
   }
 
   .sectionWrapper {

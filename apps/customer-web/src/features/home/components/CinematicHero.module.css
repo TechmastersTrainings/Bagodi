@@ -20,7 +20,9 @@
   padding: var(--space-8) var(--space-6) var(--space-6);
   z-index: 1;
   transform-origin: center top;
-  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* ==========================================================================
@@ -557,7 +559,9 @@
   z-index: 2;
   overflow: hidden;
   transform-origin: center top;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .runwaySectionHeader {
@@ -814,11 +818,13 @@
 /* Mobile Adjustments & Responsive Smooth Flow */
 @media (max-width: 900px) {
   .heroRoot {
-    position: relative !important;
-    top: auto !important;
-    min-height: auto !important;
+    position: sticky;
+    top: 58px;
+    min-height: calc(100vh - 110px);
     padding: var(--space-6) var(--space-4) var(--space-4);
-    transform: none !important;
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
   }
 
   .editorialHeader {
@@ -830,13 +836,17 @@
   }
 
   .runwayDeckSection {
-    position: relative !important;
-    top: auto !important;
-    min-height: auto !important;
-    border-radius: 20px 20px 0 0;
-    box-shadow: none;
-    transform: none !important;
+    position: sticky;
+    top: 58px;
+    min-height: calc(100vh - 110px);
+    border-top-left-radius: 26px;
+    border-top-right-radius: 26px;
+    box-shadow: 0 -22px 55px rgba(0, 0, 0, 0.18);
+    border-top: 1.5px solid rgba(197, 161, 91, 0.45);
     padding-top: var(--space-6);
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
   }
 
   .modelLineupWrapper {
