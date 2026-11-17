@@ -26,21 +26,21 @@ export const SuperAdminLoginPage: React.FC = () => {
   } = useForm<SuperAdminLoginFormData>({
     resolver: zodResolver(superAdminLoginSchema),
     defaultValues: {
-      email: "root@techmasters.in",
-      password: "SuperSecretPlatformKey@123",
+      email: "admin@techmasters.in",
+      password: "Fri10Feb@2023",
     },
   });
 
   const handleFillDemoCreds = () => {
-    setValue("email", "root@techmasters.in", { shouldValidate: true });
-    setValue("password", "SuperSecretPlatformKey@123", { shouldValidate: true });
+    setValue("email", "admin@techmasters.in", { shouldValidate: true });
+    setValue("password", "Fri10Feb@2023", { shouldValidate: true });
   };
 
   const onSubmit = async (data: SuperAdminLoginFormData) => {
     setApiError(null);
     try {
       const response = await defaultApiClient.post<AuthSessionResponse>(
-        "/auth/super/login",
+        "/auth/login",
         data,
         { skipAuth: true }
       );
@@ -111,8 +111,8 @@ export const SuperAdminLoginPage: React.FC = () => {
             <span>Root Test Credentials</span>
           </div>
           <div className={styles.demoCredsRow}>
-            <span>Email: <code>root@techmasters.in</code></span>
-            <span>Password: <code>SuperSecretPlatformKey@123</code></span>
+            <span>Email: <code>admin@techmasters.in</code></span>
+            <span>Password: <code>Fri10Feb@2023</code></span>
           </div>
           <button
             type="button"

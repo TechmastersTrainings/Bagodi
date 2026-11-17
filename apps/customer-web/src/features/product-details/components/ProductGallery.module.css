@@ -78,6 +78,8 @@
 
 @media (max-width: 768px) {
   .galleryRoot {
+    position: relative;
+    top: auto;
     flex-direction: column-reverse;
   }
   .thumbnailsList {

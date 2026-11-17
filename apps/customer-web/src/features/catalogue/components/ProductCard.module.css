@@ -296,3 +296,34 @@ button.quickViewBtn:hover {
   color: #E31B23;
   margin-left: auto;
 }
+
+@media (max-width: 640px) {
+  .cardRoot {
+    border-radius: 12px;
+  }
+  .contentArea {
+    padding: 10px 10px 12px;
+    gap: 4px;
+  }
+  .productTitle {
+    font-size: 11.5px;
+    min-height: 30px;
+    line-height: 1.3;
+  }
+  .sellingPrice {
+    font-size: 13.5px;
+  }
+  .mrp {
+    font-size: 10.5px;
+  }
+  .savingsTag {
+    font-size: 9.5px;
+  }
+  .hallmarkBadge {
+    font-size: 8px;
+    padding: 3px 6px;
+  }
+  .quickViewBtn {
+    display: none;
+  }
+}

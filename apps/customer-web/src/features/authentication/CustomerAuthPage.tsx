@@ -128,7 +128,7 @@ export const CustomerAuthPage: React.FC = () => {
     setApiError(null);
     try {
       const response = await defaultApiClient.post<AuthSessionResponse>(
-        "/auth/customer/login-password",
+        "/auth/login",
         data,
         { skipAuth: true }
       );

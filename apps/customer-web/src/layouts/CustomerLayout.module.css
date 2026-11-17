@@ -4,8 +4,10 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  overflow-x: hidden;
 }
 
 /* 1. Top Announcement Strip (Deep Obsidian Velvet & Royal Gold) */
@@ -589,6 +591,13 @@
   border-top: 2px solid var(--color-champagne-gold);
   padding: var(--space-16) var(--space-8) var(--space-8);
   margin-top: var(--space-16);
+}
+
+@media (max-width: 900px) {
+  .footer {
+    padding: var(--space-8) var(--space-4) calc(84px + env(safe-area-inset-bottom, 0px)) var(--space-4);
+    margin-top: var(--space-8);
+  }
 }
 
 .footerGrid {

@@ -286,3 +286,86 @@
   gap: var(--space-4);
   margin-bottom: var(--space-4);
 }
+
+/* Responsive Mobile & Tablet Adjustments */
+@media (max-width: 900px) {
+  .deckCard {
+    position: relative !important;
+    top: auto !important;
+    border-radius: 20px 20px 0 0;
+    box-shadow: none;
+    transform: none !important;
+  }
+
+  .sectionWrapper {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .sectionHeader {
+    margin-bottom: var(--space-6);
+  }
+
+  .sectionTitle {
+    font-size: clamp(1.45rem, 5.5vw, 1.95rem);
+  }
+
+  .brandShowcaseSection {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .storeStoryGrid {
+    padding: var(--space-8) var(--space-4);
+    gap: var(--space-6);
+  }
+
+  .storeDetailsCard {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 640px) {
+  .trustStrip {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .trustGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .trustItem {
+    font-size: 11px;
+    gap: var(--space-2);
+  }
+
+  .categoryGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .categoryVisual {
+    height: 200px;
+  }
+
+  .categoryInfo {
+    padding: var(--space-4);
+  }
+
+  .brandGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .brandTile {
+    padding: var(--space-4) var(--space-2);
+  }
+
+  .brandTileName {
+    font-size: 13px;
+  }
+
+  .brandTileTag {
+    font-size: 9.5px;
+  }
+}
+

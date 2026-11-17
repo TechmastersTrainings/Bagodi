@@ -26,27 +26,34 @@ export const MerchantLoginPage: React.FC = () => {
   } = useForm<MerchantLoginFormData>({
     resolver: zodResolver(merchantLoginSchema),
     defaultValues: {
-      email: "manager@bagodi.in",
-      password: "StorePassword@123",
+      email: "merchant@bagodi.in",
+      password: "Fri10Feb@2023",
     },
   });
 
   const handleFillDemoCreds = () => {
-    setValue("email", "manager@bagodi.in", { shouldValidate: true });
-    setValue("password", "StorePassword@123", { shouldValidate: true });
+    setValue("email", "merchant@bagodi.in", { shouldValidate: true });
+    setValue("password", "Fri10Feb@2023", { shouldValidate: true });
   };
 
   const onSubmit = async (data: MerchantLoginFormData) => {
     setApiError(null);
     try {
       const response = await defaultApiClient.post<AuthSessionResponse>(
-        "/auth/merchant/login",
+        "/auth/login",
         data,
         { skipAuth: true }
       );
 
       // Verify authorized store personnel roles
-      const allowedRoles = ["MERCHANT_ADMIN", "STORE_MANAGER", "INVENTORY_STAFF", "DELIVERY_STAFF", "SUPER_ADMIN"];
+      const allowedRoles = [
+        "MERCHANT_OWNER",
+        "MERCHANT_ADMIN",
+        "STORE_MANAGER",
+        "INVENTORY_STAFF",
+        "DELIVERY_STAFF",
+        "SUPER_ADMIN",
+      ];
       if (!allowedRoles.includes(response.user.role)) {
         throw new Error("Access restricted to authorized Bagodi retail staff.");
       }
@@ -154,11 +161,11 @@ export const MerchantLoginPage: React.FC = () => {
           <div className={styles.demoCredsGrid}>
             <div className={styles.demoCredItem}>
               <span className={styles.demoCredLabel}>Staff Email</span>
-              <code className={styles.demoCredCode}>manager@bagodi.in</code>
+              <code className={styles.demoCredCode}>merchant@bagodi.in</code>
             </div>
             <div className={styles.demoCredItem}>
               <span className={styles.demoCredLabel}>Password</span>
-              <code className={styles.demoCredCode}>StorePassword@123</code>
+              <code className={styles.demoCredCode}>Fri10Feb@2023</code>
             </div>
           </div>
           <button

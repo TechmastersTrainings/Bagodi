@@ -811,53 +811,132 @@
   background: rgba(255, 255, 255, 0.35);
 }
 
-/* Mobile Adjustments */
-@media (max-width: 768px) {
+/* Mobile Adjustments & Responsive Smooth Flow */
+@media (max-width: 900px) {
   .heroRoot {
+    position: relative !important;
+    top: auto !important;
+    min-height: auto !important;
     padding: var(--space-6) var(--space-4) var(--space-4);
-    min-height: auto;
+    transform: none !important;
   }
 
-  .mainHeadline {
-    font-size: 1.85rem;
+  .editorialHeader {
+    padding: 0 4px;
   }
 
-  .subHeadline {
-    font-size: 0.88rem;
-  }
-
-  .heroWelcomeArch {
-    margin-top: 12px;
-  }
-
-  .watermarkLetter {
-    font-size: 1.25rem;
-  }
-
-  .primaryBrandLetter {
-    font-size: 1.45rem;
+  .scrollFoldIndicator {
+    display: none;
   }
 
   .runwayDeckSection {
-    min-height: auto;
-    border-radius: 24px 24px 0 0;
+    position: relative !important;
+    top: auto !important;
+    min-height: auto !important;
+    border-radius: 20px 20px 0 0;
+    box-shadow: none;
+    transform: none !important;
+    padding-top: var(--space-6);
+  }
+
+  .modelLineupWrapper {
+    justify-content: flex-start;
+    padding: 8px 16px 14px 16px;
+    gap: 12px;
   }
 
   .modelCard {
-    height: 190px !important;
+    flex: 0 0 135px;
+    height: 195px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .mainHeadline {
+    font-size: clamp(1.42rem, 6.4vw, 1.85rem);
+    line-height: 1.22;
+    margin-bottom: 12px;
+  }
+
+  .subHeadlineWrapper {
+    margin-bottom: 18px;
+  }
+
+  .subHeadline {
+    font-size: 0.86rem;
+    line-height: 1.52;
+  }
+
+  .ctaWrapper {
+    margin-bottom: var(--space-4);
+  }
+
+  .ctaButton {
+    padding: 11px 26px;
+    font-size: 12px;
+  }
+
+  .heroWelcomeArch {
+    margin-top: 10px;
+    padding: 0 4px;
+    gap: 4px 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .archGroup {
+    gap: 2px;
+  }
+
+  .archDot {
+    width: 4px;
+    height: 4px;
+    margin: 0 3px;
+  }
+
+  .watermarkLetter {
+    font-size: clamp(0.85rem, 3.8vw, 1.25rem);
+    letter-spacing: 0.05em;
+  }
+
+  .primaryBrandLetter {
+    font-size: clamp(0.95rem, 4.4vw, 1.45rem);
+  }
+
+  .bookArchivalRule {
+    max-width: 240px;
+    margin-top: 6px;
+  }
+
+  .runwaySectionHeader {
+    margin-bottom: 12px;
+  }
+
+  .runwayTitle {
+    font-size: 1.5rem;
+  }
+
+  .runwaySubtitle {
+    font-size: 11.5px;
+  }
+
+  .modelCard {
+    flex: 0 0 120px;
+    height: 175px !important;
   }
 
   .brandMarqueeBar {
-    padding: 14px 0;
-    margin-top: 8px;
+    padding: 10px 0;
+    margin-top: 6px;
   }
 
   .marqueeGroup {
-    gap: 28px;
-    padding-right: 28px;
+    gap: 24px;
+    padding-right: 24px;
   }
 
   .brandLogoItem {
-    font-size: 12px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
   }
 }
