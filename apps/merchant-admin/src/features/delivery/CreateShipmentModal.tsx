@@ -42,12 +42,7 @@ export const CreateShipmentModal: React.FC<CreateShipmentModalProps> = ({
     queryFn: () => defaultApiClient.get<CourierPartner[]>("/delivery/courier-partners"),
   });
 
-  const partners = partnersData || [
-    { id: "cp_bluedart", name: "Blue Dart Express (Air)", code: "BLUEDART", isActive: true, serviceType: "AIR_EXPRESS" },
-    { id: "cp_delhivery", name: "Delhivery Surface Logistics", code: "DELHIVERY", isActive: true, serviceType: "STANDARD_SURFACE" },
-    { id: "cp_dtdc", name: "DTDC Premium Express", code: "DTDC", isActive: true, serviceType: "STANDARD_SURFACE" },
-    { id: "cp_inhouse", name: "Bagodi Bidar City Hyperlocal Fleet", code: "BAGODI_INHOUSE", isActive: true, serviceType: "LOCAL_HYPERLOCAL" },
-  ];
+  const partners = partnersData || [];
 
   // Auto select first partner if empty
   React.useEffect(() => {

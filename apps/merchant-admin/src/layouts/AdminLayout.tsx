@@ -28,55 +28,48 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onOpenBarcod
   const { user, activeStore, logout, hasPermission, hasRole } = useAuth();
 
   // Navigation module buttons (Replacing the old sidebar with a single-page ribbon)
-  const navItems = [
+  const navItems: { label: string; path: string; icon: React.ReactNode; visible: boolean; badge?: string }[] = [
     {
       label: "Dashboard",
       path: "/dashboard",
       icon: <LayoutDashboard size={15} />,
       visible: true,
-      badge: "Live",
     },
     {
       label: "Products & Catalogue",
       path: "/products",
       icon: <Shirt size={15} />,
       visible: hasPermission("products:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
-      badge: "148 SKUs",
     },
     {
       label: "Inventory & Barcodes",
       path: "/inventory",
       icon: <Boxes size={15} />,
       visible: hasPermission("inventory:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER", "INVENTORY_STAFF"]),
-      badge: "Scanner",
     },
     {
       label: "Orders & Dispatch",
       path: "/orders",
       icon: <ShoppingBag size={15} />,
       visible: hasPermission("orders:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
-      badge: "14 Pending",
     },
     {
       label: "Returns & Exchanges",
       path: "/returns",
       icon: <RotateCcw size={15} />,
       visible: hasPermission("returns:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
-      badge: "3 Inspect",
     },
     {
       label: "Payments & Ledger",
       path: "/payments",
       icon: <CreditCard size={15} />,
       visible: hasPermission("orders:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER", "SUPER_ADMIN"]),
-      badge: "₹28.45L",
     },
     {
       label: "Coupons & Discounts",
       path: "/coupons",
       icon: <Tag size={15} />,
       visible: hasPermission("orders:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
-      badge: "Festive",
     },
   ];
 

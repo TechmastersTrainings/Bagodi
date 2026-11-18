@@ -8,10 +8,9 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@bagodi/shared-types": "*"
+    "@bagodi/shared-types": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.7.3"
   }
 }
-

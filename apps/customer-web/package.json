@@ -11,13 +11,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@bagodi/api-client": "*",
-    "@bagodi/authentication": "*",
-    "@bagodi/design-system": "*",
-    "@bagodi/shared-components": "*",
-    "@bagodi/shared-types": "*",
-    "@bagodi/utilities": "*",
-    "@bagodi/validation": "*",
+    "@bagodi/api-client": "workspace:*",
+    "@bagodi/authentication": "workspace:*",
+    "@bagodi/design-system": "workspace:*",
+    "@bagodi/shared-components": "workspace:*",
+    "@bagodi/shared-types": "workspace:*",
+    "@bagodi/utilities": "workspace:*",
+    "@bagodi/validation": "workspace:*",
     "@hookform/resolvers": "^3.9.1",
     "@tanstack/react-query": "^5.66.0",
     "lucide-react": "^0.468.0",
@@ -35,4 +35,3 @@
     "vite": "^5.4.14"
   }
 }
-

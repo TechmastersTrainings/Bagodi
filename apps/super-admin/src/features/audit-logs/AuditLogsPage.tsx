@@ -31,29 +31,7 @@ export const AuditLogsPage: React.FC = () => {
     retry: 1,
   });
 
-  const logs = data?.items || [
-    {
-      id: "log_98234812",
-      timestamp: new Date().toISOString(),
-      actorId: "usr_root_01",
-      actorEmail: "root@techmasters.in",
-      action: "MERCHANT_ONBOARDED" as const,
-      targetResource: "Tenant: bagodi-bidar",
-      targetId: "tenant_bagodi_bidar",
-      ipAddress: "103.212.144.12",
-      status: "SUCCESS" as const,
-    },
-    {
-      id: "log_98234811",
-      timestamp: new Date(Date.now() - 3600000).toISOString(),
-      actorId: "usr_root_01",
-      actorEmail: "root@techmasters.in",
-      action: "SECURITY_LOGIN_SUCCESS" as const,
-      targetResource: "Platform Authentication",
-      ipAddress: "103.212.144.12",
-      status: "SUCCESS" as const,
-    },
-  ];
+  const logs = data?.items || [];
 
   const handlePrint = () => {
     window.print();

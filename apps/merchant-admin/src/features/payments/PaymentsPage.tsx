@@ -70,15 +70,49 @@ export const PaymentsPage: React.FC = () => {
 
   const [periodFilter, setPeriodFilter] = useState<"ALL" | "TODAY" | "WEEK" | "MONTH">("ALL");
 
-  // Metrics summary
+  // Metrics summary dynamically derived from ledger transactions
   const metrics = useMemo(() => {
-    const todayRevenue = 28925;
-    const weekRevenue = 111474;
-    const monthRevenue = 2845600;
-    const totalTransactions = data?.total || 2;
-    const totalGross = transactions.reduce((sum, t) => sum + (t.amount || 0), 0) || todayRevenue;
-    const totalSettled = 2712300;
-    const totalRefunded = 1000;
+    const now = Date.now();
+    const oneDayMs = 24 * 60 * 60 * 1000;
+    const sevenDaysMs = 7 * oneDayMs;
+    const thirtyDaysMs = 30 * oneDayMs;
+
+    let todayRevenue = 0;
+    let weekRevenue = 0;
+    let monthRevenue = 0;
+    let totalGross = 0;
+    let totalSettled = 0;
+    let totalRefunded = 0;
+
+    for (const t of transactions) {
+      const amt = t.amount || 0;
+      totalGross += amt;
+
+      const txTime = t.createdAt ? new Date(t.createdAt).getTime() : 0;
+      const ageMs = now - txTime;
+
+      const isPositiveSettlement = t.status === "SETTLED" || t.status === "CAPTURED";
+
+      if (isPositiveSettlement) {
+        if (ageMs <= oneDayMs) {
+          todayRevenue += amt;
+        }
+        if (ageMs <= sevenDaysMs) {
+          weekRevenue += amt;
+        }
+        if (ageMs <= thirtyDaysMs) {
+          monthRevenue += amt;
+        }
+      }
+
+      if (t.status === "SETTLED") {
+        totalSettled += amt;
+      } else if (t.status === "REFUNDED") {
+        totalRefunded += amt;
+      }
+    }
+
+    const totalTransactions = data?.total ?? transactions.length;
 
     return {
       todayRevenue,

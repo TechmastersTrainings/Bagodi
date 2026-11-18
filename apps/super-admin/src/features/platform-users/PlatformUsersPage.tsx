@@ -31,19 +31,7 @@ export const PlatformUsersPage: React.FC = () => {
     retry: 1,
   });
 
-  const users = data?.items || [
-    {
-      id: "usr_root_01",
-      fullName: "TechMasters Root Superadmin",
-      email: "root@techmasters.in",
-      role: "SUPER_ADMIN" as const,
-      isActive: true,
-      twoFactorEnabled: true,
-      lastLoginAt: new Date().toISOString(),
-      lastLoginIp: "103.212.144.12",
-      createdAt: "2026-11-01T00:00:00Z",
-    },
-  ];
+  const users = data?.items || [];
 
   const columns: Column<PlatformUser>[] = [
     {
