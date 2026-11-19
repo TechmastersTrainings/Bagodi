@@ -1,121 +1,576 @@
-.authContainer {
-  max-width: 480px;
-  margin: var(--space-8) auto var(--space-16);
-  padding: 0 var(--space-4);
+/* Bagodi Luxury Customer Storefront - Royal Editorial Auth Pavilion */
+
+.authPageWrapper {
+  --bg-canvas: #F8F7F5;
+  --bg-card: #FFFFFF;
+  --text-primary: #111412;
+  --text-secondary: #4A4E4B;
+  --text-muted: #7A807C;
+  --border-default: #E5E1D8;
+  --border-subtle: #F0EDE6;
+  --brand-crimson: #E31B23;
+  --brand-crimson-hover: #C8141B;
+  --brand-crimson-subtle: rgba(227, 27, 35, 0.08);
+  --color-gold: #C5A15B;
+  --color-gold-light: #E5D5B8;
+  --color-gold-subtle: rgba(197, 161, 91, 0.14);
+
+  min-height: calc(100vh - 120px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 4vw, 56px) clamp(16px, 3vw, 32px);
+  box-sizing: border-box;
 }
 
-.authCard {
-  padding: var(--space-8);
-  background: var(--bg-surface);
+.splitPavilion {
+  width: 100%;
+  max-width: 1140px;
+  background: var(--bg-card);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-xl), var(--shadow-inner-highlight);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.08), 0 2px 12px rgba(0, 0, 0, 0.03);
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  position: relative;
+}
+
+/* =====================================================================
+   LEFT COLUMN: ROYAL HERITAGE & HAUTE COUTURE EDITORIAL
+   ===================================================================== */
+
+.editorialPanel {
+  position: relative;
+  min-height: 640px;
+  background: #110E10;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(28px, 4vw, 48px);
+  color: #FFFFFF;
+}
+
+.editorialMediaWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.editorialImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  filter: brightness(0.85) contrast(1.08);
+  transform: scale(1.02);
+  transition: transform 8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.editorialPanel:hover .editorialImage {
+  transform: scale(1.06);
+}
+
+.editorialGradientOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(17, 14, 16, 0.35) 0%,
+    rgba(17, 14, 16, 0.72) 45%,
+    rgba(17, 14, 16, 0.95) 85%,
+    #110E10 100%
+  );
+}
+
+.editorialContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vh, 28px);
+}
+
+.hallmarkStrip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(17, 14, 16, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(197, 161, 91, 0.35);
+  padding: 6px 14px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.hallmarkBadge {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-gold);
+  text-transform: uppercase;
+}
+
+.hallmarkDot {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+}
+
+.hallmarkLocation {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+}
+
+.editorialHeroText {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editorialTitle {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  line-height: 1.22;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.editorialQuote {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-style: italic;
+  font-size: clamp(12.5px, 1.4vw, 14px);
+  line-height: 1.6;
+  color: var(--color-gold-light);
+  margin: 0;
+  opacity: 0.95;
+}
+
+.luxuryPillars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 6px;
+}
+
+.pillarItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 10px 14px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.pillarItem:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(197, 161, 91, 0.35);
+}
+
+.pillarIconCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(197, 161, 91, 0.16);
+  border: 1px solid rgba(197, 161, 91, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold);
+  flex-shrink: 0;
+}
+
+.pillarTitle {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+  margin: 0 0 2px 0;
+}
+
+.pillarDesc {
+  font-size: 11px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+}
+
+.editorialFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.establishedTag {
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.storeFootnote {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+/* =====================================================================
+   RIGHT COLUMN: REFINED IVORY AUTH PAVILION
+   ===================================================================== */
+
+.formPanel {
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(28px, 4vw, 44px);
+  position: relative;
+}
+
+.formCard {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
 }
 
 .authHeader {
-  text-align: center;
-  margin-bottom: var(--space-6);
+  margin-bottom: 22px;
+  text-align: left;
 }
 
-.brandBadge {
-  display: inline-block;
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-widest);
+.brandMicroTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--brand-crimson);
   text-transform: uppercase;
-  color: var(--accent-primary);
-  margin-bottom: var(--space-2);
-  font-weight: var(--font-weight-semibold);
+  margin-bottom: 8px;
+}
+
+.brandMicroDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-crimson);
 }
 
 .title {
-  font-family: var(--font-serif);
-  font-size: var(--text-2xl);
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: clamp(26px, 3.2vw, 32px);
+  font-weight: 600;
   color: var(--text-primary);
-  letter-spacing: var(--tracking-wide);
-  margin-bottom: var(--space-2);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.01em;
 }
 
 .subtitle {
-  font-size: var(--text-xs);
+  font-size: 12.5px;
+  line-height: 1.55;
   color: var(--text-secondary);
-  line-height: var(--leading-relaxed);
+  margin: 0;
 }
 
+/* Tab Navigation */
 .tabNavigation {
   display: flex;
-  background: var(--bg-secondary);
+  background: #F4F1EA;
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
+  border-radius: 12px;
   padding: 4px;
-  margin-bottom: var(--space-6);
+  margin-bottom: 22px;
+  gap: 4px;
 }
 
 .tabButton {
   flex: 1;
-  padding: var(--space-2) var(--space-1);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-medium);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
   color: var(--text-secondary);
-  border-radius: var(--radius-md);
-  transition: all var(--duration-fast) var(--ease-spring);
-  text-align: center;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.tabButton:hover:not(.tabActive) {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .tabActive {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  box-shadow: var(--shadow-xs);
-  border: 1px solid var(--border-subtle);
+  background: #FFFFFF;
+  color: var(--brand-crimson);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(197, 161, 91, 0.35);
 }
 
+.tabContentArea {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Forms */
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: 16px;
 }
 
+.crimsonPrimaryBtn {
+  background: linear-gradient(135deg, var(--brand-crimson) 0%, var(--brand-crimson-hover) 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  box-shadow: 0 6px 20px rgba(227, 27, 35, 0.28) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.crimsonPrimaryBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(227, 27, 35, 0.38) !important;
+}
+
+.crimsonPrimaryBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.otpHelperNotice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #FBF9F5;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* OTP Step: Verify */
 .otpInfoBox {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-3) var(--space-4);
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  font-size: var(--text-xs);
-  color: var(--text-secondary);
-  margin-bottom: var(--space-2);
+  padding: 12px 14px;
+  background: #F8F7F5;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+}
+
+.otpDestinationDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.otpSentLabel {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.otpDestinationVal {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: var(--font-mono, monospace);
 }
 
 .editNumberBtn {
-  color: var(--accent-primary);
-  font-weight: var(--font-weight-semibold);
+  color: var(--brand-crimson);
+  font-weight: 600;
   cursor: pointer;
   background: none;
   border: none;
-  font-size: var(--text-xs);
+  font-size: 11.5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.editNumberBtn:hover {
+  background: var(--brand-crimson-subtle);
+}
+
+.otpInputWrapper {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
 }
 
 .resendContainer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: var(--text-xs);
-  color: var(--text-tertiary);
-  margin-top: var(--space-2);
+  justify-content: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  padding-top: 4px;
+}
+
+.resendLabel {
+  color: var(--text-secondary);
+}
+
+.resendTimer {
+  font-family: var(--font-mono, monospace);
+  font-weight: 600;
+  color: var(--color-gold);
+}
+
+.resendActionBtn {
+  background: none;
+  border: none;
+  color: var(--brand-crimson);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  font-size: 11.5px;
+}
+
+.twoColumnGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .termsCheckbox {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-2);
-  font-size: var(--text-xs);
+  gap: 10px;
+  font-size: 11px;
   color: var(--text-secondary);
-  margin-top: var(--space-2);
+  line-height: 1.45;
+  cursor: pointer;
+  user-select: none;
 }
 
-.termsCheckbox input {
+.termsCheckbox input[type="checkbox"] {
+  accent-color: var(--brand-crimson);
   margin-top: 2px;
-  accent-color: var(--accent-primary);
+  cursor: pointer;
 }
 
+.termsErrorText {
+  font-size: 11px;
+  color: var(--brand-crimson);
+  margin-top: -8px;
+}
+
+/* Security Guarantee Strip */
+.securityStrip {
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.shieldIcon {
+  color: var(--color-gold);
+  flex-shrink: 0;
+}
+
+/* =====================================================================
+   RESPONSIVE ADAPTATIONS
+   ===================================================================== */
+
+@media (max-width: 960px) {
+  .splitPavilion {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+
+  .editorialPanel {
+    min-height: 300px;
+    padding: 24px 20px;
+  }
+
+  .luxuryPillars {
+    display: none;
+  }
+
+  .editorialFooter {
+    display: none;
+  }
+
+  .editorialQuote {
+    display: none;
+  }
+
+  .editorialTitle {
+    font-size: 20px;
+  }
+
+  .formPanel {
+    padding: 28px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .authPageWrapper {
+    padding: 12px 10px;
+  }
+
+  .splitPavilion {
+    border-radius: 16px;
+  }
+
+  .editorialPanel {
+    min-height: 220px;
+    padding: 18px 16px;
+  }
+
+  .hallmarkStrip {
+    padding: 4px 10px;
+  }
+
+  .hallmarkBadge,
+  .hallmarkLocation {
+    font-size: 9.5px;
+  }
+
+  .editorialTitle {
+    font-size: 18px;
+  }
+
+  .twoColumnGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tabButton span {
+    font-size: 10.5px;
+  }
+}

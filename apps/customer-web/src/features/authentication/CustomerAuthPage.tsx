@@ -15,7 +15,6 @@ import {
   Button,
   TextInput,
   OtpInput,
-  PerspectiveCard3D,
   ApiErrorCard,
 } from "@bagodi/shared-components";
 import { defaultApiClient } from "@bagodi/api-client";
@@ -24,7 +23,19 @@ import {
   AuthSessionResponse,
   SendOtpResponse,
 } from "@bagodi/shared-types";
-import { Smartphone, Mail, Lock, User, ArrowRight, ShieldCheck } from "lucide-react";
+import {
+  Smartphone,
+  Mail,
+  Lock,
+  User,
+  ArrowRight,
+  ShieldCheck,
+  Award,
+  Scissors,
+  Sparkles,
+  UserPlus,
+  CheckCircle2,
+} from "lucide-react";
 
 type AuthTab = "OTP" | "PASSWORD" | "REGISTER";
 
@@ -156,241 +167,343 @@ export const CustomerAuthPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.authContainer}>
-      <PerspectiveCard3D maxTiltDeg={4}>
-        <div className={styles.authCard}>
-          {/* Header */}
-          <div className={styles.authHeader}>
-            <span className={styles.brandBadge}>Bagodi Boutique • Bidar</span>
-            <h1 className={styles.title}>Customer Account</h1>
-            <p className={styles.subtitle}>
-              Sign in to manage your garments, custom sizing, delivery tracking, and returns.
-            </p>
+    <div className={styles.authPageWrapper}>
+      <div className={styles.splitPavilion}>
+        {/* Left Column: Royal Heritage & Haute Couture Editorial */}
+        <div className={styles.editorialPanel}>
+          <div className={styles.editorialMediaWrapper}>
+            <img
+              src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=85"
+              alt="Bagodi Royal Handcrafted Silk Saree"
+              className={styles.editorialImage}
+            />
+            <div className={styles.editorialGradientOverlay} />
           </div>
 
-          {/* Navigation Tabs */}
-          <div className={styles.tabNavigation}>
-            <button
-              type="button"
-              className={`${styles.tabButton} ${activeTab === "OTP" ? styles.tabActive : ""}`}
-              onClick={() => {
-                setActiveTab("OTP");
-                setApiError(null);
-              }}
-            >
-              Mobile OTP
-            </button>
-            <button
-              type="button"
-              className={`${styles.tabButton} ${activeTab === "PASSWORD" ? styles.tabActive : ""}`}
-              onClick={() => {
-                setActiveTab("PASSWORD");
-                setApiError(null);
-              }}
-            >
-              Password
-            </button>
-            <button
-              type="button"
-              className={`${styles.tabButton} ${activeTab === "REGISTER" ? styles.tabActive : ""}`}
-              onClick={() => {
-                setActiveTab("REGISTER");
-                setApiError(null);
-              }}
-            >
-              Create Account
-            </button>
-          </div>
-
-          {/* API Error Notification */}
-          {apiError && (
-            <div style={{ marginBottom: "var(--space-4)" }}>
-              <ApiErrorCard message={apiError} />
+          <div className={styles.editorialContent}>
+            <div className={styles.hallmarkStrip}>
+              <span className={styles.hallmarkBadge}>BAGODI ROYAL ATELIER</span>
+              <span className={styles.hallmarkDot}>•</span>
+              <span className={styles.hallmarkLocation}>BIDAR, KARNATAKA</span>
             </div>
-          )}
 
-          {/* TAB 1: FAST MOBILE OTP */}
-          {activeTab === "OTP" && (
-            <div>
-              {otpStep === "INPUT" ? (
-                <form onSubmit={handleOtpSendSubmit(onSendOtp)} className={styles.form}>
-                  <TextInput
-                    label="Mobile Number or Email"
-                    placeholder="Enter 10-digit mobile (e.g. 9876543210)"
-                    leftIcon={<Smartphone size={18} />}
-                    isRequired
-                    error={otpSendErrors.phoneOrEmail?.message}
-                    {...registerOtpSend("phoneOrEmail")}
-                  />
+            <div className={styles.editorialHeroText}>
+              <h2 className={styles.editorialTitle}>
+                Heirloom Silks, Master Suiting & Royal Bridal Splendour
+              </h2>
+              <p className={styles.editorialQuote}>
+                "Every weave tells a tale of historic Bidar craftsmanship — hallmarked with Silk Mark India certification, enriched with pure gold zari, and tailored to bespoke perfection."
+              </p>
+            </div>
 
-                  <Button type="submit" size="lg" isLoading={isSendingOtp} fullWidth rightIcon={<ArrowRight size={18} />}>
-                    Send Secure OTP
-                  </Button>
+            <div className={styles.luxuryPillars}>
+              <div className={styles.pillarItem}>
+                <div className={styles.pillarIconCircle}>
+                  <Award size={16} />
+                </div>
+                <div>
+                  <h4 className={styles.pillarTitle}>Silk Mark Certified</h4>
+                  <p className={styles.pillarDesc}>100% natural Mysore, Kanjeevaram & Banarasi silks</p>
+                </div>
+              </div>
 
-                  <p style={{ textAlign: "center", fontSize: "var(--text-xs)", color: "var(--text-tertiary)" }}>
-                    We'll send a 6-digit one-time code to verify your device.
-                  </p>
-                </form>
-              ) : (
-                <div className={styles.form}>
-                  <div className={styles.otpInfoBox}>
-                    <span>
-                      Code sent to <strong>{otpReference?.maskedDestination || targetPhoneOrEmail}</strong>
-                    </span>
-                    <button
-                      type="button"
-                      className={styles.editNumberBtn}
-                      onClick={() => {
-                        setOtpStep("INPUT");
-                        setEnteredOtp("");
-                      }}
+              <div className={styles.pillarItem}>
+                <div className={styles.pillarIconCircle}>
+                  <Scissors size={16} />
+                </div>
+                <div>
+                  <h4 className={styles.pillarTitle}>Raymond Master Tailoring</h4>
+                  <p className={styles.pillarDesc}>Precision measurements & hand-finished festive silhouettes</p>
+                </div>
+              </div>
+
+              <div className={styles.pillarItem}>
+                <div className={styles.pillarIconCircle}>
+                  <Sparkles size={16} />
+                </div>
+                <div>
+                  <h4 className={styles.pillarTitle}>Atelier Concierge</h4>
+                  <p className={styles.pillarDesc}>Private wardrobe curation, bespoke fittings & insured dispatch</p>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.editorialFooter}>
+              <span className={styles.establishedTag}>ESTABLISHED 1968</span>
+              <span className={styles.storeFootnote}>Bidar Flagship Mall • Fort Road Landmark</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Refined Ivory Auth Pavilion */}
+        <div className={styles.formPanel}>
+          <div className={styles.formCard}>
+            {/* Header */}
+            <div className={styles.authHeader}>
+              <div className={styles.brandMicroTag}>
+                <span className={styles.brandMicroDot} />
+                <span>BAGODI CLIENT PRIVILEGE</span>
+              </div>
+              <h1 className={styles.title}>Client Access</h1>
+              <p className={styles.subtitle}>
+                Sign in with instant mobile OTP or password to access your bespoke wardrobe, custom sizing, and boutique orders.
+              </p>
+            </div>
+
+            {/* Navigation Tabs */}
+            <div className={styles.tabNavigation}>
+              <button
+                type="button"
+                className={`${styles.tabButton} ${activeTab === "OTP" ? styles.tabActive : ""}`}
+                onClick={() => {
+                  setActiveTab("OTP");
+                  setApiError(null);
+                }}
+              >
+                <Smartphone size={13} />
+                <span>Instant OTP</span>
+              </button>
+              <button
+                type="button"
+                className={`${styles.tabButton} ${activeTab === "PASSWORD" ? styles.tabActive : ""}`}
+                onClick={() => {
+                  setActiveTab("PASSWORD");
+                  setApiError(null);
+                }}
+              >
+                <Lock size={13} />
+                <span>Password</span>
+              </button>
+              <button
+                type="button"
+                className={`${styles.tabButton} ${activeTab === "REGISTER" ? styles.tabActive : ""}`}
+                onClick={() => {
+                  setActiveTab("REGISTER");
+                  setApiError(null);
+                }}
+              >
+                <UserPlus size={13} />
+                <span>New Client</span>
+              </button>
+            </div>
+
+            {/* API Error Notification */}
+            {apiError && (
+              <div style={{ marginBottom: "16px" }}>
+                <ApiErrorCard message={apiError} />
+              </div>
+            )}
+
+            {/* TAB 1: FAST MOBILE OTP */}
+            {activeTab === "OTP" && (
+              <div className={styles.tabContentArea}>
+                {otpStep === "INPUT" ? (
+                  <form onSubmit={handleOtpSendSubmit(onSendOtp)} className={styles.form}>
+                    <TextInput
+                      label="Mobile Number or Email"
+                      placeholder="Enter 10-digit mobile (e.g. 9876543210)"
+                      leftIcon={<Smartphone size={18} />}
+                      isRequired
+                      error={otpSendErrors.phoneOrEmail?.message}
+                      {...registerOtpSend("phoneOrEmail")}
+                    />
+
+                    <Button
+                      type="submit"
+                      size="lg"
+                      isLoading={isSendingOtp}
+                      fullWidth
+                      rightIcon={<ArrowRight size={18} />}
+                      className={styles.crimsonPrimaryBtn}
                     >
-                      Change
-                    </button>
-                  </div>
+                      Send Secure Verification Code
+                    </Button>
 
-                  <OtpInput
-                    length={6}
-                    value={enteredOtp}
-                    onChange={(val) => setEnteredOtp(val)}
-                  />
-
-                  <Button
-                    type="button"
-                    size="lg"
-                    isLoading={isVerifyingOtp}
-                    disabled={enteredOtp.length !== 6}
-                    onClick={onVerifyOtp}
-                    fullWidth
-                  >
-                    Verify & Sign In
-                  </Button>
-
-                  <div className={styles.resendContainer}>
-                    <span>Didn't receive the code?</span>
-                    {resendCountdown > 0 ? (
-                      <span>Resend in {resendCountdown}s</span>
-                    ) : (
+                    <div className={styles.otpHelperNotice}>
+                      <CheckCircle2 size={13} color="#C5A15B" />
+                      <span>We will transmit a 6-digit one-time code to authenticate your session.</span>
+                    </div>
+                  </form>
+                ) : (
+                  <div className={styles.form}>
+                    <div className={styles.otpInfoBox}>
+                      <div className={styles.otpDestinationDetails}>
+                        <span className={styles.otpSentLabel}>Verification code dispatched to</span>
+                        <strong className={styles.otpDestinationVal}>
+                          {otpReference?.maskedDestination || targetPhoneOrEmail}
+                        </strong>
+                      </div>
                       <button
                         type="button"
                         className={styles.editNumberBtn}
-                        onClick={() => onSendOtp({ phoneOrEmail: targetPhoneOrEmail, channel: "SMS" })}
+                        onClick={() => {
+                          setOtpStep("INPUT");
+                          setEnteredOtp("");
+                        }}
                       >
-                        Resend Code
+                        Change
                       </button>
-                    )}
+                    </div>
+
+                    <div className={styles.otpInputWrapper}>
+                      <OtpInput
+                        length={6}
+                        value={enteredOtp}
+                        onChange={(val) => setEnteredOtp(val)}
+                      />
+                    </div>
+
+                    <Button
+                      type="button"
+                      size="lg"
+                      isLoading={isVerifyingOtp}
+                      disabled={enteredOtp.length !== 6}
+                      onClick={onVerifyOtp}
+                      fullWidth
+                      className={styles.crimsonPrimaryBtn}
+                    >
+                      Verify Code & Enter Atelier
+                    </Button>
+
+                    <div className={styles.resendContainer}>
+                      <span className={styles.resendLabel}>Didn't receive the SMS code?</span>
+                      {resendCountdown > 0 ? (
+                        <span className={styles.resendTimer}>Resend in {resendCountdown}s</span>
+                      ) : (
+                        <button
+                          type="button"
+                          className={styles.resendActionBtn}
+                          onClick={() => onSendOtp({ phoneOrEmail: targetPhoneOrEmail, channel: "SMS" })}
+                        >
+                          Resend Code Now
+                        </button>
+                      )}
+                    </div>
                   </div>
+                )}
+              </div>
+            )}
+
+            {/* TAB 2: EMAIL / PHONE + PASSWORD */}
+            {activeTab === "PASSWORD" && (
+              <form onSubmit={handlePasswordLoginSubmit(onPasswordLogin)} className={styles.form}>
+                <TextInput
+                  label="Registered Email or Mobile"
+                  placeholder="name@example.com or 10-digit phone"
+                  leftIcon={<Mail size={18} />}
+                  isRequired
+                  error={passwordErrors.emailOrPhone?.message}
+                  {...registerPasswordLogin("emailOrPhone")}
+                />
+
+                <TextInput
+                  label="Security Password"
+                  type="password"
+                  placeholder="••••••••"
+                  leftIcon={<Lock size={18} />}
+                  isRequired
+                  error={passwordErrors.password?.message}
+                  {...registerPasswordLogin("password")}
+                />
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  isLoading={isLoggingInPassword}
+                  fullWidth
+                  rightIcon={<ArrowRight size={18} />}
+                  className={styles.crimsonPrimaryBtn}
+                >
+                  Sign In With Password
+                </Button>
+              </form>
+            )}
+
+            {/* TAB 3: REGISTRATION */}
+            {activeTab === "REGISTER" && (
+              <form onSubmit={handleRegisterSubmit(onRegister)} className={styles.form}>
+                <TextInput
+                  label="Full Name"
+                  placeholder="e.g. Ramesh Patil"
+                  leftIcon={<User size={18} />}
+                  isRequired
+                  error={registerErrors.fullName?.message}
+                  {...registerRegister("fullName")}
+                />
+
+                <div className={styles.twoColumnGrid}>
+                  <TextInput
+                    label="10-Digit Mobile"
+                    placeholder="9876543210"
+                    leftIcon={<Smartphone size={16} />}
+                    isRequired
+                    error={registerErrors.phone?.message}
+                    {...registerRegister("phone")}
+                  />
+                  <TextInput
+                    label="Email Address"
+                    type="email"
+                    placeholder="name@example.com"
+                    leftIcon={<Mail size={16} />}
+                    isRequired
+                    error={registerErrors.email?.message}
+                    {...registerRegister("email")}
+                  />
                 </div>
-              )}
+
+                <div className={styles.twoColumnGrid}>
+                  <TextInput
+                    label="Password"
+                    type="password"
+                    placeholder="Min 8 chars"
+                    leftIcon={<Lock size={16} />}
+                    isRequired
+                    error={registerErrors.password?.message}
+                    {...registerRegister("password")}
+                  />
+                  <TextInput
+                    label="Confirm Password"
+                    type="password"
+                    placeholder="Repeat password"
+                    leftIcon={<Lock size={16} />}
+                    isRequired
+                    error={registerErrors.confirmPassword?.message}
+                    {...registerRegister("confirmPassword")}
+                  />
+                </div>
+
+                <label className={styles.termsCheckbox}>
+                  <input type="checkbox" {...registerRegister("acceptTerms")} />
+                  <span>
+                    I agree to the Bagodi Store Terms & Conditions, Atelier Privacy Policy, and Authentic Garment Care Charter.
+                  </span>
+                </label>
+                {registerErrors.acceptTerms && (
+                  <span className={styles.termsErrorText}>
+                    {registerErrors.acceptTerms.message}
+                  </span>
+                )}
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  isLoading={isRegistering}
+                  fullWidth
+                  className={styles.crimsonPrimaryBtn}
+                >
+                  Create Boutique Account
+                </Button>
+              </form>
+            )}
+
+            {/* Security Guarantee Strip */}
+            <div className={styles.securityStrip}>
+              <ShieldCheck size={14} className={styles.shieldIcon} />
+              <span>End-to-End 256-Bit TLS Encryption • Silk Mark India Authenticity Protected</span>
             </div>
-          )}
-
-          {/* TAB 2: EMAIL / PHONE + PASSWORD */}
-          {activeTab === "PASSWORD" && (
-            <form onSubmit={handlePasswordLoginSubmit(onPasswordLogin)} className={styles.form}>
-              <TextInput
-                label="Email or Mobile"
-                placeholder="name@example.com or 10-digit phone"
-                leftIcon={<Mail size={18} />}
-                isRequired
-                error={passwordErrors.emailOrPhone?.message}
-                {...registerPasswordLogin("emailOrPhone")}
-              />
-
-              <TextInput
-                label="Password"
-                type="password"
-                placeholder="••••••••"
-                leftIcon={<Lock size={18} />}
-                isRequired
-                error={passwordErrors.password?.message}
-                {...registerPasswordLogin("password")}
-              />
-
-              <Button type="submit" size="lg" isLoading={isLoggingInPassword} fullWidth rightIcon={<ArrowRight size={18} />}>
-                Sign In With Password
-              </Button>
-            </form>
-          )}
-
-          {/* TAB 3: REGISTRATION */}
-          {activeTab === "REGISTER" && (
-            <form onSubmit={handleRegisterSubmit(onRegister)} className={styles.form}>
-              <TextInput
-                label="Full Name"
-                placeholder="e.g. Ramesh Patil"
-                leftIcon={<User size={18} />}
-                isRequired
-                error={registerErrors.fullName?.message}
-                {...registerRegister("fullName")}
-              />
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-3)" }}>
-                <TextInput
-                  label="10-Digit Mobile"
-                  placeholder="9876543210"
-                  leftIcon={<Smartphone size={16} />}
-                  isRequired
-                  error={registerErrors.phone?.message}
-                  {...registerRegister("phone")}
-                />
-                <TextInput
-                  label="Email Address"
-                  type="email"
-                  placeholder="name@example.com"
-                  leftIcon={<Mail size={16} />}
-                  isRequired
-                  error={registerErrors.email?.message}
-                  {...registerRegister("email")}
-                />
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-3)" }}>
-                <TextInput
-                  label="Password"
-                  type="password"
-                  placeholder="Min 8 chars"
-                  leftIcon={<Lock size={16} />}
-                  isRequired
-                  error={registerErrors.password?.message}
-                  {...registerRegister("password")}
-                />
-                <TextInput
-                  label="Confirm"
-                  type="password"
-                  placeholder="Repeat password"
-                  leftIcon={<Lock size={16} />}
-                  isRequired
-                  error={registerErrors.confirmPassword?.message}
-                  {...registerRegister("confirmPassword")}
-                />
-              </div>
-
-              <label className={styles.termsCheckbox}>
-                <input type="checkbox" {...registerRegister("acceptTerms")} />
-                <span>
-                  I agree to the Bagodi Store Terms & Conditions and Privacy Policy.
-                </span>
-              </label>
-              {registerErrors.acceptTerms && (
-                <span style={{ fontSize: "var(--text-xs)", color: "var(--status-danger)" }}>
-                  {registerErrors.acceptTerms.message}
-                </span>
-              )}
-
-              <Button type="submit" size="lg" isLoading={isRegistering} fullWidth>
-                Create Boutique Account
-              </Button>
-            </form>
-          )}
-
-          <div style={{ marginTop: "var(--space-6)", paddingTop: "var(--space-4)", borderTop: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: "var(--text-xs)", color: "var(--text-tertiary)" }}>
-            <ShieldCheck size={14} style={{ color: "var(--accent-primary)" }} />
-            <span>End-to-End Encrypted Session • TechMasters Innovations Platform</span>
           </div>
         </div>
-      </PerspectiveCard3D>
+      </div>
     </div>
   );
 };
-
