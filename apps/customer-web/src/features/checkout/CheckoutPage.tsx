@@ -36,7 +36,7 @@ export const CheckoutPage: React.FC = () => {
     mutationFn: (code: string) =>
       defaultApiClient.post<ValidateCouponResponse>("/promotions/validate-coupon", {
         code,
-        cartTotal: cart?.pricing?.subtotal || 0,
+        cartTotal: (cart as any)?.pricing?.subtotal ?? (cart as any)?.subtotal ?? 0,
       }),
     onSuccess: (res) => {
       if (res.isValid) {
@@ -227,9 +227,13 @@ export const CheckoutPage: React.FC = () => {
   // Calculate express delivery charge add-on & coupon discount
   const expressDeliveryAddOn = deliverySpeed === "EXPRESS" ? 150 : 0;
   const couponDiscountAmount = appliedCoupon ? appliedCoupon.discountAmount : 0;
+  const baseSubtotal = Number((cart as any)?.pricing?.subtotal ?? (cart as any)?.subtotal ?? 0);
+  const baseDiscount = Number((cart as any)?.pricing?.discountTotal ?? (cart as any)?.discount_amount ?? 0);
+  const baseDelivery = Number((cart as any)?.pricing?.deliveryCharge ?? 0);
+  const baseFinal = Number((cart as any)?.pricing?.finalTotal ?? (cart as any)?.total_amount ?? (baseSubtotal - baseDiscount + baseDelivery));
   const finalCalculatedPayable = Math.max(
     0,
-    (cart.pricing.finalTotal || 0) + expressDeliveryAddOn - couponDiscountAmount
+    baseFinal + expressDeliveryAddOn - couponDiscountAmount
   );
 
   return (
@@ -476,14 +480,21 @@ export const CheckoutPage: React.FC = () => {
 
             {/* Garments Preview */}
             <div className={styles.itemPreviewList}>
-              {cart.items.map((item) => (
-                <div key={item.id} className={styles.itemPreviewRow}>
-                  <span className={styles.itemPreviewName}>
-                    {item.productName} ({item.variant.size}) × {item.quantity}
-                  </span>
-                  <span>{formatINR(item.totalPrice)}</span>
-                </div>
-              ))}
+              {cart.items.map((item: any) => {
+                const size = item.variant?.size || item.variantName || item.variant_name || "Standard";
+                const productName = item.productName || item.product_name || "Luxury Garment";
+                const unitPrice = item.unitPrice ?? item.unit_price ?? 0;
+                const totalPrice = item.totalPrice ?? item.total_price ?? (unitPrice * item.quantity);
+
+                return (
+                  <div key={item.id} className={styles.itemPreviewRow}>
+                    <span className={styles.itemPreviewName}>
+                      {productName} ({size}) × {item.quantity}
+                    </span>
+                    <span>{formatINR(totalPrice)}</span>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Privilege Coupon Input */}
@@ -557,13 +568,13 @@ export const CheckoutPage: React.FC = () => {
             <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "var(--space-4)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--space-2)", fontSize: "var(--text-sm)", color: "var(--text-secondary)" }}>
                 <span>Subtotal</span>
-                <span>{formatINR(cart.pricing.subtotal)}</span>
+                <span>{formatINR(baseSubtotal)}</span>
               </div>
 
-              {cart.pricing.discountTotal > 0 && (
+              {baseDiscount > 0 && (
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--space-2)", fontSize: "var(--text-sm)", color: "var(--status-success)" }}>
                   <span>Discount</span>
-                  <span>-{formatINR(cart.pricing.discountTotal)}</span>
+                  <span>-{formatINR(baseDiscount)}</span>
                 </div>
               )}
 
@@ -579,9 +590,9 @@ export const CheckoutPage: React.FC = () => {
                 <span>
                   {deliverySpeed === "EXPRESS"
                     ? formatINR(150)
-                    : cart.pricing.deliveryCharge === 0
+                    : baseDelivery === 0
                     ? "FREE"
-                    : formatINR(cart.pricing.deliveryCharge)}
+                    : formatINR(baseDelivery)}
                 </span>
               </div>
 

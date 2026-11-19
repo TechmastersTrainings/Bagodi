@@ -14,14 +14,23 @@ export interface CartVariantSummary {
 
 export interface CartItem {
   id: string;
-  productId: string;
-  productName: string;
-  variantId: string;
-  variant: CartVariantSummary;
+  productId?: string;
+  productName?: string;
+  product_name?: string;
+  variantId?: string;
+  variant_id?: string;
+  variantName?: string;
+  variant_name?: string;
+  variant?: CartVariantSummary;
   quantity: number;
-  unitPrice: number;
-  totalPrice: number;
+  unitPrice?: number;
+  unit_price?: number;
+  totalPrice?: number;
+  total_price?: number;
   imageUrl?: string;
+  image_url?: string;
+  sku?: string;
+  available_qty?: number;
 }
 
 export interface CartPricing {
@@ -35,10 +44,18 @@ export interface CartPricing {
 export interface CartResponse {
   id: string;
   userId?: string;
-  itemCount: number;
+  customer_id?: string | null;
+  tenant_id?: string;
+  session_id?: string | null;
+  itemCount?: number;
+  total_items?: number;
   items: CartItem[];
-  pricing: CartPricing;
+  pricing?: CartPricing;
+  subtotal?: number;
+  discount_amount?: number;
+  total_amount?: number;
   couponCode?: string | null;
+  coupon_code?: string | null;
   isCouponApplied?: boolean;
 }
 

@@ -119,97 +119,108 @@ export const CartPage: React.FC = () => {
       <header className={styles.cartHeader}>
         <h1 className={styles.cartTitle}>Shopping Bag</h1>
         <span className={styles.cartCount}>
-          ({cart.itemCount} {cart.itemCount === 1 ? "garment" : "garments"})
+          ({(cart as any).itemCount ?? (cart as any).total_items ?? cart.items?.length ?? 0} {((cart as any).itemCount ?? (cart as any).total_items ?? cart.items?.length ?? 0) === 1 ? "garment" : "garments"})
         </span>
       </header>
 
       <div className={styles.cartGrid}>
         {/* Items List */}
         <div className={styles.itemsList}>
-          {cart.items.map((item) => (
-            <div key={item.id} className={styles.cartItemCard}>
-              <div className={styles.itemImageWrapper}>
-                {item.imageUrl ? (
-                  <img src={item.imageUrl} alt={item.productName} className={styles.itemImage} />
-                ) : (
-                  <ShoppingBag size={32} color="var(--text-tertiary)" />
-                )}
-              </div>
+          {cart.items.map((item: any) => {
+            const size = item.variant?.size || item.variantName || item.variant_name || "Standard";
+            const colorName = item.variant?.colorName || item.colorName;
+            const sku = item.variant?.sku || item.sku || "";
+            const availableStock = item.variant?.availableStock ?? item.available_qty;
+            const productName = item.productName || item.product_name || "Luxury Garment";
+            const imageUrl = item.imageUrl || item.image_url;
+            const unitPrice = item.unitPrice ?? item.unit_price ?? 0;
+            const totalPrice = item.totalPrice ?? item.total_price ?? (unitPrice * item.quantity);
 
-              <div className={styles.itemDetails}>
-                <div>
-                  <div className={styles.itemHeader}>
-                    <h3 className={styles.itemName}>{item.productName}</h3>
-                    <button
-                      className={styles.removeButton}
-                      onClick={() => removeItemMutation.mutate(item.id)}
-                      disabled={removeItemMutation.isPending}
-                      aria-label="Remove item from bag"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-
-                  <div className={styles.itemMeta}>
-                    <span className={styles.metaChip}>Size: {item.variant.size}</span>
-                    {item.variant.colorName && (
-                      <span className={styles.metaChip}>Color: {item.variant.colorName}</span>
-                    )}
-                    <span className={styles.metaChip}>SKU: {item.variant.sku}</span>
-                  </div>
-
-                  {item.variant.availableStock !== undefined && item.variant.availableStock <= 3 && (
-                    <div className={styles.stockWarning}>
-                      <AlertCircle size={12} />
-                      Only {item.variant.availableStock} left in stock - order soon
-                    </div>
+            return (
+              <div key={item.id} className={styles.cartItemCard}>
+                <div className={styles.itemImageWrapper}>
+                  {imageUrl ? (
+                    <img src={imageUrl} alt={productName} className={styles.itemImage} />
+                  ) : (
+                    <ShoppingBag size={32} color="var(--text-tertiary)" />
                   )}
                 </div>
 
-                <div className={styles.itemFooter}>
-                  {/* Quantity Stepper */}
-                  <div className={styles.quantityControl}>
-                    <button
-                      className={styles.qtyButton}
-                      onClick={() => {
-                        if (item.quantity > 1) {
-                          updateQuantityMutation.mutate({ itemId: item.id, quantity: item.quantity - 1 });
-                        } else {
-                          removeItemMutation.mutate(item.id);
-                        }
-                      }}
-                      disabled={updateQuantityMutation.isPending}
-                      aria-label="Decrease quantity"
-                    >
-                      <Minus size={14} />
-                    </button>
-                    <span className={styles.qtyValue}>{item.quantity}</span>
-                    <button
-                      className={styles.qtyButton}
-                      onClick={() => {
-                        updateQuantityMutation.mutate({ itemId: item.id, quantity: item.quantity + 1 });
-                      }}
-                      disabled={
-                        updateQuantityMutation.isPending ||
-                        (item.variant.availableStock !== undefined && item.quantity >= item.variant.availableStock)
-                      }
-                      aria-label="Increase quantity"
-                    >
-                      <Plus size={14} />
-                    </button>
+                <div className={styles.itemDetails}>
+                  <div>
+                    <div className={styles.itemHeader}>
+                      <h3 className={styles.itemName}>{productName}</h3>
+                      <button
+                        className={styles.removeButton}
+                        onClick={() => removeItemMutation.mutate(item.id)}
+                        disabled={removeItemMutation.isPending}
+                        aria-label="Remove item from bag"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+
+                    <div className={styles.itemMeta}>
+                      <span className={styles.metaChip}>Size: {size}</span>
+                      {colorName && (
+                        <span className={styles.metaChip}>Color: {colorName}</span>
+                      )}
+                      {sku && <span className={styles.metaChip}>SKU: {sku}</span>}
+                    </div>
+
+                    {availableStock !== undefined && availableStock <= 3 && availableStock > 0 && (
+                      <div className={styles.stockWarning}>
+                        <AlertCircle size={12} />
+                        Only {availableStock} left in stock - order soon
+                      </div>
+                    )}
                   </div>
 
-                  {/* Price Column */}
-                  <div className={styles.priceColumn}>
-                    <div className={styles.itemTotal}>{formatINR(item.totalPrice)}</div>
-                    {item.quantity > 1 && (
-                      <div className={styles.itemUnit}>({formatINR(item.unitPrice)} each)</div>
-                    )}
+                  <div className={styles.itemFooter}>
+                    {/* Quantity Stepper */}
+                    <div className={styles.quantityControl}>
+                      <button
+                        className={styles.qtyButton}
+                        onClick={() => {
+                          if (item.quantity > 1) {
+                            updateQuantityMutation.mutate({ itemId: item.id, quantity: item.quantity - 1 });
+                          } else {
+                            removeItemMutation.mutate(item.id);
+                          }
+                        }}
+                        disabled={updateQuantityMutation.isPending}
+                        aria-label="Decrease quantity"
+                      >
+                        <Minus size={14} />
+                      </button>
+                      <span className={styles.qtyValue}>{item.quantity}</span>
+                      <button
+                        className={styles.qtyButton}
+                        onClick={() => {
+                          updateQuantityMutation.mutate({ itemId: item.id, quantity: item.quantity + 1 });
+                        }}
+                        disabled={
+                          updateQuantityMutation.isPending ||
+                          (availableStock !== undefined && item.quantity >= availableStock)
+                        }
+                        aria-label="Increase quantity"
+                      >
+                        <Plus size={14} />
+                      </button>
+                    </div>
+
+                    {/* Price Column */}
+                    <div className={styles.priceColumn}>
+                      <div className={styles.itemTotal}>{formatINR(totalPrice)}</div>
+                      {item.quantity > 1 && (
+                        <div className={styles.itemUnit}>({formatINR(unitPrice)} each)</div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Server-Authoritative Order Summary */}
@@ -272,23 +283,23 @@ export const CartPage: React.FC = () => {
             {/* Calculations Breakdown */}
             <div className={styles.breakdownRow}>
               <span>Bag Subtotal</span>
-              <span>{formatINR(cart.pricing.subtotal)}</span>
+              <span>{formatINR((cart as any).pricing?.subtotal ?? (cart as any).subtotal ?? 0)}</span>
             </div>
 
-            {cart.pricing.discountTotal > 0 && (
+            {((cart as any).pricing?.discountTotal ?? (cart as any).discount_amount ?? 0) > 0 && (
               <div className={styles.breakdownRow} style={{ color: "var(--status-success)" }}>
                 <span>Discount Savings</span>
-                <span>-{formatINR(cart.pricing.discountTotal)}</span>
+                <span>-{formatINR((cart as any).pricing?.discountTotal ?? (cart as any).discount_amount ?? 0)}</span>
               </div>
             )}
 
             <div className={styles.breakdownRow}>
               <span>Delivery Charge</span>
               <span>
-                {cart.pricing.deliveryCharge === 0 ? (
+                {((cart as any).pricing?.deliveryCharge ?? 0) === 0 ? (
                   <span style={{ color: "var(--status-success)", fontWeight: "bold" }}>FREE</span>
                 ) : (
-                  formatINR(cart.pricing.deliveryCharge)
+                  formatINR((cart as any).pricing?.deliveryCharge ?? 0)
                 )}
               </span>
             </div>
@@ -296,7 +307,7 @@ export const CartPage: React.FC = () => {
             <div className={styles.breakdownTotal}>
               <span>Payable Total</span>
               <span style={{ color: "var(--accent-primary)" }}>
-                {formatINR(cart.pricing.finalTotal)}
+                {formatINR((cart as any).pricing?.finalTotal ?? (cart as any).total_amount ?? (cart as any).subtotal ?? 0)}
               </span>
             </div>
 
