@@ -53,23 +53,8 @@ export class ApiClient {
     const envBase = getEnvVar("VITE_API_BASE_URL");
     const windowBase = typeof window !== "undefined" && (window as any).__API_BASE_URL__;
 
-    // Production default: Bagodi API running on Render
-    const productionApiUrl = "https://bagodi-api.onrender.com";
-
-    let resolvedBase = config.baseUrl || envBase || windowBase;
-
-    if (!resolvedBase) {
-      if (typeof window !== "undefined") {
-        const host = window.location.hostname;
-        if (host.includes("vercel.app") || host.includes("bagodi.in")) {
-          resolvedBase = productionApiUrl;
-        } else {
-          resolvedBase = "/api/v1";
-        }
-      } else {
-        resolvedBase = productionApiUrl;
-      }
-    }
+    // Production default: fallback to relative /api/v1 (proxied by Vercel/Nginx) or direct Render API
+    let resolvedBase = config.baseUrl || envBase || windowBase || "/api/v1";
 
     if (resolvedBase.startsWith("http://") || resolvedBase.startsWith("https://")) {
       const clean = resolvedBase.replace(/\/+$/, "");
