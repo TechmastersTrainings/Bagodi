@@ -2,14 +2,15 @@
  * Currency, Date & Number Formatters
  */
 
-export const formatINR = (amount: number): string => {
-  if (typeof amount !== "number" || isNaN(amount)) return "₹0.00";
+export const formatINR = (amount: number | string): string => {
+  const numeric = typeof amount === "number" ? amount : Number(amount);
+  if (isNaN(numeric)) return "₹0.00";
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
     maximumFractionDigits: 2,
     minimumFractionDigits: 2,
-  }).format(amount);
+  }).format(numeric);
 };
 
 export const formatDate = (isoString?: string): string => {

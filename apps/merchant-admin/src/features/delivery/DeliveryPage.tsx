@@ -8,6 +8,7 @@ import styles from "./DeliveryPage.module.css";
 import { ShipmentDetailModal } from "./ShipmentDetailModal";
 import { CreateShipmentModal } from "./CreateShipmentModal";
 import { ManifestModal } from "./ManifestModal";
+import { AssignDeliveryAgentModal } from "./AssignDeliveryAgentModal";
 import {
   Truck,
   Package,
@@ -19,6 +20,7 @@ import {
   Eye,
   Send,
   Navigation,
+  Bike,
 } from "lucide-react";
 
 export const DeliveryPage: React.FC = () => {
@@ -29,6 +31,7 @@ export const DeliveryPage: React.FC = () => {
 
   // Modals
   const [selectedShipment, setSelectedShipment] = useState<DeliveryShipment | null>(null);
+  const [selectedShipmentForAssign, setSelectedShipmentForAssign] = useState<DeliveryShipment | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isManifestOpen, setIsManifestOpen] = useState(false);
@@ -156,6 +159,15 @@ export const DeliveryPage: React.FC = () => {
             title="Inspect Live Checkpoint Scans"
           >
             <Eye size={15} />
+          </button>
+          <button
+            type="button"
+            className={styles.iconActionBtn}
+            onClick={() => setSelectedShipmentForAssign(row)}
+            title="Assign Dedicated Delivery Agent"
+            style={{ color: "var(--color-champagne-gold)" }}
+          >
+            <Bike size={15} />
           </button>
         </div>
       ),
@@ -344,6 +356,20 @@ export const DeliveryPage: React.FC = () => {
         isOpen={isManifestOpen}
         onClose={() => setIsManifestOpen(false)}
       />
+
+      {/* 8. Assign Dedicated Internal Delivery Agent */}
+      {selectedShipmentForAssign && (
+        <AssignDeliveryAgentModal
+          isOpen={Boolean(selectedShipmentForAssign)}
+          onClose={() => setSelectedShipmentForAssign(null)}
+          shipmentId={selectedShipmentForAssign.id}
+          orderNumber={selectedShipmentForAssign.orderNumber || "ORD-001"}
+          destinationAddress={`${selectedShipmentForAssign.destinationCity || "Bidar"} • PIN ${selectedShipmentForAssign.destinationPincode || "585401"}`}
+          onAssignedSuccess={() => {
+            refetch();
+          }}
+        />
+      )}
     </div>
   );
 };

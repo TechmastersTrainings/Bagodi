@@ -35,55 +35,56 @@ export const HomePage: React.FC = () => {
     retry: 1,
   });
 
-  const featuredProducts: Product[] = Array.isArray(rawProductsData)
+  const rawList: any[] = Array.isArray(rawProductsData)
     ? rawProductsData
     : Array.isArray(rawProductsData?.items)
     ? rawProductsData.items
     : [];
 
+  const featuredProducts: Product[] = rawList.map((p) => ({
+    ...p,
+    isActive: Boolean(p.isActive ?? (p.status === "active" && p.is_published !== false)),
+    isArchived: Boolean(p.isArchived ?? (p.status === "archived")),
+    currency: p.currency || "INR",
+    basePrice: Number(p.basePrice) || (p.variants?.[0]?.base_price ? Number(p.variants[0].base_price) : 0),
+  }));
+
   // Authentic Categories
   const storeCategories = [
     {
+      id: "mens-wear",
+      name: "Men's Wear",
+      meta: "Tailored Shirts, Trousers & Raymond Suiting",
+      path: "/catalogue?category=mens-wear",
+      tag: "Executive & Classic",
+    },
+    {
+      id: "womens-wear",
+      name: "Women's Wear",
+      meta: "Designer Kurtis, Festive Coordinates & Gowns",
+      path: "/catalogue?category=womens-wear",
+      tag: "Festive Pret",
+    },
+    {
+      id: "kids-wear",
+      name: "Kid's Wear",
+      meta: "Celebration Sets, Ethnic Kurtas & Festive Wear",
+      path: "/catalogue?category=kids-wear",
+      tag: "Celebration",
+    },
+    {
       id: "sarees",
       name: "Pure Silk Sarees",
-      meta: "Kanjivaram, Banarasi & Tussar",
+      meta: "Pure Banarasi, Kanjeevaram & Tussar Silk",
       path: "/catalogue?category=sarees",
       tag: "Heritage Craft",
     },
     {
-      id: "men-suiting",
-      name: "Raymond Suiting & Menswear",
-      meta: "Bespoke Fabrics, Blazers & Formalwear",
-      path: "/catalogue?category=men-suiting",
-      tag: "Authorised Partner",
-    },
-    {
-      id: "wedding",
-      name: "Bridal & Festive Couture",
-      meta: "Lehengas, Sherwanis & Indo-Western",
-      path: "/catalogue?category=wedding",
-      tag: "Wedding Atelier",
-    },
-    {
-      id: "fabrics",
-      name: "Unstitched Premium Fabrics",
-      meta: "Pure Wool, Linen & Royal Brocades",
-      path: "/catalogue?category=fabrics",
-      tag: "By the Metre",
-    },
-    {
-      id: "western",
-      name: "Western Ready-To-Wear",
-      meta: "Shirts, Trousers & Modern Coordinates",
-      path: "/catalogue?category=western",
-      tag: "Contemporary",
-    },
-    {
-      id: "kids",
-      name: "Kids' Festive Collection",
-      meta: "Traditional Kurtas & Ethnic Gowns",
-      path: "/catalogue?category=kids",
-      tag: "Celebration",
+      id: "blazers",
+      name: "Blazers & Suiting",
+      meta: "Royal Tuxedos, Bandhgalas & Bespoke Blazers",
+      path: "/catalogue?category=blazers",
+      tag: "Royal Atelier",
     },
   ];
 

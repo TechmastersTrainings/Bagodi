@@ -23,34 +23,29 @@ export interface NavItemConfig {
 
 const NAV_ITEMS: NavItemConfig[] = [
   {
+    id: "mens-wear",
+    label: "Men's Wear",
+    href: "/catalogue?category=mens-wear",
+  },
+  {
+    id: "womens-wear",
+    label: "Women's Wear",
+    href: "/catalogue?category=womens-wear",
+  },
+  {
+    id: "kids-wear",
+    label: "Kid's Wear",
+    href: "/catalogue?category=kids-wear",
+  },
+  {
     id: "sarees",
     label: "Sarees",
     href: "/catalogue?category=sarees",
   },
   {
-    id: "women-ethnic",
-    label: "Women's Ethnic",
-    href: "/catalogue?category=women-ethnic",
-  },
-  {
-    id: "men-suiting",
-    label: "Men's & Raymond",
-    href: "/catalogue?category=men-suiting",
-  },
-  {
-    id: "wedding",
-    label: "Wedding Collection",
-    href: "/catalogue?category=wedding",
-  },
-  {
-    id: "fabrics",
-    label: "Premium Fabrics",
-    href: "/catalogue?category=fabrics",
-  },
-  {
-    id: "kids",
-    label: "Kids' Festive",
-    href: "/catalogue?category=kids",
+    id: "blazers",
+    label: "Blazers",
+    href: "/catalogue?category=blazers",
   },
   {
     id: "offers",

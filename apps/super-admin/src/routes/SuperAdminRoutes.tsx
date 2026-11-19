@@ -4,6 +4,12 @@ import { SuperAdminLayout } from "../layouts/SuperAdminLayout";
 import { SuperDashboardPage } from "../features/dashboard/SuperDashboardPage";
 import { MerchantsPage } from "../features/merchants/MerchantsPage";
 import { PlatformUsersPage } from "../features/platform-users/PlatformUsersPage";
+import { ProductListPage } from "../features/products/ProductListPage";
+import { AdminOrdersPage } from "../features/orders/AdminOrdersPage";
+import { ReturnsPage } from "../features/returns/ReturnsPage";
+import { DeliveryPage } from "../features/delivery/DeliveryPage";
+import { CouponsPage } from "../features/coupons/CouponsPage";
+import { PaymentsPage } from "../features/payments/PaymentsPage";
 import { AuditLogsPage } from "../features/audit-logs/AuditLogsPage";
 import { SystemConfigPage } from "../features/settings/SystemConfigPage";
 import { SuperAdminLoginPage } from "../features/authentication/SuperAdminLoginPage";
@@ -52,6 +58,62 @@ export const SuperAdminRoutes: React.FC = () => {
         element={
           <ProtectedSuperAdminRoute>
             <PlatformUsersPage />
+          </ProtectedSuperAdminRoute>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <ProtectedSuperAdminRoute>
+            <PlatformUsersPage />
+          </ProtectedSuperAdminRoute>
+        }
+      />
+      <Route
+        path="/products"
+        element={
+          <ProtectedSuperAdminRoute>
+            <ProductListPage />
+          </ProtectedSuperAdminRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedSuperAdminRoute>
+            <AdminOrdersPage />
+          </ProtectedSuperAdminRoute>
+        }
+      />
+      <Route
+        path="/returns"
+        element={
+          <ProtectedSuperAdminRoute>
+            <ReturnsPage />
+          </ProtectedSuperAdminRoute>
+        }
+      />
+      <Route
+        path="/delivery"
+        element={
+          <ProtectedSuperAdminRoute>
+            <DeliveryPage />
+          </ProtectedSuperAdminRoute>
+        }
+      />
+      <Route
+        path="/coupons"
+        element={
+          <ProtectedSuperAdminRoute>
+            <CouponsPage />
+          </ProtectedSuperAdminRoute>
+        }
+      />
+      <Route
+        path="/payments"
+        element={
+          <ProtectedSuperAdminRoute>
+            <PaymentsPage />
           </ProtectedSuperAdminRoute>
         }
       />

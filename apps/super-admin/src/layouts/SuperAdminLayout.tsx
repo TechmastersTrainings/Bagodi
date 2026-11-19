@@ -11,6 +11,12 @@ import {
   ExternalLink,
   Activity,
   Cpu,
+  Shirt,
+  ShoppingBag,
+  RotateCcw,
+  Truck,
+  Tag,
+  CreditCard,
 } from "lucide-react";
 import { useAuth } from "@bagodi/authentication";
 
@@ -27,31 +33,56 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({ children }) 
       label: "Platform Cockpit",
       path: "/dashboard",
       icon: <LayoutDashboard size={15} />,
-      badge: "Live",
+    },
+    {
+      label: "User Management",
+      path: "/platform-users",
+      icon: <Users size={15} />,
+    },
+    {
+      label: "Product Management",
+      path: "/products",
+      icon: <Shirt size={15} />,
+    },
+    {
+      label: "Order Management",
+      path: "/orders",
+      icon: <ShoppingBag size={15} />,
+    },
+    {
+      label: "Return / Exchange",
+      path: "/returns",
+      icon: <RotateCcw size={15} />,
+    },
+    {
+      label: "Delivery Management",
+      path: "/delivery",
+      icon: <Truck size={15} />,
+    },
+    {
+      label: "Discount & Coupons",
+      path: "/coupons",
+      icon: <Tag size={15} />,
+    },
+    {
+      label: "Payment Management",
+      path: "/payments",
+      icon: <CreditCard size={15} />,
     },
     {
       label: "Commercial Tenants",
       path: "/merchants",
       icon: <Building2 size={15} />,
-      badge: "Multi-Tenant",
     },
     {
-      label: "Platform Users & RBAC",
-      path: "/platform-users",
-      icon: <Users size={15} />,
-      badge: "Security",
-    },
-    {
-      label: "Security & Audit Logs",
+      label: "Security & Audit",
       path: "/audit-logs",
       icon: <ShieldCheck size={15} />,
-      badge: "Immutable",
     },
     {
-      label: "System Parameters",
+      label: "System Settings",
       path: "/settings",
       icon: <Server size={15} />,
-      badge: "Config",
     },
   ];
 

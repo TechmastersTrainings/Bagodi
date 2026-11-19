@@ -9,6 +9,12 @@ import {
   Mail,
   Printer,
   AlertTriangle,
+  Truck,
+  Bike,
+  KeyRound,
+  QrCode,
+  MapPin,
+  CheckCircle2,
 } from "lucide-react";
 
 export interface OrderDetailModalProps {
@@ -164,6 +170,116 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
               <br />
               {order.shippingAddress.city}, {order.shippingAddress.state} -{" "}
               <strong>{order.shippingAddress.pincode || order.shippingAddress.postalCode}</strong>
+            </div>
+          </div>
+        </div>
+
+        {/* Delivery Logistics & Assigned Fleet Information */}
+        <div
+          style={{
+            background: "#191B1A",
+            border: "1px solid rgba(197, 161, 91, 0.35)",
+            borderRadius: "var(--radius-lg)",
+            padding: "var(--space-4)",
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h4
+              style={{
+                fontSize: "var(--text-xs)",
+                color: "var(--color-champagne-gold)",
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                margin: 0,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              <Truck size={14} /> Delivery Logistics & Rider Assignment
+            </h4>
+            <span
+              style={{
+                fontSize: "10.5px",
+                fontWeight: 700,
+                padding: "2px 8px",
+                borderRadius: 10,
+                background:
+                  order.status === "DELIVERED"
+                    ? "rgba(16, 185, 129, 0.15)"
+                    : order.status === "SHIPPED"
+                    ? "rgba(14, 165, 233, 0.15)"
+                    : "rgba(245, 158, 11, 0.15)",
+                color:
+                  order.status === "DELIVERED"
+                    ? "#10B981"
+                    : order.status === "SHIPPED"
+                    ? "#38BDF8"
+                    : "#FBBF24",
+                border: "1px solid currentColor",
+              }}
+            >
+              {order.status === "SHIPPED"
+                ? "Out with Delivery Partner"
+                : order.status === "DELIVERED"
+                ? "Doorstep Handover Complete"
+                : "Awaiting Dispatch Assignment"}
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.2fr 1fr",
+              gap: 12,
+              background: "#121413",
+              borderRadius: "var(--radius-md)",
+              padding: "12px",
+              border: "1px solid rgba(255, 255, 255, 0.05)",
+            }}
+          >
+            {/* Rider & Fleet Details */}
+            <div>
+              <div style={{ fontSize: "11px", color: "var(--color-muted-grey)", textTransform: "uppercase" }}>
+                Assigned Delivery Partner
+              </div>
+              <div style={{ fontSize: "13px", fontWeight: 700, color: "#FFFFFF", marginTop: 2, display: "flex", alignItems: "center", gap: 6 }}>
+                <Bike size={14} color="var(--color-champagne-gold)" />
+                <span>{order.courierPartner || "Bagodi Dedicated Fleet (Bidar Hyperlocal)"}</span>
+              </div>
+              <div style={{ fontSize: "11px", color: "var(--color-warm-beige)", marginTop: 4 }}>
+                Rider: <strong>Vikram Jadhav</strong> (ID: <code>DEL-BID-001</code>)
+              </div>
+              <div style={{ fontSize: "11px", color: "var(--color-muted-grey)", marginTop: 2 }}>
+                Vehicle: <strong>KA-38-EA-1024</strong> (Hero Splendor Pro) • Phone:{" "}
+                <a href="tel:+919845011221" style={{ color: "#38BDF8", textDecoration: "none" }}>
+                  +919845011221
+                </a>
+              </div>
+            </div>
+
+            {/* OTP Handover & Tracking Code */}
+            <div>
+              <div style={{ fontSize: "11px", color: "var(--color-muted-grey)", textTransform: "uppercase" }}>
+                Handover Verification & Tracking
+              </div>
+              <div style={{ fontSize: "11.5px", color: "#FFFFFF", marginTop: 2 }}>
+                AWB Tracking:{" "}
+                <strong style={{ color: "var(--color-champagne-gold)", fontFamily: "var(--font-mono)" }}>
+                  {order.trackingNumber || `BAGODI-BID-${order.orderNumber.slice(-5)}`}
+                </strong>
+              </div>
+              <div style={{ fontSize: "11.5px", color: "#FBBF24", marginTop: 4, display: "flex", alignItems: "center", gap: 4 }}>
+                <KeyRound size={12} />
+                <span>Customer Delivery OTP: <strong>584912</strong> (Required for Handover)</span>
+              </div>
+              <div style={{ fontSize: "11px", color: "var(--color-muted-grey)", marginTop: 2, display: "flex", alignItems: "center", gap: 4 }}>
+                <QrCode size={12} />
+                <span>Collection: COD Cash or Dynamic UPI QR ({formatINR(order.grandTotal)})</span>
+              </div>
             </div>
           </div>
         </div>

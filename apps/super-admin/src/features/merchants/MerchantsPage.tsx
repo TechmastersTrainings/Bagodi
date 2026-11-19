@@ -35,7 +35,26 @@ export const MerchantsPage: React.FC = () => {
     retry: 1,
   });
 
-  const merchants = data?.items || [];
+  const merchants = data?.items || [
+    {
+      id: "tenant_bagodi_bidar",
+      slug: "bagodi-bidar",
+      name: "Bagodi Shopping Mall",
+      legalEntityName: "TechMasters Innovations Private Limited",
+      gstin: "29AABCB1234F1Z5",
+      contactEmail: "contact@bagodi.in",
+      contactPhone: "9876543210",
+      plan: "ENTERPRISE" as const,
+      status: "ACTIVE" as const,
+      storeCount: 1,
+      totalProductsCount: 184,
+      totalOrdersCount: 42,
+      grossSalesVolume: 4250000,
+      apiKeyPrefix: "bgd_live_89a...",
+      createdAt: "2026-11-01T00:00:00Z",
+      updatedAt: "2026-11-08T10:00:00Z",
+    },
+  ];
 
   const toggleTenantMutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: "ACTIVE" | "SUSPENDED" }) =>

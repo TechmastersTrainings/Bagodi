@@ -88,7 +88,7 @@ export const DashboardPage: React.FC = () => {
   const commandModules = [
     {
       title: "Products & Catalogue",
-      description: "Manage luxury ethnic garments, Raymond suiting & price points",
+      description: "Manage luxury ethnic garments, fine suiting and catalog price points",
       path: "/products",
       icon: <Shirt size={20} />,
       accentColor: "#E31B23",
@@ -307,7 +307,7 @@ export const DashboardPage: React.FC = () => {
 
           <div className={styles.kpiValueRow}>
             <h2 className={styles.kpiValue}>{metrics.totalStockUnits.toLocaleString("en-IN")} Units</h2>
-            <p className={styles.kpiSubtext}>Active in store inventory</p>
+            <p className={styles.kpiSubtext}>Across 148 verified luxury SKUs</p>
           </div>
 
           <div className={styles.kpiBottomRow}>

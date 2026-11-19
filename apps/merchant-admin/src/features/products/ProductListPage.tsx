@@ -43,11 +43,14 @@ export const ProductListPage: React.FC = () => {
       defaultApiClient.get<PaginatedResponse<Product>>("/products", {
         params: {
           page,
-          pageSize: 15,
+          pageSize: 50,
           search: debouncedSearch || undefined,
           categoryId: selectedCategory || undefined,
+          includeAll: true,
         },
       }),
+    refetchOnWindowFocus: true,
+    staleTime: 5000,
   });
 
   // Archive mutation
@@ -58,7 +61,14 @@ export const ProductListPage: React.FC = () => {
     },
   });
 
-  const allItems = data?.items || [];
+  const rawItems: any[] = Array.isArray(data) ? data : data?.items || [];
+  const allItems: Product[] = rawItems.map((p) => ({
+    ...p,
+    isActive: Boolean(p.isActive ?? (p.status === "active" && p.is_published !== false)),
+    isArchived: Boolean(p.isArchived ?? (p.status === "archived")),
+    currency: p.currency || "INR",
+    basePrice: Number(p.basePrice) || (p.variants?.[0]?.base_price ? Number(p.variants[0].base_price) : 0),
+  }));
   const stagedItems = allItems.filter((p) => !p.isActive && !p.isArchived);
   const liveItems = allItems.filter((p) => p.isActive && !p.isArchived);
 

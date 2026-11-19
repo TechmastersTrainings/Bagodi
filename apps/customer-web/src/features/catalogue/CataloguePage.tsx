@@ -78,10 +78,26 @@ export const CataloguePage: React.FC = () => {
     retry: false,
   });
 
-  // Active Category resolution
+  // Active Category resolution (with alias mapping for storefront navigation links)
   const activeCategory = useMemo(() => {
     if (!categoryParam) return undefined;
-    return categories.find((c) => c.id === categoryParam || c.slug === categoryParam);
+    const catSlug = categoryParam.toLowerCase();
+    const aliasMap: Record<string, string> = {
+      "men-suiting": "mens-wear",
+      "mens-suiting": "mens-wear",
+      "men-wear": "mens-wear",
+      "women-ethnic": "womens-wear",
+      "womens-ethnic": "womens-wear",
+      "kids": "kids-wear",
+      "kids-festive": "kids-wear",
+      "wedding": "blazers",
+      "wedding-collection": "blazers",
+      "fabrics": "mens-wear",
+    };
+    const targetSlug = aliasMap[catSlug] || catSlug;
+    return categories.find(
+      (c) => c.id === categoryParam || c.slug === targetSlug || c.slug === catSlug
+    );
   }, [categoryParam, categories]);
 
   // Query Server Products strictly from Backend
@@ -119,11 +135,19 @@ export const CataloguePage: React.FC = () => {
     retry: false,
   });
 
-  const products: Product[] = Array.isArray(serverProductData?.items)
-    ? (serverProductData.items as Product[])
+  const rawProducts: any[] = Array.isArray(serverProductData?.items)
+    ? serverProductData.items
     : Array.isArray(serverProductData)
-    ? (serverProductData as unknown as Product[])
+    ? (serverProductData as unknown as any[])
     : [];
+
+  const products: Product[] = rawProducts.map((p) => ({
+    ...p,
+    isActive: Boolean(p.isActive ?? (p.status === "active" && p.is_published !== false)),
+    isArchived: Boolean(p.isArchived ?? (p.status === "archived")),
+    currency: p.currency || "INR",
+    basePrice: Number(p.basePrice) || (p.variants?.[0]?.base_price ? Number(p.variants[0].base_price) : 0),
+  }));
 
   const totalCount = serverProductData?.total ?? products.length;
   const totalPages = serverProductData?.totalPages ?? Math.max(1, Math.ceil(totalCount / 16));

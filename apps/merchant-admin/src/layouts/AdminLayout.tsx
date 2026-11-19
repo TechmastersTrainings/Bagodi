@@ -14,6 +14,8 @@ import {
   Barcode,
   ExternalLink,
   ShieldCheck,
+  Users,
+  Truck,
 } from "lucide-react";
 import { useAuth } from "@bagodi/authentication";
 import { NetworkStatusBar } from "@bagodi/shared-components";
@@ -27,8 +29,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onOpenBarcod
   const location = useLocation();
   const { user, activeStore, logout, hasPermission, hasRole } = useAuth();
 
-  // Navigation module buttons (Replacing the old sidebar with a single-page ribbon)
-  const navItems: { label: string; path: string; icon: React.ReactNode; visible: boolean; badge?: string }[] = [
+  // Navigation module buttons
+  const navItems = [
     {
       label: "Dashboard",
       path: "/dashboard",
@@ -36,40 +38,52 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onOpenBarcod
       visible: true,
     },
     {
-      label: "Products & Catalogue",
+      label: "User Management",
+      path: "/users",
+      icon: <Users size={15} />,
+      visible: true,
+    },
+    {
+      label: "Product Management",
       path: "/products",
       icon: <Shirt size={15} />,
-      visible: hasPermission("products:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
+      visible: true,
     },
     {
       label: "Inventory & Barcodes",
       path: "/inventory",
       icon: <Boxes size={15} />,
-      visible: hasPermission("inventory:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER", "INVENTORY_STAFF"]),
+      visible: true,
     },
     {
-      label: "Orders & Dispatch",
+      label: "Order Management",
       path: "/orders",
       icon: <ShoppingBag size={15} />,
-      visible: hasPermission("orders:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
+      visible: true,
     },
     {
-      label: "Returns & Exchanges",
+      label: "Return / Exchange",
       path: "/returns",
       icon: <RotateCcw size={15} />,
-      visible: hasPermission("returns:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
+      visible: true,
     },
     {
-      label: "Payments & Ledger",
+      label: "Delivery Management",
+      path: "/delivery",
+      icon: <Truck size={15} />,
+      visible: true,
+    },
+    {
+      label: "Payment Management",
       path: "/payments",
       icon: <CreditCard size={15} />,
-      visible: hasPermission("orders:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER", "SUPER_ADMIN"]),
+      visible: true,
     },
     {
-      label: "Coupons & Discounts",
+      label: "Discount & Coupons",
       path: "/coupons",
       icon: <Tag size={15} />,
-      visible: hasPermission("orders:read") || hasRole(["MERCHANT_ADMIN", "STORE_MANAGER"]),
+      visible: true,
     },
   ];
 

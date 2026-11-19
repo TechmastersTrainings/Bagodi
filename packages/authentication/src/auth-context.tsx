@@ -47,6 +47,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = useCallback(async (tokens: AuthTokens, authUser: AuthUser) => {
     await tokenStorage.setAccessToken(tokens.accessToken);
     await tokenStorage.setRefreshToken(tokens.refreshToken);
+    if (typeof window !== "undefined" && window.localStorage) {
+      try {
+        localStorage.setItem("bagodi_auth_user", JSON.stringify(authUser));
+        localStorage.setItem("bagodi_user_role", authUser.role || "STORE_MANAGER");
+      } catch {
+        // Storage full or restricted
+      }
+    }
     setUser(authUser);
 
     // Set initial active store context if available
@@ -92,11 +100,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Verify and hydrate active session on mount
     const checkSession = async () => {
+      // 1. Immediately hydrate cached user profile and role from localStorage
+      if (typeof window !== "undefined" && window.localStorage) {
+        try {
+          const cachedUserStr = localStorage.getItem("bagodi_auth_user");
+          if (cachedUserStr) {
+            const cachedUser = JSON.parse(cachedUserStr);
+            setUser(cachedUser);
+            if (cachedUser.activeStore) {
+              setActiveStore(cachedUser.activeStore);
+            }
+          }
+        } catch {
+          // Ignore JSON parse errors
+        }
+      }
+
       try {
         const rt = await tokenStorage.getRefreshToken();
         if (rt) {
           const profile = await defaultApiClient.get<AuthUser>("/auth/me");
           setUser(profile);
+          if (typeof window !== "undefined" && window.localStorage) {
+            try {
+              localStorage.setItem("bagodi_auth_user", JSON.stringify(profile));
+              localStorage.setItem("bagodi_user_role", profile.role || "STORE_MANAGER");
+            } catch {}
+          }
           if (profile.activeStore) {
             setActiveStore(profile.activeStore);
           } else if (profile.availableStores && profile.availableStores.length > 0) {
@@ -118,8 +148,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const hasRole = useCallback(
     (roles: UserRole | UserRole[]): boolean => {
       if (!user) return false;
-      const targetRoles = Array.isArray(roles) ? roles : [roles];
-      return targetRoles.includes(user.role);
+      const targetRoles = (Array.isArray(roles) ? roles : [roles]).map((r) =>
+        String(r).toUpperCase()
+      );
+      const userRole = (user.role || "").toUpperCase();
+      const userRoles = (Array.isArray((user as any).roles)
+        ? (user as any).roles
+        : []
+      ).map((r: any) => String(r).toUpperCase());
+
+      // Super Admin or platform admin always has full operational access across portals
+      if (
+        userRole === "SUPER_ADMIN" ||
+        userRoles.includes("SUPER_ADMIN") ||
+        (user as any).is_platform_user ||
+        (user as any).isPlatformUser
+      ) {
+        return true;
+      }
+
+      return targetRoles.some(
+        (r) => r === userRole || userRoles.includes(r)
+      );
     },
     [user]
   );

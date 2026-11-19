@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { ProductImage } from "@bagodi/shared-types";
-import { Camera, Upload, Trash2, Star, Link as LinkIcon, Sparkles } from "lucide-react";
+import { defaultApiClient } from "@bagodi/api-client";
+import { Camera, Upload, Trash2, Star, Link as LinkIcon, Sparkles, Loader2 } from "lucide-react";
 import styles from "./ProductPhotoManager.module.css";
 
 export interface ProductPhotoManagerProps {
@@ -48,19 +49,36 @@ export const ProductPhotoManager: React.FC<ProductPhotoManagerProps> = ({
 }) => {
   const [urlInputSlot, setUrlInputSlot] = useState<number | null>(null);
   const [enteredUrl, setEnteredUrl] = useState<string>("");
+  const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const fileInputRefs = useRef<{ [key: number]: HTMLInputElement | null }>({});
 
-  const handleFileUpload = (slotNumber: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (slotNumber: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result as string;
-      assignImageToSlot(slotNumber, result, file.name);
-    };
-    reader.readAsDataURL(file);
-    e.target.value = "";
+    try {
+      setUploadingSlot(slotNumber);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "products");
+
+      const res = await defaultApiClient.post<{ url: string }>("/media/upload", formData);
+      if (res && res.url) {
+        assignImageToSlot(slotNumber, res.url, file.name);
+      } else {
+        throw new Error("No URL returned from R2 media upload");
+      }
+    } catch (err) {
+      console.warn("Cloudflare R2 direct upload fallback to local preview:", err);
+      const reader = new FileReader();
+      reader.onload = () => {
+        assignImageToSlot(slotNumber, reader.result as string, file.name);
+      };
+      reader.readAsDataURL(file);
+    } finally {
+      setUploadingSlot(null);
+      e.target.value = "";
+    }
   };
 
   const assignImageToSlot = (slotNumber: number, url: string, altText?: string) => {
@@ -162,7 +180,15 @@ export const ProductPhotoManager: React.FC<ProductPhotoManagerProps> = ({
                 {isPrimary && <span className={styles.primaryPill}>Cover</span>}
               </div>
 
-              {isUrlActive ? (
+              {uploadingSlot === slot.slotNumber ? (
+                <div className={styles.emptyArea} style={{ pointerEvents: "none" }}>
+                  <div className={styles.uploadIconWrap}>
+                    <Loader2 size={20} style={{ animation: "spin 1s linear infinite" }} />
+                  </div>
+                  <div className={styles.emptyPrompt}>Uploading to Cloudflare R2...</div>
+                  <div className={styles.emptyHint}>Optimizing asset & generating CDN URL</div>
+                </div>
+              ) : isUrlActive ? (
                 <div className={styles.urlInputRow}>
                   <input
                     type="url"

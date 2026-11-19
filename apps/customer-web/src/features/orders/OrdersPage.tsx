@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { defaultApiClient } from "@bagodi/api-client";
 import { Order } from "@bagodi/shared-types";
-import { EmptyState, ApiErrorCard, SkeletonLine, StatusBadge } from "@bagodi/shared-components";
-import { Package, Clock } from "lucide-react";
+import { EmptyState, ApiErrorCard, SkeletonLine, StatusBadge, Button } from "@bagodi/shared-components";
+import { Package, Clock, Truck, KeyRound } from "lucide-react";
 import { formatINR, formatDateTime } from "@bagodi/utilities";
+import { CustomerDeliveryTrackingModal } from "./CustomerDeliveryTrackingModal";
 
 export const OrdersPage: React.FC = () => {
+  const [selectedOrderForTracking, setSelectedOrderForTracking] = useState<Order | null>(null);
+
   const { data: orders, isLoading, error, refetch } = useQuery<Order[]>({
     queryKey: ["customer-orders"],
     queryFn: () => defaultApiClient.get<Order[]>("/customer/orders"),
@@ -60,9 +63,19 @@ export const OrdersPage: React.FC = () => {
             <StatusBadge variant="info" label={order.status.replace(/_/g, " ")} />
           </div>
 
-          <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "var(--space-4)", display: "flex", justifyContent: "space-between" }}>
-            <span>{order.items?.length || 0} items</span>
-            <span style={{ fontWeight: "bold" }}>{formatINR(order.grandTotal)}</span>
+          <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "var(--space-4)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontSize: "var(--text-sm)", color: "var(--text-secondary)" }}>{order.items?.length || 0} items</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ fontWeight: "bold", fontSize: "var(--text-base)" }}>{formatINR(order.grandTotal)}</span>
+              <Button
+                variant="outline"
+                size="sm"
+                leftIcon={<KeyRound size={14} color="#C5A15B" />}
+                onClick={() => setSelectedOrderForTracking(order)}
+              >
+                Track & Delivery OTP
+              </Button>
+            </div>
           </div>
 
           {/* Timeline events from actual backend timestamps */}
@@ -80,6 +93,16 @@ export const OrdersPage: React.FC = () => {
           )}
         </div>
       ))}
+
+      {/* Customer Live Delivery Tracking & Handover OTP Modal */}
+      {selectedOrderForTracking && (
+        <CustomerDeliveryTrackingModal
+          isOpen={Boolean(selectedOrderForTracking)}
+          onClose={() => setSelectedOrderForTracking(null)}
+          orderId={selectedOrderForTracking.id}
+          orderNumber={selectedOrderForTracking.orderNumber}
+        />
+      )}
     </div>
   );
 };

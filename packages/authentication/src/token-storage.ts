@@ -22,43 +22,52 @@ class HybridPlatformTokenStorage implements TokenStorageStrategy {
 
   getAccessToken(): string | null {
     if (this.inMemoryAccessToken) return this.inMemoryAccessToken;
-    if (this.isNative()) {
-      try {
-        return localStorage.getItem(this.ACCESS_KEY);
-      } catch {
-        return null;
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        const token = localStorage.getItem(this.ACCESS_KEY);
+        if (token) {
+          this.inMemoryAccessToken = token;
+          return token;
+        }
       }
+    } catch {
+      return null;
     }
     return null;
   }
 
   setAccessToken(token: string): void {
     this.inMemoryAccessToken = token;
-    if (this.isNative()) {
-      try {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
         localStorage.setItem(this.ACCESS_KEY, token);
-      } catch {
-        // Fallback
       }
+    } catch {
+      // Fallback
     }
   }
 
   getRefreshToken(): string | null {
     try {
-      if (this.isNative()) {
-        return localStorage.getItem(this.REFRESH_KEY);
+      if (typeof window !== "undefined" && window.localStorage) {
+        const rt = localStorage.getItem(this.REFRESH_KEY);
+        if (rt) return rt;
       }
-      return sessionStorage.getItem(this.REFRESH_KEY);
+      if (typeof window !== "undefined" && window.sessionStorage) {
+        return sessionStorage.getItem(this.REFRESH_KEY);
+      }
     } catch {
       return null;
     }
+    return null;
   }
 
   setRefreshToken(token: string): void {
     try {
-      if (this.isNative()) {
+      if (typeof window !== "undefined" && window.localStorage) {
         localStorage.setItem(this.REFRESH_KEY, token);
-      } else {
+      }
+      if (typeof window !== "undefined" && window.sessionStorage) {
         sessionStorage.setItem(this.REFRESH_KEY, token);
       }
     } catch {
@@ -69,10 +78,13 @@ class HybridPlatformTokenStorage implements TokenStorageStrategy {
   clearTokens(): void {
     this.inMemoryAccessToken = null;
     try {
-      if (this.isNative()) {
+      if (typeof window !== "undefined" && window.localStorage) {
         localStorage.removeItem(this.ACCESS_KEY);
         localStorage.removeItem(this.REFRESH_KEY);
-      } else {
+        localStorage.removeItem("bagodi_auth_user");
+        localStorage.removeItem("bagodi_user_role");
+      }
+      if (typeof window !== "undefined" && window.sessionStorage) {
         sessionStorage.removeItem(this.REFRESH_KEY);
       }
     } catch {
