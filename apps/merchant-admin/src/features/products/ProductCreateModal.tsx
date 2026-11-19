@@ -13,10 +13,40 @@ export interface ProductCreateModalProps {
   onClose: () => void;
 }
 
+const PRESET_ALPHA_SIZES = ["FREE", "XS", "S", "M", "L", "XL", "XXL", "3XL"];
+const PRESET_NUMERIC_SIZES = ["36", "38", "39", "40", "42", "44", "46"];
+
 export const ProductCreateModal: React.FC<ProductCreateModalProps> = ({ isOpen, onClose }) => {
   const queryClient = useQueryClient();
   const [apiError, setApiError] = useState<string | null>(null);
   const [photos, setPhotos] = useState<ProductImage[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>(["FREE"]);
+  const [customSizeInput, setCustomSizeInput] = useState<string>("");
+
+  const toggleSize = (sz: string) => {
+    if (selectedSizes.includes(sz)) {
+      if (selectedSizes.length > 1) {
+        setSelectedSizes(selectedSizes.filter((s) => s !== sz));
+      }
+    } else {
+      if (selectedSizes.length === 1 && selectedSizes[0] === "FREE" && sz !== "FREE") {
+        setSelectedSizes([sz]);
+      } else if (sz === "FREE") {
+        setSelectedSizes(["FREE"]);
+      } else {
+        setSelectedSizes([...selectedSizes.filter((s) => s !== "FREE"), sz]);
+      }
+    }
+  };
+
+  const addCustomSize = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const trimmed = customSizeInput.trim().toUpperCase();
+    if (trimmed && !selectedSizes.includes(trimmed)) {
+      setSelectedSizes([...selectedSizes.filter((s) => s !== "FREE"), trimmed]);
+      setCustomSizeInput("");
+    }
+  };
 
   // Fetch categories and brands
   const { data: categories = [] } = useQuery<Category[]>({
@@ -63,11 +93,13 @@ export const ProductCreateModal: React.FC<ProductCreateModalProps> = ({ isOpen, 
   const handleClose = () => {
     reset();
     setPhotos([]);
+    setSelectedSizes(["FREE"]);
+    setCustomSizeInput("");
     onClose();
   };
 
   const createMutation = useMutation({
-    mutationFn: (data: ProductCreateFormData & { images?: ProductImage[] }) =>
+    mutationFn: (data: ProductCreateFormData & { images?: ProductImage[]; sizes?: string[]; variants?: any[] }) =>
       defaultApiClient.post<Product>("/products", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-products-list"] });
@@ -80,8 +112,20 @@ export const ProductCreateModal: React.FC<ProductCreateModalProps> = ({ isOpen, 
 
   const onSubmit = (data: ProductCreateFormData) => {
     setApiError(null);
+    const variants = selectedSizes.map((sz) => ({
+      name: `${data.name} - ${sz}`,
+      size: sz,
+      color: "Standard",
+      mrp: data.basePrice,
+      sellingPrice: data.basePrice,
+      initialStock: 10,
+      status: "active",
+    }));
+
     createMutation.mutate({
       ...data,
+      sizes: selectedSizes,
+      variants,
       images: photos,
     });
   };
@@ -180,6 +224,121 @@ export const ProductCreateModal: React.FC<ProductCreateModalProps> = ({ isOpen, 
           error={errors.basePrice?.message}
           {...register("basePrice", { valueAsNumber: true })}
         />
+
+        {/* Garment Size Selection & Sizing Matrix */}
+        <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border-default)", borderRadius: "var(--radius-lg)", padding: "var(--space-3)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-2)" }}>
+            <label style={{ fontSize: "var(--text-xs)", color: "var(--text-secondary)", textTransform: "uppercase", fontWeight: 600 }}>
+              Available Sizes & Variants *
+            </label>
+            <span style={{ fontSize: "var(--text-xs)", color: "var(--accent-primary)", fontWeight: 600 }}>
+              Selected ({selectedSizes.length}): {selectedSizes.join(", ")}
+            </span>
+          </div>
+
+          {/* Quick presets: Alpha & Free */}
+          <div style={{ marginBottom: "var(--space-2)" }}>
+            <div style={{ fontSize: "11px", color: "var(--text-tertiary)", marginBottom: 4 }}>Standard / Alpha Sizes:</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {PRESET_ALPHA_SIZES.map((sz) => {
+                const isSelected = selectedSizes.includes(sz);
+                return (
+                  <button
+                    key={sz}
+                    type="button"
+                    onClick={() => toggleSize(sz)}
+                    style={{
+                      padding: "4px 12px",
+                      borderRadius: "6px",
+                      fontSize: "12px",
+                      fontWeight: isSelected ? 700 : 500,
+                      cursor: "pointer",
+                      border: isSelected ? "1.5px solid #E31B23" : "1px solid var(--border-default)",
+                      background: isSelected ? "rgba(227, 27, 35, 0.12)" : "var(--bg-surface)",
+                      color: isSelected ? "#E31B23" : "var(--text-primary)",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    {sz} {isSelected && "✓"}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Numeric Sizes (Suiting, Trousers, Raymond) */}
+          <div style={{ marginBottom: "var(--space-2)" }}>
+            <div style={{ fontSize: "11px", color: "var(--text-tertiary)", marginBottom: 4 }}>Numeric Suiting / Raymond Sizes:</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {PRESET_NUMERIC_SIZES.map((sz) => {
+                const isSelected = selectedSizes.includes(sz);
+                return (
+                  <button
+                    key={sz}
+                    type="button"
+                    onClick={() => toggleSize(sz)}
+                    style={{
+                      padding: "4px 12px",
+                      borderRadius: "6px",
+                      fontSize: "12px",
+                      fontWeight: isSelected ? 700 : 500,
+                      cursor: "pointer",
+                      border: isSelected ? "1.5px solid #E31B23" : "1px solid var(--border-default)",
+                      background: isSelected ? "rgba(227, 27, 35, 0.12)" : "var(--bg-surface)",
+                      color: isSelected ? "#E31B23" : "var(--text-primary)",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    {sz} {isSelected && "✓"}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Add Custom Size */}
+          <div style={{ display: "flex", gap: 8, marginTop: 8, alignItems: "center" }}>
+            <input
+              type="text"
+              value={customSizeInput}
+              onChange={(e) => setCustomSizeInput(e.target.value)}
+              placeholder="e.g. Free Size (6.3m), 48, Custom..."
+              style={{
+                flex: 1,
+                height: 32,
+                background: "var(--bg-surface)",
+                border: "1px solid var(--border-default)",
+                borderRadius: "6px",
+                padding: "0 10px",
+                fontSize: "12px",
+                color: "var(--text-primary)",
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addCustomSize(e as any);
+                }
+              }}
+            />
+            <button
+              type="button"
+              onClick={addCustomSize}
+              style={{
+                height: 32,
+                padding: "0 14px",
+                background: "#111111",
+                color: "#FFFFFF",
+                borderRadius: "6px",
+                border: "none",
+                fontSize: "12px",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              + Add Size
+            </button>
+          </div>
+        </div>
 
         <div>
           <label style={{ fontSize: "var(--text-xs)", color: "var(--text-secondary)", textTransform: "uppercase" }}>

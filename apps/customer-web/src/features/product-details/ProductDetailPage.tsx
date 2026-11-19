@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "./ProductDetailPage.module.css";
 import { defaultApiClient } from "@bagodi/api-client";
@@ -14,6 +14,7 @@ import {
 } from "@bagodi/shared-components";
 import {
   ShoppingBag,
+  Zap,
   Heart,
   ShieldCheck,
   RotateCcw,
@@ -26,6 +27,7 @@ import { formatINR } from "@bagodi/utilities";
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [selectedSize, setSelectedSize] = useState<string>("");
@@ -33,6 +35,7 @@ export const ProductDetailPage: React.FC = () => {
   const [isSizeChartOpen, setIsSizeChartOpen] = useState<boolean>(false);
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [cartSuccessNotice, setCartSuccessNotice] = useState<boolean>(false);
+  const [isBuyingNow, setIsBuyingNow] = useState<boolean>(false);
 
   // 1. Fetch Authoritative Product & Variant Data
   const {
@@ -73,7 +76,7 @@ export const ProductDetailPage: React.FC = () => {
 
   // 2. Add to Cart Mutation (Real Backend Endpoint)
   const addToCartMutation = useMutation({
-    mutationFn: (payload: { variantId: string; quantity: number }) =>
+    mutationFn: (payload: { variantId: string; variant_id: string; quantity: number }) =>
       defaultApiClient.post("/cart/items", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customer-cart"] });
@@ -81,6 +84,32 @@ export const ProductDetailPage: React.FC = () => {
       setTimeout(() => setCartSuccessNotice(false), 4000);
     },
   });
+
+  const handleBuyNow = async () => {
+    if (!activeVariant) return;
+    setIsBuyingNow(true);
+    try {
+      await addToCartMutation.mutateAsync({
+        variantId: activeVariant.id,
+        variant_id: activeVariant.id,
+        quantity: 1,
+      });
+      navigate("/checkout");
+    } catch (err) {
+      console.error("Buy now failed:", err);
+    } finally {
+      setIsBuyingNow(false);
+    }
+  };
+
+  const handleAddToBag = () => {
+    if (!activeVariant) return;
+    addToCartMutation.mutate({
+      variantId: activeVariant.id,
+      variant_id: activeVariant.id,
+      quantity: 1,
+    });
+  };
 
   if (isLoading) {
     return (
@@ -245,20 +274,26 @@ export const ProductDetailPage: React.FC = () => {
             </div>
           )}
 
-          {/* Add to Bag & Wishlist Actions */}
+          {/* Action Buttons: Buy Now + Add to Bag + Wishlist */}
           <div className={styles.actionsContainer}>
             <button
               type="button"
+              className={styles.buyNowActionBtn}
+              disabled={isOutOfStock || !activeVariant || isBuyingNow}
+              onClick={handleBuyNow}
+            >
+              <Zap size={18} fill="#FFFFFF" />
+              <span>{isBuyingNow ? "Processing..." : "Buy Now"}</span>
+            </button>
+
+            <button
+              type="button"
               className={styles.addToBagActionBtn}
-              disabled={isOutOfStock || !activeVariant}
-              onClick={() => {
-                if (activeVariant) {
-                  addToCartMutation.mutate({ variantId: activeVariant.id, quantity: 1 });
-                }
-              }}
+              disabled={isOutOfStock || !activeVariant || addToCartMutation.isPending}
+              onClick={handleAddToBag}
             >
               <ShoppingBag size={18} />
-              <span>{isOutOfStock ? "Sold Out in This Size" : "Add to Boutique Bag"}</span>
+              <span>{addToCartMutation.isPending ? "Adding..." : isOutOfStock ? "Sold Out" : "Add to Bag"}</span>
             </button>
 
             <button

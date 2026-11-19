@@ -124,6 +124,22 @@ export class ApiClient {
     }
     headers.set("Accept", "application/json");
 
+    // Ensure guest session identifier for shopping cart, checkout and anonymous browsing
+    if (typeof window !== "undefined" && window.localStorage) {
+      try {
+        let sessionId = window.localStorage.getItem("bagodi_session_id");
+        if (!sessionId) {
+          sessionId = `sess_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+          window.localStorage.setItem("bagodi_session_id", sessionId);
+        }
+        if (!headers.has("X-Session-ID")) {
+          headers.set("X-Session-ID", sessionId);
+        }
+      } catch {
+        // Ignore storage access restrictions if any
+      }
+    }
+
     if (!skipAuth && this.tokenGetter) {
       try {
         const token = await this.tokenGetter();

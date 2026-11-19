@@ -28,6 +28,9 @@ export const productCreateSchema = z.object({
   returnEligible: z.boolean().default(true),
   exchangeEligible: z.boolean().default(true),
   returnWindowDays: z.number().int().min(0).max(30).default(7),
+  sizes: z.array(z.string()).optional(),
+  size: z.string().optional(),
+  variants: z.array(z.any()).optional(),
   images: z.array(productImageSchema).max(4, "A product can have a maximum of 4 photos").optional(),
 });
 
