@@ -541,7 +541,7 @@
 
 @media (max-width: 480px) {
   .authPageWrapper {
-    padding: 12px 10px;
+    padding: 12px 10px calc(88px + env(safe-area-inset-bottom, 0px));
   }
 
   .splitPavilion {

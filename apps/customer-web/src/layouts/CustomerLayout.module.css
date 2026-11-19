@@ -779,7 +779,7 @@
 
 @media (max-width: 899px) {
   .mainContent {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
   }
 }
 
