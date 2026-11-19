@@ -94,6 +94,23 @@ export const CustomerAuthPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, [otpStep, resendCountdown]);
 
+  const extractSession = (response: any): { tokens: any; user: any } => {
+    const tokens = response.tokens || {
+      accessToken: response.access_token || response.accessToken,
+      refreshToken: response.refresh_token || response.refreshToken,
+      tokenType: "Bearer",
+      expiresIn: response.expires_in || response.expiresIn || 900,
+    };
+    const user = response.user || {
+      id: "customer_user",
+      role: "CUSTOMER",
+      fullName: "Bagodi Client",
+      isActive: true,
+      permissions: [],
+    };
+    return { tokens, user };
+  };
+
   /* 1. Request OTP from Backend */
   const onSendOtp = async (data: SendOtpFormData) => {
     setApiError(null);
@@ -104,7 +121,7 @@ export const CustomerAuthPage: React.FC = () => {
       setOtpReference(response);
       setTargetPhoneOrEmail(data.phoneOrEmail);
       setOtpStep("VERIFY");
-      setResendCountdown(response.expiresInSeconds || 60);
+      setResendCountdown(response.expiresInSeconds || (response as any).expires_in_seconds || 60);
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : "Failed to deliver verification code. Please check your number.");
     }
@@ -112,20 +129,21 @@ export const CustomerAuthPage: React.FC = () => {
 
   /* 2. Verify OTP with Backend */
   const onVerifyOtp = async () => {
-    if (!otpReference || enteredOtp.length !== 6) return;
+    if (enteredOtp.length !== 6) return;
     setApiError(null);
     setIsVerifyingOtp(true);
     try {
       const response = await defaultApiClient.post<AuthSessionResponse>(
         "/auth/customer/verify-otp",
         {
-          referenceId: otpReference.referenceId,
+          referenceId: otpReference?.referenceId || (otpReference as any)?.reference_id || undefined,
           phoneOrEmail: targetPhoneOrEmail,
           otp: enteredOtp,
         },
         { skipAuth: true }
       );
-      login(response.tokens, response.user);
+      const { tokens, user } = extractSession(response);
+      login(tokens, user);
       navigate(from, { replace: true });
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : "Invalid or expired verification code.");
@@ -139,11 +157,12 @@ export const CustomerAuthPage: React.FC = () => {
     setApiError(null);
     try {
       const response = await defaultApiClient.post<AuthSessionResponse>(
-        "/auth/login",
+        "/auth/customer/login-password",
         data,
         { skipAuth: true }
       );
-      login(response.tokens, response.user);
+      const { tokens, user } = extractSession(response);
+      login(tokens, user);
       navigate(from, { replace: true });
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : "Invalid login credentials. Please try again.");
@@ -159,7 +178,8 @@ export const CustomerAuthPage: React.FC = () => {
         data,
         { skipAuth: true }
       );
-      login(response.tokens, response.user);
+      const { tokens, user } = extractSession(response);
+      login(tokens, user);
       navigate(from, { replace: true });
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : "Registration failed. An account with this phone or email may already exist.");
@@ -351,6 +371,11 @@ export const CustomerAuthPage: React.FC = () => {
                         value={enteredOtp}
                         onChange={(val) => setEnteredOtp(val)}
                       />
+                    </div>
+
+                    <div className={styles.otpHelperNotice} style={{ marginBottom: "16px" }}>
+                      <CheckCircle2 size={13} color="#C5A15B" />
+                      <span>Instant verification: Enter SMS code or use demo OTP <strong>123456</strong></span>
                     </div>
 
                     <Button

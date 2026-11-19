@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (typeof window !== "undefined" && window.localStorage) {
       try {
         localStorage.setItem("bagodi_auth_user", JSON.stringify(authUser));
-        localStorage.setItem("bagodi_user_role", authUser.role || "STORE_MANAGER");
+        localStorage.setItem("bagodi_user_role", authUser.role || "CUSTOMER");
       } catch {
         // Storage full or restricted
       }
@@ -124,7 +124,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           if (typeof window !== "undefined" && window.localStorage) {
             try {
               localStorage.setItem("bagodi_auth_user", JSON.stringify(profile));
-              localStorage.setItem("bagodi_user_role", profile.role || "STORE_MANAGER");
+              localStorage.setItem("bagodi_user_role", profile.role || "CUSTOMER");
             } catch {}
           }
           if (profile.activeStore) {
