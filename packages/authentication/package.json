@@ -8,8 +8,8 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@bagodi/shared-types": "workspace:*",
-    "@bagodi/api-client": "workspace:*",
+    "@bagodi/shared-types": "*",
+    "@bagodi/api-client": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

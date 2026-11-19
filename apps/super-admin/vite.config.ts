@@ -15,9 +15,6 @@ export default defineConfig({
       "@bagodi/authentication": path.resolve(__dirname, "../../packages/authentication/src"),
       "@bagodi/utilities": path.resolve(__dirname, "../../packages/utilities/src"),
       "@bagodi/shared-components": path.resolve(__dirname, "../../packages/shared-components/src"),
-      "react-hook-form": path.resolve(__dirname, "../../packages/form-hooks/index.ts"),
-      "@hookform/resolvers/zod": path.resolve(__dirname, "../../packages/form-hooks/index.ts"),
-      "zod": path.resolve(__dirname, "../../node_modules/.pnpm/zod@4.6.7/node_modules/zod"),
     },
   },
   server: {
