@@ -1,6 +1,6 @@
 {
   "name": "@bagodi/customer-web",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Bagodi Customer E-Commerce Fashion Web Application",
   "type": "module",
