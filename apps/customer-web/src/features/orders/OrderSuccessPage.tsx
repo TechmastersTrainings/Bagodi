@@ -29,17 +29,33 @@ export const OrderSuccessPage: React.FC = () => {
     return (
       <div style={{ maxWidth: 640, margin: "var(--space-12) auto", padding: "0 var(--space-4)" }}>
         <ApiErrorCard
-          title="Order Details Pending"
-          message={`Your order #${orderId} was received. Please check your account order history for real-time updates.`}
+          title="Order Placed Successfully"
+          message={`Your order #${orderId} was confirmed! Please check your account order history for real-time tracking updates.`}
         />
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "var(--space-4)" }}>
-          <Link to="/account/orders">
+        <div style={{ display: "flex", justifyContent: "center", gap: "var(--space-3)", marginTop: "var(--space-4)" }}>
+          <Link to="/account/orders" style={{ textDecoration: "none" }}>
             <Button size="md">View My Orders</Button>
+          </Link>
+          <Link to="/catalogue" style={{ textDecoration: "none" }}>
+            <Button variant="outline" size="md">Continue Shopping</Button>
           </Link>
         </div>
       </div>
     );
   }
+
+  const orderNumber = order.orderNumber || (order as any).order_number || orderId;
+  const createdAt = order.createdAt || (order as any).created_at || new Date().toISOString();
+  const grandTotal = order.grandTotal ?? (order as any).total_amount ?? 0;
+  const shippingAddr: any = order.shippingAddress || (order as any).shipping_address;
+
+  const city = shippingAddr?.city || "";
+  const state = shippingAddr?.state || "";
+  const pincode = shippingAddr?.pincode || shippingAddr?.postalCode || shippingAddr?.postal_code || "";
+  const locationParts = [city, state].filter(Boolean);
+  const locationText = locationParts.length > 0
+    ? locationParts.join(", ") + (pincode ? ` (${pincode})` : "")
+    : "Bidar Flagship Boutique Delivery";
 
   return (
     <div style={{ maxWidth: 720, margin: "var(--space-8) auto", padding: "0 var(--space-4)" }}>
@@ -75,7 +91,7 @@ export const OrderSuccessPage: React.FC = () => {
             Thank You for Shopping at Bagodi
           </h1>
           <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-sm)", marginBottom: "var(--space-6)" }}>
-            Your order <strong>#{order.orderNumber}</strong> has been successfully placed and forwarded to our Bidar Flagship Store.
+            Your order <strong>#{orderNumber}</strong> has been successfully placed and forwarded to our Bidar Flagship Store.
           </p>
 
           <div
@@ -92,7 +108,7 @@ export const OrderSuccessPage: React.FC = () => {
               <span style={{ color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: 6 }}>
                 <Calendar size={16} /> Placed On
               </span>
-              <span style={{ fontWeight: "bold" }}>{formatDateTime(order.createdAt)}</span>
+              <span style={{ fontWeight: "bold" }}>{formatDateTime(createdAt)}</span>
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--space-3)", fontSize: "var(--text-sm)" }}>
@@ -100,13 +116,13 @@ export const OrderSuccessPage: React.FC = () => {
                 <MapPin size={16} /> Delivery Location
               </span>
               <span>
-                {order.shippingAddress.city}, {order.shippingAddress.state} ({order.shippingAddress.pincode || order.shippingAddress.postalCode})
+                {locationText}
               </span>
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid var(--border-subtle)", paddingTop: "var(--space-3)", fontSize: "var(--text-base)", fontWeight: "bold" }}>
               <span>Amount Paid</span>
-              <span style={{ color: "var(--accent-primary)" }}>{formatINR(order.grandTotal)}</span>
+              <span style={{ color: "var(--accent-primary)" }}>{formatINR(grandTotal)}</span>
             </div>
           </div>
 
