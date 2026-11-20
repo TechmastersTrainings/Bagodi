@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./CustomerAuthPage.module.css";
@@ -44,6 +45,7 @@ type LoginMethod = "OTP" | "PASSWORD";
 export const CustomerAuthPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
   const { login } = useAuth();
 
   const [activeMode, setActiveMode] = useState<AuthMode>("LOGIN");
@@ -113,7 +115,7 @@ export const CustomerAuthPage: React.FC = () => {
 
   // Resend OTP Countdown Timer
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
     if (otpStep === "VERIFY" && resendCountdown > 0) {
       timer = setTimeout(() => setResendCountdown((prev) => prev - 1), 1000);
     }
@@ -170,6 +172,7 @@ export const CustomerAuthPage: React.FC = () => {
       );
       const { tokens, user } = extractSession(response);
       login(tokens, user);
+      queryClient.invalidateQueries({ queryKey: ["customer-cart"] });
       navigate(from, { replace: true });
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : "Invalid or expired verification code.");
@@ -189,6 +192,7 @@ export const CustomerAuthPage: React.FC = () => {
       );
       const { tokens, user } = extractSession(response);
       login(tokens, user);
+      queryClient.invalidateQueries({ queryKey: ["customer-cart"] });
       navigate(from, { replace: true });
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : "Invalid login credentials. Please try again.");
@@ -206,6 +210,7 @@ export const CustomerAuthPage: React.FC = () => {
       );
       const { tokens, user } = extractSession(response);
       login(tokens, user);
+      queryClient.invalidateQueries({ queryKey: ["customer-cart"] });
       navigate(from, { replace: true });
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : "Registration failed. An account with this phone or email may already exist.");

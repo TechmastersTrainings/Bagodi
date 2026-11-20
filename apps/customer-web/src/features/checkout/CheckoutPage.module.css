@@ -1,7 +1,7 @@
 .checkoutContainer {
   max-width: var(--container-2xl);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-2);
+  padding: var(--space-4) var(--space-4) calc(var(--space-16) + 70px) var(--space-4);
 }
 
 .checkoutHeader {
@@ -40,6 +40,77 @@
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   margin-bottom: var(--space-6);
+}
+
+.addressFormContainer {
+  background: var(--bg-secondary);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+}
+
+.formHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.formTitle {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+
+.formCancelBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.formCancelBtn:hover {
+  color: var(--text-primary);
+}
+
+.formRow1 {
+  margin-top: var(--space-4);
+}
+
+.formRow2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .formRow2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.formRow3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .formRow3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.formActions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
 }
 
 .stepHeader {

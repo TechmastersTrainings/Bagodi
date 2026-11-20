@@ -92,7 +92,15 @@ export const CheckoutPage: React.FC = () => {
   // Save New Address Mutation
   const addAddressMutation = useMutation({
     mutationFn: (data: AddressFormData) =>
-      defaultApiClient.post<Address>("/customer/addresses", data),
+      defaultApiClient.post<Address>("/customer/addresses", {
+        ...data,
+        full_name: data.fullName,
+        phone: data.phoneNumber,
+        address_line1: data.addressLine1,
+        address_line2: data.addressLine2,
+        postal_code: data.postalCode,
+        is_default: data.isDefault,
+      }),
     onSuccess: (newAddress) => {
       refetchAddresses();
       setSelectedAddressId(newAddress.id);
@@ -175,30 +183,70 @@ export const CheckoutPage: React.FC = () => {
   });
 
   // Handle Order Submission
-  const handleProceedOrder = () => {
+  const handleProceedOrder = async () => {
     setCheckoutError(null);
-    if (!selectedAddressId && savedAddresses.length > 0) {
+
+    // 1. If an address is selected, proceed directly
+    if (selectedAddressId) {
+      const payload: CreateOrderPayload = {
+        shippingAddressId: selectedAddressId,
+        paymentMethod,
+        deliverySpeed,
+        couponCode: appliedCoupon?.code,
+      };
+      placeOrderMutation.mutate(payload);
+      return;
+    }
+
+    // 2. If saved addresses exist but none is selected, prompt selection
+    if (savedAddresses.length > 0 && !isAddingNewAddress) {
       setCheckoutError("Please select a delivery address to proceed.");
       return;
     }
 
-    const payload: CreateOrderPayload = {
-      shippingAddressId: selectedAddressId || undefined,
-      paymentMethod,
-      deliverySpeed,
-      couponCode: appliedCoupon?.code,
-    };
+    // 3. If adding a new address or no saved address exists, validate & submit address form
+    await handleSubmit(async (formData: AddressFormData) => {
+      try {
+        const saved = await addAddressMutation.mutateAsync({
+          ...formData,
+          full_name: formData.fullName,
+          phone: formData.phoneNumber,
+          address_line1: formData.addressLine1,
+          address_line2: formData.addressLine2,
+          postal_code: formData.postalCode,
+          is_default: formData.isDefault,
+        } as any);
 
-    placeOrderMutation.mutate(payload);
+        setSelectedAddressId(saved.id);
+
+        const payload: CreateOrderPayload = {
+          shippingAddressId: saved.id,
+          newShippingAddress: formData,
+          paymentMethod,
+          deliverySpeed,
+          couponCode: appliedCoupon?.code,
+        };
+
+        placeOrderMutation.mutate(payload);
+      } catch (err: any) {
+        setCheckoutError(err.message || "Please complete all required delivery address fields.");
+      }
+    })();
   };
 
-  // Set default address when loaded
+  // Set default address when loaded, or open address form if no address exists
   React.useEffect(() => {
-    if (!selectedAddressId && savedAddresses.length > 0) {
-      const defaultAddr = savedAddresses.find((a) => a.isDefault) || savedAddresses[0];
-      setSelectedAddressId(defaultAddr.id);
+    if (!isAddressesLoading) {
+      if (savedAddresses.length > 0) {
+        if (!selectedAddressId) {
+          const defaultAddr = savedAddresses.find((a) => a.isDefault) || savedAddresses[0];
+          setSelectedAddressId(defaultAddr.id);
+        }
+      } else {
+        setIsAddingNewAddress(true);
+      }
     }
-  }, [savedAddresses, selectedAddressId]);
+  }, [savedAddresses, selectedAddressId, isAddressesLoading]);
 
   if (isCartLoading || isAddressesLoading) {
     return (
@@ -268,6 +316,12 @@ export const CheckoutPage: React.FC = () => {
               <div className={styles.addressGrid}>
                 {savedAddresses.map((addr) => {
                   const isSelected = selectedAddressId === addr.id;
+                  const displayName = addr.fullName || (addr as any).full_name || "Valued Customer";
+                  const displayPhone = addr.phone || addr.phoneNumber || (addr as any).phone_number || "";
+                  const displayLine1 = addr.addressLine1 || (addr as any).address_line1 || "";
+                  const displayLine2 = addr.addressLine2 || (addr as any).address_line2 || "";
+                  const displayPin = addr.pincode || addr.postalCode || (addr as any).postal_code || "";
+
                   return (
                     <div
                       key={addr.id}
@@ -275,17 +329,17 @@ export const CheckoutPage: React.FC = () => {
                       onClick={() => setSelectedAddressId(addr.id)}
                     >
                       <div className={styles.addressHeader}>
-                        <span className={styles.recipientName}>{addr.fullName}</span>
+                        <span className={styles.recipientName}>{displayName}</span>
                         {addr.isDefault && <span className={styles.defaultBadge}>Default</span>}
                       </div>
                       <div className={styles.addressBody}>
-                        {addr.addressLine1}
-                        {addr.addressLine2 && `, ${addr.addressLine2}`}
+                        {displayLine1}
+                        {displayLine2 && `, ${displayLine2}`}
                         {addr.landmark && `, near ${addr.landmark}`}
                         <br />
-                        {addr.city}, {addr.state} - <strong>{addr.pincode || addr.postalCode}</strong>
+                        {addr.city}, {addr.state} - <strong>{displayPin}</strong>
                       </div>
-                      <div className={styles.addressPhone}>Phone: {addr.phone || addr.phoneNumber}</div>
+                      <div className={styles.addressPhone}>Phone: {displayPhone}</div>
                     </div>
                   );
                 })}
@@ -304,13 +358,41 @@ export const CheckoutPage: React.FC = () => {
               </Button>
             ) : (
               <form
-                onSubmit={handleSubmit((data) => addAddressMutation.mutate(data))}
-                style={{ background: "var(--bg-secondary)", padding: "var(--space-5)", borderRadius: "var(--radius-lg)", border: "1px solid var(--border-default)" }}
+                onSubmit={handleSubmit(async (data) => {
+                  try {
+                    const saved = await addAddressMutation.mutateAsync({
+                      ...data,
+                      full_name: data.fullName,
+                      phone: data.phoneNumber,
+                      address_line1: data.addressLine1,
+                      address_line2: data.addressLine2,
+                      postal_code: data.postalCode,
+                      is_default: data.isDefault,
+                    } as any);
+                    setSelectedAddressId(saved.id);
+                    setIsAddingNewAddress(false);
+                  } catch (err: any) {
+                    setCheckoutError(err.message || "Failed to save address");
+                  }
+                })}
+                className={styles.addressFormContainer}
               >
-                <h3 style={{ fontSize: "var(--text-sm)", fontWeight: "bold", marginBottom: "var(--space-4)" }}>
-                  Enter New Address
-                </h3>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-4)" }}>
+                <div className={styles.formHeaderRow}>
+                  <h3 className={styles.formTitle}>
+                    {savedAddresses.length === 0 ? "Enter Delivery Address" : "Add New Delivery Address"}
+                  </h3>
+                  {savedAddresses.length > 0 && (
+                    <button
+                      type="button"
+                      className={styles.formCancelBtn}
+                      onClick={() => setIsAddingNewAddress(false)}
+                    >
+                      <X size={15} /> Cancel
+                    </button>
+                  )}
+                </div>
+
+                <div className={styles.formRow2}>
                   <TextInput
                     label="Full Recipient Name"
                     placeholder="e.g. Ramesh Patil"
@@ -326,16 +408,18 @@ export const CheckoutPage: React.FC = () => {
                     isRequired
                   />
                 </div>
-                <div style={{ marginTop: "var(--space-4)" }}>
+
+                <div className={styles.formRow1}>
                   <TextInput
-                    label="Street, House No, Flat"
+                    label="Street, House No, Flat, Locality"
                     placeholder="Shop #4, Near Shivaji Chowk"
                     {...register("addressLine1")}
                     error={errors.addressLine1?.message}
                     isRequired
                   />
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "var(--space-4)", marginTop: "var(--space-4)" }}>
+
+                <div className={styles.formRow3}>
                   <TextInput
                     label="City / District"
                     placeholder="Bidar"
@@ -358,7 +442,8 @@ export const CheckoutPage: React.FC = () => {
                     isRequired
                   />
                 </div>
-                <div style={{ display: "flex", gap: "var(--space-3)", marginTop: "var(--space-6)" }}>
+
+                <div className={styles.formActions}>
                   <Button type="submit" size="sm" isLoading={isSubmitting || addAddressMutation.isPending}>
                     Save & Use Address
                   </Button>
