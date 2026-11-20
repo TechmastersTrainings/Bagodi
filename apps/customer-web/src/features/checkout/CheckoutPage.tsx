@@ -7,15 +7,9 @@ import { defaultApiClient } from "@bagodi/api-client";
 import { Address, CartResponse, CreateOrderResponse, CreateOrderPayload, ValidateCouponResponse } from "@bagodi/shared-types";
 import { addressSchema, AddressFormData } from "@bagodi/validation";
 import { Button, TextInput, ApiErrorCard, SkeletonLine, PerspectiveCard3D } from "@bagodi/shared-components";
-import { MapPin, Truck, CreditCard, Plus, CheckCircle2, ShieldCheck, ArrowRight, ArrowLeft, Tag, X, Lock, Sparkles, Loader2, PackageCheck } from "lucide-react";
+import { MapPin, Truck, CreditCard, Plus, CheckCircle2, ShieldCheck, ArrowRight, ArrowLeft, Tag, X, Sparkles, Smartphone } from "lucide-react";
 import { formatINR } from "@bagodi/utilities";
 import styles from "./CheckoutPage.module.css";
-
-declare global {
-  interface Window {
-    Razorpay?: any;
-  }
-}
 
 export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +18,7 @@ export const CheckoutPage: React.FC = () => {
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
   const [isAddingNewAddress, setIsAddingNewAddress] = useState<boolean>(false);
   const [deliverySpeed, setDeliverySpeed] = useState<"STANDARD" | "EXPRESS">("STANDARD");
-  const [paymentMethod, setPaymentMethod] = useState<"RAZORPAY" | "COD">("RAZORPAY");
+  const [paymentMethod, setPaymentMethod] = useState<"UPI" | "COD">("UPI");
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   // Promotional Coupon State
@@ -112,70 +106,14 @@ export const CheckoutPage: React.FC = () => {
     },
   });
 
-  // Load Razorpay Script dynamically
-  const loadRazorpayScript = (): Promise<boolean> => {
-    return new Promise((resolve) => {
-      if (window.Razorpay) {
-        resolve(true);
-        return;
-      }
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
-
   // Authoritative Order Placement Mutation
   const placeOrderMutation = useMutation({
     mutationFn: async (payload: CreateOrderPayload) => {
       return await defaultApiClient.post<CreateOrderResponse>("/orders", payload);
     },
-    onSuccess: async (res) => {
-      if (paymentMethod === "RAZORPAY" && res.razorpay) {
-        const isLoaded = await loadRazorpayScript();
-        if (!isLoaded) {
-          setCheckoutError("Secure payment gateway failed to load. Please check your network connection.");
-          return;
-        }
-
-        const options = {
-          key: res.razorpay.keyId,
-          amount: res.razorpay.amount,
-          currency: res.razorpay.currency,
-          name: "Bagodi Luxury Boutique",
-          description: `Order #${res.order.orderNumber} - Bidar Flagship Store`,
-          order_id: res.razorpay.razorpayOrderId,
-          handler: async (response: any) => {
-            try {
-              // Verify payment on backend
-              await defaultApiClient.post(`/orders/${res.order.id}/verify-payment`, {
-                razorpayPaymentId: response.razorpay_payment_id,
-                razorpayOrderId: response.razorpay_order_id,
-                razorpaySignature: response.razorpay_signature,
-              });
-              navigate(`/order-success/${res.order.id}`);
-            } catch {
-              navigate(`/order-success/${res.order.id}?status=verification_pending`);
-            }
-          },
-          prefill: {
-            name: res.order.customerName || "",
-            contact: res.order.customerPhone || "",
-            email: res.order.customerEmail || "",
-          },
-          theme: {
-            color: "#d4af37", // Bagodi Gold
-          },
-        };
-
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-      } else {
-        // Direct COD or Standard Order Creation
-        navigate(`/order-success/${res.order.id}`);
-      }
+    onSuccess: (res) => {
+      // Seamless direct navigation to Order Success screen
+      navigate(`/order-success/${res.order.id}`);
     },
     onError: (err: any) => {
       setCheckoutError(err.message || "Failed to place order. Please review your details and retry.");
@@ -190,7 +128,7 @@ export const CheckoutPage: React.FC = () => {
     if (selectedAddressId) {
       const payload: CreateOrderPayload = {
         shippingAddressId: selectedAddressId,
-        paymentMethod,
+        paymentMethod: paymentMethod as any,
         deliverySpeed,
         couponCode: appliedCoupon?.code,
       };
@@ -222,7 +160,7 @@ export const CheckoutPage: React.FC = () => {
         const payload: CreateOrderPayload = {
           shippingAddressId: saved.id,
           newShippingAddress: formData,
-          paymentMethod,
+          paymentMethod: paymentMethod as any,
           deliverySpeed,
           couponCode: appliedCoupon?.code,
         };
@@ -518,36 +456,30 @@ export const CheckoutPage: React.FC = () => {
               <h2 className={styles.stepTitle}>Payment Method</h2>
             </div>
             <div className={styles.optionRadioGroup}>
+              {/* Option 1: Instant UPI & Online Payment */}
               <div
-                className={`${styles.optionCard} ${paymentMethod === "RAZORPAY" ? styles.optionCardSelected : ""}`}
-                onClick={() => setPaymentMethod("RAZORPAY")}
+                className={`${styles.optionCard} ${paymentMethod === "UPI" ? styles.optionCardSelected : ""}`}
+                onClick={() => setPaymentMethod("UPI")}
               >
                 <CheckCircle2
                   size={20}
-                  color={paymentMethod === "RAZORPAY" ? "var(--accent-primary)" : "var(--text-tertiary)"}
+                  color={paymentMethod === "UPI" ? "var(--accent-primary)" : "var(--text-tertiary)"}
                 />
                 <div className={styles.optionContent}>
                   <div className={styles.optionTitle}>
-                    <span className={styles.paymentMethodLabel}>
-                      Online Payment (UPI, Cards & NetBanking)
+                    <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <Smartphone size={16} color="var(--accent-primary)" />
+                      Instant UPI & Online Payment
                     </span>
-                    <span className={styles.instantBadge}>⚡ Instant & Secure</span>
+                    <span className={styles.fastBadge}>Fast & Verified</span>
                   </div>
                   <p className={styles.optionDescription}>
-                    Pay instantly via Google Pay, PhonePe, Paytm, RuPay, Visa, Mastercard, or NetBanking.
+                    Pay instantly with Google Pay, PhonePe, Paytm, BHIM UPI, or NetBanking.
                   </p>
-                  <div className={styles.paymentBadgesRow}>
-                    <span className={styles.paymentPill}>UPI</span>
-                    <span className={styles.paymentPill}>GPay</span>
-                    <span className={styles.paymentPill}>PhonePe</span>
-                    <span className={styles.paymentPill}>Paytm</span>
-                    <span className={styles.paymentPill}>Visa</span>
-                    <span className={styles.paymentPill}>Mastercard</span>
-                    <span className={styles.paymentPill}>RuPay</span>
-                  </div>
                 </div>
               </div>
 
+              {/* Option 2: Cash on Delivery */}
               <div
                 className={`${styles.optionCard} ${paymentMethod === "COD" ? styles.optionCardSelected : ""}`}
                 onClick={() => setPaymentMethod("COD")}
@@ -558,11 +490,14 @@ export const CheckoutPage: React.FC = () => {
                 />
                 <div className={styles.optionContent}>
                   <div className={styles.optionTitle}>
-                    <span className={styles.paymentMethodLabel}>Cash on Delivery (COD)</span>
-                    <span style={{ fontSize: "11px", color: "var(--text-secondary)", fontWeight: 500 }}>Doorstep Cash</span>
+                    <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <Truck size={16} color="var(--accent-primary)" />
+                      Cash on Delivery (COD)
+                    </span>
+                    <span className={styles.zeroAdvanceBadge}>Zero Advance</span>
                   </div>
                   <p className={styles.optionDescription}>
-                    Pay cash upon physical delivery. Available for eligible PIN codes across India.
+                    Pay cash or UPI upon physical doorstep delivery. Available for eligible PIN codes across India.
                   </p>
                 </div>
               </div>
@@ -571,12 +506,9 @@ export const CheckoutPage: React.FC = () => {
         </div>
 
         {/* Right Column: Order Summary Preview */}
-        <PerspectiveCard3D maxTiltDeg={4}>
+        <PerspectiveCard3D maxTiltDeg={3}>
           <div className={styles.checkoutSummary}>
             <h3 className={styles.summaryHeader}>Order Summary</h3>
-            <div className={styles.summarySubtitle}>
-              <Sparkles size={12} /> Bagodi Luxury Atelier • Bidar Flagship
-            </div>
 
             {/* Garments Preview */}
             <div className={styles.itemPreviewList}>
@@ -707,6 +639,7 @@ export const CheckoutPage: React.FC = () => {
               </p>
             </div>
 
+            {/* Main Action Button */}
             <div style={{ marginTop: "var(--space-6)" }}>
               <button
                 type="button"
@@ -714,46 +647,27 @@ export const CheckoutPage: React.FC = () => {
                 onClick={handleProceedOrder}
                 disabled={placeOrderMutation.isPending}
               >
-                <span className={styles.proceedBtnShimmer} />
-                {placeOrderMutation.isPending ? (
-                  <>
-                    <Loader2 className={styles.spinner} size={18} />
-                    <span>Connecting Secure Gateway...</span>
-                  </>
-                ) : paymentMethod === "RAZORPAY" ? (
-                  <>
-                    <Lock size={17} />
-                    <span>Proceed to Pay • {formatINR(finalCalculatedPayable)}</span>
-                    <ArrowRight size={17} />
-                  </>
-                ) : (
-                  <>
-                    <PackageCheck size={17} />
-                    <span>Confirm & Place Order (COD) • {formatINR(finalCalculatedPayable)}</span>
-                    <ArrowRight size={17} />
-                  </>
-                )}
+                <span>
+                  {paymentMethod === "UPI" ? "Proceed to Pay" : "Confirm & Place Order"} • {formatINR(finalCalculatedPayable)}
+                </span>
+                <ArrowRight size={18} />
               </button>
             </div>
 
-            <div className={styles.trustBadgesGrid}>
+            {/* Reassurance Badges */}
+            <div className={styles.securityTrustRow}>
               <div className={styles.trustItem}>
-                <ShieldCheck size={15} color="var(--status-success)" />
-                <span>Bank-Grade 256-bit SSL Encrypted Payment</span>
+                <ShieldCheck size={14} color="var(--status-success)" />
+                <span>100% Authentic Handloom • Silk Mark Certified</span>
               </div>
               <div className={styles.trustItem}>
-                <Sparkles size={15} color="#b38e2e" />
-                <span>100% Bagodi Authentic Atelier Guarantee</span>
+                <Truck size={14} color="#d4af37" />
+                <span>Direct Insured Dispatch from Bidar Flagship Boutique</span>
               </div>
-            </div>
-
-            <div className={styles.paymentMethodsBar}>
-              <span>Accepted:</span>
-              <span className={styles.paymentPill}>UPI</span>
-              <span className={styles.paymentPill}>GPay</span>
-              <span className={styles.paymentPill}>PhonePe</span>
-              <span className={styles.paymentPill}>Cards</span>
-              <span className={styles.paymentPill}>NetBanking</span>
+              <div className={styles.trustItem}>
+                <Sparkles size={14} color="#e31b23" />
+                <span>Easy 7-Day In-Store & Courier Exchange</span>
+              </div>
             </div>
           </div>
         </PerspectiveCard3D>

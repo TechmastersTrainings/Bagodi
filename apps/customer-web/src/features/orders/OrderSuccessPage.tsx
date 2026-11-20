@@ -1,30 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { defaultApiClient } from "@bagodi/api-client";
 import { Order } from "@bagodi/shared-types";
-import { PerspectiveCard3D, SkeletonLine, ApiErrorCard } from "@bagodi/shared-components";
+import { Button, PerspectiveCard3D, SkeletonLine, ApiErrorCard } from "@bagodi/shared-components";
 import {
   CheckCircle2,
   PackageCheck,
   ArrowRight,
   Calendar,
   MapPin,
-  CreditCard,
-  Truck,
-  Copy,
-  Check,
-  ShoppingBag,
-  Sparkles,
-  PhoneCall,
   Clock,
+  Sparkles,
+  Receipt,
+  Truck,
+  CreditCard,
+  ShoppingBag,
 } from "lucide-react";
 import { formatINR, formatDateTime } from "@bagodi/utilities";
 import styles from "./OrderSuccessPage.module.css";
 
 export const OrderSuccessPage: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
-  const [copied, setCopied] = useState<boolean>(false);
 
   const { data: order, isLoading, error } = useQuery<Order>({
     queryKey: ["order-success", orderId],
@@ -32,18 +29,12 @@ export const OrderSuccessPage: React.FC = () => {
     enabled: !!orderId,
   });
 
-  const handleCopyOrderId = (idToCopy: string) => {
-    navigator.clipboard?.writeText(idToCopy);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
-
   if (isLoading) {
     return (
-      <div className={styles.successContainer}>
+      <div className={styles.pageContainer}>
         <SkeletonLine height="80px" width="100%" />
         <div style={{ marginTop: "var(--space-6)" }}>
-          <SkeletonLine height="240px" width="100%" />
+          <SkeletonLine height="340px" width="100%" />
         </div>
       </div>
     );
@@ -51,21 +42,17 @@ export const OrderSuccessPage: React.FC = () => {
 
   if (error || !order) {
     return (
-      <div className={styles.successContainer}>
+      <div className={styles.pageContainer}>
         <ApiErrorCard
           title="Order Placed Successfully"
           message={`Your order #${orderId} was confirmed! Please check your account order history for real-time tracking updates.`}
         />
-        <div className={styles.actionRow} style={{ marginTop: "var(--space-6)" }}>
+        <div className={styles.actionsRow} style={{ marginTop: "var(--space-6)" }}>
           <Link to="/account/orders" style={{ textDecoration: "none" }}>
-            <button type="button" className={styles.trackBtn}>
-              <PackageCheck size={18} /> View My Orders
-            </button>
+            <Button size="md" className={styles.primaryTrackBtn}>View My Orders</Button>
           </Link>
           <Link to="/catalogue" style={{ textDecoration: "none" }}>
-            <button type="button" className={styles.shopBtn}>
-              Continue Shopping <ArrowRight size={18} />
-            </button>
+            <Button variant="outline" size="md" className={styles.secondaryShopBtn}>Continue Shopping</Button>
           </Link>
         </div>
       </div>
@@ -75,181 +62,185 @@ export const OrderSuccessPage: React.FC = () => {
   const orderNumber = order.orderNumber || (order as any).order_number || orderId;
   const createdAt = order.createdAt || (order as any).created_at || new Date().toISOString();
   const grandTotal = order.grandTotal ?? (order as any).total_amount ?? 0;
-  const paymentMethod = (order.paymentMethod || (order as any).payment_method || "COD").toUpperCase();
-  const shippingAddr: any = order.shippingAddress || (order as any).shipping_address;
+  const shippingFee = (order as any).shipping_fee ?? order.deliveryCharge ?? 0;
+  const subtotal = (order as any).subtotal ?? grandTotal;
+  const pMethod = (order as any).payment_method || order.paymentMethod || "COD";
+  const pMethodDisplay = pMethod.toUpperCase() === "COD" ? "Cash on Delivery" : "Instant UPI / Online";
 
-  const recipientName = shippingAddr?.fullName || shippingAddr?.full_name || order.customerName || (order as any).customer_name || "Valued Customer";
-  const recipientPhone = shippingAddr?.phone || shippingAddr?.phoneNumber || order.customerPhone || (order as any).customer_phone || "";
-  const addressLine1 = shippingAddr?.addressLine1 || shippingAddr?.address_line1 || "";
+  const shippingAddr: any = order.shippingAddress || (order as any).shipping_address;
+  const recipientName = shippingAddr?.full_name || shippingAddr?.fullName || (order as any).customer_name || "Valued Customer";
+  const recipientPhone = shippingAddr?.phone || (order as any).customer_phone || "";
+  const addressLine1 = shippingAddr?.address_line1 || shippingAddr?.addressLine1 || "";
+  const addressLine2 = shippingAddr?.address_line2 || shippingAddr?.addressLine2 || "";
   const city = shippingAddr?.city || "";
   const state = shippingAddr?.state || "";
   const pincode = shippingAddr?.pincode || shippingAddr?.postalCode || shippingAddr?.postal_code || "";
+
   const locationParts = [city, state].filter(Boolean);
   const locationText = locationParts.length > 0
-    ? `${locationParts.join(", ")} - ${pincode}`
+    ? locationParts.join(", ") + (pincode ? ` (${pincode})` : "")
     : "Bidar Flagship Boutique Delivery";
 
-  const items = order.items || (order as any).order_items || [];
+  const items: any[] = order.items || [];
 
   return (
-    <div className={styles.successContainer}>
+    <div className={styles.pageContainer}>
       <PerspectiveCard3D maxTiltDeg={2}>
         <div className={styles.successCard}>
-          <div className={styles.topDecorativeBar} />
-
-          {/* Luxury Animated Seal */}
-          <div className={styles.sealWrapper}>
-            <div className={styles.sealRing} />
-            <div className={styles.sealCenter}>
-              <CheckCircle2 size={36} strokeWidth={2.5} />
+          {/* Top Atelier Seal */}
+          <div className={styles.sealContainer}>
+            <div className={styles.sealRing}>
+              <CheckCircle2 size={40} />
+            </div>
+            <div className={styles.atelierBadge}>
+              <Sparkles size={13} />
+              BAGODI ATELIER CONFIRMED
             </div>
           </div>
 
-          <div className={styles.atelierBadge}>
-            <Sparkles size={12} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} />
-            Bagodi Luxury Atelier
-          </div>
-
-          <h1 className={styles.orderHeading}>Thank You for Shopping at Bagodi</h1>
-          <p className={styles.orderSubtext}>
-            Your garment order has been successfully confirmed and forwarded to our Bidar Flagship Store for bespoke packaging.
+          <h1 className={styles.mainTitle}>
+            Thank You for Shopping at Bagodi
+          </h1>
+          <p className={styles.subtitle}>
+            Your luxury order has been registered and forwarded to our master tailors and artisans at the <strong>Bidar Flagship Store</strong>.
           </p>
 
-          {/* Order ID Pill with Copy */}
-          <div className={styles.orderNumberBadge}>
-            <span>Order #{orderNumber}</span>
-            <button
-              type="button"
-              className={styles.copyBtn}
-              onClick={() => handleCopyOrderId(orderNumber)}
-              title="Copy Order ID"
-            >
-              {copied ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
-            </button>
-            {copied && <span style={{ color: "#10b981", fontSize: "11px", fontWeight: 600 }}>Copied!</span>}
+          {/* Monospace Order Reference */}
+          <div className={styles.orderRefRow}>
+            <span className={styles.orderRefLabel}>Docket Ref:</span>
+            <span className={styles.orderRefValue}>#{orderNumber}</span>
           </div>
 
-          {/* Two-Column Details Grid */}
-          <div className={styles.detailsGrid}>
-            {/* Card 1: Fulfillment & Destination */}
-            <div className={styles.infoCard}>
-              <div className={styles.infoCardTitle}>
-                <Truck size={14} color="var(--accent-primary)" />
-                Fulfillment & Destination
-              </div>
-
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>
-                  <Calendar size={14} /> Placed On
-                </span>
-                <span className={styles.infoValue}>{formatDateTime(createdAt)}</span>
-              </div>
-
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>
-                  <Clock size={14} /> Estimated Delivery
-                </span>
-                <span className={styles.infoValue} style={{ color: "var(--status-success)" }}>
-                  3 – 5 Business Days
-                </span>
-              </div>
-
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>
-                  <MapPin size={14} /> Delivery Address
-                </span>
-                <span className={styles.infoValue}>
-                  {recipientName}
-                  {addressLine1 ? <><br /><span style={{ fontWeight: 400, color: "var(--text-secondary)", fontSize: "11px" }}>{addressLine1}</span></> : null}
-                  <br />
-                  <span style={{ fontWeight: 500 }}>{locationText}</span>
-                  {recipientPhone ? <><br /><span style={{ fontWeight: 400, color: "var(--text-tertiary)", fontSize: "11px" }}>Ph: {recipientPhone}</span></> : null}
-                </span>
-              </div>
+          {/* Stepper Progress Bar */}
+          <div className={styles.stepperContainer}>
+            <div className={styles.stepItem}>
+              <div className={styles.stepDotActive}>✓</div>
+              <span className={`${styles.stepText} ${styles.stepTextActive}`}>Placed</span>
             </div>
-
-            {/* Card 2: Payment & Financial Summary */}
-            <div className={styles.infoCard}>
-              <div className={styles.infoCardTitle}>
-                <CreditCard size={14} color="var(--accent-primary)" />
-                Payment & Billing
-              </div>
-
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>Payment Mode</span>
-                <span className={styles.infoValue}>
-                  {paymentMethod === "COD" ? "Cash on Delivery (COD)" : "Paid Online via UPI / Card"}
-                </span>
-              </div>
-
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>Delivery Charge</span>
-                <span className={styles.infoValue} style={{ color: "var(--status-success)" }}>
-                  FREE
-                </span>
-              </div>
-
-              <div className={styles.infoRow} style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "var(--space-3)", marginTop: "var(--space-2)" }}>
-                <span className={styles.infoLabel} style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: "var(--text-sm)" }}>
-                  Total Amount
-                </span>
-                <span className={styles.infoValue} style={{ color: "var(--accent-primary)", fontSize: "var(--text-lg)", fontWeight: 700 }}>
-                  {formatINR(grandTotal)}
-                </span>
-              </div>
+            <div className={styles.stepItem}>
+              <div className={styles.stepDotInProgress}>●</div>
+              <span className={`${styles.stepText} ${styles.stepTextActive}`}>Boutique Prep</span>
+            </div>
+            <div className={styles.stepItem}>
+              <div className={styles.stepDotPending}>○</div>
+              <span className={styles.stepText}>Inspected</span>
+            </div>
+            <div className={styles.stepItem}>
+              <div className={styles.stepDotPending}>○</div>
+              <span className={styles.stepText}>Delivered</span>
             </div>
           </div>
 
-          {/* Garments Preview List if available */}
-          {items.length > 0 && (
-            <div className={styles.itemsCard}>
-              <div className={styles.infoCardTitle}>
-                <ShoppingBag size={14} color="var(--accent-primary)" />
-                Garments in this Order ({items.length})
+          {/* Atelier Receipt Card */}
+          <div className={styles.receiptCard}>
+            <div className={styles.receiptHeader}>
+              <div className={styles.receiptTitle}>
+                <Receipt size={18} color="#d4af37" />
+                Atelier Order Summary
               </div>
-              <div className={styles.itemsList}>
-                {items.map((item: any, idx: number) => {
-                  const pName = item.productName || item.product_name || "Luxury Garment";
+              <div className={styles.receiptDate}>
+                <Calendar size={13} style={{ display: "inline", marginRight: 4 }} />
+                {formatDateTime(createdAt)}
+              </div>
+            </div>
+
+            {/* Items Preview */}
+            {items.length > 0 && (
+              <div className={styles.itemsSection}>
+                {items.map((item, idx) => {
+                  const pName = item.productName || item.product_name || "Luxury Apparel";
                   const vName = item.variantName || item.variant_name || item.size || "Standard";
                   const qty = item.quantity || 1;
-                  const price = item.totalPrice ?? item.total_price ?? item.unitPrice ?? item.unit_price ?? 0;
+                  const itemTotal = item.totalPrice ?? item.total_price ?? (item.unitPrice * qty);
 
                   return (
                     <div key={item.id || idx} className={styles.itemRow}>
-                      <div className={styles.itemNameCol}>
-                        <span className={styles.itemTitle}>{pName}</span>
-                        <span className={styles.itemVariant}>Size: {vName} • Qty: {qty}</span>
+                      <div className={styles.itemName}>
+                        <ShoppingBag size={14} color="#e31b23" />
+                        <span>
+                          {pName} <span className={styles.itemVariant}>({vName}) × {qty}</span>
+                        </span>
                       </div>
-                      <span className={styles.itemPriceCol}>{formatINR(price)}</span>
+                      <div className={styles.itemPrice}>
+                        {formatINR(itemTotal)}
+                      </div>
                     </div>
                   );
                 })}
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Store Concierge Notice */}
-          <div className={styles.conciergeCard}>
-            <PhoneCall size={20} color="var(--color-champagne-gold, #d4af37)" style={{ flexShrink: 0 }} />
-            <div className={styles.conciergeText}>
-              <strong>Direct Store Concierge:</strong> Bagodi Flagship Shopping Mall, Near Shivaji Chowk, Bidar.
-              Need sizing assistance or order customization? Call our store desk at <strong>+91 9880768222</strong>.
+            {/* Two-Column Details Grid */}
+            <div className={styles.detailsGrid}>
+              <div className={styles.detailBlock}>
+                <div className={styles.detailLabel}>
+                  <MapPin size={13} color="#e31b23" />
+                  Delivery Destination
+                </div>
+                <div className={styles.detailValue}>
+                  <strong>{recipientName}</strong>
+                  {recipientPhone && ` • ${recipientPhone}`}
+                  <br />
+                  {addressLine1}
+                  {addressLine2 && `, ${addressLine2}`}
+                  <br />
+                  {locationText}
+                </div>
+              </div>
+
+              <div className={styles.detailBlock}>
+                <div className={styles.detailLabel}>
+                  <CreditCard size={13} color="#d4af37" />
+                  Payment & Delivery Mode
+                </div>
+                <div className={styles.detailValue}>
+                  <strong>{pMethodDisplay}</strong>
+                  <br />
+                  <span style={{ color: "var(--text-tertiary)", fontSize: "12px" }}>
+                    Standard Boutique Dispatch (3 - 5 Days)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Financial Summary */}
+            <div>
+              <div className={styles.pricingRow}>
+                <span>Subtotal</span>
+                <span>{formatINR(subtotal)}</span>
+              </div>
+              <div className={styles.pricingRow}>
+                <span>Delivery Charges</span>
+                <span style={{ color: "#16a34a", fontWeight: 600 }}>
+                  {Number(shippingFee) === 0 ? "FREE (Insured Boutique Dispatch)" : formatINR(shippingFee)}
+                </span>
+              </div>
+              <div className={styles.totalRow}>
+                <span>Total Payable</span>
+                <span className={styles.totalAmount}>{formatINR(grandTotal)}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Concierge Reassurance Notice */}
+          <div className={styles.conciergeNotice}>
+            <Truck size={20} color="#d4af37" style={{ flexShrink: 0 }} />
+            <div className={styles.conciergeNoticeText}>
+              <strong>Dispatched from Flagship Boutique:</strong> Near Shivaji Chowk, Main Commercial Road, Bidar - 585401. Hand-pressed, certified authentic, and quality checked.
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className={styles.actionRow}>
+          <div className={styles.actionsRow}>
             <Link to="/account/orders" style={{ textDecoration: "none" }}>
-              <button type="button" className={styles.trackBtn}>
-                <PackageCheck size={18} />
-                <span>Track My Order</span>
-              </button>
+              <Button size="lg" className={styles.primaryTrackBtn} leftIcon={<PackageCheck size={18} />}>
+                Track My Order
+              </Button>
             </Link>
             <Link to="/catalogue" style={{ textDecoration: "none" }}>
-              <button type="button" className={styles.shopBtn}>
-                <span>Continue Shopping</span>
-                <ArrowRight size={18} />
-              </button>
+              <Button variant="outline" size="lg" className={styles.secondaryShopBtn} rightIcon={<ArrowRight size={18} />}>
+                Continue Exploring Collections
+              </Button>
             </Link>
           </div>
         </div>
