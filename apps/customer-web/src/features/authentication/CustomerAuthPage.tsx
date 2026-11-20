@@ -34,17 +34,20 @@ import {
   Scissors,
   Sparkles,
   UserPlus,
+  LogIn,
   CheckCircle2,
 } from "lucide-react";
 
-type AuthTab = "OTP" | "PASSWORD" | "REGISTER";
+type AuthMode = "LOGIN" | "REGISTER";
+type LoginMethod = "OTP" | "PASSWORD";
 
 export const CustomerAuthPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<AuthTab>("OTP");
+  const [activeMode, setActiveMode] = useState<AuthMode>("LOGIN");
+  const [loginMethod, setLoginMethod] = useState<LoginMethod>("OTP");
   const [apiError, setApiError] = useState<string | null>(null);
 
   // OTP Flow State
@@ -62,6 +65,7 @@ export const CustomerAuthPage: React.FC = () => {
   const {
     register: registerOtpSend,
     handleSubmit: handleOtpSendSubmit,
+    watch: watchOtpSend,
     formState: { errors: otpSendErrors, isSubmitting: isSendingOtp },
   } = useForm<SendOtpFormData>({
     resolver: zodResolver(sendOtpSchema),
@@ -71,6 +75,7 @@ export const CustomerAuthPage: React.FC = () => {
   const {
     register: registerPasswordLogin,
     handleSubmit: handlePasswordLoginSubmit,
+    watch: watchPasswordLogin,
     formState: { errors: passwordErrors, isSubmitting: isLoggingInPassword },
   } = useForm<CustomerPasswordLoginFormData>({
     resolver: zodResolver(customerPasswordLoginSchema),
@@ -80,10 +85,31 @@ export const CustomerAuthPage: React.FC = () => {
   const {
     register: registerRegister,
     handleSubmit: handleRegisterSubmit,
+    setValue: setRegisterValue,
     formState: { errors: registerErrors, isSubmitting: isRegistering },
   } = useForm<CustomerRegisterFormData>({
     resolver: zodResolver(customerRegisterSchema),
   });
+
+  const switchToRegister = () => {
+    setActiveMode("REGISTER");
+    setApiError(null);
+    const otpInput = watchOtpSend("phoneOrEmail");
+    const pwdInput = watchPasswordLogin("emailOrPhone");
+    const candidate = (otpInput || pwdInput || "").trim();
+    if (candidate) {
+      if (/^\d{10}$/.test(candidate)) {
+        setRegisterValue("phone", candidate);
+      } else if (candidate.includes("@")) {
+        setRegisterValue("email", candidate);
+      }
+    }
+  };
+
+  const switchToLogin = () => {
+    setActiveMode("LOGIN");
+    setApiError(null);
+  };
 
   // Resend OTP Countdown Timer
   useEffect(() => {
@@ -264,48 +290,63 @@ export const CustomerAuthPage: React.FC = () => {
                 <span className={styles.brandMicroDot} />
                 <span>BAGODI CLIENT PRIVILEGE</span>
               </div>
-              <h1 className={styles.title}>Client Access</h1>
+              <h1 className={styles.title}>
+                {activeMode === "LOGIN" ? "Client Access" : "New Client Registration"}
+              </h1>
               <p className={styles.subtitle}>
-                Sign in with instant mobile OTP or password to access your bespoke wardrobe, custom sizing, and boutique orders.
+                {activeMode === "LOGIN"
+                  ? "Sign in with instant mobile OTP or password to access your bespoke wardrobe, custom sizing, and boutique orders."
+                  : "Register your client profile to unlock authentic handloom curation, bridal consultations, and private concierge orders."}
               </p>
             </div>
 
-            {/* Navigation Tabs */}
-            <div className={styles.tabNavigation}>
+            {/* Top Two-Button Primary Switcher */}
+            <div className={styles.mainModeSwitcher}>
               <button
                 type="button"
-                className={`${styles.tabButton} ${activeTab === "OTP" ? styles.tabActive : ""}`}
-                onClick={() => {
-                  setActiveTab("OTP");
-                  setApiError(null);
-                }}
+                className={`${styles.mainModeBtn} ${activeMode === "LOGIN" ? styles.mainModeActive : ""}`}
+                onClick={switchToLogin}
               >
-                <Smartphone size={13} />
-                <span>Instant OTP</span>
+                <LogIn size={15} />
+                <span>Login / Sign In</span>
               </button>
               <button
                 type="button"
-                className={`${styles.tabButton} ${activeTab === "PASSWORD" ? styles.tabActive : ""}`}
-                onClick={() => {
-                  setActiveTab("PASSWORD");
-                  setApiError(null);
-                }}
+                className={`${styles.mainModeBtn} ${activeMode === "REGISTER" ? styles.mainModeActive : ""}`}
+                onClick={switchToRegister}
               >
-                <Lock size={13} />
-                <span>Password</span>
-              </button>
-              <button
-                type="button"
-                className={`${styles.tabButton} ${activeTab === "REGISTER" ? styles.tabActive : ""}`}
-                onClick={() => {
-                  setActiveTab("REGISTER");
-                  setApiError(null);
-                }}
-              >
-                <UserPlus size={13} />
-                <span>New Client</span>
+                <UserPlus size={15} />
+                <span>Register If New</span>
               </button>
             </div>
+
+            {/* Subtle Login Method Sub-Toggle (Only shown during Login) */}
+            {activeMode === "LOGIN" && (
+              <div className={styles.loginMethodToggle}>
+                <button
+                  type="button"
+                  className={`${styles.methodBtn} ${loginMethod === "OTP" ? styles.methodActive : ""}`}
+                  onClick={() => {
+                    setLoginMethod("OTP");
+                    setApiError(null);
+                  }}
+                >
+                  <Smartphone size={13} />
+                  <span>Instant Mobile OTP</span>
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.methodBtn} ${loginMethod === "PASSWORD" ? styles.methodActive : ""}`}
+                  onClick={() => {
+                    setLoginMethod("PASSWORD");
+                    setApiError(null);
+                  }}
+                >
+                  <Lock size={13} />
+                  <span>Password</span>
+                </button>
+              </div>
+            )}
 
             {/* API Error Notification */}
             {apiError && (
@@ -314,138 +355,189 @@ export const CustomerAuthPage: React.FC = () => {
               </div>
             )}
 
-            {/* TAB 1: FAST MOBILE OTP */}
-            {activeTab === "OTP" && (
+            {/* MODE 1: LOGIN */}
+            {activeMode === "LOGIN" && (
               <div className={styles.tabContentArea}>
-                {otpStep === "INPUT" ? (
-                  <form onSubmit={handleOtpSendSubmit(onSendOtp)} className={styles.form}>
+                {/* Method A: Mobile OTP */}
+                {loginMethod === "OTP" && (
+                  <>
+                    {otpStep === "INPUT" ? (
+                      <form onSubmit={handleOtpSendSubmit(onSendOtp)} className={styles.form}>
+                        <TextInput
+                          label="Mobile Number or Email"
+                          placeholder="Enter 10-digit mobile (e.g. 9876543210)"
+                          leftIcon={<Smartphone size={18} />}
+                          isRequired
+                          error={otpSendErrors.phoneOrEmail?.message}
+                          {...registerOtpSend("phoneOrEmail")}
+                        />
+
+                        <div className={styles.actionButtonGroup}>
+                          <Button
+                            type="submit"
+                            size="lg"
+                            isLoading={isSendingOtp}
+                            fullWidth
+                            rightIcon={<ArrowRight size={18} />}
+                            className={styles.crimsonPrimaryBtn}
+                          >
+                            Send Secure Verification Code
+                          </Button>
+
+                          <div className={styles.orDivider}>
+                            <span className={styles.orDividerLine} />
+                            <span className={styles.orDividerText}>OR REGISTER IF NEW</span>
+                            <span className={styles.orDividerLine} />
+                          </div>
+
+                          <button
+                            type="button"
+                            className={styles.secondaryOutlineBtn}
+                            onClick={switchToRegister}
+                          >
+                            <UserPlus size={16} />
+                            <span>Register If New Client</span>
+                          </button>
+                        </div>
+
+                        <div className={styles.otpHelperNotice}>
+                          <CheckCircle2 size={13} color="#C5A15B" />
+                          <span>We will transmit a 6-digit one-time code to authenticate your session.</span>
+                        </div>
+                      </form>
+                    ) : (
+                      <div className={styles.form}>
+                        <div className={styles.otpInfoBox}>
+                          <div className={styles.otpDestinationDetails}>
+                            <span className={styles.otpSentLabel}>Verification code dispatched to</span>
+                            <strong className={styles.otpDestinationVal}>
+                              {otpReference?.maskedDestination || targetPhoneOrEmail}
+                            </strong>
+                          </div>
+                          <button
+                            type="button"
+                            className={styles.editNumberBtn}
+                            onClick={() => {
+                              setOtpStep("INPUT");
+                              setEnteredOtp("");
+                            }}
+                          >
+                            Change
+                          </button>
+                        </div>
+
+                        <div className={styles.otpInputWrapper}>
+                          <OtpInput
+                            length={6}
+                            value={enteredOtp}
+                            onChange={(val) => setEnteredOtp(val)}
+                          />
+                        </div>
+
+                        <div className={styles.actionButtonGroup}>
+                          <Button
+                            type="button"
+                            size="lg"
+                            isLoading={isVerifyingOtp}
+                            disabled={enteredOtp.length !== 6}
+                            onClick={onVerifyOtp}
+                            fullWidth
+                            className={styles.crimsonPrimaryBtn}
+                          >
+                            Verify Code & Enter Atelier
+                          </Button>
+
+                          <div className={styles.orDivider}>
+                            <span className={styles.orDividerLine} />
+                            <span className={styles.orDividerText}>OR REGISTER IF NEW</span>
+                            <span className={styles.orDividerLine} />
+                          </div>
+
+                          <button
+                            type="button"
+                            className={styles.secondaryOutlineBtn}
+                            onClick={switchToRegister}
+                          >
+                            <UserPlus size={16} />
+                            <span>Register If New Client</span>
+                          </button>
+                        </div>
+
+                        <div className={styles.resendContainer}>
+                          <span className={styles.resendLabel}>Didn't receive the SMS code?</span>
+                          {resendCountdown > 0 ? (
+                            <span className={styles.resendTimer}>Resend in {resendCountdown}s</span>
+                          ) : (
+                            <button
+                              type="button"
+                              className={styles.resendActionBtn}
+                              onClick={() => onSendOtp({ phoneOrEmail: targetPhoneOrEmail, channel: "SMS" })}
+                            >
+                              Resend Code Now
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Method B: Password Login */}
+                {loginMethod === "PASSWORD" && (
+                  <form onSubmit={handlePasswordLoginSubmit(onPasswordLogin)} className={styles.form}>
                     <TextInput
-                      label="Mobile Number or Email"
-                      placeholder="Enter 10-digit mobile (e.g. 9876543210)"
-                      leftIcon={<Smartphone size={18} />}
+                      label="Registered Email or Mobile"
+                      placeholder="name@example.com or 10-digit phone"
+                      leftIcon={<Mail size={18} />}
                       isRequired
-                      error={otpSendErrors.phoneOrEmail?.message}
-                      {...registerOtpSend("phoneOrEmail")}
+                      error={passwordErrors.emailOrPhone?.message}
+                      {...registerPasswordLogin("emailOrPhone")}
                     />
 
-                    <Button
-                      type="submit"
-                      size="lg"
-                      isLoading={isSendingOtp}
-                      fullWidth
-                      rightIcon={<ArrowRight size={18} />}
-                      className={styles.crimsonPrimaryBtn}
-                    >
-                      Send Secure Verification Code
-                    </Button>
+                    <TextInput
+                      label="Security Password"
+                      type="password"
+                      placeholder="••••••••"
+                      leftIcon={<Lock size={18} />}
+                      isRequired
+                      error={passwordErrors.password?.message}
+                      {...registerPasswordLogin("password")}
+                    />
 
-                    <div className={styles.otpHelperNotice}>
-                      <CheckCircle2 size={13} color="#C5A15B" />
-                      <span>We will transmit a 6-digit one-time code to authenticate your session.</span>
-                    </div>
-                  </form>
-                ) : (
-                  <div className={styles.form}>
-                    <div className={styles.otpInfoBox}>
-                      <div className={styles.otpDestinationDetails}>
-                        <span className={styles.otpSentLabel}>Verification code dispatched to</span>
-                        <strong className={styles.otpDestinationVal}>
-                          {otpReference?.maskedDestination || targetPhoneOrEmail}
-                        </strong>
+                    <div className={styles.actionButtonGroup}>
+                      <Button
+                        type="submit"
+                        size="lg"
+                        isLoading={isLoggingInPassword}
+                        fullWidth
+                        rightIcon={<ArrowRight size={18} />}
+                        className={styles.crimsonPrimaryBtn}
+                      >
+                        Sign In With Password
+                      </Button>
+
+                      <div className={styles.orDivider}>
+                        <span className={styles.orDividerLine} />
+                        <span className={styles.orDividerText}>OR REGISTER IF NEW</span>
+                        <span className={styles.orDividerLine} />
                       </div>
+
                       <button
                         type="button"
-                        className={styles.editNumberBtn}
-                        onClick={() => {
-                          setOtpStep("INPUT");
-                          setEnteredOtp("");
-                        }}
+                        className={styles.secondaryOutlineBtn}
+                        onClick={switchToRegister}
                       >
-                        Change
+                        <UserPlus size={16} />
+                        <span>Register as New Client</span>
                       </button>
                     </div>
-
-                    <div className={styles.otpInputWrapper}>
-                      <OtpInput
-                        length={6}
-                        value={enteredOtp}
-                        onChange={(val) => setEnteredOtp(val)}
-                      />
-                    </div>
-
-                    <div className={styles.otpHelperNotice} style={{ marginBottom: "16px" }}>
-                      <CheckCircle2 size={13} color="#C5A15B" />
-                      <span>Instant verification: Enter SMS code or use demo OTP <strong>123456</strong></span>
-                    </div>
-
-                    <Button
-                      type="button"
-                      size="lg"
-                      isLoading={isVerifyingOtp}
-                      disabled={enteredOtp.length !== 6}
-                      onClick={onVerifyOtp}
-                      fullWidth
-                      className={styles.crimsonPrimaryBtn}
-                    >
-                      Verify Code & Enter Atelier
-                    </Button>
-
-                    <div className={styles.resendContainer}>
-                      <span className={styles.resendLabel}>Didn't receive the SMS code?</span>
-                      {resendCountdown > 0 ? (
-                        <span className={styles.resendTimer}>Resend in {resendCountdown}s</span>
-                      ) : (
-                        <button
-                          type="button"
-                          className={styles.resendActionBtn}
-                          onClick={() => onSendOtp({ phoneOrEmail: targetPhoneOrEmail, channel: "SMS" })}
-                        >
-                          Resend Code Now
-                        </button>
-                      )}
-                    </div>
-                  </div>
+                  </form>
                 )}
               </div>
             )}
 
-            {/* TAB 2: EMAIL / PHONE + PASSWORD */}
-            {activeTab === "PASSWORD" && (
-              <form onSubmit={handlePasswordLoginSubmit(onPasswordLogin)} className={styles.form}>
-                <TextInput
-                  label="Registered Email or Mobile"
-                  placeholder="name@example.com or 10-digit phone"
-                  leftIcon={<Mail size={18} />}
-                  isRequired
-                  error={passwordErrors.emailOrPhone?.message}
-                  {...registerPasswordLogin("emailOrPhone")}
-                />
-
-                <TextInput
-                  label="Security Password"
-                  type="password"
-                  placeholder="••••••••"
-                  leftIcon={<Lock size={18} />}
-                  isRequired
-                  error={passwordErrors.password?.message}
-                  {...registerPasswordLogin("password")}
-                />
-
-                <Button
-                  type="submit"
-                  size="lg"
-                  isLoading={isLoggingInPassword}
-                  fullWidth
-                  rightIcon={<ArrowRight size={18} />}
-                  className={styles.crimsonPrimaryBtn}
-                >
-                  Sign In With Password
-                </Button>
-              </form>
-            )}
-
-            {/* TAB 3: REGISTRATION */}
-            {activeTab === "REGISTER" && (
+            {/* MODE 2: REGISTRATION */}
+            {activeMode === "REGISTER" && (
               <form onSubmit={handleRegisterSubmit(onRegister)} className={styles.form}>
                 <TextInput
                   label="Full Name"
@@ -509,15 +601,33 @@ export const CustomerAuthPage: React.FC = () => {
                   </span>
                 )}
 
-                <Button
-                  type="submit"
-                  size="lg"
-                  isLoading={isRegistering}
-                  fullWidth
-                  className={styles.crimsonPrimaryBtn}
-                >
-                  Create Boutique Account
-                </Button>
+                <div className={styles.actionButtonGroup}>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    isLoading={isRegistering}
+                    fullWidth
+                    rightIcon={<ArrowRight size={18} />}
+                    className={styles.crimsonPrimaryBtn}
+                  >
+                    Create Boutique Account
+                  </Button>
+
+                  <div className={styles.orDivider}>
+                    <span className={styles.orDividerLine} />
+                    <span className={styles.orDividerText}>OR ALREADY HAVE AN ACCOUNT?</span>
+                    <span className={styles.orDividerLine} />
+                  </div>
+
+                  <button
+                    type="button"
+                    className={styles.secondaryOutlineBtn}
+                    onClick={switchToLogin}
+                  >
+                    <LogIn size={16} />
+                    <span>Login to Existing Account</span>
+                  </button>
+                </div>
               </form>
             )}
 
