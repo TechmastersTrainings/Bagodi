@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { defaultApiClient } from "@bagodi/api-client";
 import { Address, CartResponse, CreateOrderResponse, CreateOrderPayload, ValidateCouponResponse } from "@bagodi/shared-types";
 import { addressSchema, AddressFormData } from "@bagodi/validation";
-import { Button, TextInput, ApiErrorCard, SkeletonLine, PerspectiveCard3D } from "@bagodi/shared-components";
-import { MapPin, Truck, CreditCard, Plus, CheckCircle2, ShieldCheck, ArrowRight, ArrowLeft, Tag, X, Sparkles, Smartphone } from "lucide-react";
+import { Button, TextInput, ApiErrorCard, SkeletonLine } from "@bagodi/shared-components";
+import { MapPin, Truck, CreditCard, Plus, CheckCircle2, ShieldCheck, ArrowRight, ArrowLeft, Tag, X, Sparkles, Smartphone, Lock } from "lucide-react";
 import { formatINR } from "@bagodi/utilities";
 import styles from "./CheckoutPage.module.css";
 
@@ -228,8 +228,12 @@ export const CheckoutPage: React.FC = () => {
         <Link to="/cart" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--text-xs)", color: "var(--text-tertiary)", marginBottom: "var(--space-3)" }}>
           <ArrowLeft size={14} /> Return to Shopping Bag
         </Link>
-        <h1 className={styles.checkoutTitle}>Checkout</h1>
-        <p className={styles.checkoutSubtitle}>Review your shipping address, delivery speed, and payment method.</p>
+        <div className={styles.atelierBadge}>
+          <Sparkles size={12} color="#D4AF37" />
+          <span>Bagodi Flagship Atelier Checkout</span>
+        </div>
+        <h1 className={styles.checkoutTitle}>Checkout & Order Review</h1>
+        <p className={styles.checkoutSubtitle}>Review your shipping address, delivery speed, and payment method for Bidar Flagship dispatch.</p>
       </header>
 
       {checkoutError && (
@@ -505,10 +509,14 @@ export const CheckoutPage: React.FC = () => {
           </section>
         </div>
 
-        {/* Right Column: Order Summary Preview */}
-        <PerspectiveCard3D maxTiltDeg={3}>
-          <div className={styles.checkoutSummary}>
-            <h3 className={styles.summaryHeader}>Order Summary</h3>
+        {/* Right Column: Order Summary Preview - 100% Rock Solid Flat Container */}
+        <div className={styles.checkoutSummary}>
+          <div className={styles.summaryHeader}>
+            <span>Order Summary</span>
+            <span className={styles.itemCountBadge}>
+              {cart.items.length} {cart.items.length === 1 ? "Item" : "Items"}
+            </span>
+          </div>
 
             {/* Garments Preview */}
             <div className={styles.itemPreviewList}>
@@ -639,7 +647,7 @@ export const CheckoutPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Main Action Button */}
+            {/* Main Action Button - Position Stable & High Precision Click */}
             <div style={{ marginTop: "var(--space-6)" }}>
               <button
                 type="button"
@@ -647,6 +655,7 @@ export const CheckoutPage: React.FC = () => {
                 onClick={handleProceedOrder}
                 disabled={placeOrderMutation.isPending}
               >
+                <Lock size={16} />
                 <span>
                   {paymentMethod === "UPI" ? "Proceed to Pay" : "Confirm & Place Order"} • {formatINR(finalCalculatedPayable)}
                 </span>
@@ -670,8 +679,7 @@ export const CheckoutPage: React.FC = () => {
               </div>
             </div>
           </div>
-        </PerspectiveCard3D>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };

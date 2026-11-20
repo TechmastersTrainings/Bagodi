@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { defaultApiClient } from "@bagodi/api-client";
 import { Order } from "@bagodi/shared-types";
-import { Button, PerspectiveCard3D, SkeletonLine, ApiErrorCard } from "@bagodi/shared-components";
+import { Button, SkeletonLine, ApiErrorCard } from "@bagodi/shared-components";
 import {
   CheckCircle2,
   PackageCheck,
@@ -85,8 +85,7 @@ export const OrderSuccessPage: React.FC = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <PerspectiveCard3D maxTiltDeg={2}>
-        <div className={styles.successCard}>
+      <div className={styles.successCard}>
           {/* Top Atelier Seal */}
           <div className={styles.sealContainer}>
             <div className={styles.sealRing}>
@@ -244,7 +243,6 @@ export const OrderSuccessPage: React.FC = () => {
             </Link>
           </div>
         </div>
-      </PerspectiveCard3D>
-    </div>
-  );
-};
+      </div>
+    );
+  };

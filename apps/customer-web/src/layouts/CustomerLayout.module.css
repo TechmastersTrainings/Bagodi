@@ -584,13 +584,16 @@
   width: 100%;
 }
 
-/* 5. Luxury Multi-Brand Footer */
+/* 5. Luxury Multi-Brand Footer - High Resolution Typography */
 .footer {
-  background-color: var(--color-obsidian);
-  color: var(--color-warm-ivory);
-  border-top: 2px solid var(--color-champagne-gold);
+  background-color: #0F0F12;
+  color: #F8FAFC;
+  border-top: 2px solid #D4AF37;
   padding: var(--space-16) var(--space-8) var(--space-8);
   margin-top: var(--space-16);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 @media (max-width: 900px) {
@@ -651,31 +654,39 @@
 .footerTagline {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: var(--text-sm);
-  color: var(--color-champagne-gold);
-  margin-bottom: var(--space-4);
+  font-size: 15px;
+  font-weight: 600;
+  color: #E5C378;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-3);
 }
 
 .footerDescription {
-  font-size: var(--text-xs);
-  color: var(--color-muted-grey);
-  line-height: 1.8;
-  max-width: 360px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #E2E8F0;
+  line-height: 1.7;
+  max-width: 380px;
   margin-bottom: var(--space-6);
 }
 
 .footerStoreCard {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(197, 161, 91, 0.3);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(212, 175, 55, 0.45);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
-  max-width: 360px;
+  max-width: 380px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #F8FAFC;
+  line-height: 1.6;
 }
 
 .footerColumnTitle {
   font-family: var(--font-serif);
-  font-size: var(--text-base);
-  letter-spacing: var(--tracking-wider);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #FFFFFF;
   margin-bottom: var(--space-4);
@@ -688,9 +699,9 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 28px;
-  height: 1px;
-  background: var(--color-champagne-gold);
+  width: 32px;
+  height: 2px;
+  background: #D4AF37;
 }
 
 .footerList {
@@ -701,15 +712,19 @@
 }
 
 .footerLink {
-  font-size: var(--text-xs);
-  color: var(--color-muted-grey);
+  font-size: 14px;
+  font-weight: 500;
+  color: #CBD5E1;
   text-decoration: none;
+  display: inline-block;
+  padding: 2px 0;
   transition: all var(--duration-fast) ease;
 }
 
 .footerLink:hover {
-  color: var(--color-light-champagne);
-  padding-left: 4px;
+  color: #FFFFFF;
+  padding-left: 6px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 .brandPills {
@@ -720,12 +735,13 @@
 }
 
 .brandPill {
-  font-size: 10px;
-  padding: 4px 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.35);
   border-radius: var(--radius-sm);
-  color: var(--color-warm-ivory);
+  color: #FFFFFF;
   letter-spacing: var(--tracking-wide);
 }
 
@@ -733,14 +749,15 @@
   max-width: var(--container-2xl);
   margin: var(--space-12) auto 0;
   padding-top: var(--space-6);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  font-size: 11px;
-  color: var(--color-muted-grey);
+  font-size: 13px;
+  font-weight: 500;
+  color: #CBD5E1;
 }
 
 @media (min-width: 768px) {
