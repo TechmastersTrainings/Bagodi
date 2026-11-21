@@ -49,44 +49,7 @@ export const HomePage: React.FC = () => {
     basePrice: Number(p.basePrice) || (p.variants?.[0]?.base_price ? Number(p.variants[0].base_price) : 0),
   }));
 
-  // Authentic Categories
-  const storeCategories = [
-    {
-      id: "mens-wear",
-      name: "Men's Wear",
-      meta: "Tailored Shirts, Trousers & Raymond Suiting",
-      path: "/catalogue?category=mens-wear",
-      tag: "Executive & Classic",
-    },
-    {
-      id: "womens-wear",
-      name: "Women's Wear",
-      meta: "Designer Kurtis, Festive Coordinates & Gowns",
-      path: "/catalogue?category=womens-wear",
-      tag: "Festive Pret",
-    },
-    {
-      id: "kids-wear",
-      name: "Kid's Wear",
-      meta: "Celebration Sets, Ethnic Kurtas & Festive Wear",
-      path: "/catalogue?category=kids-wear",
-      tag: "Celebration",
-    },
-    {
-      id: "sarees",
-      name: "Pure Silk Sarees",
-      meta: "Pure Banarasi, Kanjeevaram & Tussar Silk",
-      path: "/catalogue?category=sarees",
-      tag: "Heritage Craft",
-    },
-    {
-      id: "blazers",
-      name: "Blazers & Suiting",
-      meta: "Royal Tuxedos, Bandhgalas & Bespoke Blazers",
-      path: "/catalogue?category=blazers",
-      tag: "Royal Atelier",
-    },
-  ];
+
 
   // Brand Directory
   const featuredBrands = [
@@ -124,53 +87,7 @@ export const HomePage: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Shop by Curated Categories — Switch Deck Card 3 */}
-      <section className={`${styles.deckCard} ${styles.deckLevel3} ${styles.sectionWrapper}`}>
-        <div className={styles.sectionHeader}>
-          <div className={styles.sectionSuperTitle}>Curated Departments</div>
-          <h2 className={styles.sectionTitle}>Shop by Category</h2>
-          <p className={styles.sectionSubtitle}>
-            Immerse yourself in handpicked collections designed for discerning tastes and royal Indian festivities.
-          </p>
-        </div>
-
-        <div className={styles.categoryGrid}>
-          {storeCategories.map((cat) => (
-            <Link key={cat.id} to={cat.path} className={styles.categoryCard}>
-              <div className={styles.categoryVisual}>
-                <div className={styles.categoryVisualPattern} />
-                <div style={{ textAlign: "center", zIndex: 1, padding: "var(--space-4)" }}>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      letterSpacing: "var(--tracking-widest)",
-                      textTransform: "uppercase",
-                      color: "var(--color-royal-burgundy)",
-                      fontWeight: 700,
-                      background: "rgba(255, 255, 255, 0.8)",
-                      padding: "4px 10px",
-                      borderRadius: "var(--radius-sm)",
-                    }}
-                  >
-                    {cat.tag}
-                  </span>
-                </div>
-              </div>
-              <div className={styles.categoryInfo}>
-                <div>
-                  <h3 className={styles.categoryName}>{cat.name}</h3>
-                  <p className={styles.categoryMeta}>{cat.meta}</p>
-                </div>
-                <div className={styles.categoryArrow}>
-                  <ArrowRight size={16} />
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* 4. Featured Multi-Brand Showcase (Raymond & Partners) — Switch Deck Card 4 */}
+      {/* 3. Featured Multi-Brand Showcase (Raymond & Partners) — Switch Deck Card 3 */}
       <section className={`${styles.deckCard} ${styles.deckLevel4} ${styles.brandShowcaseSection}`}>
         <div className={styles.sectionHeader}>
           <div className={styles.sectionSuperTitle} style={{ color: "var(--color-champagne-gold)" }}>

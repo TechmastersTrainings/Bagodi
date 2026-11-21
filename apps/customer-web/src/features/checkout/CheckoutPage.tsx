@@ -116,7 +116,12 @@ export const CheckoutPage: React.FC = () => {
       navigate(`/order-success/${res.order.id}`);
     },
     onError: (err: any) => {
-      setCheckoutError(err.message || "Failed to place order. Please review your details and retry.");
+      const msg =
+        err?.response?.data?.detail?.message ||
+        err?.response?.data?.message ||
+        err?.message ||
+        "Failed to place order. Please review your details and retry.";
+      setCheckoutError(msg);
     },
   });
 
@@ -238,7 +243,15 @@ export const CheckoutPage: React.FC = () => {
 
       {checkoutError && (
         <div style={{ marginBottom: "var(--space-6)" }}>
-          <ApiErrorCard message={checkoutError} onRetry={() => setCheckoutError(null)} />
+          <ApiErrorCard
+            title="Order Processing Notice"
+            message={checkoutError}
+            actionText="Retry Order"
+            onRetry={() => {
+              setCheckoutError(null);
+              handleProceedOrder();
+            }}
+          />
         </div>
       )}
 
