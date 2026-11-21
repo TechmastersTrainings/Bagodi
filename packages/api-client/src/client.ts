@@ -17,7 +17,7 @@ import {
 export interface ApiClientAuthConfig {
   getAccessToken?: () => string | null | Promise<string | null>;
   getRefreshToken?: () => string | null | Promise<string | null>;
-  onTokenRefreshed?: (newToken: string) => void | Promise<void>;
+  onTokenRefreshed?: (newToken: string, newRefreshToken?: string) => void | Promise<void>;
   onUnauthorized?: () => void | Promise<void>;
 }
 
@@ -45,7 +45,7 @@ export class ApiClient {
   private defaultTimeoutMs: number;
   private tokenGetter: (() => Promise<string | null> | string | null) | null = null;
   private tokenRefresher: (() => Promise<string | null> | string | null) | null = null;
-  private onTokenRefreshedCb: ((token: string) => void) | null = null;
+  private onTokenRefreshedCb: ((token: string, refreshToken?: string) => void) | null = null;
   private onUnauthorizedCb: (() => void) | null = null;
   private refreshPromise: Promise<string | null> | null = null;
 
@@ -186,8 +186,9 @@ export class ApiClient {
               if (refreshRes.ok) {
                 const data = await refreshRes.json();
                 const newAccessToken = data.accessToken || data.access_token;
+                const newRefreshToken = data.refreshToken || data.refresh_token;
                 if (newAccessToken && this.onTokenRefreshedCb) {
-                  this.onTokenRefreshedCb(newAccessToken);
+                  this.onTokenRefreshedCb(newAccessToken, newRefreshToken);
                 }
                 return newAccessToken;
               }

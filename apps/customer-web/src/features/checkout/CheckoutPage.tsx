@@ -7,12 +7,14 @@ import { defaultApiClient } from "@bagodi/api-client";
 import { Address, CartResponse, CreateOrderResponse, CreateOrderPayload, ValidateCouponResponse } from "@bagodi/shared-types";
 import { addressSchema, AddressFormData } from "@bagodi/validation";
 import { Button, TextInput, ApiErrorCard, SkeletonLine } from "@bagodi/shared-components";
-import { MapPin, Truck, CreditCard, Plus, CheckCircle2, ShieldCheck, ArrowRight, ArrowLeft, Tag, X, Sparkles, Smartphone, Lock } from "lucide-react";
+import { useAuth } from "@bagodi/authentication";
+import { MapPin, Truck, CreditCard, Plus, CheckCircle2, ShieldCheck, ArrowRight, ArrowLeft, Tag, X, Sparkles, Smartphone, Lock, UserCheck } from "lucide-react";
 import { formatINR } from "@bagodi/utilities";
 import styles from "./CheckoutPage.module.css";
 
 export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
 
   // Selected State
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
@@ -65,13 +67,14 @@ export const CheckoutPage: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
     reset: resetAddressForm,
   } = useForm<AddressFormData>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      fullName: "",
-      phoneNumber: "",
+      fullName: user?.fullName || (user as any)?.display_name || "",
+      phoneNumber: (user?.phone || (user as any)?.phone_e164 || "").replace(/^\+91/, ""),
       addressLine1: "",
       addressLine2: "",
       landmark: "",
@@ -82,6 +85,17 @@ export const CheckoutPage: React.FC = () => {
       isDefault: false,
     },
   });
+
+  // Pre-fill contact details from authenticated user session
+  React.useEffect(() => {
+    if (user) {
+      const name = user.fullName || (user as any)?.display_name || "";
+      const rawPhone = user.phone || (user as any)?.phone_e164 || "";
+      const phone = rawPhone.replace(/^\+91/, "").trim();
+      if (name) setValue("fullName", name);
+      if (phone) setValue("phoneNumber", phone);
+    }
+  }, [user, setValue]);
 
   // Save New Address Mutation
   const addAddressMutation = useMutation({
@@ -252,6 +266,23 @@ export const CheckoutPage: React.FC = () => {
               handleProceedOrder();
             }}
           />
+        </div>
+      )}
+
+      {user && (
+        <div className={styles.customerAccountBar}>
+          <div className={styles.accountInfo}>
+            <div className={styles.verifiedIcon}>
+              <CheckCircle2 size={16} />
+            </div>
+            <div>
+              <span className={styles.accountLabel}>ORDERING AS</span>
+              <span className={styles.accountName}>
+                {user.fullName || (user as any)?.display_name || "Valued Boutique Client"} • {user.phone || (user as any)?.phone_e164 || user.email || ""}
+              </span>
+            </div>
+          </div>
+          <span className={styles.verifiedBadge}>✓ Logged In</span>
         </div>
       )}
 

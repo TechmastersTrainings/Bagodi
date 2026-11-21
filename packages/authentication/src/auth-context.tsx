@@ -90,8 +90,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const token = tokenStorage.getRefreshToken();
         return typeof token === "string" ? token : null;
       },
-      onTokenRefreshed: (newToken) => {
+      onTokenRefreshed: (newToken, newRefreshToken) => {
         tokenStorage.setAccessToken(newToken);
+        if (newRefreshToken) {
+          tokenStorage.setRefreshToken(newRefreshToken);
+        }
       },
       onUnauthorized: () => {
         logout();
@@ -118,7 +121,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       try {
         const rt = await tokenStorage.getRefreshToken();
-        if (rt) {
+        const at = await tokenStorage.getAccessToken();
+        if (rt || at) {
           const profile = await defaultApiClient.get<AuthUser>("/auth/me");
           setUser(profile);
           if (typeof window !== "undefined" && window.localStorage) {
@@ -133,10 +137,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setActiveStore(profile.availableStores[0]);
           }
         }
-      } catch {
-        await tokenStorage.clearTokens();
-        setUser(null);
-        setActiveStore(null);
+      } catch (err: any) {
+        // Only clear tokens if the backend explicitly returned a 401 Unauthorized
+        // Preserve local session during network latency or temporary backend reconnects
+        if (
+          err?.status === 401 ||
+          err?.statusCode === 401 ||
+          err?.name === "AuthenticationError" ||
+          err?.message?.includes("401")
+        ) {
+          await tokenStorage.clearTokens();
+          setUser(null);
+          setActiveStore(null);
+        }
       } finally {
         setIsLoading(false);
       }

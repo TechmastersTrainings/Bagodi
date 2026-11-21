@@ -46,7 +46,7 @@ export const CustomerAuthPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
-  const { login } = useAuth();
+  const { user, isAuthenticated, login } = useAuth();
 
   const [activeMode, setActiveMode] = useState<AuthMode>("LOGIN");
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("OTP");
@@ -60,8 +60,19 @@ export const CustomerAuthPage: React.FC = () => {
   const [resendCountdown, setResendCountdown] = useState<number>(60);
   const [isVerifyingOtp, setIsVerifyingOtp] = useState<boolean>(false);
 
-  // Determine redirect target
-  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/account/orders";
+  // Determine redirect target (defaults to /checkout or prior route)
+  const stateFrom = (location.state as any)?.from;
+  const from =
+    typeof stateFrom === "string"
+      ? stateFrom
+      : stateFrom?.pathname || "/checkout";
+
+  // If already logged in, immediately redirect to checkout or target route
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, user, navigate, from]);
 
   // Form for Sending OTP
   const {
