@@ -11,7 +11,6 @@ import {
 } from "@bagodi/shared-types";
 import { FilterSidebar } from "./components/FilterSidebar";
 import { ProductCard } from "./components/ProductCard";
-import { QuickViewModal } from "./components/QuickViewModal";
 import {
   Search,
   X,
@@ -44,7 +43,6 @@ export const CataloguePage: React.FC = () => {
   const [searchInput, setSearchInput] = useState(initialSearch);
   const debouncedSearch = useDebounce(searchInput, 400);
   const [gridCols, setGridCols] = useState<"four" | "three">("four");
-  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [wishlistedIds, setWishlistedIds] = useState<string[]>([]);
 
@@ -203,10 +201,6 @@ export const CataloguePage: React.FC = () => {
 
   const handleWishlistToggle = (id: string) => {
     setWishlistedIds((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
-  };
-
-  const handleAddToBag = (product: Product, size: string) => {
-    console.log("Added to shopping bag:", product.name, "Size:", size);
   };
 
   // Active filters calculation
@@ -489,7 +483,6 @@ export const CataloguePage: React.FC = () => {
                       product={product}
                       isWishlisted={wishlistedIds.includes(product.id)}
                       onWishlistToggle={handleWishlistToggle}
-                      onQuickView={(p) => setQuickViewProduct(p)}
                     />
                   ))}
                 </div>
@@ -528,16 +521,7 @@ export const CataloguePage: React.FC = () => {
         </div>
       </div>
 
-      {/* 5. Interactive Quick View Modal */}
-      {quickViewProduct && (
-        <QuickViewModal
-          product={quickViewProduct}
-          onClose={() => setQuickViewProduct(null)}
-          onAddToBag={handleAddToBag}
-        />
-      )}
-
-      {/* 6. Mobile Filter Drawer */}
+      {/* 5. Mobile Filter Drawer */}
       {isMobileFilterOpen && (
         <div className={styles.mobileDrawerOverlay} onClick={() => setIsMobileFilterOpen(false)}>
           <div className={styles.mobileDrawerContent} onClick={(e) => e.stopPropagation()}>

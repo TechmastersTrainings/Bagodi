@@ -342,7 +342,11 @@ export const ProductDetailPage: React.FC = () => {
           {/* Garment Details & Description */}
           <div className={styles.accordionSection}>
             <h3 className={styles.accordionTitle}>Garment Details & Heritage Craft</h3>
-            <p className={styles.descriptionText}>{product.description}</p>
+            <p className={styles.descriptionText}>
+              {product.description && !product.description.startsWith("http")
+                ? product.description
+                : "Authentic premium garment tailored with highest quality materials and artisanal finish at Bagodi Flagship Boutique."}
+            </p>
             {product.fabricDetails && (
               <p className={styles.descriptionText}>
                 <strong>Fabric & Weave:</strong> {product.fabricDetails}

@@ -2,21 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./ProductCard.module.css";
 import { Product } from "@bagodi/shared-types";
-import { Heart, Eye, Award, Sparkles } from "lucide-react";
+import { Heart, Award, Sparkles } from "lucide-react";
 import { formatINR } from "@bagodi/utilities";
 
 export interface ProductCardProps {
   product: Product;
   onWishlistToggle?: (productId: string) => void;
   isWishlisted?: boolean;
-  onQuickView?: (product: Product) => void;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onWishlistToggle,
   isWishlisted = false,
-  onQuickView,
 }) => {
   const images = product.images || [];
   const primaryImage = images.find((img) => img.isPrimary) || images[0];
@@ -111,24 +109,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               {availableSizes.length > 4 && (
                 <span className={styles.sizeChip}>+{availableSizes.length - 4}</span>
               )}
-            </div>
-          )}
-
-          {/* Quick View Hover Bar */}
-          {onQuickView && (
-            <div className={styles.quickViewHoverBar}>
-              <button
-                type="button"
-                className={styles.quickViewBtn}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onQuickView(product);
-                }}
-              >
-                <Eye size={13} />
-                <span>Quick View</span>
-              </button>
             </div>
           )}
         </div>
