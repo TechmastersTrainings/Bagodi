@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -8,13 +8,27 @@ import { Address, CartResponse, CreateOrderResponse, CreateOrderPayload, Validat
 import { addressSchema, AddressFormData } from "@bagodi/validation";
 import { Button, TextInput, ApiErrorCard, SkeletonLine } from "@bagodi/shared-components";
 import { useAuth } from "@bagodi/authentication";
-import { MapPin, Truck, CreditCard, Plus, CheckCircle2, ShieldCheck, ArrowRight, ArrowLeft, Tag, X, Sparkles, Smartphone, Lock, UserCheck } from "lucide-react";
+import {
+  MapPin,
+  Truck,
+  CreditCard,
+  Plus,
+  CheckCircle2,
+  ShieldCheck,
+  ArrowRight,
+  ArrowLeft,
+  Tag,
+  X,
+  Sparkles,
+  Lock,
+  RotateCcw,
+} from "lucide-react";
 import { formatINR } from "@bagodi/utilities";
 import styles from "./CheckoutPage.module.css";
 
 export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
 
   // Selected State
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
@@ -87,7 +101,7 @@ export const CheckoutPage: React.FC = () => {
   });
 
   // Pre-fill contact details from authenticated user session
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       const name = user.fullName || (user as any)?.display_name || "";
       const rawPhone = user.phone || (user as any)?.phone_e164 || "";
@@ -126,7 +140,6 @@ export const CheckoutPage: React.FC = () => {
       return await defaultApiClient.post<CreateOrderResponse>("/orders", payload);
     },
     onSuccess: (res) => {
-      // Seamless direct navigation to Order Success screen
       navigate(`/order-success/${res.order.id}`);
     },
     onError: (err: any) => {
@@ -192,7 +205,7 @@ export const CheckoutPage: React.FC = () => {
   };
 
   // Set default address when loaded, or open address form if no address exists
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isAddressesLoading) {
       if (savedAddresses.length > 0) {
         if (!selectedAddressId) {
@@ -208,9 +221,9 @@ export const CheckoutPage: React.FC = () => {
   if (isCartLoading || isAddressesLoading) {
     return (
       <div className={styles.checkoutContainer}>
-        <SkeletonLine height="40px" width="300px" />
-        <div style={{ marginTop: "var(--space-6)" }}>
-          <SkeletonLine height="240px" width="100%" />
+        <SkeletonLine height="32px" width="220px" />
+        <div style={{ marginTop: "16px" }}>
+          <SkeletonLine height="200px" width="100%" />
         </div>
       </div>
     );
@@ -243,20 +256,41 @@ export const CheckoutPage: React.FC = () => {
 
   return (
     <div className={styles.checkoutContainer}>
+      {/* Compact Streamlined Atelier Header */}
       <header className={styles.checkoutHeader}>
-        <Link to="/cart" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--text-xs)", color: "var(--text-tertiary)", marginBottom: "var(--space-3)" }}>
-          <ArrowLeft size={14} /> Return to Shopping Bag
-        </Link>
-        <div className={styles.atelierBadge}>
-          <Sparkles size={12} color="#D4AF37" />
-          <span>Bagodi Flagship Atelier Checkout</span>
+        <div className={styles.headerTopRow}>
+          <Link to="/cart" className={styles.backLink}>
+            <ArrowLeft size={13} />
+            <span>Return to Bag</span>
+          </Link>
+          <div className={styles.atelierBadge}>
+            <Sparkles size={11} color="#C5A15B" />
+            <span>Bagodi Flagship Checkout</span>
+          </div>
         </div>
-        <h1 className={styles.checkoutTitle}>Checkout & Order Review</h1>
-        <p className={styles.checkoutSubtitle}>Review your shipping address, delivery speed, and payment method for Bidar Flagship dispatch.</p>
+
+        <div className={styles.headerMainRow}>
+          <div>
+            <h1 className={styles.checkoutTitle}>Checkout & Order Review</h1>
+            <p className={styles.checkoutSubtitle}>
+              Confirm delivery address, speed, and payment method for Flagship dispatch.
+            </p>
+          </div>
+
+          {user && (
+            <div className={styles.userBadgeCompact}>
+              <CheckCircle2 size={13} className={styles.userBadgeCheck} />
+              <span className={styles.userBadgeDetails}>
+                {user.fullName || (user as any)?.display_name || "Client"} • {user.phone || (user as any)?.phone_e164 || user.email || ""}
+              </span>
+              <span className={styles.userBadgeStatus}>Logged In</span>
+            </div>
+          )}
+        </div>
       </header>
 
       {checkoutError && (
-        <div style={{ marginBottom: "var(--space-6)" }}>
+        <div style={{ marginBottom: "14px" }}>
           <ApiErrorCard
             title="Order Processing Notice"
             message={checkoutError}
@@ -269,35 +303,31 @@ export const CheckoutPage: React.FC = () => {
         </div>
       )}
 
-      {user && (
-        <div className={styles.customerAccountBar}>
-          <div className={styles.accountInfo}>
-            <div className={styles.verifiedIcon}>
-              <CheckCircle2 size={16} />
-            </div>
-            <div>
-              <span className={styles.accountLabel}>ORDERING AS</span>
-              <span className={styles.accountName}>
-                {user.fullName || (user as any)?.display_name || "Valued Boutique Client"} • {user.phone || (user as any)?.phone_e164 || user.email || ""}
-              </span>
-            </div>
-          </div>
-          <span className={styles.verifiedBadge}>✓ Logged In</span>
-        </div>
-      )}
-
+      {/* 2-Column High-Density Luxury Checkout Grid */}
       <div className={styles.checkoutGrid}>
-        {/* Left Column: Multi-Step Fulfillment Options */}
-        <div>
+        {/* Left Column: Compact Steps */}
+        <div className={styles.stepsColumn}>
           {/* Step 1: Delivery Address */}
           <section className={styles.stepSection}>
             <div className={styles.stepHeader}>
-              <div className={styles.stepNumber}>1</div>
-              <MapPin size={20} color="var(--accent-primary)" />
-              <h2 className={styles.stepTitle}>Delivery Address</h2>
+              <div className={styles.stepHeaderTitleGroup}>
+                <span className={styles.stepNumber}>1</span>
+                <MapPin size={16} className={styles.stepIcon} />
+                <h2 className={styles.stepTitle}>Delivery Address</h2>
+              </div>
+              {!isAddingNewAddress && (
+                <button
+                  type="button"
+                  className={styles.addAddressHeaderBtn}
+                  onClick={() => setIsAddingNewAddress(true)}
+                >
+                  <Plus size={13} />
+                  <span>Add New Address</span>
+                </button>
+              )}
             </div>
 
-            {/* Saved Addresses List */}
+            {/* Saved Addresses Compact Grid */}
             {savedAddresses.length > 0 && !isAddingNewAddress && (
               <div className={styles.addressGrid}>
                 {savedAddresses.map((addr) => {
@@ -314,10 +344,16 @@ export const CheckoutPage: React.FC = () => {
                       className={`${styles.addressCard} ${isSelected ? styles.addressCardSelected : ""}`}
                       onClick={() => setSelectedAddressId(addr.id)}
                     >
-                      <div className={styles.addressHeader}>
-                        <span className={styles.recipientName}>{displayName}</span>
-                        {addr.isDefault && <span className={styles.defaultBadge}>Default</span>}
+                      <div className={styles.addressCardRadioRow}>
+                        <div className={`${styles.radioCircle} ${isSelected ? styles.radioCircleSelected : ""}`}>
+                          {isSelected && <div className={styles.radioDot} />}
+                        </div>
+                        <div className={styles.addressCardHeader}>
+                          <span className={styles.recipientName}>{displayName}</span>
+                          {addr.isDefault && <span className={styles.defaultBadge}>Default</span>}
+                        </div>
                       </div>
+
                       <div className={styles.addressBody}>
                         {displayLine1}
                         {displayLine2 && `, ${displayLine2}`}
@@ -332,17 +368,8 @@ export const CheckoutPage: React.FC = () => {
               </div>
             )}
 
-            {/* Add New Address Button / Form */}
-            {!isAddingNewAddress ? (
-              <Button
-                variant="outline"
-                size="sm"
-                leftIcon={<Plus size={16} />}
-                onClick={() => setIsAddingNewAddress(true)}
-              >
-                Add New Delivery Address
-              </Button>
-            ) : (
+            {/* Inline New Address Form */}
+            {isAddingNewAddress && (
               <form
                 onSubmit={handleSubmit(async (data) => {
                   try {
@@ -373,41 +400,41 @@ export const CheckoutPage: React.FC = () => {
                       className={styles.formCancelBtn}
                       onClick={() => setIsAddingNewAddress(false)}
                     >
-                      <X size={15} /> Cancel
+                      <X size={14} /> Cancel
                     </button>
                   )}
                 </div>
 
-                <div className={styles.formRow2}>
+                <div className={styles.formGrid2}>
                   <TextInput
-                    label="Full Recipient Name"
-                    placeholder="e.g. Ramesh Patil"
+                    label="Full Name"
+                    placeholder="e.g. Sachin Anil"
                     {...register("fullName")}
                     error={errors.fullName?.message}
                     isRequired
                   />
                   <TextInput
-                    label="10-digit Phone Number"
-                    placeholder="9876543210"
+                    label="Phone Number"
+                    placeholder="10-digit mobile"
                     {...register("phoneNumber")}
                     error={errors.phoneNumber?.message}
                     isRequired
                   />
                 </div>
 
-                <div className={styles.formRow1}>
+                <div className={styles.formGrid1}>
                   <TextInput
-                    label="Street, House No, Flat, Locality"
-                    placeholder="Shop #4, Near Shivaji Chowk"
+                    label="Street Address / House / Flat"
+                    placeholder="House / Flat / Street Name"
                     {...register("addressLine1")}
                     error={errors.addressLine1?.message}
                     isRequired
                   />
                 </div>
 
-                <div className={styles.formRow3}>
+                <div className={styles.formGrid3}>
                   <TextInput
-                    label="City / District"
+                    label="City"
                     placeholder="Bidar"
                     {...register("city")}
                     error={errors.city?.message}
@@ -421,7 +448,7 @@ export const CheckoutPage: React.FC = () => {
                     isRequired
                   />
                   <TextInput
-                    label="6-Digit PIN Code"
+                    label="PIN Code"
                     placeholder="585401"
                     {...register("postalCode")}
                     error={errors.postalCode?.message}
@@ -431,7 +458,7 @@ export const CheckoutPage: React.FC = () => {
 
                 <div className={styles.formActions}>
                   <Button type="submit" size="sm" isLoading={isSubmitting || addAddressMutation.isPending}>
-                    Save & Use Address
+                    Save & Deliver Here
                   </Button>
                   {savedAddresses.length > 0 && (
                     <Button
@@ -451,46 +478,43 @@ export const CheckoutPage: React.FC = () => {
           {/* Step 2: Delivery Speed */}
           <section className={styles.stepSection}>
             <div className={styles.stepHeader}>
-              <div className={styles.stepNumber}>2</div>
-              <Truck size={20} color="var(--accent-primary)" />
-              <h2 className={styles.stepTitle}>Delivery Speed</h2>
+              <div className={styles.stepHeaderTitleGroup}>
+                <span className={styles.stepNumber}>2</span>
+                <Truck size={16} className={styles.stepIcon} />
+                <h2 className={styles.stepTitle}>Delivery Speed</h2>
+              </div>
             </div>
-            <div className={styles.optionRadioGroup}>
+
+            <div className={styles.twoColOptionsGrid}>
               <div
-                className={`${styles.optionCard} ${deliverySpeed === "STANDARD" ? styles.optionCardSelected : ""}`}
+                className={`${styles.compactOptionCard} ${deliverySpeed === "STANDARD" ? styles.optionCardSelected : ""}`}
                 onClick={() => setDeliverySpeed("STANDARD")}
               >
-                <CheckCircle2
-                  size={20}
-                  color={deliverySpeed === "STANDARD" ? "var(--accent-primary)" : "var(--text-tertiary)"}
-                />
+                <div className={`${styles.radioCircle} ${deliverySpeed === "STANDARD" ? styles.radioCircleSelected : ""}`}>
+                  {deliverySpeed === "STANDARD" && <div className={styles.radioDot} />}
+                </div>
                 <div className={styles.optionContent}>
-                  <div className={styles.optionTitle}>
-                    <span>Standard Store Dispatch (3 - 5 Days)</span>
-                    <span style={{ color: "var(--status-success)" }}>FREE</span>
+                  <div className={styles.optionTopRow}>
+                    <span className={styles.optionName}>Standard Dispatch (3-5 Days)</span>
+                    <span className={styles.freeBadge}>FREE</span>
                   </div>
-                  <p className={styles.optionDescription}>
-                    Directly packaged and dispatched from our Bidar Flagship Boutique.
-                  </p>
+                  <span className={styles.optionNote}>Bidar Flagship boutique insured packaging</span>
                 </div>
               </div>
 
               <div
-                className={`${styles.optionCard} ${deliverySpeed === "EXPRESS" ? styles.optionCardSelected : ""}`}
+                className={`${styles.compactOptionCard} ${deliverySpeed === "EXPRESS" ? styles.optionCardSelected : ""}`}
                 onClick={() => setDeliverySpeed("EXPRESS")}
               >
-                <CheckCircle2
-                  size={20}
-                  color={deliverySpeed === "EXPRESS" ? "var(--accent-primary)" : "var(--text-tertiary)"}
-                />
+                <div className={`${styles.radioCircle} ${deliverySpeed === "EXPRESS" ? styles.radioCircleSelected : ""}`}>
+                  {deliverySpeed === "EXPRESS" && <div className={styles.radioDot} />}
+                </div>
                 <div className={styles.optionContent}>
-                  <div className={styles.optionTitle}>
-                    <span>Express Priority Courier (1 - 2 Days)</span>
-                    <span>₹150</span>
+                  <div className={styles.optionTopRow}>
+                    <span className={styles.optionName}>Express Priority (1-2 Days)</span>
+                    <span className={styles.priceAddonBadge}>+₹150</span>
                   </div>
-                  <p className={styles.optionDescription}>
-                    Expedited courier handling for festive and urgent requirements.
-                  </p>
+                  <span className={styles.optionNote}>Priority air-courier handling</span>
                 </div>
               </div>
             </div>
@@ -499,70 +523,62 @@ export const CheckoutPage: React.FC = () => {
           {/* Step 3: Payment Method */}
           <section className={styles.stepSection}>
             <div className={styles.stepHeader}>
-              <div className={styles.stepNumber}>3</div>
-              <CreditCard size={20} color="var(--accent-primary)" />
-              <h2 className={styles.stepTitle}>Payment Method</h2>
+              <div className={styles.stepHeaderTitleGroup}>
+                <span className={styles.stepNumber}>3</span>
+                <CreditCard size={16} className={styles.stepIcon} />
+                <h2 className={styles.stepTitle}>Payment Method</h2>
+              </div>
             </div>
-            <div className={styles.optionRadioGroup}>
-              {/* Option 1: Instant UPI & Online Payment */}
+
+            <div className={styles.twoColOptionsGrid}>
+              {/* Option 1: UPI & Online */}
               <div
-                className={`${styles.optionCard} ${paymentMethod === "UPI" ? styles.optionCardSelected : ""}`}
+                className={`${styles.compactOptionCard} ${paymentMethod === "UPI" ? styles.optionCardSelected : ""}`}
                 onClick={() => setPaymentMethod("UPI")}
               >
-                <CheckCircle2
-                  size={20}
-                  color={paymentMethod === "UPI" ? "var(--accent-primary)" : "var(--text-tertiary)"}
-                />
+                <div className={`${styles.radioCircle} ${paymentMethod === "UPI" ? styles.radioCircleSelected : ""}`}>
+                  {paymentMethod === "UPI" && <div className={styles.radioDot} />}
+                </div>
                 <div className={styles.optionContent}>
-                  <div className={styles.optionTitle}>
-                    <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <Smartphone size={16} color="var(--accent-primary)" />
-                      Instant UPI & Online Payment
-                    </span>
+                  <div className={styles.optionTopRow}>
+                    <span className={styles.optionName}>Instant UPI & Cards</span>
                     <span className={styles.fastBadge}>Fast & Verified</span>
                   </div>
-                  <p className={styles.optionDescription}>
-                    Pay instantly with Google Pay, PhonePe, Paytm, BHIM UPI, or NetBanking.
-                  </p>
+                  <span className={styles.optionNote}>GPay, PhonePe, Paytm, BHIM, Cards</span>
                 </div>
               </div>
 
               {/* Option 2: Cash on Delivery */}
               <div
-                className={`${styles.optionCard} ${paymentMethod === "COD" ? styles.optionCardSelected : ""}`}
+                className={`${styles.compactOptionCard} ${paymentMethod === "COD" ? styles.optionCardSelected : ""}`}
                 onClick={() => setPaymentMethod("COD")}
               >
-                <CheckCircle2
-                  size={20}
-                  color={paymentMethod === "COD" ? "var(--accent-primary)" : "var(--text-tertiary)"}
-                />
+                <div className={`${styles.radioCircle} ${paymentMethod === "COD" ? styles.radioCircleSelected : ""}`}>
+                  {paymentMethod === "COD" && <div className={styles.radioDot} />}
+                </div>
                 <div className={styles.optionContent}>
-                  <div className={styles.optionTitle}>
-                    <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <Truck size={16} color="var(--accent-primary)" />
-                      Cash on Delivery (COD)
-                    </span>
+                  <div className={styles.optionTopRow}>
+                    <span className={styles.optionName}>Cash on Delivery (COD)</span>
                     <span className={styles.zeroAdvanceBadge}>Zero Advance</span>
                   </div>
-                  <p className={styles.optionDescription}>
-                    Pay cash or UPI upon physical doorstep delivery. Available for eligible PIN codes across India.
-                  </p>
+                  <span className={styles.optionNote}>Pay at doorstep upon delivery</span>
                 </div>
               </div>
             </div>
           </section>
         </div>
 
-        {/* Right Column: Order Summary Preview - 100% Rock Solid Flat Container */}
-        <div className={styles.checkoutSummary}>
-          <div className={styles.summaryHeader}>
-            <span>Order Summary</span>
-            <span className={styles.itemCountBadge}>
-              {cart.items.length} {cart.items.length === 1 ? "Item" : "Items"}
-            </span>
-          </div>
+        {/* Right Column: Sticky Compact Luxury Order Summary */}
+        <div className={styles.summaryColumn}>
+          <div className={styles.checkoutSummary}>
+            <div className={styles.summaryHeader}>
+              <span className={styles.summaryTitle}>Order Summary</span>
+              <span className={styles.itemCountBadge}>
+                {cart.items.length} {cart.items.length === 1 ? "Item" : "Items"}
+              </span>
+            </div>
 
-            {/* Garments Preview */}
+            {/* Garments Preview List */}
             <div className={styles.itemPreviewList}>
               {cart.items.map((item: any) => {
                 const size = item.variant?.size || item.variantName || item.variant_name || "Standard";
@@ -572,58 +588,48 @@ export const CheckoutPage: React.FC = () => {
 
                 return (
                   <div key={item.id} className={styles.itemPreviewRow}>
-                    <span className={styles.itemPreviewName}>
-                      {productName} ({size}) × {item.quantity}
-                    </span>
-                    <span>{formatINR(totalPrice)}</span>
+                    <div className={styles.itemPreviewInfo}>
+                      <span className={styles.itemPreviewName}>{productName}</span>
+                      <span className={styles.itemPreviewMeta}>Size: {size} • Qty: {item.quantity}</span>
+                    </div>
+                    <span className={styles.itemPreviewPrice}>{formatINR(totalPrice)}</span>
                   </div>
                 );
               })}
             </div>
 
-            {/* Privilege Coupon Input */}
-            <div style={{ borderTop: "1px solid var(--border-subtle)", padding: "var(--space-3) 0" }}>
-              <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--color-champagne-gold)", textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 6, marginBottom: "var(--space-2)" }}>
-                <Tag size={13} /> Privilege Coupon
+            {/* Privilege Coupon */}
+            <div className={styles.couponSection}>
+              <div className={styles.couponHeading}>
+                <Tag size={12} />
+                <span>Privilege Coupon</span>
               </div>
 
               {appliedCoupon ? (
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(60, 119, 87, 0.12)", border: "1px solid var(--status-success)", borderRadius: "var(--radius-md)", padding: "8px 12px" }}>
+                <div className={styles.couponAppliedCard}>
                   <div>
-                    <div style={{ fontWeight: 700, color: "var(--status-success)", fontSize: "12px", fontFamily: "var(--font-mono)" }}>
-                      {appliedCoupon.code}
-                    </div>
-                    <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>
+                    <span className={styles.appliedCode}>{appliedCoupon.code}</span>
+                    <span className={styles.appliedMsg}>
                       {appliedCoupon.message || `Saved ${formatINR(appliedCoupon.discountAmount)}`}
-                    </div>
+                    </span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setAppliedCoupon(null)}
-                    style={{ background: "none", border: "none", color: "var(--status-danger)", cursor: "pointer", padding: 4 }}
+                    className={styles.removeCouponBtn}
                     title="Remove coupon"
                   >
-                    <X size={15} />
+                    <X size={14} />
                   </button>
                 </div>
               ) : (
-                <div style={{ display: "flex", gap: "8px" }}>
+                <div className={styles.couponInputGroup}>
                   <input
                     type="text"
-                    placeholder="Enter coupon (e.g. BAGODI10)"
+                    placeholder="Enter coupon code"
                     value={couponInput}
                     onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                    style={{
-                      flex: 1,
-                      background: "var(--bg-secondary)",
-                      border: "1px solid var(--border-default)",
-                      borderRadius: "var(--radius-md)",
-                      padding: "8px 12px",
-                      fontSize: "12px",
-                      color: "var(--text-primary)",
-                      fontFamily: "var(--font-mono)",
-                      outline: "none",
-                    }}
+                    className={styles.couponInputField}
                   />
                   <Button
                     size="sm"
@@ -635,6 +641,7 @@ export const CheckoutPage: React.FC = () => {
                       }
                     }}
                     isLoading={validateCouponMutation.isPending}
+                    className={styles.applyCouponBtn}
                   >
                     Apply
                   </Button>
@@ -642,34 +649,34 @@ export const CheckoutPage: React.FC = () => {
               )}
 
               {couponError && (
-                <div style={{ color: "var(--status-danger)", fontSize: "11px", marginTop: "4px" }}>
+                <div className={styles.couponErrorText}>
                   {couponError}
                 </div>
               )}
             </div>
 
-            {/* Authoritative Server Totals */}
-            <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "var(--space-4)" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--space-2)", fontSize: "var(--text-sm)", color: "var(--text-secondary)" }}>
+            {/* Price Calculations */}
+            <div className={styles.priceBreakdownSection}>
+              <div className={styles.priceRow}>
                 <span>Subtotal</span>
                 <span>{formatINR(baseSubtotal)}</span>
               </div>
 
               {baseDiscount > 0 && (
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--space-2)", fontSize: "var(--text-sm)", color: "var(--status-success)" }}>
+                <div className={`${styles.priceRow} ${styles.discountRow}`}>
                   <span>Discount</span>
                   <span>-{formatINR(baseDiscount)}</span>
                 </div>
               )}
 
               {appliedCoupon && (
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--space-2)", fontSize: "var(--text-sm)", color: "var(--status-success)", fontWeight: 600 }}>
+                <div className={`${styles.priceRow} ${styles.discountRow}`}>
                   <span>Coupon ({appliedCoupon.code})</span>
                   <span>-{formatINR(appliedCoupon.discountAmount)}</span>
                 </div>
               )}
 
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--space-2)", fontSize: "var(--text-sm)", color: "var(--text-secondary)" }}>
+              <div className={styles.priceRow}>
                 <span>Delivery ({deliverySpeed === "EXPRESS" ? "Express" : "Standard"})</span>
                 <span>
                   {deliverySpeed === "EXPRESS"
@@ -680,50 +687,51 @@ export const CheckoutPage: React.FC = () => {
                 </span>
               </div>
 
-              <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid var(--border-default)", paddingTop: "var(--space-4)", marginTop: "var(--space-3)", fontSize: "var(--text-xl)", fontWeight: "bold", color: "var(--text-primary)" }}>
-                <span>Total Payable</span>
-                <span style={{ color: "var(--accent-primary)" }}>
+              <div className={styles.totalPayableRow}>
+                <div>
+                  <span className={styles.totalPayableLabel}>Total Payable</span>
+                  <span className={styles.taxSubtext}>All taxes included</span>
+                </div>
+                <span className={styles.totalPayableAmount}>
                   {formatINR(finalCalculatedPayable)}
                 </span>
               </div>
-              <p style={{ fontSize: "var(--text-2xs)", color: "var(--text-tertiary)", marginTop: "var(--space-1)", textAlign: "right" }}>
-                All taxes included
-              </p>
             </div>
 
-            {/* Main Action Button - Position Stable & High Precision Click */}
-            <div style={{ marginTop: "var(--space-6)" }}>
+            {/* Proceed CTA Button */}
+            <div className={styles.ctaButtonWrapper}>
               <button
                 type="button"
                 className={styles.proceedBtn}
                 onClick={handleProceedOrder}
                 disabled={placeOrderMutation.isPending}
               >
-                <Lock size={16} />
+                <Lock size={15} />
                 <span>
                   {paymentMethod === "UPI" ? "Proceed to Pay" : "Confirm & Place Order"} • {formatINR(finalCalculatedPayable)}
                 </span>
-                <ArrowRight size={18} />
+                <ArrowRight size={16} />
               </button>
             </div>
 
-            {/* Reassurance Badges */}
+            {/* Compact Trust Assurance Strip */}
             <div className={styles.securityTrustRow}>
               <div className={styles.trustItem}>
-                <ShieldCheck size={14} color="var(--status-success)" />
-                <span>100% Authentic Handloom • Silk Mark Certified</span>
+                <ShieldCheck size={13} color="#16a34a" />
+                <span>Silk Mark Certified Handpicked Luxury</span>
               </div>
               <div className={styles.trustItem}>
-                <Truck size={14} color="#d4af37" />
-                <span>Direct Insured Dispatch from Bidar Flagship Boutique</span>
+                <Truck size={13} color="#C5A15B" />
+                <span>Insured Bidar Flagship Dispatch</span>
               </div>
               <div className={styles.trustItem}>
-                <Sparkles size={14} color="#e31b23" />
-                <span>Easy 7-Day In-Store & Courier Exchange</span>
+                <RotateCcw size={13} color="#E31B23" />
+                <span>7-Day Easy Exchange Policy</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};

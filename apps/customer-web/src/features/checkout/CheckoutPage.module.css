@@ -1,172 +1,229 @@
+/* Bagodi Luxury Customer Storefront - Compact Atelier Checkout */
+
 .checkoutContainer {
-  max-width: var(--container-2xl);
+  max-width: 1180px;
   margin: 0 auto;
-  padding: var(--space-6) var(--space-4) calc(var(--space-16) + 70px) var(--space-4);
+  padding: 14px 16px calc(24px + env(safe-area-inset-bottom, 0px)) 16px;
+  box-sizing: border-box;
 }
 
-/* Luxury Atelier Header */
+/* =====================================================================
+   COMPACT ATELIER HEADER
+   ===================================================================== */
+
 .checkoutHeader {
-  margin-bottom: var(--space-8);
-  position: relative;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.headerTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7E8580;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.backLink:hover {
+  color: #E31B23;
 }
 
 .atelierBadge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-family: var(--font-sans);
-  font-size: 11px;
+  gap: 5px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #B8860B;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  margin-bottom: var(--space-3);
+  color: #C5A15B;
+  background: rgba(197, 161, 91, 0.1);
+  border: 1px solid rgba(197, 161, 91, 0.3);
+  padding: 3px 10px;
+  border-radius: 999px;
 }
 
-.checkoutTitle {
-  font-family: var(--font-serif);
-  font-size: clamp(28px, 4vw, 36px);
-  font-weight: 700;
-  color: #1A1A1A;
-  margin-bottom: var(--space-2);
-  letter-spacing: -0.01em;
-}
-
-.checkoutSubtitle {
-  font-size: 14px;
-  color: #666666;
-  max-width: 600px;
-  line-height: 1.5;
-}
-
-/* Customer Account Confirmation Bar */
-.customerAccountBar {
+.headerMainRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #FFFFFF;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  border-left: 4px solid #10B981;
-  padding: 12px 18px;
-  border-radius: var(--radius-md);
-  margin-bottom: var(--space-6);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-}
-
-.accountInfo {
-  display: flex;
-  align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
-.verifiedIcon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(16, 185, 129, 0.12);
-  display: flex;
+.checkoutTitle {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: clamp(20px, 2.2vw, 25px);
+  font-weight: 700;
+  color: #121413;
+  margin: 0;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.checkoutSubtitle {
+  font-size: 11.5px;
+  color: #666666;
+  margin: 2px 0 0 0;
+  line-height: 1.35;
+}
+
+/* Compact Logged In User Pill */
+.userBadgeCompact {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 7px;
+  background: #F4FBF7;
+  border: 1px solid #A7F3D0;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  box-sizing: border-box;
+}
+
+.userBadgeCheck {
   color: #10B981;
   flex-shrink: 0;
 }
 
-.accountLabel {
-  display: block;
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #6B7280;
-}
-
-.accountName {
-  display: block;
-  font-size: 13px;
+.userBadgeDetails {
   font-weight: 600;
   color: #111827;
 }
 
-.verifiedBadge {
-  font-size: 11px;
+.userBadgeStatus {
+  font-size: 9.5px;
   font-weight: 700;
   color: #047857;
-  background: #ECFDF5;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  border: 1px solid #A7F3D0;
-  white-space: nowrap;
+  background: #DCFCE7;
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
+
+/* =====================================================================
+   MAIN 2-COLUMN GRID (STEPS vs SUMMARY)
+   ===================================================================== */
 
 .checkoutGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-8);
+  gap: 14px;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 960px) {
   .checkoutGrid {
-    grid-template-columns: 1.65fr 1fr;
+    grid-template-columns: 1.55fr 1fr;
     align-items: start;
   }
 }
 
-/* Step Sections */
+.stepsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* =====================================================================
+   COMPACT STEP SECTIONS
+   ===================================================================== */
+
 .stepSection {
   background: #FFFFFF;
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  border-radius: 20px;
-  padding: var(--space-6);
-  margin-bottom: var(--space-6);
-  box-shadow: 0 10px 30px -6px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-  position: relative;
-  overflow: hidden;
+  border: 1px solid #EAE6DF;
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  box-sizing: border-box;
 }
 
 .stepHeader {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-5);
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid #F0ECE4;
+  justify-content: space-between;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #F2EEE8;
+  margin-bottom: 10px;
+}
+
+.stepHeaderTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .stepNumber {
-  width: 30px;
-  height: 30px;
-  border-radius: var(--radius-full);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   background: linear-gradient(135deg, #FFF9EB 0%, #FFF1D0 100%);
-  color: #B8860B;
+  color: #9E7D3B;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 13px;
-  border: 1.5px solid #D4AF37;
-  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
+  font-size: 11px;
+  border: 1px solid #C5A15B;
+  flex-shrink: 0;
+}
+
+.stepIcon {
+  color: #E31B23;
+  flex-shrink: 0;
 }
 
 .stepTitle {
-  font-family: var(--font-serif);
-  font-size: 18px;
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: 14.5px;
   font-weight: 700;
-  color: #1A1A1A;
+  color: #121413;
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
-/* Address Cards */
+.addAddressHeaderBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid #C5A15B;
+  color: #8F6D26;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.addAddressHeaderBtn:hover {
+  background: rgba(197, 161, 91, 0.1);
+  color: #694C11;
+}
+
+/* =====================================================================
+   STEP 1: ADDRESS CARDS & FORM
+   ===================================================================== */
+
 .addressGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-4);
-  margin-bottom: var(--space-5);
+  gap: 8px;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 600px) {
   .addressGrid {
     grid-template-columns: 1fr 1fr;
   }
@@ -174,67 +231,107 @@
 
 .addressCard {
   border: 1.5px solid #EAE6DF;
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  border-radius: 9px;
+  padding: 9px 11px;
   cursor: pointer;
   background: #FCFBF9;
-  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
 }
 
 .addressCard:hover {
-  border-color: #D4AF37;
+  border-color: #C5A15B;
   background: #FFFFFF;
 }
 
 .addressCardSelected {
-  border-color: #D4AF37;
-  background: linear-gradient(135deg, #FFFDF8 0%, #FFF8EA 100%);
-  box-shadow: 0 4px 16px -2px rgba(212, 175, 55, 0.25);
+  border-color: #C5A15B;
+  background: #FFFDF8;
+  box-shadow: 0 2px 10px rgba(197, 161, 91, 0.16);
 }
 
-.addressHeader {
+.addressCardRadioRow {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-2);
+  gap: 8px;
+}
+
+/* Custom Sleek Radio Circle */
+.radioCircle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1.5px solid #C2BBB0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  background: #FFFFFF;
+}
+
+.radioCircleSelected {
+  border-color: #E31B23;
+}
+
+.radioDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #E31B23;
+}
+
+.addressCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .recipientName {
   font-weight: 700;
-  font-size: var(--text-sm);
-  color: #1A1A1A;
+  font-size: 12.5px;
+  color: #111827;
 }
 
 .defaultBadge {
-  font-size: 10px;
-  padding: 2px 8px;
-  background: rgba(212, 175, 55, 0.15);
-  color: #B8860B;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: var(--radius-sm);
+  font-size: 9px;
+  padding: 1px 6px;
+  background: rgba(197, 161, 91, 0.12);
+  color: #8F6D26;
+  border: 1px solid rgba(197, 161, 91, 0.35);
+  border-radius: 4px;
   font-weight: 700;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .addressBody {
-  font-size: var(--text-xs);
+  font-size: 11px;
   color: #4A4A4A;
-  line-height: 1.6;
+  line-height: 1.45;
+  margin: 0;
 }
 
 .addressPhone {
-  margin-top: var(--space-2);
-  font-size: var(--text-xs);
+  font-size: 11px;
   color: #1A1A1A;
   font-weight: 600;
 }
 
-/* Form Styles */
+.addressPhone span {
+  color: #777777;
+  font-weight: 500;
+}
+
+/* Inline Address Form */
 .addressFormContainer {
-  background: #FCFBF9;
-  padding: var(--space-5);
-  border-radius: var(--radius-lg);
+  background: #FAF8F5;
+  padding: 12px 14px;
+  border-radius: 9px;
   border: 1.5px solid #EAE6DF;
 }
 
@@ -242,265 +339,484 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-4);
+  margin-bottom: 8px;
 }
 
 .formTitle {
-  font-size: var(--text-sm);
+  font-size: 12.5px;
   font-weight: 700;
-  color: #1A1A1A;
+  color: #111827;
+  margin: 0;
 }
 
 .formCancelBtn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   background: transparent;
   border: none;
   color: #777777;
-  font-size: var(--text-xs);
+  font-size: 11px;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 2px 6px;
 }
 
 .formCancelBtn:hover {
-  color: #1A1A1A;
+  color: #E31B23;
 }
 
-.formRow1 {
-  margin-top: var(--space-4);
-}
-
-.formRow2 {
+.formGrid2 {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-4);
+  gap: 8px;
 }
 
-@media (min-width: 640px) {
-  .formRow2 {
+@media (min-width: 540px) {
+  .formGrid2 {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-.formRow3 {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-4);
-  margin-top: var(--space-4);
+.formGrid1 {
+  margin-top: 8px;
 }
 
-@media (min-width: 640px) {
-  .formRow3 {
+.formGrid3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+@media (min-width: 540px) {
+  .formGrid3 {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
 
 .formActions {
   display: flex;
-  gap: var(--space-3);
-  margin-top: var(--space-6);
+  gap: 8px;
+  margin-top: 10px;
 }
 
-/* Option Radio Cards */
-.optionRadioGroup {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+/* =====================================================================
+   STEPS 2 & 3: COMPACT 2-COLUMN OPTIONS
+   ===================================================================== */
+
+.twoColOptionsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
 }
 
-.optionCard {
+@media (min-width: 600px) {
+  .twoColOptionsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.compactOptionCard {
   border: 1.5px solid #EAE6DF;
-  border-radius: var(--radius-lg);
-  padding: var(--space-4) var(--space-5);
+  border-radius: 9px;
+  padding: 8px 11px;
   background: #FCFBF9;
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: 9px;
   cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 
-.optionCard:hover {
-  border-color: #D4AF37;
+.compactOptionCard:hover {
+  border-color: #C5A15B;
   background: #FFFFFF;
 }
 
 .optionCardSelected {
-  border-color: #D4AF37;
-  background: linear-gradient(135deg, #FFFDF8 0%, #FFF8EA 100%);
-  box-shadow: 0 4px 16px -2px rgba(212, 175, 55, 0.25);
+  border-color: #C5A15B;
+  background: #FFFDF8;
+  box-shadow: 0 2px 10px rgba(197, 161, 91, 0.16);
 }
 
 .optionContent {
   flex: 1;
-}
-
-.optionTitle {
-  font-size: var(--text-sm);
-  font-weight: 700;
-  color: #1A1A1A;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
 }
 
-.optionDescription {
-  font-size: var(--text-xs);
+.optionTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.optionName {
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.optionNote {
+  font-size: 10px;
   color: #666666;
-  margin-top: 3px;
-  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Compact Badges */
+.freeBadge {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #15803D;
+  background: #DCFCE7;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.priceAddonBadge {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #8F6D26;
+  background: rgba(197, 161, 91, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
 }
 
 .fastBadge {
-  font-size: 11px;
+  font-size: 9.5px;
   font-weight: 700;
-  color: #16a34a;
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
+  color: #15803D;
+  background: #DCFCE7;
+  padding: 1px 6px;
+  border-radius: 4px;
 }
 
 .zeroAdvanceBadge {
-  font-size: 11px;
+  font-size: 9.5px;
   font-weight: 700;
-  color: #B8860B;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
+  color: #8F6D26;
+  background: rgba(197, 161, 91, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
 }
 
-/* Rock-Solid Summary Card (Flat & Stable - NO 3D Tilt Jitter) */
+/* =====================================================================
+   RIGHT COLUMN: STICKY COMPACT LUXURY SUMMARY
+   ===================================================================== */
+
+.summaryColumn {
+  width: 100%;
+}
+
 .checkoutSummary {
-  background: linear-gradient(180deg, #FFFFFF 0%, #FCFBF9 100%);
-  border: 1.5px solid rgba(212, 175, 55, 0.35);
-  border-radius: 22px;
-  padding: var(--space-6);
-  position: sticky;
-  top: 92px;
-  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(212, 175, 55, 0.1);
+  background: #FFFFFF;
+  border: 1.5px solid rgba(197, 161, 91, 0.35);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* Luxury Ribbon on Summary */
+@media (min-width: 960px) {
+  .checkoutSummary {
+    position: sticky;
+    top: 86px;
+  }
+}
+
+/* Top Luxury Ribbon */
 .checkoutSummary::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #d4af37 0%, #e31b23 50%, #d4af37 100%);
+  height: 3px;
+  background: linear-gradient(90deg, #C5A15B 0%, #E31B23 50%, #C5A15B 100%);
 }
 
 .summaryHeader {
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: #1A1A1A;
-  margin-bottom: var(--space-5);
-  padding-bottom: var(--space-3);
-  border-bottom: 1px solid #F0ECE4;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #F0ECE4;
+  margin-bottom: 9px;
+}
+
+.summaryTitle {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: #121413;
 }
 
 .itemCountBadge {
-  font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  color: #B8860B;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
+  color: #8F6D26;
+  background: rgba(197, 161, 91, 0.12);
+  padding: 2px 7px;
+  border-radius: 999px;
 }
 
+/* Garments Preview List */
 .itemPreviewList {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-5);
-  max-height: 240px;
+  gap: 6px;
+  margin-bottom: 9px;
+  max-height: 125px;
   overflow-y: auto;
-  padding-right: var(--space-2);
+  padding-right: 4px;
+}
+
+.itemPreviewList::-webkit-scrollbar {
+  width: 3px;
+}
+
+.itemPreviewList::-webkit-scrollbar-thumb {
+  background: #D8D2C5;
+  border-radius: 3px;
 }
 
 .itemPreviewRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: var(--text-xs);
-  color: #4A4A4A;
+  font-size: 11.5px;
+}
+
+.itemPreviewInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  max-width: 70%;
 }
 
 .itemPreviewName {
   font-weight: 600;
-  color: #1A1A1A;
-  max-width: 200px;
+  color: #111827;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Proceed to Pay Luxury Button - 100% ROCK SOLID STABLE (NO TRANSLATE/JUMP ON HOVER) */
+.itemPreviewMeta {
+  font-size: 10px;
+  color: #777777;
+}
+
+.itemPreviewPrice {
+  font-weight: 600;
+  color: #111827;
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+}
+
+/* Privilege Coupon Section */
+.couponSection {
+  border-top: 1px solid #F0ECE4;
+  padding: 8px 0;
+}
+
+.couponHeading {
+  font-size: 10px;
+  font-weight: 700;
+  color: #8F6D26;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.couponInputGroup {
+  display: flex;
+  gap: 6px;
+}
+
+.couponInputField {
+  flex: 1;
+  background: #FAF8F5;
+  border: 1px solid #EAE6DF;
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: #111827;
+  font-family: var(--font-mono, monospace);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.couponInputField:focus {
+  border-color: #C5A15B;
+  background: #FFFFFF;
+}
+
+.applyCouponBtn {
+  font-size: 11px !important;
+  padding: 5px 12px !important;
+  height: 31px !important;
+}
+
+.couponAppliedCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #F4FBF7;
+  border: 1px solid #A7F3D0;
+  border-radius: 7px;
+  padding: 6px 10px;
+}
+
+.appliedCode {
+  display: block;
+  font-weight: 700;
+  color: #15803D;
+  font-size: 11.5px;
+  font-family: var(--font-mono, monospace);
+}
+
+.appliedMsg {
+  display: block;
+  font-size: 10px;
+  color: #4A4A4A;
+}
+
+.removeCouponBtn {
+  background: none;
+  border: none;
+  color: #DC2626;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.couponErrorText {
+  color: #DC2626;
+  font-size: 10px;
+  margin-top: 3px;
+}
+
+/* Price Calculations */
+.priceBreakdownSection {
+  border-top: 1px solid #F0ECE4;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: #4A4A4A;
+}
+
+.discountRow {
+  color: #15803D;
+  font-weight: 600;
+}
+
+.totalPayableRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px solid #EAE6DF;
+  padding-top: 7px;
+  margin-top: 4px;
+}
+
+.totalPayableLabel {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #111827;
+  display: block;
+}
+
+.taxSubtext {
+  font-size: 9px;
+  color: #888888;
+  display: block;
+}
+
+.totalPayableAmount {
+  font-size: 17px;
+  font-weight: 700;
+  color: #E31B23;
+  font-family: var(--font-mono, monospace);
+}
+
+/* Proceed CTA Button */
+.ctaButtonWrapper {
+  margin-top: 10px;
+}
+
 .proceedBtn {
-  background: linear-gradient(135deg, #e31b23 0%, #b8131a 100%) !important;
-  border: 1.5px solid rgba(212, 175, 55, 0.6) !important;
-  color: #ffffff !important;
+  background: linear-gradient(135deg, #E31B23 0%, #B8131A 100%) !important;
+  border: 1px solid rgba(197, 161, 91, 0.45) !important;
+  color: #FFFFFF !important;
   font-weight: 700 !important;
-  font-size: 15px !important;
+  font-size: 13.5px !important;
   letter-spacing: 0.02em !important;
-  height: 52px !important;
-  padding: 0 24px !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: 0 8px 24px -4px rgba(227, 27, 35, 0.4), 0 2px 6px rgba(0, 0, 0, 0.08) !important;
-  transition: background 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease !important;
+  height: 44px !important;
+  padding: 0 16px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 14px rgba(227, 27, 35, 0.3) !important;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  transform: none !important; /* Strictly lock in place - prevent jumping */
+  transform: none !important;
+  transition: opacity 0.15s ease, filter 0.15s ease !important;
 }
 
 .proceedBtn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #f0232b 0%, #c8141b 100%) !important;
-  box-shadow: 0 10px 28px -4px rgba(227, 27, 35, 0.5), 0 0 16px rgba(212, 175, 55, 0.4) !important;
-  filter: brightness(1.05);
-  transform: none !important; /* Never shift position under mouse */
+  filter: brightness(1.06);
 }
 
 .proceedBtn:active:not(:disabled) {
-  filter: brightness(0.95);
-  transform: none !important;
-  box-shadow: 0 4px 12px -2px rgba(227, 27, 35, 0.35) !important;
+  filter: brightness(0.94);
 }
 
 .proceedBtn:disabled {
-  opacity: 0.65;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
+/* Trust Assurance Strip */
 .securityTrustRow {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: var(--space-4);
-  padding-top: var(--space-4);
+  gap: 4px;
+  margin-top: 9px;
+  padding-top: 7px;
   border-top: 1px solid #F0ECE4;
 }
 
 .trustItem {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 11.5px;
-  color: #555555;
+  gap: 6px;
+  font-size: 10px;
+  color: #666666;
   font-weight: 500;
 }
