@@ -161,6 +161,10 @@ export const CustomerAuthPage: React.FC = () => {
       setOtpReference(response);
       setTargetPhoneOrEmail(data.phoneOrEmail);
       setOtpStep("VERIFY");
+      const devCode = response.devOtp || (response as any).dev_otp;
+      if (devCode) {
+        setEnteredOtp(devCode);
+      }
       setResendCountdown(response.expiresInSeconds || (response as any).expires_in_seconds || 60);
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : "Failed to deliver verification code. Please check your number.");
@@ -438,6 +442,15 @@ export const CustomerAuthPage: React.FC = () => {
                             Change
                           </button>
                         </div>
+
+                        {(otpReference?.devOtp || (otpReference as any)?.dev_otp) && (
+                          <div className={styles.otpHelperNotice} style={{ background: "rgba(197, 161, 91, 0.12)", border: "1px solid rgba(197, 161, 91, 0.35)", padding: "10px 14px", borderRadius: "10px", marginTop: "10px", display: "flex", alignItems: "center", gap: "8px" }}>
+                            <CheckCircle2 size={16} color="#8F1D2C" />
+                            <span style={{ color: "#3B1218", fontSize: "13px", fontWeight: 500 }}>
+                              Demonstration Verification Code: <strong style={{ color: "#8F1D2C", fontSize: "16px", letterSpacing: "3px", fontWeight: 700 }}>{otpReference?.devOtp || (otpReference as any)?.dev_otp}</strong>
+                            </span>
+                          </div>
+                        )}
 
                         <div className={styles.otpInputWrapper}>
                           <OtpInput
