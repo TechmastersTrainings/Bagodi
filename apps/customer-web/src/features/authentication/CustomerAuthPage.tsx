@@ -290,6 +290,11 @@ export const CustomerAuthPage: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            <div className={styles.editorialFooter}>
+              <span className={styles.establishedTag}>ESTABLISHED 1968</span>
+              <span className={styles.storeFootnote}>Bidar Flagship Mall • Fort Road Landmark</span>
+            </div>
           </div>
         </div>
 

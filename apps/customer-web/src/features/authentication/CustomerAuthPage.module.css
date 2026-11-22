@@ -218,6 +218,28 @@
   margin: 0;
 }
 
+.editorialFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.establishedTag {
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.storeFootnote {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+}
+
 /* =====================================================================
    RIGHT COLUMN: REFINED IVORY AUTH PAVILION
    ===================================================================== */
@@ -636,6 +658,7 @@
   }
 
   .luxuryPillars,
+  .editorialFooter,
   .editorialQuote {
     display: none;
   }
