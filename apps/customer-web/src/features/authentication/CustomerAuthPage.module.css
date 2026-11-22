@@ -305,158 +305,12 @@
   margin: 0;
 }
 
-/* Main Mode Switcher: Two Sleek Tabs (Sign In / Create Account) */
-.mainModeSwitcher {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: #F4F1EA;
-  border: 1px solid var(--border-default);
-  border-radius: 11px;
-  padding: 3px;
-  margin-bottom: 8px;
-  gap: 4px;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.mainModeBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 7px 10px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-
-.mainModeBtn:hover:not(.mainModeActive) {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.65);
-}
-
-.mainModeActive {
-  background: #FFFFFF;
-  color: var(--brand-crimson);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-color: rgba(197, 161, 91, 0.35);
-}
-
-/* Subtle Login Method Sub-Toggle (OTP vs Password) */
-.loginMethodToggle {
-  display: flex;
-  background: #FAF8F5;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 2px;
-  margin-bottom: 10px;
-  gap: 3px;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.methodBtn {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 5px 8px;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  background: transparent;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-
-.methodBtn:hover:not(.methodActive) {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.methodActive {
-  background: #FFFFFF;
-  color: var(--text-primary);
-  font-weight: 600;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-}
-
-.tabContentArea {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
 /* Action Button Group */
 .actionButtonGroup {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
-}
-
-.orDivider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 2px 0;
-  width: 100%;
-}
-
-.orDividerLine {
-  flex: 1;
-  height: 1px;
-  background: var(--border-default);
-}
-
-.orDividerText {
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-.secondaryOutlineBtn {
-  width: 100%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 8px 14px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--text-primary);
-  background: #FFFFFF;
-  border: 1.5px solid var(--border-default);
-  border-radius: 9px;
-  cursor: pointer;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-  box-sizing: border-box;
-}
-
-.secondaryOutlineBtn:hover {
-  border-color: var(--brand-crimson);
-  color: var(--brand-crimson);
-  background: #FDF9F8;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(227, 27, 35, 0.08);
-}
-
-.secondaryOutlineBtn:active {
-  transform: translateY(0);
 }
 
 /* Forms */
@@ -588,36 +442,6 @@
   font-size: 11.5px;
 }
 
-.twoColumnGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  width: 100%;
-}
-
-.termsCheckbox {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 11px;
-  color: var(--text-secondary);
-  line-height: 1.45;
-  cursor: pointer;
-  user-select: none;
-}
-
-.termsCheckbox input[type="checkbox"] {
-  accent-color: var(--brand-crimson);
-  margin-top: 2px;
-  cursor: pointer;
-}
-
-.termsErrorText {
-  font-size: 11px;
-  color: var(--brand-crimson);
-  margin-top: -8px;
-}
-
 /* Security Guarantee Strip */
 .securityStrip {
   margin-top: 12px;
@@ -705,22 +529,6 @@
   .formPanel {
     padding: 24px 16px 36px;
   }
-
-  .twoColumnGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .mainModeBtn {
-    padding: 9px 8px;
-    font-size: 11.5px;
-    gap: 5px;
-  }
-
-  .methodBtn {
-    padding: 6px 8px;
-    font-size: 11px;
-    gap: 4px;
-  }
 }
 
 @media (max-width: 360px) {
@@ -728,12 +536,7 @@
     padding: 6px 6px calc(76px + env(safe-area-inset-bottom, 0px));
   }
 
-  .mainModeBtn span,
-  .methodBtn span {
-    font-size: 10.5px;
-  }
-
   .title {
-    font-size: 22px;
+    font-size: 20px;
   }
 }

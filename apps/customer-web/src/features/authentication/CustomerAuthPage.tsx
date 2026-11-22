@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import styles from "./CustomerAuthPage.module.css";
+import { useQueryClient } from "@tanstack/react-query";
 import {
-  sendOtpSchema,
-  customerPasswordLoginSchema,
-  customerRegisterSchema,
   SendOtpFormData,
-  CustomerPasswordLoginFormData,
-  CustomerRegisterFormData,
+  sendOtpSchema,
 } from "@bagodi/validation";
 import {
   Button,
@@ -28,20 +23,14 @@ import { LuxurySilkCanvas } from "./LuxurySilkCanvas";
 import {
   Smartphone,
   Mail,
-  Lock,
-  User,
   ArrowRight,
   ShieldCheck,
   Award,
   Scissors,
   Sparkles,
-  UserPlus,
-  LogIn,
   CheckCircle2,
 } from "lucide-react";
-
-type AuthMode = "LOGIN" | "REGISTER";
-type LoginMethod = "OTP" | "PASSWORD";
+import styles from "./CustomerAuthPage.module.css";
 
 export const CustomerAuthPage: React.FC = () => {
   const navigate = useNavigate();
@@ -49,8 +38,6 @@ export const CustomerAuthPage: React.FC = () => {
   const queryClient = useQueryClient();
   const { user, isAuthenticated, login } = useAuth();
 
-  const [activeMode, setActiveMode] = useState<AuthMode>("LOGIN");
-  const [loginMethod, setLoginMethod] = useState<LoginMethod>("OTP");
   const [apiError, setApiError] = useState<string | null>(null);
 
   // OTP Flow State
@@ -75,7 +62,7 @@ export const CustomerAuthPage: React.FC = () => {
     }
   }, [isAuthenticated, user, navigate, from]);
 
-  // Form for Sending OTP
+  // Form for Sending OTP (Validates both 10-digit mobile and email addresses)
   const {
     register: registerOtpSend,
     handleSubmit: handleOtpSendSubmit,
@@ -85,45 +72,8 @@ export const CustomerAuthPage: React.FC = () => {
     resolver: zodResolver(sendOtpSchema),
   });
 
-  // Form for Password Login
-  const {
-    register: registerPasswordLogin,
-    handleSubmit: handlePasswordLoginSubmit,
-    watch: watchPasswordLogin,
-    formState: { errors: passwordErrors, isSubmitting: isLoggingInPassword },
-  } = useForm<CustomerPasswordLoginFormData>({
-    resolver: zodResolver(customerPasswordLoginSchema),
-  });
-
-  // Form for Registration
-  const {
-    register: registerRegister,
-    handleSubmit: handleRegisterSubmit,
-    setValue: setRegisterValue,
-    formState: { errors: registerErrors, isSubmitting: isRegistering },
-  } = useForm<CustomerRegisterFormData>({
-    resolver: zodResolver(customerRegisterSchema),
-  });
-
-  const switchToRegister = () => {
-    setActiveMode("REGISTER");
-    setApiError(null);
-    const otpInput = watchOtpSend("phoneOrEmail");
-    const pwdInput = watchPasswordLogin("emailOrPhone");
-    const candidate = (otpInput || pwdInput || "").trim();
-    if (candidate) {
-      if (/^\d{10}$/.test(candidate)) {
-        setRegisterValue("phone", candidate);
-      } else if (candidate.includes("@")) {
-        setRegisterValue("email", candidate);
-      }
-    }
-  };
-
-  const switchToLogin = () => {
-    setActiveMode("LOGIN");
-    setApiError(null);
-  };
+  const inputValue = watchOtpSend("phoneOrEmail") || "";
+  const isEmailInput = inputValue.includes("@");
 
   // Resend OTP Countdown Timer
   useEffect(() => {
@@ -151,7 +101,7 @@ export const CustomerAuthPage: React.FC = () => {
     return { tokens, user };
   };
 
-  /* 1. Request OTP from Backend */
+  /* 1. Request OTP from Backend (Supports Mobile Number or Email) */
   const onSendOtp = async (data: SendOtpFormData) => {
     setApiError(null);
     try {
@@ -167,11 +117,11 @@ export const CustomerAuthPage: React.FC = () => {
       }
       setResendCountdown(response.expiresInSeconds || (response as any).expires_in_seconds || 60);
     } catch (err: unknown) {
-      setApiError(err instanceof Error ? err.message : "Failed to deliver verification code. Please check your number.");
+      setApiError(err instanceof Error ? err.message : "Failed to deliver verification code. Please check your number or email.");
     }
   };
 
-  /* 2. Verify OTP with Backend */
+  /* 2. Verify OTP with Backend (Authenticates or Auto-Registers Customer) */
   const onVerifyOtp = async () => {
     if (enteredOtp.length !== 6) return;
     setApiError(null);
@@ -191,45 +141,9 @@ export const CustomerAuthPage: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ["customer-cart"] });
       navigate(from, { replace: true });
     } catch (err: unknown) {
-      setApiError(err instanceof Error ? err.message : "Invalid or expired verification code.");
+      setApiError(err instanceof Error ? err.message : "Invalid or expired verification code. Please try again.");
     } finally {
       setIsVerifyingOtp(false);
-    }
-  };
-
-  /* 3. Password Login */
-  const onPasswordLogin = async (data: CustomerPasswordLoginFormData) => {
-    setApiError(null);
-    try {
-      const response = await defaultApiClient.post<AuthSessionResponse>(
-        "/auth/customer/login-password",
-        data,
-        { skipAuth: true }
-      );
-      const { tokens, user } = extractSession(response);
-      login(tokens, user);
-      queryClient.invalidateQueries({ queryKey: ["customer-cart"] });
-      navigate(from, { replace: true });
-    } catch (err: unknown) {
-      setApiError(err instanceof Error ? err.message : "Invalid login credentials. Please try again.");
-    }
-  };
-
-  /* 4. Customer Registration */
-  const onRegister = async (data: CustomerRegisterFormData) => {
-    setApiError(null);
-    try {
-      const response = await defaultApiClient.post<AuthSessionResponse>(
-        "/auth/customer/register",
-        data,
-        { skipAuth: true }
-      );
-      const { tokens, user } = extractSession(response);
-      login(tokens, user);
-      queryClient.invalidateQueries({ queryKey: ["customer-cart"] });
-      navigate(from, { replace: true });
-    } catch (err: unknown) {
-      setApiError(err instanceof Error ? err.message : "Registration failed. An account with this phone or email may already exist.");
     }
   };
 
@@ -298,7 +212,7 @@ export const CustomerAuthPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Refined Ivory Auth Pavilion */}
+        {/* Right Column: Refined Ivory Auth Pavilion (Clean Single Input Flow) */}
         <div className={styles.formPanel}>
           <div className={styles.formCard}>
             {/* Header */}
@@ -307,354 +221,117 @@ export const CustomerAuthPage: React.FC = () => {
                 <span className={styles.brandMicroDot} />
                 <span>BAGODI SHOPPING MALL</span>
               </div>
-              <h1 className={styles.title}>
-                {activeMode === "LOGIN" ? "Welcome Back" : "Create Your Account"}
-              </h1>
+              <h1 className={styles.title}>Welcome Back</h1>
               <p className={styles.subtitle}>
-                {activeMode === "LOGIN"
-                  ? "Sign in using your mobile number or email to manage your orders, delivery addresses, and shopping bag."
-                  : "Join Bagodi to enjoy swift checkout, live delivery tracking, and exclusive festive collections."}
+                Enter your mobile number or email address. We'll send an instant verification code to access your account.
               </p>
             </div>
 
-            {/* Top Two-Button Primary Switcher */}
-            <div className={styles.mainModeSwitcher}>
-              <button
-                type="button"
-                className={`${styles.mainModeBtn} ${activeMode === "LOGIN" ? styles.mainModeActive : ""}`}
-                onClick={switchToLogin}
-              >
-                <LogIn size={15} />
-                <span>Sign In</span>
-              </button>
-              <button
-                type="button"
-                className={`${styles.mainModeBtn} ${activeMode === "REGISTER" ? styles.mainModeActive : ""}`}
-                onClick={switchToRegister}
-              >
-                <UserPlus size={15} />
-                <span>Create Account</span>
-              </button>
-            </div>
-
-            {/* Subtle Login Method Sub-Toggle (Only shown during Login) */}
-            {activeMode === "LOGIN" && (
-              <div className={styles.loginMethodToggle}>
-                <button
-                  type="button"
-                  className={`${styles.methodBtn} ${loginMethod === "OTP" ? styles.methodActive : ""}`}
-                  onClick={() => {
-                    setLoginMethod("OTP");
-                    setApiError(null);
-                  }}
-                >
-                  <Smartphone size={13} />
-                  <span>Mobile OTP</span>
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.methodBtn} ${loginMethod === "PASSWORD" ? styles.methodActive : ""}`}
-                  onClick={() => {
-                    setLoginMethod("PASSWORD");
-                    setApiError(null);
-                  }}
-                >
-                  <Lock size={13} />
-                  <span>Password</span>
-                </button>
-              </div>
-            )}
-
             {/* API Error Notification */}
             {apiError && (
-              <div style={{ marginBottom: "16px" }}>
+              <div style={{ marginBottom: "14px" }}>
                 <ApiErrorCard message={apiError} />
               </div>
             )}
 
-            {/* MODE 1: LOGIN */}
-            {activeMode === "LOGIN" && (
-              <div className={styles.tabContentArea}>
-                {/* Method A: Mobile OTP */}
-                {loginMethod === "OTP" && (
-                  <>
-                    {otpStep === "INPUT" ? (
-                      <form onSubmit={handleOtpSendSubmit(onSendOtp)} className={styles.form}>
-                        <TextInput
-                          label="Mobile Number or Email"
-                          placeholder="Enter 10-digit mobile (e.g. 9876543210)"
-                          leftIcon={<Smartphone size={18} />}
-                          isRequired
-                          error={otpSendErrors.phoneOrEmail?.message}
-                          {...registerOtpSend("phoneOrEmail")}
-                        />
-
-                        <div className={styles.actionButtonGroup}>
-                          <Button
-                            type="submit"
-                            size="lg"
-                            isLoading={isSendingOtp}
-                            fullWidth
-                            rightIcon={<ArrowRight size={18} />}
-                            className={styles.crimsonPrimaryBtn}
-                          >
-                            Send Secure Verification Code
-                          </Button>
-
-                          <div className={styles.orDivider}>
-                            <span className={styles.orDividerLine} />
-                            <span className={styles.orDividerText}>OR CREATE ACCOUNT</span>
-                            <span className={styles.orDividerLine} />
-                          </div>
-
-                          <button
-                            type="button"
-                            className={styles.secondaryOutlineBtn}
-                            onClick={switchToRegister}
-                          >
-                            <UserPlus size={16} />
-                            <span>New to Bagodi? Create Account</span>
-                          </button>
-                        </div>
-
-                        <div className={styles.otpHelperNotice}>
-                          <CheckCircle2 size={13} color="#C5A15B" />
-                          <span>We will transmit a 6-digit one-time code to authenticate your session.</span>
-                        </div>
-                      </form>
-                    ) : (
-                      <div className={styles.form}>
-                        <div className={styles.otpInfoBox}>
-                          <div className={styles.otpDestinationDetails}>
-                            <span className={styles.otpSentLabel}>Verification code dispatched to</span>
-                            <strong className={styles.otpDestinationVal}>
-                              {otpReference?.maskedDestination || targetPhoneOrEmail}
-                            </strong>
-                          </div>
-                          <button
-                            type="button"
-                            className={styles.editNumberBtn}
-                            onClick={() => {
-                              setOtpStep("INPUT");
-                              setEnteredOtp("");
-                            }}
-                          >
-                            Change
-                          </button>
-                        </div>
-
-                        {(otpReference?.devOtp || (otpReference as any)?.dev_otp) && (
-                          <div className={styles.otpHelperNotice} style={{ background: "rgba(197, 161, 91, 0.12)", border: "1px solid rgba(197, 161, 91, 0.35)", padding: "10px 14px", borderRadius: "10px", marginTop: "10px", display: "flex", alignItems: "center", gap: "8px" }}>
-                            <CheckCircle2 size={16} color="#8F1D2C" />
-                            <span style={{ color: "#3B1218", fontSize: "13px", fontWeight: 500 }}>
-                              Demonstration Verification Code: <strong style={{ color: "#8F1D2C", fontSize: "16px", letterSpacing: "3px", fontWeight: 700 }}>{otpReference?.devOtp || (otpReference as any)?.dev_otp}</strong>
-                            </span>
-                          </div>
-                        )}
-
-                        <div className={styles.otpInputWrapper}>
-                          <OtpInput
-                            length={6}
-                            value={enteredOtp}
-                            onChange={(val) => setEnteredOtp(val)}
-                          />
-                        </div>
-
-                        <div className={styles.actionButtonGroup}>
-                          <Button
-                            type="button"
-                            size="lg"
-                            isLoading={isVerifyingOtp}
-                            disabled={enteredOtp.length !== 6}
-                            onClick={onVerifyOtp}
-                            fullWidth
-                            className={styles.crimsonPrimaryBtn}
-                          >
-                            Verify & Sign In
-                          </Button>
-
-                          <div className={styles.orDivider}>
-                            <span className={styles.orDividerLine} />
-                            <span className={styles.orDividerText}>OR CREATE ACCOUNT</span>
-                            <span className={styles.orDividerLine} />
-                          </div>
-
-                          <button
-                            type="button"
-                            className={styles.secondaryOutlineBtn}
-                            onClick={switchToRegister}
-                          >
-                            <UserPlus size={16} />
-                            <span>New to Bagodi? Create Account</span>
-                          </button>
-                        </div>
-
-                        <div className={styles.resendContainer}>
-                          <span className={styles.resendLabel}>Didn't receive the SMS code?</span>
-                          {resendCountdown > 0 ? (
-                            <span className={styles.resendTimer}>Resend in {resendCountdown}s</span>
-                          ) : (
-                            <button
-                              type="button"
-                              className={styles.resendActionBtn}
-                              onClick={() => onSendOtp({ phoneOrEmail: targetPhoneOrEmail, channel: "SMS" })}
-                            >
-                              Resend Code Now
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-
-                {/* Method B: Password Login */}
-                {loginMethod === "PASSWORD" && (
-                  <form onSubmit={handlePasswordLoginSubmit(onPasswordLogin)} className={styles.form}>
-                    <TextInput
-                      label="Registered Email or Mobile"
-                      placeholder="name@example.com or 10-digit phone"
-                      leftIcon={<Mail size={18} />}
-                      isRequired
-                      error={passwordErrors.emailOrPhone?.message}
-                      {...registerPasswordLogin("emailOrPhone")}
-                    />
-
-                    <TextInput
-                      label="Security Password"
-                      type="password"
-                      placeholder="••••••••"
-                      leftIcon={<Lock size={18} />}
-                      isRequired
-                      error={passwordErrors.password?.message}
-                      {...registerPasswordLogin("password")}
-                    />
-
-                    <div className={styles.actionButtonGroup}>
-                      <Button
-                        type="submit"
-                        size="lg"
-                        isLoading={isLoggingInPassword}
-                        fullWidth
-                        rightIcon={<ArrowRight size={18} />}
-                        className={styles.crimsonPrimaryBtn}
-                      >
-                        Sign In With Password
-                      </Button>
-
-                      <div className={styles.orDivider}>
-                        <span className={styles.orDividerLine} />
-                        <span className={styles.orDividerText}>OR CREATE ACCOUNT</span>
-                        <span className={styles.orDividerLine} />
-                      </div>
-
-                      <button
-                        type="button"
-                        className={styles.secondaryOutlineBtn}
-                        onClick={switchToRegister}
-                      >
-                        <UserPlus size={16} />
-                        <span>New to Bagodi? Create Account</span>
-                      </button>
-                    </div>
-                  </form>
-                )}
-              </div>
-            )}
-
-            {/* MODE 2: REGISTRATION */}
-            {activeMode === "REGISTER" && (
-              <form onSubmit={handleRegisterSubmit(onRegister)} className={styles.form}>
+            {/* Step 1: Single Input for Mobile Number or Email */}
+            {otpStep === "INPUT" ? (
+              <form onSubmit={handleOtpSendSubmit(onSendOtp)} className={styles.form}>
                 <TextInput
-                  label="Full Name"
-                  placeholder="e.g. Ramesh Patil"
-                  leftIcon={<User size={18} />}
+                  label="Mobile Number or Email Address"
+                  placeholder="Enter 10-digit mobile or email address"
+                  leftIcon={isEmailInput ? <Mail size={18} /> : <Smartphone size={18} />}
                   isRequired
-                  error={registerErrors.fullName?.message}
-                  {...registerRegister("fullName")}
+                  error={otpSendErrors.phoneOrEmail?.message}
+                  {...registerOtpSend("phoneOrEmail")}
                 />
-
-                <div className={styles.twoColumnGrid}>
-                  <TextInput
-                    label="10-Digit Mobile"
-                    placeholder="9876543210"
-                    leftIcon={<Smartphone size={16} />}
-                    isRequired
-                    error={registerErrors.phone?.message}
-                    {...registerRegister("phone")}
-                  />
-                  <TextInput
-                    label="Email Address"
-                    type="email"
-                    placeholder="name@example.com"
-                    leftIcon={<Mail size={16} />}
-                    isRequired
-                    error={registerErrors.email?.message}
-                    {...registerRegister("email")}
-                  />
-                </div>
-
-                <div className={styles.twoColumnGrid}>
-                  <TextInput
-                    label="Password"
-                    type="password"
-                    placeholder="Min 8 chars"
-                    leftIcon={<Lock size={16} />}
-                    isRequired
-                    error={registerErrors.password?.message}
-                    {...registerRegister("password")}
-                  />
-                  <TextInput
-                    label="Confirm Password"
-                    type="password"
-                    placeholder="Repeat password"
-                    leftIcon={<Lock size={16} />}
-                    isRequired
-                    error={registerErrors.confirmPassword?.message}
-                    {...registerRegister("confirmPassword")}
-                  />
-                </div>
-
-                <label className={styles.termsCheckbox}>
-                  <input type="checkbox" {...registerRegister("acceptTerms")} />
-                  <span>
-                    I agree to the Bagodi Store Terms & Conditions and Authentic Garment Care Charter.
-                  </span>
-                </label>
-                {registerErrors.acceptTerms && (
-                  <span className={styles.termsErrorText}>
-                    {registerErrors.acceptTerms.message}
-                  </span>
-                )}
 
                 <div className={styles.actionButtonGroup}>
                   <Button
                     type="submit"
                     size="lg"
-                    isLoading={isRegistering}
+                    isLoading={isSendingOtp}
                     fullWidth
                     rightIcon={<ArrowRight size={18} />}
                     className={styles.crimsonPrimaryBtn}
                   >
-                    Create Account & Continue
+                    Send Verification Code
                   </Button>
+                </div>
 
-                  <div className={styles.orDivider}>
-                    <span className={styles.orDividerLine} />
-                    <span className={styles.orDividerText}>ALREADY HAVE AN ACCOUNT?</span>
-                    <span className={styles.orDividerLine} />
-                  </div>
-
-                  <button
-                    type="button"
-                    className={styles.secondaryOutlineBtn}
-                    onClick={switchToLogin}
-                  >
-                    <LogIn size={16} />
-                    <span>Sign In to Existing Account</span>
-                  </button>
+                <div className={styles.otpHelperNotice}>
+                  <CheckCircle2 size={14} color="#C5A15B" />
+                  <span>Works for both existing and new accounts. Instant verification code sent to your mobile or email.</span>
                 </div>
               </form>
+            ) : (
+              /* Step 2: 6-Digit OTP Verification */
+              <div className={styles.form}>
+                <div className={styles.otpInfoBox}>
+                  <div className={styles.otpDestinationDetails}>
+                    <span className={styles.otpSentLabel}>Verification code dispatched to</span>
+                    <strong className={styles.otpDestinationVal}>
+                      {otpReference?.maskedDestination || targetPhoneOrEmail}
+                    </strong>
+                  </div>
+                  <button
+                    type="button"
+                    className={styles.editNumberBtn}
+                    onClick={() => {
+                      setOtpStep("INPUT");
+                      setEnteredOtp("");
+                    }}
+                  >
+                    Change
+                  </button>
+                </div>
+
+                {(otpReference?.devOtp || (otpReference as any)?.dev_otp) && (
+                  <div className={styles.otpHelperNotice} style={{ background: "rgba(197, 161, 91, 0.12)", border: "1px solid rgba(197, 161, 91, 0.35)", padding: "10px 14px", borderRadius: "10px", display: "flex", alignItems: "center", gap: "8px" }}>
+                    <CheckCircle2 size={16} color="#8F1D2C" />
+                    <span style={{ color: "#3B1218", fontSize: "13px", fontWeight: 500 }}>
+                      Demonstration Verification Code: <strong style={{ color: "#8F1D2C", fontSize: "16px", letterSpacing: "3px", fontWeight: 700 }}>{otpReference?.devOtp || (otpReference as any)?.dev_otp}</strong>
+                    </span>
+                  </div>
+                )}
+
+                <div className={styles.otpInputWrapper}>
+                  <OtpInput
+                    length={6}
+                    value={enteredOtp}
+                    onChange={(val) => setEnteredOtp(val)}
+                  />
+                </div>
+
+                <div className={styles.actionButtonGroup}>
+                  <Button
+                    type="button"
+                    size="lg"
+                    isLoading={isVerifyingOtp}
+                    disabled={enteredOtp.length !== 6}
+                    onClick={onVerifyOtp}
+                    fullWidth
+                    className={styles.crimsonPrimaryBtn}
+                  >
+                    Verify & Access Account
+                  </Button>
+                </div>
+
+                <div className={styles.resendContainer}>
+                  <span className={styles.resendLabel}>Didn't receive the code?</span>
+                  {resendCountdown > 0 ? (
+                    <span className={styles.resendTimer}>Resend in {resendCountdown}s</span>
+                  ) : (
+                    <button
+                      type="button"
+                      className={styles.resendActionBtn}
+                      onClick={() => onSendOtp({ phoneOrEmail: targetPhoneOrEmail, channel: "SMS" })}
+                    >
+                      Resend Code Now
+                    </button>
+                  )}
+                </div>
+              </div>
             )}
 
             {/* Security Guarantee Strip */}
