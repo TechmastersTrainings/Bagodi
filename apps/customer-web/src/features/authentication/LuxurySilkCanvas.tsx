@@ -63,6 +63,15 @@ export const LuxurySilkCanvas: React.FC<LuxurySilkCanvasProps> = ({ className })
     resize();
     window.addEventListener("resize", resize);
 
+    // Observe parent element for fluid responsiveness on any container dimension change
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && canvas.parentElement) {
+      resizeObserver = new ResizeObserver(() => {
+        resize();
+      });
+      resizeObserver.observe(canvas.parentElement);
+    }
+
     // Initialize golden zari micro-particles
     const particleCount = 42;
     const particles: Particle[] = [];
@@ -279,6 +288,7 @@ export const LuxurySilkCanvas: React.FC<LuxurySilkCanvasProps> = ({ className })
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
+      if (resizeObserver) resizeObserver.disconnect();
     };
   }, []);
 
@@ -298,3 +308,4 @@ export const LuxurySilkCanvas: React.FC<LuxurySilkCanvasProps> = ({ className })
     />
   );
 };
+

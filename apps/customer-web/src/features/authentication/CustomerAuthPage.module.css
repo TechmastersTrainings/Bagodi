@@ -16,22 +16,32 @@
   --color-gold-subtle: rgba(197, 161, 91, 0.12);
 
   width: 100%;
-  min-height: calc(100vh - 72px);
+  min-height: calc(100vh - 120px);
   display: flex;
-  background: #FFFFFF;
-  padding: 0;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 3.5vw, 48px) clamp(16px, 3vw, 36px);
   box-sizing: border-box;
+  background: var(--bg-canvas);
   position: relative;
+  overflow-x: hidden;
 }
 
+/* Master Pavilion Container: Fits gracefully within Bagodi 1240px Grid */
 .splitPavilion {
   width: 100%;
-  min-height: calc(100vh - 72px);
+  max-width: 1240px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 22px;
+  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.06), 0 2px 10px rgba(0, 0, 0, 0.02);
   display: grid;
-  grid-template-columns: 1.12fr 1fr;
-  background: #FFFFFF;
+  grid-template-columns: 1.08fr 1fr;
   position: relative;
   overflow: hidden;
+  min-height: 620px;
+  box-sizing: border-box;
 }
 
 /* =====================================================================
@@ -40,15 +50,16 @@
 
 .editorialPanel {
   position: relative;
-  min-height: calc(100vh - 72px);
+  min-height: 620px;
   background: #0B070A;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: clamp(36px, 5vw, 64px) clamp(32px, 4.5vw, 60px);
+  padding: clamp(32px, 4.5vw, 56px) clamp(28px, 4vw, 50px);
   color: #FFFFFF;
   user-select: none;
+  box-sizing: border-box;
 }
 
 .editorialMediaWrapper {
@@ -63,6 +74,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
+  display: block;
 }
 
 .editorialGradientOverlay {
@@ -84,7 +96,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  gap: clamp(24px, 3vh, 36px);
+  gap: clamp(20px, 3vh, 32px);
 }
 
 .hallmarkStrip {
@@ -95,14 +107,14 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(197, 161, 91, 0.35);
-  padding: 7px 16px;
+  padding: 6px 14px;
   border-radius: 999px;
   width: fit-content;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 .hallmarkBadge {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.14em;
   color: var(--color-gold);
@@ -115,7 +127,7 @@
 }
 
 .hallmarkLocation {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 500;
   letter-spacing: 0.1em;
   color: rgba(255, 255, 255, 0.88);
@@ -125,14 +137,14 @@
 .editorialHeroText {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .editorialTitle {
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
-  font-size: clamp(28px, 3.4vw, 40px);
+  font-size: clamp(26px, 3.2vw, 36px);
   font-weight: 600;
-  line-height: 1.18;
+  line-height: 1.2;
   color: #FFFFFF;
   margin: 0;
   letter-spacing: -0.015em;
@@ -142,33 +154,33 @@
 .editorialQuote {
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
   font-style: italic;
-  font-size: clamp(13px, 1.35vw, 15px);
-  line-height: 1.65;
+  font-size: clamp(12.5px, 1.3vw, 14px);
+  line-height: 1.6;
   color: var(--color-gold-light);
   margin: 0;
   opacity: 0.95;
-  max-width: 520px;
+  max-width: 480px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .luxuryPillars {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-top: 6px;
-  max-width: 520px;
+  gap: 10px;
+  padding-top: 4px;
+  max-width: 480px;
 }
 
 .pillarItem {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 12px;
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  padding: 12px 16px;
+  border-radius: 12px;
+  padding: 10px 14px;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -179,9 +191,9 @@
 }
 
 .pillarIconCircle {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   background: rgba(197, 161, 91, 0.18);
   border: 1px solid rgba(197, 161, 91, 0.4);
   display: flex;
@@ -192,16 +204,16 @@
 }
 
 .pillarTitle {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   letter-spacing: 0.01em;
   color: #FFFFFF;
-  margin: 0 0 3px 0;
+  margin: 0 0 2px 0;
 }
 
 .pillarDesc {
-  font-size: 11.5px;
-  line-height: 1.45;
+  font-size: 11px;
+  line-height: 1.4;
   color: rgba(255, 255, 255, 0.78);
   margin: 0;
 }
@@ -210,9 +222,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
-  font-size: 11px;
+  font-size: 10.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -236,20 +248,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(36px, 5vw, 64px) clamp(24px, 4vw, 56px);
+  padding: clamp(32px, 4.5vw, 56px) clamp(24px, 4vw, 48px);
   position: relative;
-  min-height: calc(100vh - 72px);
+  min-height: 620px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .formCard {
   width: 100%;
-  max-width: 460px;
+  max-width: 440px;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .authHeader {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   text-align: left;
 }
 
@@ -257,12 +272,12 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.16em;
   color: var(--brand-crimson);
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .brandMicroDot {
@@ -274,16 +289,16 @@
 
 .title {
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
-  font-size: clamp(28px, 3.4vw, 34px);
+  font-size: clamp(26px, 3.2vw, 32px);
   font-weight: 600;
   color: var(--text-primary);
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   letter-spacing: -0.015em;
   line-height: 1.2;
 }
 
 .subtitle {
-  font-size: 13px;
+  font-size: 12.5px;
   line-height: 1.55;
   color: var(--text-secondary);
   margin: 0;
@@ -297,17 +312,19 @@
   border: 1px solid var(--border-default);
   border-radius: 12px;
   padding: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   gap: 4px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .mainModeBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 11px 14px;
-  font-size: 13px;
+  gap: 7px;
+  padding: 10px 12px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--text-secondary);
   background: transparent;
@@ -316,6 +333,7 @@
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .mainModeBtn:hover:not(.mainModeActive) {
@@ -336,9 +354,11 @@
   background: #FAF8F5;
   border: 1px solid var(--border-subtle);
   border-radius: 9px;
-  padding: 4px;
-  margin-bottom: 22px;
+  padding: 3px;
+  margin-bottom: 20px;
   gap: 4px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .methodBtn {
@@ -347,8 +367,8 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 8px 12px;
-  font-size: 12px;
+  padding: 7px 10px;
+  font-size: 11.5px;
   font-weight: 500;
   color: var(--text-secondary);
   background: transparent;
@@ -356,6 +376,8 @@
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .methodBtn:hover:not(.methodActive) {
@@ -373,13 +395,15 @@
 .tabContentArea {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
-/* Action Button Group & Two-Button Architecture */
+/* Action Button Group */
 .actionButtonGroup {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
 }
 
 .orDivider {
@@ -387,6 +411,7 @@
   align-items: center;
   gap: 12px;
   margin: 4px 0;
+  width: 100%;
 }
 
 .orDividerLine {
@@ -409,8 +434,8 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 16px;
-  font-size: 13px;
+  padding: 11px 16px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--text-primary);
   background: #FFFFFF;
@@ -418,6 +443,7 @@
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
 }
 
 .secondaryOutlineBtn:hover {
@@ -437,6 +463,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 }
 
 .crimsonPrimaryBtn {
@@ -467,9 +494,10 @@
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   padding: 8px 12px;
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-secondary);
   line-height: 1.4;
+  box-sizing: border-box;
 }
 
 /* OTP Step: Verify */
@@ -481,6 +509,8 @@
   background: #F8F7F5;
   border: 1px solid var(--border-default);
   border-radius: 12px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .otpDestinationDetails {
@@ -521,6 +551,7 @@
   display: flex;
   justify-content: center;
   padding: 8px 0;
+  width: 100%;
 }
 
 .resendContainer {
@@ -528,9 +559,10 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-muted);
   padding-top: 4px;
+  width: 100%;
 }
 
 .resendLabel {
@@ -551,20 +583,21 @@
   cursor: pointer;
   padding: 0;
   text-decoration: underline;
-  font-size: 12px;
+  font-size: 11.5px;
 }
 
 .twoColumnGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  width: 100%;
 }
 
 .termsCheckbox {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-secondary);
   line-height: 1.45;
   cursor: pointer;
@@ -585,16 +618,17 @@
 
 /* Security Guarantee Strip */
 .securityStrip {
-  margin-top: 26px;
-  padding-top: 16px;
+  margin-top: 24px;
+  padding-top: 14px;
   border-top: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-muted);
   text-align: center;
+  width: 100%;
 }
 
 .shieldIcon {
@@ -603,18 +637,21 @@
 }
 
 /* =====================================================================
-   RESPONSIVE ADAPTATIONS
+   RESPONSIVE ADAPTATIONS: ALL SCREENS (COMPUTER & MOBILE)
    ===================================================================== */
 
-@media (max-width: 1024px) {
+/* Tablet & Smaller Laptops */
+@media (max-width: 960px) {
   .splitPavilion {
     grid-template-columns: 1fr;
+    max-width: 520px;
     min-height: auto;
   }
 
   .editorialPanel {
-    min-height: 280px;
-    padding: 32px 24px;
+    min-height: 200px;
+    max-height: 240px;
+    padding: 24px 20px;
     justify-content: center;
   }
 
@@ -625,43 +662,76 @@
   }
 
   .editorialTitle {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .formPanel {
-    padding: 36px 24px 64px;
+    padding: 32px 24px 48px;
     min-height: auto;
   }
 }
 
-@media (max-width: 640px) {
+/* Mobile Screens (iPhone, Android, Foldables) */
+@media (max-width: 600px) {
   .authPageWrapper {
-    padding: 0 0 calc(72px + env(safe-area-inset-bottom, 0px));
+    padding: 10px 10px calc(80px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .splitPavilion {
+    border-radius: 16px;
+    max-width: 100%;
   }
 
   .editorialPanel {
-    min-height: 220px;
-    padding: 24px 18px;
+    min-height: 160px;
+    padding: 20px 16px;
   }
 
   .hallmarkStrip {
-    padding: 5px 12px;
+    padding: 4px 10px;
   }
 
   .hallmarkBadge,
   .hallmarkLocation {
-    font-size: 10px;
+    font-size: 9.5px;
   }
 
   .editorialTitle {
-    font-size: 20px;
+    font-size: 19px;
   }
 
   .formPanel {
-    padding: 28px 16px 48px;
+    padding: 24px 16px 36px;
   }
 
   .twoColumnGrid {
     grid-template-columns: 1fr;
+  }
+
+  .mainModeBtn {
+    padding: 9px 8px;
+    font-size: 11.5px;
+    gap: 5px;
+  }
+
+  .methodBtn {
+    padding: 6px 8px;
+    font-size: 11px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 360px) {
+  .authPageWrapper {
+    padding: 6px 6px calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .mainModeBtn span,
+  .methodBtn span {
+    font-size: 10.5px;
+  }
+
+  .title {
+    font-size: 22px;
   }
 }

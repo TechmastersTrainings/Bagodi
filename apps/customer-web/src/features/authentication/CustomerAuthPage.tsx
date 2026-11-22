@@ -345,7 +345,7 @@ export const CustomerAuthPage: React.FC = () => {
                   }}
                 >
                   <Smartphone size={13} />
-                  <span>Instant Mobile OTP</span>
+                  <span>Mobile OTP</span>
                 </button>
                 <button
                   type="button"
