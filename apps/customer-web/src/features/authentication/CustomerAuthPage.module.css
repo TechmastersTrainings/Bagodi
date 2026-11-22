@@ -50,12 +50,13 @@
 
 .editorialPanel {
   position: relative;
-  min-height: 480px;
+  min-height: 490px;
   background: #0B070A;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: clamp(18px, 2.2vh, 26px) clamp(22px, 3vw, 36px);
+  justify-content: center;
+  padding: clamp(24px, 3vh, 36px) clamp(24px, 3.2vw, 40px);
   color: #FFFFFF;
   user-select: none;
   box-sizing: border-box;
@@ -93,8 +94,9 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   height: 100%;
-  gap: clamp(10px, 1.4vh, 14px);
+  gap: clamp(14px, 2vh, 18px);
 }
 
 .hallmarkStrip {
@@ -105,15 +107,14 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(197, 161, 91, 0.35);
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 999px;
   width: fit-content;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
-  margin-bottom: 2px;
 }
 
 .hallmarkBadge {
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.14em;
   color: var(--color-gold);
@@ -122,11 +123,11 @@
 
 .hallmarkDot {
   color: rgba(255, 255, 255, 0.4);
-  font-size: 10px;
+  font-size: 10.5px;
 }
 
 .hallmarkLocation {
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 500;
   letter-spacing: 0.1em;
   color: rgba(255, 255, 255, 0.88);
@@ -136,14 +137,14 @@
 .editorialHeroText {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .editorialTitle {
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
-  font-size: clamp(22px, 2.5vw, 29px);
+  font-size: clamp(24px, 2.7vw, 31px);
   font-weight: 600;
-  line-height: 1.18;
+  line-height: 1.2;
   color: #FFFFFF;
   margin: 0;
   letter-spacing: -0.015em;
@@ -153,19 +154,19 @@
 .editorialQuote {
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
   font-style: italic;
-  font-size: clamp(11.5px, 1.15vw, 13px);
-  line-height: 1.48;
+  font-size: clamp(12.5px, 1.25vw, 14px);
+  line-height: 1.54;
   color: var(--color-gold-light);
   margin: 0;
   opacity: 0.95;
-  max-width: 460px;
+  max-width: 480px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .luxuryPillars {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 9px;
   padding-top: 2px;
   max-width: 480px;
 }
@@ -173,13 +174,13 @@
 .pillarItem {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 9px;
-  padding: 6px 11px;
+  border-radius: 11px;
+  padding: 8px 13px;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -190,9 +191,9 @@
 }
 
 .pillarIconCircle {
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   background: rgba(197, 161, 91, 0.18);
   border: 1px solid rgba(197, 161, 91, 0.4);
   display: flex;
@@ -203,40 +204,18 @@
 }
 
 .pillarTitle {
-  font-size: 11.5px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.01em;
   color: #FFFFFF;
-  margin: 0 0 1px 0;
+  margin: 0 0 2px 0;
 }
 
 .pillarDesc {
-  font-size: 10px;
-  line-height: 1.35;
+  font-size: 11px;
+  line-height: 1.4;
   color: rgba(255, 255, 255, 0.78);
   margin: 0;
-}
-
-.editorialFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: auto;
-  padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
-  font-size: 9.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.establishedTag {
-  color: var(--color-gold);
-  font-weight: 700;
-}
-
-.storeFootnote {
-  color: rgba(255, 255, 255, 0.65);
-  font-weight: 500;
 }
 
 /* =====================================================================
@@ -248,9 +227,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(18px, 2.2vh, 26px) clamp(22px, 3vw, 36px);
+  padding: clamp(24px, 3vh, 36px) clamp(24px, 3.2vw, 40px);
   position: relative;
-  min-height: 480px;
+  min-height: 490px;
   box-sizing: border-box;
   width: 100%;
 }
@@ -657,7 +636,6 @@
   }
 
   .luxuryPillars,
-  .editorialFooter,
   .editorialQuote {
     display: none;
   }

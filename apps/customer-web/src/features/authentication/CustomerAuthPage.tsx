@@ -262,7 +262,7 @@ export const CustomerAuthPage: React.FC = () => {
             <div className={styles.luxuryPillars}>
               <div className={styles.pillarItem}>
                 <div className={styles.pillarIconCircle}>
-                  <Award size={16} />
+                  <Award size={18} />
                 </div>
                 <div>
                   <h4 className={styles.pillarTitle}>Silk Mark Certified</h4>
@@ -272,7 +272,7 @@ export const CustomerAuthPage: React.FC = () => {
 
               <div className={styles.pillarItem}>
                 <div className={styles.pillarIconCircle}>
-                  <Scissors size={16} />
+                  <Scissors size={18} />
                 </div>
                 <div>
                   <h4 className={styles.pillarTitle}>Raymond Master Tailoring</h4>
@@ -282,18 +282,13 @@ export const CustomerAuthPage: React.FC = () => {
 
               <div className={styles.pillarItem}>
                 <div className={styles.pillarIconCircle}>
-                  <Sparkles size={16} />
+                  <Sparkles size={18} />
                 </div>
                 <div>
                   <h4 className={styles.pillarTitle}>Bidar Flagship Concierge</h4>
                   <p className={styles.pillarDesc}>Personal styling, bespoke fittings & insured doorstep dispatch</p>
                 </div>
               </div>
-            </div>
-
-            <div className={styles.editorialFooter}>
-              <span className={styles.establishedTag}>ESTABLISHED 1968</span>
-              <span className={styles.storeFootnote}>Bidar Flagship Mall • Fort Road Landmark</span>
             </div>
           </div>
         </div>
