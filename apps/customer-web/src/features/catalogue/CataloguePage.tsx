@@ -457,7 +457,7 @@ export const CataloguePage: React.FC = () => {
             {isProductsLoading ? (
               <div className={gridCols === "four" ? styles.gridFourCol : styles.gridThreeCol}>
                 {[...Array(8)].map((_, i) => (
-                  <div key={i} style={{ height: 380, background: "#f5f5f5", borderRadius: 18 }} />
+                  <div key={i} style={{ height: 290, background: "#FAF8F5", borderRadius: 12 }} />
                 ))}
               </div>
             ) : products.length === 0 ? (

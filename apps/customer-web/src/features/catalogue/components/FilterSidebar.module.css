@@ -4,17 +4,17 @@
 
 .sidebarRoot {
   width: 100%;
-  max-width: 280px;
+  max-width: 240px;
   box-sizing: border-box;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 16px;
   background: #FFFFFF;
-  border-radius: 20px;
+  border-radius: 14px;
   border: 1px solid #EAEAEA;
-  padding: var(--space-6);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  padding: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
 }
 
 .filterHeader {

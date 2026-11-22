@@ -348,13 +348,13 @@
 /* Main Two-Column Layout */
 .mainLayout {
   display: flex;
-  gap: 32px;
+  gap: 24px;
   align-items: flex-start;
   width: 100%;
 }
 
 .sidebarDesktop {
-  width: 280px;
+  width: 240px;
   flex-shrink: 0;
   box-sizing: border-box;
 }
@@ -366,17 +366,17 @@
   flex-direction: column;
 }
 
-/* Flexible Responsive Product Grid */
+/* Flexible Responsive Product Grid: Compact & Balanced */
 .gridFourCol {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
 }
 
 .gridThreeCol {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
 }
 
 /* Empty State Atelier Card */
@@ -542,6 +542,20 @@ button.pageBtn:hover:not(:disabled) {
   color: #111111;
 }
 
+@media (max-width: 1200px) {
+  .sidebarDesktop {
+    width: 220px;
+  }
+  .gridFourCol {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .gridThreeCol {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+}
+
 @media (max-width: 992px) {
   .sidebarDesktop {
     display: none;
@@ -550,15 +564,24 @@ button.pageBtn:hover:not(:disabled) {
     display: inline-flex;
   }
   .gridFourCol {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 14px;
+  }
+  .gridThreeCol {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
     gap: 16px;
   }
 }
 
 @media (max-width: 640px) {
+  .mainContentContainer {
+    padding: var(--space-2) var(--space-3) var(--space-8);
+  }
   .topToolbar {
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
+    padding: 10px 12px;
   }
   .toolbarLeft, .toolbarRight {
     width: 100%;
@@ -572,6 +595,13 @@ button.pageBtn:hover:not(:disabled) {
   }
   .gridFourCol, .gridThreeCol {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .gridFourCol, .gridThreeCol {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 }
