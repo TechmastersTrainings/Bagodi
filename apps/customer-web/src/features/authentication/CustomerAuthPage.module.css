@@ -1,88 +1,80 @@
-/* Bagodi Luxury Customer Storefront - Royal Editorial Auth Pavilion */
+/* Bagodi Luxury Customer Storefront - Royal Animated Silk Pavilion */
 
 .authPageWrapper {
-  --bg-canvas: #F8F7F5;
+  --bg-canvas: #FAF8F5;
   --bg-card: #FFFFFF;
-  --text-primary: #111412;
-  --text-secondary: #4A4E4B;
-  --text-muted: #7A807C;
-  --border-default: #E5E1D8;
-  --border-subtle: #F0EDE6;
+  --text-primary: #121413;
+  --text-secondary: #484D49;
+  --text-muted: #7E8580;
+  --border-default: #E6E2D9;
+  --border-subtle: #F0ECE4;
   --brand-crimson: #E31B23;
-  --brand-crimson-hover: #C8141B;
+  --brand-crimson-hover: #C5131A;
   --brand-crimson-subtle: rgba(227, 27, 35, 0.08);
   --color-gold: #C5A15B;
-  --color-gold-light: #E5D5B8;
-  --color-gold-subtle: rgba(197, 161, 91, 0.14);
+  --color-gold-light: #E8DAC2;
+  --color-gold-subtle: rgba(197, 161, 91, 0.12);
 
-  min-height: calc(100vh - 120px);
   width: 100%;
+  min-height: calc(100vh - 72px);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(20px, 4vw, 56px) clamp(16px, 3vw, 32px);
+  background: #FFFFFF;
+  padding: 0;
   box-sizing: border-box;
+  position: relative;
 }
 
 .splitPavilion {
   width: 100%;
-  max-width: 1140px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-default);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.08), 0 2px 12px rgba(0, 0, 0, 0.03);
+  min-height: calc(100vh - 72px);
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
+  grid-template-columns: 1.12fr 1fr;
+  background: #FFFFFF;
   position: relative;
+  overflow: hidden;
 }
 
 /* =====================================================================
-   LEFT COLUMN: ROYAL HERITAGE & HAUTE COUTURE EDITORIAL
+   LEFT COLUMN: INTERACTIVE LUXURY ANIMATED SILK CANVAS
    ===================================================================== */
 
 .editorialPanel {
   position: relative;
-  min-height: 640px;
-  background: #110E10;
+  min-height: calc(100vh - 72px);
+  background: #0B070A;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: clamp(28px, 4vw, 48px);
+  justify-content: space-between;
+  padding: clamp(36px, 5vw, 64px) clamp(32px, 4.5vw, 60px);
   color: #FFFFFF;
+  user-select: none;
 }
 
 .editorialMediaWrapper {
   position: absolute;
   inset: 0;
   z-index: 1;
+  overflow: hidden;
 }
 
-.editorialImage {
+.silkCanvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 25%;
-  filter: brightness(0.85) contrast(1.08);
-  transform: scale(1.02);
-  transition: transform 8s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.editorialPanel:hover .editorialImage {
-  transform: scale(1.06);
 }
 
 .editorialGradientOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(17, 14, 16, 0.35) 0%,
-    rgba(17, 14, 16, 0.72) 45%,
-    rgba(17, 14, 16, 0.95) 85%,
-    #110E10 100%
+  background: radial-gradient(
+    circle at 30% 25%,
+    rgba(227, 27, 35, 0.08) 0%,
+    rgba(11, 7, 10, 0.35) 55%,
+    rgba(11, 7, 10, 0.8) 100%
   );
+  pointer-events: none;
 }
 
 .editorialContent {
@@ -90,24 +82,27 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(20px, 3vh, 28px);
+  justify-content: space-between;
+  height: 100%;
+  gap: clamp(24px, 3vh, 36px);
 }
 
 .hallmarkStrip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(17, 14, 16, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(18, 9, 13, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(197, 161, 91, 0.35);
-  padding: 6px 14px;
+  padding: 7px 16px;
   border-radius: 999px;
   width: fit-content;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 .hallmarkBadge {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
   color: var(--color-gold);
@@ -120,37 +115,40 @@
 }
 
 .hallmarkLocation {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.88);
   text-transform: uppercase;
 }
 
 .editorialHeroText {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .editorialTitle {
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
-  font-size: clamp(24px, 3vw, 32px);
+  font-size: clamp(28px, 3.4vw, 40px);
   font-weight: 600;
-  line-height: 1.22;
+  line-height: 1.18;
   color: #FFFFFF;
   margin: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .editorialQuote {
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
   font-style: italic;
-  font-size: clamp(12.5px, 1.4vw, 14px);
-  line-height: 1.6;
+  font-size: clamp(13px, 1.35vw, 15px);
+  line-height: 1.65;
   color: var(--color-gold-light);
   margin: 0;
   opacity: 0.95;
+  max-width: 520px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .luxuryPillars {
@@ -158,32 +156,34 @@
   flex-direction: column;
   gap: 12px;
   padding-top: 6px;
+  max-width: 520px;
 }
 
 .pillarItem {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 12px;
-  padding: 10px 14px;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 12px 16px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .pillarItem:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(197, 161, 91, 0.35);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(197, 161, 91, 0.45);
+  transform: translateY(-2px);
 }
 
 .pillarIconCircle {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: rgba(197, 161, 91, 0.16);
-  border: 1px solid rgba(197, 161, 91, 0.35);
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(197, 161, 91, 0.18);
+  border: 1px solid rgba(197, 161, 91, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,17 +192,17 @@
 }
 
 .pillarTitle {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   color: #FFFFFF;
-  margin: 0 0 2px 0;
+  margin: 0 0 3px 0;
 }
 
 .pillarDesc {
-  font-size: 11px;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.72);
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
   margin: 0;
 }
 
@@ -210,9 +210,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  font-size: 10.5px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -223,7 +223,7 @@
 }
 
 .storeFootnote {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.65);
   font-weight: 500;
 }
 
@@ -236,32 +236,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(28px, 4vw, 44px);
+  padding: clamp(36px, 5vw, 64px) clamp(24px, 4vw, 56px);
   position: relative;
+  min-height: calc(100vh - 72px);
 }
 
 .formCard {
   width: 100%;
-  max-width: 440px;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
 }
 
 .authHeader {
-  margin-bottom: 22px;
+  margin-bottom: 24px;
   text-align: left;
 }
 
 .brandMicroTag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 10.5px;
+  gap: 7px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   color: var(--brand-crimson);
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .brandMicroDot {
@@ -273,29 +274,30 @@
 
 .title {
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
-  font-size: clamp(26px, 3.2vw, 32px);
+  font-size: clamp(28px, 3.4vw, 34px);
   font-weight: 600;
   color: var(--text-primary);
   margin: 0 0 8px 0;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
 }
 
 .subtitle {
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.55;
   color: var(--text-secondary);
   margin: 0;
 }
 
-/* Main Mode Switcher: Two Prominent Buttons (Login / Register) */
+/* Main Mode Switcher: Two Sleek Tabs (Sign In / Create Account) */
 .mainModeSwitcher {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: #F2EFEB;
+  background: #F4F1EA;
   border: 1px solid var(--border-default);
   border-radius: 12px;
   padding: 4px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   gap: 4px;
 }
 
@@ -304,7 +306,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 11px 12px;
+  padding: 11px 14px;
   font-size: 13px;
   font-weight: 600;
   color: var(--text-secondary);
@@ -324,7 +326,7 @@
 .mainModeActive {
   background: #FFFFFF;
   color: var(--brand-crimson);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
   border-color: rgba(197, 161, 91, 0.35);
 }
 
@@ -333,9 +335,9 @@
   display: flex;
   background: #FAF8F5;
   border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 3px;
-  margin-bottom: 20px;
+  border-radius: 9px;
+  padding: 4px;
+  margin-bottom: 22px;
   gap: 4px;
 }
 
@@ -345,8 +347,8 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 7px 10px;
-  font-size: 11.5px;
+  padding: 8px 12px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--text-secondary);
   background: transparent;
@@ -358,55 +360,14 @@
 
 .methodBtn:hover:not(.methodActive) {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .methodActive {
   background: #FFFFFF;
   color: var(--text-primary);
   font-weight: 600;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Legacy Tab Navigation for fallback */
-.tabNavigation {
-  display: flex;
-  background: #F4F1EA;
-  border: 1px solid var(--border-default);
-  border-radius: 12px;
-  padding: 4px;
-  margin-bottom: 22px;
-  gap: 4px;
-}
-
-.tabButton {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 9px 8px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  white-space: nowrap;
-}
-
-.tabButton:hover:not(.tabActive) {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.tabActive {
-  background: #FFFFFF;
-  color: var(--brand-crimson);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(197, 161, 91, 0.35);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .tabContentArea {
@@ -456,7 +417,7 @@
   border: 1.5px solid var(--border-default);
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .secondaryOutlineBtn:hover {
@@ -506,7 +467,7 @@
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   padding: 8px 12px;
-  font-size: 11px;
+  font-size: 11.5px;
   color: var(--text-secondary);
   line-height: 1.4;
 }
@@ -534,7 +495,7 @@
 }
 
 .otpDestinationVal {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--text-primary);
   font-family: var(--font-mono, monospace);
@@ -567,7 +528,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 11.5px;
+  font-size: 12px;
   color: var(--text-muted);
   padding-top: 4px;
 }
@@ -590,7 +551,7 @@
   cursor: pointer;
   padding: 0;
   text-decoration: underline;
-  font-size: 11.5px;
+  font-size: 12px;
 }
 
 .twoColumnGrid {
@@ -603,7 +564,7 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 11px;
+  font-size: 11.5px;
   color: var(--text-secondary);
   line-height: 1.45;
   cursor: pointer;
@@ -624,14 +585,14 @@
 
 /* Security Guarantee Strip */
 .securityStrip {
-  margin-top: 24px;
-  padding-top: 14px;
+  margin-top: 26px;
+  padding-top: 16px;
   border-top: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 11.5px;
   color: var(--text-muted);
   text-align: center;
 }
@@ -645,27 +606,51 @@
    RESPONSIVE ADAPTATIONS
    ===================================================================== */
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
   .splitPavilion {
     grid-template-columns: 1fr;
-    max-width: 520px;
+    min-height: auto;
   }
 
   .editorialPanel {
-    min-height: 300px;
-    padding: 24px 20px;
+    min-height: 280px;
+    padding: 32px 24px;
+    justify-content: center;
   }
 
-  .luxuryPillars {
-    display: none;
-  }
-
-  .editorialFooter {
-    display: none;
-  }
-
+  .luxuryPillars,
+  .editorialFooter,
   .editorialQuote {
     display: none;
+  }
+
+  .editorialTitle {
+    font-size: 24px;
+  }
+
+  .formPanel {
+    padding: 36px 24px 64px;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .authPageWrapper {
+    padding: 0 0 calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .editorialPanel {
+    min-height: 220px;
+    padding: 24px 18px;
+  }
+
+  .hallmarkStrip {
+    padding: 5px 12px;
+  }
+
+  .hallmarkBadge,
+  .hallmarkLocation {
+    font-size: 10px;
   }
 
   .editorialTitle {
@@ -673,42 +658,10 @@
   }
 
   .formPanel {
-    padding: 28px 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .authPageWrapper {
-    padding: 12px 10px calc(88px + env(safe-area-inset-bottom, 0px));
-  }
-
-  .splitPavilion {
-    border-radius: 16px;
-  }
-
-  .editorialPanel {
-    min-height: 220px;
-    padding: 18px 16px;
-  }
-
-  .hallmarkStrip {
-    padding: 4px 10px;
-  }
-
-  .hallmarkBadge,
-  .hallmarkLocation {
-    font-size: 9.5px;
-  }
-
-  .editorialTitle {
-    font-size: 18px;
+    padding: 28px 16px 48px;
   }
 
   .twoColumnGrid {
     grid-template-columns: 1fr;
-  }
-
-  .tabButton span {
-    font-size: 10.5px;
   }
 }

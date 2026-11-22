@@ -24,6 +24,7 @@ import {
   AuthSessionResponse,
   SendOtpResponse,
 } from "@bagodi/shared-types";
+import { LuxurySilkCanvas } from "./LuxurySilkCanvas";
 import {
   Smartphone,
   Mail,
@@ -231,30 +232,26 @@ export const CustomerAuthPage: React.FC = () => {
   return (
     <div className={styles.authPageWrapper}>
       <div className={styles.splitPavilion}>
-        {/* Left Column: Royal Heritage & Haute Couture Editorial */}
+        {/* Left Column: Interactive Luxury Animated Silk Pavilion */}
         <div className={styles.editorialPanel}>
           <div className={styles.editorialMediaWrapper}>
-            <img
-              src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=85"
-              alt="Bagodi Royal Handcrafted Silk Saree"
-              className={styles.editorialImage}
-            />
+            <LuxurySilkCanvas className={styles.silkCanvas} />
             <div className={styles.editorialGradientOverlay} />
           </div>
 
           <div className={styles.editorialContent}>
             <div className={styles.hallmarkStrip}>
-              <span className={styles.hallmarkBadge}>BAGODI ROYAL ATELIER</span>
+              <span className={styles.hallmarkBadge}>BAGODI SHOPPING MALL</span>
               <span className={styles.hallmarkDot}>•</span>
               <span className={styles.hallmarkLocation}>BIDAR, KARNATAKA</span>
             </div>
 
             <div className={styles.editorialHeroText}>
               <h2 className={styles.editorialTitle}>
-                Heirloom Silks, Master Suiting & Royal Bridal Splendour
+                Curated Luxury & Royal Festivities
               </h2>
               <p className={styles.editorialQuote}>
-                "Every weave tells a tale of historic Bidar craftsmanship — hallmarked with Silk Mark India certification, enriched with pure gold zari, and tailored to bespoke perfection."
+                "Where centuries of Bidar craftsmanship meet modern festive elegance — master tailoring, pure silks, and royal ensembles."
               </p>
             </div>
 
@@ -284,8 +281,8 @@ export const CustomerAuthPage: React.FC = () => {
                   <Sparkles size={16} />
                 </div>
                 <div>
-                  <h4 className={styles.pillarTitle}>Atelier Concierge</h4>
-                  <p className={styles.pillarDesc}>Private wardrobe curation, bespoke fittings & insured dispatch</p>
+                  <h4 className={styles.pillarTitle}>Bidar Flagship Concierge</h4>
+                  <p className={styles.pillarDesc}>Personal styling, bespoke fittings & insured doorstep dispatch</p>
                 </div>
               </div>
             </div>
@@ -304,15 +301,15 @@ export const CustomerAuthPage: React.FC = () => {
             <div className={styles.authHeader}>
               <div className={styles.brandMicroTag}>
                 <span className={styles.brandMicroDot} />
-                <span>BAGODI CLIENT PRIVILEGE</span>
+                <span>BAGODI SHOPPING MALL</span>
               </div>
               <h1 className={styles.title}>
-                {activeMode === "LOGIN" ? "Client Access" : "New Client Registration"}
+                {activeMode === "LOGIN" ? "Welcome Back" : "Create Your Account"}
               </h1>
               <p className={styles.subtitle}>
                 {activeMode === "LOGIN"
-                  ? "Sign in with instant mobile OTP or password to access your bespoke wardrobe, custom sizing, and boutique orders."
-                  : "Register your client profile to unlock authentic handloom curation, bridal consultations, and private concierge orders."}
+                  ? "Sign in using your mobile number or email to manage your orders, delivery addresses, and shopping bag."
+                  : "Join Bagodi to enjoy swift checkout, live delivery tracking, and exclusive festive collections."}
               </p>
             </div>
 
@@ -324,7 +321,7 @@ export const CustomerAuthPage: React.FC = () => {
                 onClick={switchToLogin}
               >
                 <LogIn size={15} />
-                <span>Login / Sign In</span>
+                <span>Sign In</span>
               </button>
               <button
                 type="button"
@@ -332,7 +329,7 @@ export const CustomerAuthPage: React.FC = () => {
                 onClick={switchToRegister}
               >
                 <UserPlus size={15} />
-                <span>Register If New</span>
+                <span>Create Account</span>
               </button>
             </div>
 
@@ -402,7 +399,7 @@ export const CustomerAuthPage: React.FC = () => {
 
                           <div className={styles.orDivider}>
                             <span className={styles.orDividerLine} />
-                            <span className={styles.orDividerText}>OR REGISTER IF NEW</span>
+                            <span className={styles.orDividerText}>OR CREATE ACCOUNT</span>
                             <span className={styles.orDividerLine} />
                           </div>
 
@@ -412,7 +409,7 @@ export const CustomerAuthPage: React.FC = () => {
                             onClick={switchToRegister}
                           >
                             <UserPlus size={16} />
-                            <span>Register If New Client</span>
+                            <span>New to Bagodi? Create Account</span>
                           </button>
                         </div>
 
@@ -460,12 +457,12 @@ export const CustomerAuthPage: React.FC = () => {
                             fullWidth
                             className={styles.crimsonPrimaryBtn}
                           >
-                            Verify Code & Enter Atelier
+                            Verify & Sign In
                           </Button>
 
                           <div className={styles.orDivider}>
                             <span className={styles.orDividerLine} />
-                            <span className={styles.orDividerText}>OR REGISTER IF NEW</span>
+                            <span className={styles.orDividerText}>OR CREATE ACCOUNT</span>
                             <span className={styles.orDividerLine} />
                           </div>
 
@@ -475,7 +472,7 @@ export const CustomerAuthPage: React.FC = () => {
                             onClick={switchToRegister}
                           >
                             <UserPlus size={16} />
-                            <span>Register If New Client</span>
+                            <span>New to Bagodi? Create Account</span>
                           </button>
                         </div>
 
@@ -534,7 +531,7 @@ export const CustomerAuthPage: React.FC = () => {
 
                       <div className={styles.orDivider}>
                         <span className={styles.orDividerLine} />
-                        <span className={styles.orDividerText}>OR REGISTER IF NEW</span>
+                        <span className={styles.orDividerText}>OR CREATE ACCOUNT</span>
                         <span className={styles.orDividerLine} />
                       </div>
 
@@ -544,7 +541,7 @@ export const CustomerAuthPage: React.FC = () => {
                         onClick={switchToRegister}
                       >
                         <UserPlus size={16} />
-                        <span>Register as New Client</span>
+                        <span>New to Bagodi? Create Account</span>
                       </button>
                     </div>
                   </form>
@@ -608,7 +605,7 @@ export const CustomerAuthPage: React.FC = () => {
                 <label className={styles.termsCheckbox}>
                   <input type="checkbox" {...registerRegister("acceptTerms")} />
                   <span>
-                    I agree to the Bagodi Store Terms & Conditions, Atelier Privacy Policy, and Authentic Garment Care Charter.
+                    I agree to the Bagodi Store Terms & Conditions and Authentic Garment Care Charter.
                   </span>
                 </label>
                 {registerErrors.acceptTerms && (
@@ -626,12 +623,12 @@ export const CustomerAuthPage: React.FC = () => {
                     rightIcon={<ArrowRight size={18} />}
                     className={styles.crimsonPrimaryBtn}
                   >
-                    Create Boutique Account
+                    Create Account & Continue
                   </Button>
 
                   <div className={styles.orDivider}>
                     <span className={styles.orDividerLine} />
-                    <span className={styles.orDividerText}>OR ALREADY HAVE AN ACCOUNT?</span>
+                    <span className={styles.orDividerText}>ALREADY HAVE AN ACCOUNT?</span>
                     <span className={styles.orDividerLine} />
                   </div>
 
@@ -641,7 +638,7 @@ export const CustomerAuthPage: React.FC = () => {
                     onClick={switchToLogin}
                   >
                     <LogIn size={16} />
-                    <span>Login to Existing Account</span>
+                    <span>Sign In to Existing Account</span>
                   </button>
                 </div>
               </form>
@@ -650,7 +647,7 @@ export const CustomerAuthPage: React.FC = () => {
             {/* Security Guarantee Strip */}
             <div className={styles.securityStrip}>
               <ShieldCheck size={14} className={styles.shieldIcon} />
-              <span>End-to-End 256-Bit TLS Encryption • Silk Mark India Authenticity Protected</span>
+              <span>100% Authentic Handpicked Luxury • 256-Bit SSL Encryption • Bidar Flagship Dispatch</span>
             </div>
           </div>
         </div>
