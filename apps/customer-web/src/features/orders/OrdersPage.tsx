@@ -6,6 +6,7 @@ import { EmptyState, ApiErrorCard, SkeletonLine, StatusBadge, Button } from "@ba
 import { Package, Clock, Truck, KeyRound } from "lucide-react";
 import { formatINR, formatDateTime } from "@bagodi/utilities";
 import { CustomerDeliveryTrackingModal } from "./CustomerDeliveryTrackingModal";
+import { AccountNavTabs } from "../account/AccountNavTabs";
 
 export const OrdersPage: React.FC = () => {
   const [selectedOrderForTracking, setSelectedOrderForTracking] = useState<Order | null>(null);
@@ -40,10 +41,11 @@ export const OrdersPage: React.FC = () => {
   }
 
   return (
-    <div style={{ maxWidth: 800, margin: "0 auto" }}>
-      <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "var(--text-2xl)", marginBottom: "var(--space-6)" }}>
+    <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 var(--space-4)" }}>
+      <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "var(--text-2xl)", marginBottom: "var(--space-4)" }}>
         Order History
       </h1>
+      <AccountNavTabs />
       {orders.map((order) => (
         <div
           key={order.id}

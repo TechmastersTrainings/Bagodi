@@ -1,7 +1,7 @@
 import React, { ReactNode, useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./CustomerLayout.module.css";
-import { ShoppingBag, Heart, User, Search, MapPin, Home, Grid, Menu, X } from "lucide-react";
+import { ShoppingBag, Heart, User, Search, MapPin, Home, Grid, Menu, X, LogOut, RotateCcw, Package } from "lucide-react";
 import { useAuth } from "@bagodi/authentication";
 import { NetworkStatusBar } from "@bagodi/shared-components";
 import {
@@ -25,11 +25,42 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+  const [isMobileAccountDrawerOpen, setIsMobileAccountDrawerOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (accountMenuRef.current && !accountMenuRef.current.contains(e.target as Node)) {
+        setIsAccountMenuOpen(false);
+      }
+    };
+    if (isAccountMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isAccountMenuOpen]);
+
+  // Close menu on route change
+  useEffect(() => {
+    setIsAccountMenuOpen(false);
+    setIsMobileAccountDrawerOpen(false);
+  }, [location.pathname]);
+
+  const handleLogout = async () => {
+    setIsAccountMenuOpen(false);
+    setIsMobileAccountDrawerOpen(false);
+    await logout();
+    navigate("/", { replace: true });
+  };
 
   // Native Android Shell & Hardware Lifecycle
   useEffect(() => {
@@ -112,14 +143,85 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
               {wishlistCount > 0 && <span className={styles.actionBadge}>{wishlistCount}</span>}
             </Link>
 
-            <Link
-              to={user ? "/account/profile" : "/login"}
-              className={styles.headerActionLink}
-              aria-label="Customer Account"
-              title={user ? "My Account" : "Sign In"}
-            >
-              <User size={21} strokeWidth={1.75} />
-            </Link>
+            {user ? (
+              <div className={styles.accountMenuWrapper} ref={accountMenuRef}>
+                <button
+                  type="button"
+                  className={`${styles.accountTriggerBtn} ${isAccountMenuOpen ? styles.accountTriggerBtnActive : ""}`}
+                  onClick={() => setIsAccountMenuOpen((prev) => !prev)}
+                  aria-label="Customer Account Menu"
+                  title="My Account"
+                  aria-expanded={isAccountMenuOpen}
+                >
+                  <User size={21} strokeWidth={1.75} />
+                </button>
+
+                {isAccountMenuOpen && (
+                  <div className={styles.accountDropdown} role="menu">
+                    <div className={styles.accountDropdownHeader}>
+                      <div className={styles.accountHeaderGreet}>Signed In As</div>
+                      <div className={styles.accountHeaderName}>
+                        {user.fullName || (user as any)?.display_name || "Valued Customer"}
+                      </div>
+                      <div className={styles.accountHeaderContact}>
+                        {user.phone || (user as any)?.phone_e164 || user.email || ""}
+                      </div>
+                    </div>
+
+                    <div className={styles.accountMenuList}>
+                      <Link
+                        to="/account/profile"
+                        className={`${styles.accountMenuItem} ${location.pathname === "/account/profile" ? styles.accountMenuItemActive : ""}`}
+                        role="menuitem"
+                        onClick={() => setIsAccountMenuOpen(false)}
+                      >
+                        <User size={16} />
+                        <span>My Account</span>
+                      </Link>
+
+                      <Link
+                        to="/account/orders"
+                        className={`${styles.accountMenuItem} ${location.pathname === "/account/orders" ? styles.accountMenuItemActive : ""}`}
+                        role="menuitem"
+                        onClick={() => setIsAccountMenuOpen(false)}
+                      >
+                        <Package size={16} />
+                        <span>My Orders</span>
+                      </Link>
+
+                      <Link
+                        to="/account/returns"
+                        className={`${styles.accountMenuItem} ${location.pathname === "/account/returns" ? styles.accountMenuItemActive : ""}`}
+                        role="menuitem"
+                        onClick={() => setIsAccountMenuOpen(false)}
+                      >
+                        <RotateCcw size={16} />
+                        <span>Return & Replace</span>
+                      </Link>
+
+                      <button
+                        type="button"
+                        className={`${styles.accountMenuItem} ${styles.accountMenuItemLogout}`}
+                        role="menuitem"
+                        onClick={handleLogout}
+                      >
+                        <LogOut size={16} />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className={styles.headerActionLink}
+                aria-label="Customer Account"
+                title="Sign In"
+              >
+                <User size={21} strokeWidth={1.75} />
+              </Link>
+            )}
           </div>
         </div>
 
@@ -346,15 +448,85 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           <ShoppingBag size={18} />
           <span>Bag {cartCount > 0 ? `(${cartCount})` : ""}</span>
         </Link>
-        <Link
-          to={user ? "/account/profile" : "/login"}
-          onClick={() => triggerHaptic("selection")}
-          className={`${styles.mobileNavItem} ${location.pathname.includes("account") || location.pathname === "/login" ? styles.mobileNavItemActive : ""}`}
-        >
-          <User size={18} />
-          <span>Account</span>
-        </Link>
+        {user ? (
+          <button
+            type="button"
+            onClick={() => {
+              triggerHaptic("selection");
+              setIsMobileAccountDrawerOpen(true);
+            }}
+            className={`${styles.mobileNavItem} ${location.pathname.includes("account") ? styles.mobileNavItemActive : ""}`}
+          >
+            <User size={18} />
+            <span>Account</span>
+          </button>
+        ) : (
+          <Link
+            to="/login"
+            onClick={() => triggerHaptic("selection")}
+            className={`${styles.mobileNavItem} ${location.pathname === "/login" ? styles.mobileNavItemActive : ""}`}
+          >
+            <User size={18} />
+            <span>Account</span>
+          </Link>
+        )}
       </nav>
+
+      {/* Mobile Account Bottom Sheet Drawer */}
+      {isMobileAccountDrawerOpen && user && (
+        <>
+          <div
+            className={styles.mobileAccountDrawerBackdrop}
+            onClick={() => setIsMobileAccountDrawerOpen(false)}
+          />
+          <div className={styles.mobileAccountDrawer}>
+            <div className={styles.mobileDrawerDragPill} />
+            <div style={{ marginBottom: 16, paddingBottom: 12, borderBottom: "1px solid #F3F1ED" }}>
+              <div className={styles.accountHeaderGreet}>Signed in as</div>
+              <div className={styles.accountHeaderName} style={{ fontSize: 16, marginTop: 2 }}>
+                {user.fullName || (user as any)?.display_name || "Valued Customer"}
+              </div>
+              <div className={styles.accountHeaderContact}>
+                {user.phone || (user as any)?.phone_e164 || user.email || ""}
+              </div>
+            </div>
+            <div className={styles.accountMenuList}>
+              <Link
+                to="/account/profile"
+                className={`${styles.accountMenuItem} ${location.pathname === "/account/profile" ? styles.accountMenuItemActive : ""}`}
+                onClick={() => setIsMobileAccountDrawerOpen(false)}
+              >
+                <User size={18} />
+                <span>My Account</span>
+              </Link>
+              <Link
+                to="/account/orders"
+                className={`${styles.accountMenuItem} ${location.pathname === "/account/orders" ? styles.accountMenuItemActive : ""}`}
+                onClick={() => setIsMobileAccountDrawerOpen(false)}
+              >
+                <Package size={18} />
+                <span>My Orders</span>
+              </Link>
+              <Link
+                to="/account/returns"
+                className={`${styles.accountMenuItem} ${location.pathname === "/account/returns" ? styles.accountMenuItemActive : ""}`}
+                onClick={() => setIsMobileAccountDrawerOpen(false)}
+              >
+                <RotateCcw size={18} />
+                <span>Return & Replace</span>
+              </Link>
+              <button
+                type="button"
+                className={`${styles.accountMenuItem} ${styles.accountMenuItemLogout}`}
+                onClick={handleLogout}
+              >
+                <LogOut size={18} />
+                <span>Logout</span>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Offline & Network Resilience Sentinel */}
       <NetworkStatusBar />

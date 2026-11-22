@@ -9,6 +9,8 @@ import { CheckoutPage } from "../features/checkout/CheckoutPage";
 import { OrdersPage } from "../features/orders/OrdersPage";
 import { OrderSuccessPage } from "../features/orders/OrderSuccessPage";
 import { CustomerAuthPage } from "../features/authentication/CustomerAuthPage";
+import { CustomerProfilePage } from "../features/account/CustomerProfilePage";
+import { CustomerReturnsPage } from "../features/account/CustomerReturnsPage";
 import { useAuth } from "@bagodi/authentication";
 import { LoadingSpinner } from "@bagodi/shared-components";
 
@@ -54,10 +56,23 @@ export const AppRoutes: React.FC = () => {
           path="/account/profile"
           element={
             <ProtectedRoute>
-              <OrdersPage />
+              <CustomerProfilePage />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/account/returns"
+          element={
+            <ProtectedRoute>
+              <CustomerReturnsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Customer Account Aliases & Redirects */}
+        <Route path="/account" element={<Navigate to="/account/profile" replace />} />
+        <Route path="/orders" element={<Navigate to="/account/orders" replace />} />
+        <Route path="/returns" element={<Navigate to="/account/returns" replace />} />
 
         {/* 404 Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
