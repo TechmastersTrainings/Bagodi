@@ -322,7 +322,8 @@ export const CheckoutPage: React.FC = () => {
                   onClick={() => setIsAddingNewAddress(true)}
                 >
                   <Plus size={13} />
-                  <span>Add New Address</span>
+                  <span className={styles.addBtnTextDesktop}>Add New Address</span>
+                  <span className={styles.addBtnTextMobile}>Add Address</span>
                 </button>
               )}
             </div>
