@@ -33,51 +33,18 @@ export const SuperAdminLoginPage: React.FC = () => {
   const onSubmit = async (data: SuperAdminLoginFormData) => {
     setApiError(null);
     try {
-      const response = await defaultApiClient.post<any>(
+      const response = await defaultApiClient.post<AuthSessionResponse>(
         "/auth/login",
         data,
         { skipAuth: true }
       );
 
-      const rawUser = response?.user || {};
-      const userRoles: string[] = Array.isArray(rawUser.roles)
-        ? rawUser.roles
-        : typeof rawUser.role === "string"
-        ? [rawUser.role]
-        : [];
-
       // Enforce strict Super Admin role requirement
-      const isSuperAdmin =
-        userRoles.includes("SUPER_ADMIN") ||
-        rawUser.role === "SUPER_ADMIN" ||
-        rawUser.is_platform_user === true;
-
-      if (!isSuperAdmin) {
+      if (response.user.role !== "SUPER_ADMIN") {
         throw new Error("Access restricted exclusively to TechMasters Super Administrators.");
       }
 
-      // Normalize tokens
-      const tokens: any = response?.tokens || {
-        accessToken: response?.access_token || response?.accessToken,
-        refreshToken: response?.refresh_token || response?.refreshToken,
-        tokenType: "Bearer",
-        expiresIn: response?.expires_in || response?.expiresIn || 900,
-      };
-
-      // Normalize user object matching AuthUser interface
-      const normalizedUser: any = {
-        id: String(rawUser.id || ""),
-        email: rawUser.email || "",
-        phone: rawUser.phone_e164 || rawUser.phone,
-        fullName: rawUser.fullName || rawUser.display_name || rawUser.email || "Super Administrator",
-        role: "SUPER_ADMIN",
-        merchantId: rawUser.tenant_id || rawUser.merchantId,
-        permissions: Array.isArray(rawUser.permissions) ? rawUser.permissions : ["*"],
-        isActive: rawUser.status === "active" || rawUser.isActive === true,
-        createdAt: rawUser.created_at || new Date().toISOString(),
-      };
-
-      login(tokens, normalizedUser);
+      login(response.tokens, response.user);
       navigate(from, { replace: true });
     } catch (err: unknown) {
       setApiError(
@@ -121,7 +88,7 @@ export const SuperAdminLoginPage: React.FC = () => {
             <TextInput
               label="Master Administrator Email"
               type="email"
-              placeholder="admin@techmasters.in"
+              placeholder="name@company.com"
               leftIcon={<Mail size={18} />}
               isRequired
               error={errors.email?.message}

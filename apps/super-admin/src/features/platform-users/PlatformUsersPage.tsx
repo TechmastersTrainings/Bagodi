@@ -74,52 +74,7 @@ export const PlatformUsersPage: React.FC = () => {
       } catch {
         // Fallback offline dataset
       }
-      return [
-        {
-          id: "usr_root_01",
-          display_name: "TechMasters Root Admin",
-          email: "root@techmasters.in",
-          phone_e164: "+919999900001",
-          roles: ["SUPER_ADMIN"],
-          is_platform_user: true,
-          status: "active",
-          created_at: "2026-11-01T00:00:00Z",
-        },
-        {
-          id: "usr_admin_02",
-          display_name: "TechMasters Operations",
-          email: "techmastersinnovations@gmail.com",
-          phone_e164: "+919999900002",
-          roles: ["SUPER_ADMIN"],
-          is_platform_user: true,
-          status: "active",
-          created_at: "2026-11-01T00:00:00Z",
-        },
-        {
-          id: "usr_merchant_03",
-          display_name: "Rajesh Sharma (Flagship)",
-          email: "manager@bagodi.in",
-          phone_e164: "+919888877777",
-          roles: ["STORE_MANAGER", "MERCHANT_ADMIN"],
-          tenant_id: "tenant-bagodi-01",
-          tenant_name: "Bagodi Flagship Store",
-          is_platform_user: false,
-          status: "active",
-          created_at: "2026-11-05T00:00:00Z",
-        },
-        {
-          id: "usr_cust_04",
-          display_name: "Sunita Kulkarni",
-          email: "customer@bagodi.in",
-          phone_e164: "+919777766666",
-          roles: ["CUSTOMER"],
-          tenant_id: null,
-          tenant_name: null,
-          is_platform_user: false,
-          status: "active",
-          created_at: "2026-11-10T00:00:00Z",
-        },
-      ];
+      return [];
     },
   });
 
@@ -144,48 +99,7 @@ export const PlatformUsersPage: React.FC = () => {
       } catch {
         // Fallback
       }
-      return [
-        {
-          id: "tenant-bagodi-01",
-          name: "Bagodi Flagship Store",
-          code: "BAGODI-01",
-          status: "active",
-          contactEmail: "manager@bagodi.in",
-          contactPhone: "+919888877777",
-          type: "Flagship Retail Boutique",
-          address: "Bidar Mall, Fort Road, Bidar - 585401",
-        },
-        {
-          id: "tenant-kalyana-02",
-          name: "Kalyana Royal Silks 21587",
-          code: "KALYANA-21587",
-          status: "pending",
-          contactEmail: "boutique.21587@kalyanasilks.in",
-          contactPhone: "+919448121587",
-          type: "LLP Weaver Atelier",
-          address: "Fort Road, Near Gumpa Circle, Bidar - 585403",
-        },
-        {
-          id: "tenant-kalyana-03",
-          name: "Kalyana Royal Silks 21567",
-          code: "KALYANA-21567",
-          status: "pending",
-          contactEmail: "boutique.21567@kalyanasilks.in",
-          contactPhone: "+919448121567",
-          type: "LLP Weaver Atelier",
-          address: "Fort Road, Near Gumpa Circle, Bidar - 585403",
-        },
-        {
-          id: "tenant-test-04",
-          name: "Test Boutique Pvt Ltd",
-          code: "TEST-04",
-          status: "pending",
-          contactEmail: "testboutique@bagodi.in",
-          contactPhone: "+919880768222",
-          type: "Private Limited",
-          address: "Bidar Market, Bidar, Karnataka - 585401",
-        },
-      ];
+      return [];
     },
   });
 

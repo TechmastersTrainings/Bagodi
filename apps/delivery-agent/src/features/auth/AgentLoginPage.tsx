@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "@bagodi/authentication";
+import { defaultApiClient } from "@bagodi/api-client";
 import { Truck, ShieldCheck, Lock, Phone, ArrowRight, AlertCircle } from "lucide-react";
 
 export interface AgentLoginPageProps {
@@ -8,8 +9,8 @@ export interface AgentLoginPageProps {
 
 export const AgentLoginPage: React.FC<AgentLoginPageProps> = ({ onLoginSuccess }) => {
   const { login } = useAuth();
-  const [identifier, setIdentifier] = useState("delivery1@bagodi.in");
-  const [password, setPassword] = useState("Fri10Feb@2023");
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -19,31 +20,18 @@ export const AgentLoginPage: React.FC<AgentLoginPageProps> = ({ onLoginSuccess }
     setIsLoading(true);
 
     try {
-      await login({
-        email: identifier.includes("@") ? identifier : undefined,
-        phone: !identifier.includes("@") ? identifier : undefined,
-        password,
-      });
+      const response = await defaultApiClient.post<{ tokens: any; user: any }>(
+        "/auth/login",
+        {
+          email: identifier.includes("@") ? identifier : undefined,
+          phone: !identifier.includes("@") ? identifier : undefined,
+          password,
+        },
+        { skipAuth: true }
+      );
+      login(response.tokens, response.user);
       if (onLoginSuccess) onLoginSuccess();
     } catch (err: any) {
-      // In offline / preview demo mode, provide direct agent login
-      if (identifier === "delivery1@bagodi.in" || identifier === "+919845011221" || identifier === "DEL-BID-001") {
-        localStorage.setItem("bagodi_access_token", "demo_rider_token_01");
-        localStorage.setItem(
-          "bagodi_auth_user",
-          JSON.stringify({
-            id: "del-user-01",
-            fullName: "Vikram Jadhav",
-            phone: "+919845011221",
-            email: "delivery1@bagodi.in",
-            role: "DELIVERY_AGENT",
-            employeeCode: "DEL-BID-001",
-            vehicleReg: "KA-38-EA-1024",
-          })
-        );
-        window.location.reload();
-        return;
-      }
       setErrorMsg(err?.message || "Invalid delivery agent credentials. Verify phone/ID and password.");
     } finally {
       setIsLoading(false);
