@@ -1,0 +1,463 @@
+/* =====================================================================
+   BAGODI EDITORIAL LUXURY - POLICY PAGES STYLING (2026 COMPLIANCE)
+   ===================================================================== */
+
+.pageRoot {
+  width: 100%;
+  background-color: #FBF9F6;
+  color: #26231F;
+  min-height: calc(100vh - 120px);
+  padding: 2rem 1.5rem 4rem 1.5rem;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* Breadcrumb */
+.breadcrumbNav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #7A756D;
+  margin-bottom: 1.5rem;
+}
+
+.breadcrumbLink {
+  color: #7A756D;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.breadcrumbLink:hover {
+  color: #A51F27;
+}
+
+.breadcrumbCurrent {
+  color: #26231F;
+  font-weight: 600;
+}
+
+/* Header Banner */
+.policyHeader {
+  background: #FFFFFF;
+  border: 1px solid #E5DED3;
+  border-radius: 16px;
+  padding: 2.5rem 2.25rem 2rem 2.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(38, 35, 31, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.policyHeader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #B69A75 0%, #A51F27 50%, #B69A75 100%);
+}
+
+.complianceBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(165, 31, 39, 0.08);
+  border: 1px solid rgba(165, 31, 39, 0.2);
+  color: #A51F27;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  color: #26231F;
+  margin: 0 0 0.65rem 0;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.leadSubtitle {
+  font-size: 0.95rem;
+  color: #5C554E;
+  line-height: 1.6;
+  max-width: 820px;
+  margin: 0 0 1.25rem 0;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #F0EAE1;
+  font-size: 0.8125rem;
+  color: #8C847A;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Tab Switcher */
+.tabsTrack {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.35rem;
+}
+
+.tabsTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  background: #FFFFFF;
+  border: 1px solid #E5DED3;
+  color: #5C554E;
+  font-size: 0.84rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tabBtn:hover {
+  border-color: #B69A75;
+  color: #26231F;
+  background: #F6F1E9;
+}
+
+.tabBtnActive {
+  background: #A51F27 !important;
+  border-color: #A51F27 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(165, 31, 39, 0.25);
+}
+
+/* Two-column layout: Sidebar TOC + Main Content */
+.layoutGrid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2.25rem;
+  align-items: start;
+}
+
+/* Sticky TOC Sidebar */
+.tocSidebar {
+  position: sticky;
+  top: 90px;
+  background: #FFFFFF;
+  border: 1px solid #E5DED3;
+  border-radius: 14px;
+  padding: 1.25rem 1.25rem;
+  box-shadow: 0 2px 10px rgba(38, 35, 31, 0.03);
+}
+
+.tocTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #8C847A;
+  margin: 0 0 0.85rem 0;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid #F0EAE1;
+}
+
+.tocList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.tocLink {
+  display: block;
+  font-size: 0.8125rem;
+  color: #5C554E;
+  text-decoration: none;
+  padding: 0.4rem 0.65rem;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  line-height: 1.35;
+}
+
+.tocLink:hover {
+  background: #F6F1E9;
+  color: #A51F27;
+  padding-left: 0.85rem;
+}
+
+/* Main Content Article */
+.mainArticle {
+  background: #FFFFFF;
+  border: 1px solid #E5DED3;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(38, 35, 31, 0.04);
+}
+
+.sectionBlock {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: 100px;
+}
+
+.sectionBlock:last-child {
+  margin-bottom: 0;
+}
+
+.sectionHeading {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #26231F;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #F0EAE1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sectionIcon {
+  color: #A51F27;
+  flex-shrink: 0;
+}
+
+.paragraph {
+  font-size: 0.88rem;
+  color: #4A453F;
+  line-height: 1.7;
+  margin: 0 0 1rem 0;
+}
+
+.bulletList {
+  padding-left: 1.35rem;
+  margin: 0 0 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.bulletItem {
+  font-size: 0.875rem;
+  color: #4A453F;
+  line-height: 1.6;
+}
+
+.bulletItem strong {
+  color: #26231F;
+}
+
+/* Callout Box (Statutory Alert / Highlight) */
+.calloutBox {
+  background: #FBF9F6;
+  border: 1px solid #E5DED3;
+  border-left: 4px solid #A51F27;
+  border-radius: 0 10px 10px 0;
+  padding: 1.15rem 1.25rem;
+  margin: 1.25rem 0;
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+}
+
+.calloutIcon {
+  color: #A51F27;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.calloutContent {
+  flex: 1;
+}
+
+.calloutTitle {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #26231F;
+  margin: 0 0 0.25rem 0;
+}
+
+.calloutText {
+  font-size: 0.8125rem;
+  color: #5C554E;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Key Rights Table / Matrix */
+.tableWrapper {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  border: 1px solid #E5DED3;
+  border-radius: 10px;
+}
+
+.policyTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  text-align: left;
+}
+
+.policyTable th {
+  background: #F6F1E9;
+  color: #26231F;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #E5DED3;
+}
+
+.policyTable td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #F0EAE1;
+  color: #4A453F;
+}
+
+.policyTable tr:last-child td {
+  border-bottom: none;
+}
+
+/* Grievance Redressal Statutory Card */
+.grievanceCard {
+  background: linear-gradient(135deg, #FBF9F6 0%, #F6F1E9 100%);
+  border: 1px solid #D8D0C3;
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(38, 35, 31, 0.03);
+}
+
+.grievanceHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.grievanceBadge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: #A51F27;
+  color: #FFFFFF;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+}
+
+.grievanceTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #26231F;
+  margin: 0;
+}
+
+.grievanceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.grievanceItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.8125rem;
+  color: #5C554E;
+}
+
+.grievanceItem strong {
+  color: #26231F;
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+
+.grievanceIcon {
+  color: #A51F27;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 960px) {
+  .layoutGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .tocSidebar {
+    display: none; /* Hide sticky sidebar on mobile/tablet to avoid clutter; horizontal tabs provide navigation */
+  }
+
+  .policyHeader {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .mainArticle {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .grievanceGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .pageRoot {
+    padding: 1rem 0.85rem 3rem 0.85rem;
+  }
+
+  .policyHeader {
+    padding: 1.35rem 1.15rem;
+    border-radius: 12px;
+  }
+
+  .mainArticle {
+    padding: 1.35rem 1.15rem;
+    border-radius: 12px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .sectionHeading {
+    font-size: 1.18rem;
+  }
+
+  .grievanceCard {
+    padding: 1.15rem;
+  }
+}
