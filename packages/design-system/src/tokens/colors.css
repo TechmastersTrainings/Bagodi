@@ -1,71 +1,91 @@
 :root {
-  /* Official Primary Palette */
-  --color-obsidian: #202321;
+  /* =====================================================================
+     BAGODI EDITORIAL LUXURY COLOR SYSTEM
+     ===================================================================== */
+  /* Signature Brand Identity */
+  --bagodi-red: #A51F27;
+  --bagodi-red-dark: #8E161D;
+  --bagodi-red-subtle: rgba(165, 31, 39, 0.08);
+  --bagodi-red-glow: rgba(165, 31, 39, 0.28);
+  --bagodi-ivory: #F6F1E9;
+  --bagodi-ivory-light: #FBF9F6;
+  --bagodi-charcoal: #26231F;
+  --bagodi-gold: #B69A75;
+  --bagodi-gold-light: #DFD3C3;
+  --bagodi-gold-subtle: rgba(182, 154, 117, 0.15);
+  --bagodi-sand: #E5DED3;
+  --bagodi-sand-border: #E5DED3;
+
+  /* Official Primary Palette Aliases */
+  --color-obsidian: #26231F;
   --color-heritage-olive: #34392D;
-  --color-champagne-gold: #C5A15B;
-  --color-warm-ivory: #F7F1E7;
+  --color-champagne-gold: #B69A75;
+  --color-warm-ivory: #F6F1E9;
   --color-royal-burgundy: #641F32;
-  --color-heritage-red: #B5262E;
+  --color-heritage-red: #A51F27;
   --color-pure-white: #FFFFFF;
-  --color-soft-black: #171918;
+  --color-soft-black: #1A1816;
 
   /* Official Supporting Palette */
-  --color-light-champagne: #E5D3A8;
-  --color-warm-beige: #EAE0D0;
-  --color-muted-grey: #85847D;
-  --color-border-standard: #E5DED2;
+  --color-light-champagne: #DFD3C3;
+  --color-warm-beige: #F6F1E9;
+  --color-muted-grey: #7A756D;
+  --color-border-standard: #E5DED3;
 
   /* Semantic Status Tokens */
-  --status-success: #3C7757;
-  --status-success-bg: rgba(60, 119, 87, 0.12);
-  --status-success-border: rgba(60, 119, 87, 0.28);
+  --status-success: #2E6F4A;
+  --status-success-bg: rgba(46, 111, 74, 0.12);
+  --status-success-border: rgba(46, 111, 74, 0.28);
 
   --status-warning: #B68A39;
   --status-warning-bg: rgba(182, 138, 57, 0.12);
   --status-warning-border: rgba(182, 138, 57, 0.28);
 
-  --status-danger: #B33A3A;
-  --status-danger-bg: rgba(179, 58, 58, 0.12);
-  --status-danger-border: rgba(179, 58, 58, 0.28);
+  --status-danger: #A51F27;
+  --status-danger-bg: rgba(165, 31, 39, 0.1);
+  --status-danger-border: rgba(165, 31, 39, 0.25);
 
-  --status-info: #34392D;
-  --status-info-bg: rgba(52, 57, 45, 0.08);
-  --status-info-border: rgba(52, 57, 45, 0.2);
+  --status-info: #26231F;
+  --status-info-bg: rgba(38, 35, 31, 0.08);
+  --status-info-border: rgba(38, 35, 31, 0.2);
 
-  /* Customer Storefront Theme — Modern Luminous White with Obsidian, Crimson & Gold */
+  /* Customer Storefront Theme — Editorial Warm Ivory with Charcoal, Gold & Signature Red */
   --bg-primary: #FFFFFF;
   --bg-surface: #FFFFFF;
-  --bg-secondary: #F8F7F5;
-  --bg-tertiary: #F2EFEA;
+  --bg-secondary: #F6F1E9;
+  --bg-tertiary: #EFE9DE;
   --bg-elevated: #FFFFFF;
-  --bg-surface-glass: rgba(255, 255, 255, 0.92);
-  --bg-overlay: rgba(10, 10, 12, 0.65);
-  --bg-obsidian: #0A0A0C;
-  --bg-olive: #242921;
+  --bg-surface-glass: rgba(255, 255, 255, 0.94);
+  --bg-overlay: rgba(38, 35, 31, 0.65);
+  --bg-obsidian: #26231F;
+  --bg-olive: #34392D;
 
   /* Typography Colors */
-  --text-primary: #0A0A0A;
-  --text-secondary: #4A4A4A;
-  --text-tertiary: #777777;
+  --text-primary: #26231F;
+  --text-secondary: #5C554E;
+  --text-tertiary: #8C847A;
   --text-inverse: #FFFFFF;
-  --text-gold: #C5A15B;
+  --text-gold: #B69A75;
   --text-burgundy: #641F32;
-  --text-red: #E31B23;
+  --text-red: #A51F27;
 
   /* Borders & Highlights */
-  --border-subtle: #F0EDE6;
-  --border-default: #E5E1D8;
-  --border-prominent: #E31B23;
-  --border-dark: rgba(255, 255, 255, 0.15);
+  --border-subtle: #F0EAE1;
+  --border-default: #E5DED3;
+  --border-prominent: #A51F27;
+  --border-dark: rgba(255, 255, 255, 0.18);
 
   /* Accents */
-  --accent-primary: #E31B23;
-  --accent-primary-hover: #C8141B;
-  --accent-primary-glow: rgba(227, 27, 35, 0.35);
-  --accent-subtle: rgba(227, 27, 35, 0.08);
-  --accent-contrast: #0A0A0A;
+  --accent-primary: #A51F27;
+  --accent-primary-hover: #8E161D;
+  --accent-primary-glow: rgba(165, 31, 39, 0.35);
+  --accent-subtle: rgba(165, 31, 39, 0.08);
+  --accent-contrast: #26231F;
   --accent-burgundy: #641F32;
-  --accent-red: #E31B23;
+  --accent-red: #A51F27;
+  --brand-crimson: #A51F27;
+  --brand-crimson-hover: #8E161D;
+  --brand-crimson-subtle: rgba(165, 31, 39, 0.08);
 
   /* Layout Containers */
   --container-2xl: 1400px;

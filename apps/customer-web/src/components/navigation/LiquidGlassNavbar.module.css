@@ -284,13 +284,16 @@
 
 /* Active Link State */
 .navLinkActive {
-  color: var(--color-royal-burgundy, #6A1A24);
+  color: var(--bagodi-red, #A51F27);
   font-weight: 700;
+  border-bottom: 2px solid var(--bagodi-red, #A51F27);
+  border-radius: 4px;
 }
 
 /* Featured / Festive Accent Link */
 .navLinkFeatured {
-  color: #B42318;
+  color: var(--bagodi-red, #A51F27);
+  font-weight: 700;
 }
 
 /* Liquid Capillary Wetting Hover Meniscus per Button */

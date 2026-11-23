@@ -277,7 +277,7 @@ export const CustomerReturnsPage: React.FC = () => {
                                         name="selectedGarmentItem"
                                         checked={isPicked}
                                         onChange={() => setSelectedItem(item)}
-                                        style={{ accentColor: "#6A1A24", width: 16, height: 16 }}
+                                        style={{ accentColor: "#A51F27", width: 16, height: 16 }}
                                       />
                                     </div>
                                   </div>
@@ -307,7 +307,7 @@ export const CustomerReturnsPage: React.FC = () => {
                       className={`${styles.radioOptionCard} ${requestType === "RETURN" ? styles.radioOptionCardSelected : ""}`}
                       onClick={() => setRequestType("RETURN")}
                     >
-                      <RotateCcw size={20} color="#6A1A24" />
+                      <RotateCcw size={20} color="#A51F27" />
                       <div className={styles.radioOptionText}>
                         <span className={styles.radioOptionTitle}>Return for Refund</span>
                         <span className={styles.radioOptionDesc}>Pickup scheduled from address; refund issued to original payment / bank.</span>
@@ -318,7 +318,7 @@ export const CustomerReturnsPage: React.FC = () => {
                       className={`${styles.radioOptionCard} ${requestType === "EXCHANGE" ? styles.radioOptionCardSelected : ""}`}
                       onClick={() => setRequestType("EXCHANGE")}
                     >
-                      <RefreshCw size={20} color="#6A1A24" />
+                      <RefreshCw size={20} color="#A51F27" />
                       <div className={styles.radioOptionText}>
                         <span className={styles.radioOptionTitle}>Replace / Size Exchange</span>
                         <span className={styles.radioOptionDesc}>Exchange item for a different size or replacement unit.</span>

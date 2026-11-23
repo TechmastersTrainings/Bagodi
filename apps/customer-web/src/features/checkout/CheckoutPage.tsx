@@ -726,7 +726,7 @@ export const CheckoutPage: React.FC = () => {
                 <span>Insured Bidar Flagship Dispatch</span>
               </div>
               <div className={styles.trustItem}>
-                <RotateCcw size={13} color="#E31B23" />
+                <RotateCcw size={13} color="#A51F27" />
                 <span>7-Day Easy Exchange Policy</span>
               </div>
             </div>

@@ -74,7 +74,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           onWishlistToggle?.(product.id);
         }}
       >
-        <Heart size={16} fill={isWishlisted ? "#E31B23" : "none"} />
+        <Heart size={16} fill={isWishlisted ? "#A51F27" : "none"} />
       </button>
 
       {/* Product Image Canvas */}

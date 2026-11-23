@@ -97,20 +97,20 @@
 }
 
 .hallmarkBadgeRed {
-  background: rgba(227, 27, 35, 0.92);
+  background: rgba(165, 31, 39, 0.92);
   color: #FFFFFF;
   border-color: rgba(255, 255, 255, 0.35);
 }
 
 .discountBadge {
-  background: #E31B23;
+  background: #A51F27;
   color: #FFFFFF;
   font-size: 9px;
   font-weight: 800;
   padding: 2.5px 6px;
   border-radius: 9999px;
   align-self: flex-start;
-  box-shadow: 0 2px 4px rgba(227, 27, 35, 0.25);
+  box-shadow: 0 2px 4px rgba(165, 31, 39, 0.25);
 }
 
 .wishlistButton {
@@ -136,12 +136,12 @@
 .wishlistButton:hover {
   transform: scale(1.1);
   background-color: #FFFFFF !important;
-  color: #E31B23;
-  box-shadow: 0 4px 10px rgba(227, 27, 35, 0.2);
+  color: #A51F27;
+  box-shadow: 0 4px 10px rgba(165, 31, 39, 0.2);
 }
 
 .wishlistActive {
-  color: #E31B23;
+  color: #A51F27;
 }
 
 /* Size Chips Preview Overlay */
@@ -222,7 +222,7 @@
 }
 
 .cardRoot:hover .productTitle {
-  color: #E31B23;
+  color: #A51F27;
 }
 
 .priceRow {
@@ -248,7 +248,7 @@
 .savingsTag {
   font-size: 9.5px;
   font-weight: 700;
-  color: #E31B23;
+  color: #A51F27;
   margin-left: auto;
 }
 

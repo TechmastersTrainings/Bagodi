@@ -520,7 +520,7 @@ export const CustomerProfilePage: React.FC = () => {
                     id="isDefaultCheckbox"
                     checked={addressFormData.isDefault}
                     onChange={(e) => setAddressFormData({ ...addressFormData, isDefault: e.target.checked })}
-                    style={{ width: 16, height: 16, accentColor: "#6A1A24" }}
+                    style={{ width: 16, height: 16, accentColor: "#A51F27" }}
                   />
                   <label htmlFor="isDefaultCheckbox" style={{ fontSize: 13, color: "#374151", cursor: "pointer" }}>
                     Set as default delivery address

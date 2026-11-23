@@ -61,7 +61,7 @@
 
 .subTabBtnActive {
   background: #FFFFFF;
-  color: #6A1A24;
+  color: #A51F27;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
@@ -91,7 +91,7 @@
 }
 
 .cardIcon {
-  color: #6A1A24;
+  color: #A51F27;
 }
 
 .cardTitle {
@@ -118,7 +118,7 @@
 }
 
 .orderCardSelected {
-  border-color: #6A1A24;
+  border-color: #A51F27;
   background: #FDFBF9;
   box-shadow: 0 0 0 2px rgba(106, 26, 36, 0.1);
 }
@@ -166,7 +166,7 @@
 }
 
 .itemCardPicked {
-  border-color: #6A1A24;
+  border-color: #A51F27;
   background: #FEF2F2;
 }
 
@@ -225,7 +225,7 @@
 }
 
 .radioOptionCardSelected {
-  border-color: #6A1A24;
+  border-color: #A51F27;
   background: #FEF2F2;
 }
 
@@ -277,7 +277,7 @@
 .selectControl:focus,
 .inputControl:focus,
 .textareaControl:focus {
-  border-color: #6A1A24;
+  border-color: #A51F27;
   box-shadow: 0 0 0 3px rgba(106, 26, 36, 0.1);
 }
 

@@ -32,7 +32,7 @@
 }
 
 .filterIcon {
-  color: #E31B23;
+  color: #A51F27;
 }
 
 .filterTitle {
@@ -48,7 +48,7 @@
   font-family: var(--font-sans);
   font-size: 11.5px;
   font-weight: 700;
-  color: #E31B23;
+  color: #A51F27;
   background: none;
   border: none;
   cursor: pointer;
@@ -113,9 +113,9 @@
 
 .categoryItemActive {
   background: rgba(227, 27, 35, 0.06);
-  color: #E31B23;
+  color: #A51F27;
   font-weight: 700;
-  border-left: 3px solid #E31B23;
+  border-left: 3px solid #A51F27;
 }
 
 .categoryCountBadge {
@@ -128,7 +128,7 @@
 
 .categoryItemActive .categoryCountBadge {
   background: rgba(227, 27, 35, 0.14);
-  color: #E31B23;
+  color: #A51F27;
 }
 
 /* Brand Pills */
@@ -156,7 +156,7 @@
 
 .brandCheckItemActive {
   background: rgba(227, 27, 35, 0.06);
-  color: #E31B23;
+  color: #A51F27;
   font-weight: 700;
 }
 
@@ -183,8 +183,8 @@
 }
 
 .priceBracketPill:hover {
-  border-color: #E31B23 !important;
-  color: #E31B23 !important;
+  border-color: #A51F27 !important;
+  color: #A51F27 !important;
   background-color: #FFFFFF !important;
 }
 
@@ -220,7 +220,7 @@ button.priceBracketPillActive {
 }
 
 .priceInputBox:focus {
-  border-color: #E31B23;
+  border-color: #A51F27;
   box-shadow: 0 0 0 2px rgba(227, 27, 35, 0.1);
 }
 
@@ -261,8 +261,8 @@ button.priceBracketPillActive {
 }
 
 .sizeChipBtn:hover {
-  border-color: #E31B23 !important;
-  color: #E31B23 !important;
+  border-color: #A51F27 !important;
+  color: #A51F27 !important;
 }
 
 .sizeChipBtnActive,
@@ -310,8 +310,8 @@ button.iosToggle:hover,
 
 button.iosToggleChecked,
 .iosToggleChecked {
-  background-color: #E31B23 !important;
-  border-color: #E31B23 !important;
+  background-color: #A51F27 !important;
+  border-color: #A51F27 !important;
 }
 
 button.iosToggleChecked:hover,

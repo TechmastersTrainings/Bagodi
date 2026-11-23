@@ -304,8 +304,8 @@ export const ProductDetailPage: React.FC = () => {
             >
               <Heart
                 size={20}
-                fill={isWishlisted ? "#E31B23" : "none"}
-                color={isWishlisted ? "#E31B23" : "#111111"}
+                fill={isWishlisted ? "#A51F27" : "none"}
+                color={isWishlisted ? "#A51F27" : "#111111"}
               />
             </button>
           </div>

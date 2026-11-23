@@ -93,7 +93,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                 onClick={() => onBrandSelect(isBrandActive ? undefined : brand.id)}
               >
                 <span>{brand.name}</span>
-                {isBrandActive && <Check size={14} color="#E31B23" />}
+                {isBrandActive && <Check size={14} color="#A51F27" />}
               </div>
             );
           })}

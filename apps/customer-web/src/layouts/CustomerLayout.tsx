@@ -1,7 +1,26 @@
 import React, { ReactNode, useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./CustomerLayout.module.css";
-import { ShoppingBag, Heart, User, Search, MapPin, Home, Grid, Menu, X, LogOut, RotateCcw, Package } from "lucide-react";
+import {
+  ShoppingBag,
+  Heart,
+  User,
+  Search,
+  Menu,
+  X,
+  LogOut,
+  RotateCcw,
+  Package,
+  Truck,
+  ShieldCheck,
+  Headphones,
+  Instagram,
+  Facebook,
+  Youtube,
+  Twitter,
+  Home,
+  Grid,
+} from "lucide-react";
 import { useAuth } from "@bagodi/authentication";
 import { NetworkStatusBar } from "@bagodi/shared-components";
 import {
@@ -28,10 +47,8 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
   const { user, logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [isMobileAccountDrawerOpen, setIsMobileAccountDrawerOpen] = useState(false);
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const accountMenuRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on click outside
@@ -53,6 +70,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
   useEffect(() => {
     setIsAccountMenuOpen(false);
     setIsMobileAccountDrawerOpen(false);
+    setIsMenuOpen(false);
   }, [location.pathname]);
 
   const handleLogout = async () => {
@@ -90,10 +108,39 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
 
   return (
     <div className={styles.layoutRoot}>
-      {/* Main Luxury Header (Snitch-Style Clean Architecture) */}
+      {/* ================================================================
+          1. TOP ANNOUNCEMENT STRIP (Signature Bagodi Red #A51F27)
+          ================================================================ */}
+      <div className={styles.announcementStrip}>
+        <div className={styles.announcementInner}>
+          <div className={styles.announcementItem}>
+            <Truck size={13} className={styles.announcementIcon} />
+            <span>Free Shipping on Orders Above ₹999</span>
+          </div>
+          <span className={styles.announcementDivider}>|</span>
+          <div className={styles.announcementItem}>
+            <RotateCcw size={13} className={styles.announcementIcon} />
+            <span>Easy Returns & Replacements</span>
+          </div>
+          <span className={styles.announcementDivider}>|</span>
+          <div className={styles.announcementItem}>
+            <ShieldCheck size={13} className={styles.announcementIcon} />
+            <span>Secure Payments (UPI / COD)</span>
+          </div>
+          <span className={styles.announcementDivider}>|</span>
+          <div className={styles.announcementItem}>
+            <Headphones size={13} className={styles.announcementIcon} />
+            <span>24×7 Customer Support</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ================================================================
+          2. SIGNATURE BAGODI MAIN HEADER
+          ================================================================ */}
       <header className={styles.header}>
         <div className={styles.headerMainRow}>
-          {/* Left: Minimalist Hamburger Menu */}
+          {/* Left: Hamburger Menu & Rounded Search Input */}
           <div className={styles.headerLeft}>
             <button
               type="button"
@@ -102,58 +149,42 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
               aria-label="Open Navigation Menu"
               title="Menu"
             >
-              <Menu size={22} strokeWidth={1.8} />
+              <Menu size={20} strokeWidth={1.9} />
             </button>
+
+            <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+              <Search size={15} className={styles.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search for products, brands and more..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={styles.searchInput}
+              />
+            </form>
           </div>
 
-          {/* Center: Animated Red Brand Wordmark */}
+          {/* Center: Bagodi Wordmark & Subtitle */}
           <div className={styles.headerCenter}>
             <Link to="/" className={styles.logoContainer} aria-label="Bagodi Shopping Mall Home">
-              <div className={styles.brandTextCol}>
-                <span className={styles.brandWordmarkAnimated}>BAGODI</span>
-                <span className={styles.brandSubtitleRed}>SHOPPING MALL • BIDAR</span>
-              </div>
+              <span className={styles.brandWordmark}>BAGODI</span>
+              <span className={styles.brandSubtitle}>SHOPPING MALL • BIDAR</span>
             </Link>
           </div>
 
-          {/* Right: Minimalist Action Icons (Search, Bag, Wishlist, Account) */}
+          {/* Right: Account, Wishlist, Shopping Bag */}
           <div className={styles.headerRight}>
-            <button
-              type="button"
-              className={styles.headerActionLink}
-              onClick={() => {
-                setIsSearchOpen((prev) => !prev);
-                if (!isSearchOpen) {
-                  setTimeout(() => searchInputRef.current?.focus(), 80);
-                }
-              }}
-              aria-label="Search Products"
-              title="Search"
-            >
-              <Search size={21} strokeWidth={1.75} />
-            </button>
-
-            <Link to="/cart" className={styles.headerActionLink} aria-label="Shopping Bag" title="Shopping Bag">
-              <ShoppingBag size={21} strokeWidth={1.75} />
-              {cartCount > 0 && <span className={styles.actionBadge}>{cartCount}</span>}
-            </Link>
-
-            <Link to="/account/wishlist" className={styles.headerActionLink} aria-label="Wishlist" title="Wishlist">
-              <Heart size={21} strokeWidth={1.75} />
-              {wishlistCount > 0 && <span className={styles.actionBadge}>{wishlistCount}</span>}
-            </Link>
-
             {user ? (
               <div className={styles.accountMenuWrapper} ref={accountMenuRef}>
                 <button
                   type="button"
-                  className={`${styles.accountTriggerBtn} ${isAccountMenuOpen ? styles.accountTriggerBtnActive : ""}`}
+                  className={`${styles.headerActionBtn} ${isAccountMenuOpen ? styles.headerActionBtnActive : ""}`}
                   onClick={() => setIsAccountMenuOpen((prev) => !prev)}
                   aria-label="Customer Account Menu"
                   title="My Account"
                   aria-expanded={isAccountMenuOpen}
                 >
-                  <User size={21} strokeWidth={1.75} />
+                  <User size={20} strokeWidth={1.8} />
                 </button>
 
                 {isAccountMenuOpen && (
@@ -175,7 +206,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
                         role="menuitem"
                         onClick={() => setIsAccountMenuOpen(false)}
                       >
-                        <User size={16} />
+                        <User size={15} />
                         <span>My Account</span>
                       </Link>
 
@@ -185,7 +216,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
                         role="menuitem"
                         onClick={() => setIsAccountMenuOpen(false)}
                       >
-                        <Package size={16} />
+                        <Package size={15} />
                         <span>My Orders</span>
                       </Link>
 
@@ -195,7 +226,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
                         role="menuitem"
                         onClick={() => setIsAccountMenuOpen(false)}
                       >
-                        <RotateCcw size={16} />
+                        <RotateCcw size={15} />
                         <span>Return & Replace</span>
                       </Link>
 
@@ -205,7 +236,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
                         role="menuitem"
                         onClick={handleLogout}
                       >
-                        <LogOut size={16} />
+                        <LogOut size={15} />
                         <span>Logout</span>
                       </button>
                     </div>
@@ -215,43 +246,38 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
             ) : (
               <Link
                 to="/login"
-                className={styles.headerActionLink}
+                className={styles.headerActionBtn}
                 aria-label="Customer Account"
                 title="Sign In"
               >
-                <User size={21} strokeWidth={1.75} />
+                <User size={20} strokeWidth={1.8} />
               </Link>
             )}
+
+            <Link
+              to="/account/wishlist"
+              className={styles.headerActionBtn}
+              aria-label="Wishlist"
+              title="Wishlist"
+            >
+              <Heart size={20} strokeWidth={1.8} />
+              {wishlistCount > 0 && <span className={styles.badge}>{wishlistCount}</span>}
+            </Link>
+
+            <Link
+              to="/cart"
+              className={styles.headerActionBtn}
+              aria-label="Shopping Bag"
+              title="Shopping Bag"
+            >
+              <ShoppingBag size={20} strokeWidth={1.8} />
+              {cartCount > 0 && <span className={styles.badge}>{cartCount}</span>}
+            </Link>
           </div>
         </div>
 
-        {/* Expandable Luxury Search Bar */}
-        {isSearchOpen && (
-          <div className={styles.searchBarDropdown}>
-            <form onSubmit={handleSearchSubmit} className={styles.searchDropdownForm}>
-              <Search size={18} className={styles.searchDropdownIcon} />
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder="Search pure silk sarees, Raymond suiting, bridal lehengas, festive ethnic wear..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={styles.searchDropdownInput}
-              />
-              <button
-                type="button"
-                className={styles.searchCloseBtn}
-                onClick={() => setIsSearchOpen(false)}
-                aria-label="Close Search"
-              >
-                <X size={18} />
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* 3. Liquid Glass Category Navigation Bar with Water Drop */}
-        <div className={styles.navBar}>
+        {/* Category Navigation Pills */}
+        <div className={styles.navBarWrapper}>
           <LiquidGlassNavbar onItemSelect={() => triggerHaptic("selection")} />
         </div>
       </header>
@@ -262,7 +288,8 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           <div className={styles.drawerContent} onClick={(e) => e.stopPropagation()}>
             <div className={styles.drawerHeader}>
               <div className={styles.drawerLogoWrap}>
-                <img src="/bagodi-logo.jpg" alt="Bagodi Shopping Mall" className={styles.drawerLogoImg} />
+                <span className={styles.brandWordmark}>BAGODI</span>
+                <span className={styles.brandSubtitle}>SHOPPING MALL • BIDAR</span>
               </div>
               <button
                 type="button"
@@ -270,7 +297,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
                 onClick={() => setIsMenuOpen(false)}
                 aria-label="Close Menu"
               >
-                <X size={22} />
+                <X size={20} />
               </button>
             </div>
 
@@ -278,33 +305,28 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
               <div className={styles.drawerSectionTitle}>Store Departments</div>
               <ul className={styles.drawerLinksList}>
                 <li>
+                  <Link to="/catalogue?category=mens-wear" onClick={() => setIsMenuOpen(false)}>
+                    Men's Wear & Raymond Suiting
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/catalogue?category=womens-wear" onClick={() => setIsMenuOpen(false)}>
+                    Women's Wear & Designer Pret
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/catalogue?category=kids-wear" onClick={() => setIsMenuOpen(false)}>
+                    Kid's Wear & Festive Sets
+                  </Link>
+                </li>
+                <li>
                   <Link to="/catalogue?category=sarees" onClick={() => setIsMenuOpen(false)}>
                     Pure Silk Sarees & Kanjivaram
                   </Link>
                 </li>
                 <li>
-                  <Link to="/catalogue?category=women-ethnic" onClick={() => setIsMenuOpen(false)}>
-                    Women's Ethnic & Designer Lehengas
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/catalogue?category=men-suiting" onClick={() => setIsMenuOpen(false)}>
-                    Men's Fashion & Raymond Suiting
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/catalogue?category=wedding" onClick={() => setIsMenuOpen(false)}>
-                    Wedding & Bridal Heritage
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/catalogue?category=fabrics" onClick={() => setIsMenuOpen(false)}>
-                    Unstitched Luxury Fabrics
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/catalogue?category=kids" onClick={() => setIsMenuOpen(false)}>
-                    Kids' Traditional & Festive Wear
+                  <Link to="/catalogue?category=blazers" onClick={() => setIsMenuOpen(false)}>
+                    Blazers & Bandhgalas
                   </Link>
                 </li>
                 <li>
@@ -320,7 +342,8 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
               <div className={styles.drawerStoreCard}>
                 <div className={styles.drawerStoreTitle}>Bagodi Shopping Mall</div>
                 <div className={styles.drawerStoreText}>
-                  Near Shivaji Chowk, Main Commercial Road,<br />
+                  Meenakshi Tower, Udgir Road,<br />
+                  Opp. Reliance Petrol Pump, Near Raymond Shop,<br />
                   Bidar, Karnataka - 585401
                 </div>
                 <div className={styles.drawerStoreHours}>
@@ -332,89 +355,150 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
         </div>
       )}
 
-      {/* 4. Main Page Body */}
+      {/* ================================================================
+          3. MAIN CONTENT
+          ================================================================ */}
       <main className={styles.mainContent}>{children}</main>
 
-      {/* 5. Luxury Multi-Brand Footer */}
+      {/* ================================================================
+          4. EDITORIAL LUXURY FOOTER
+          ================================================================ */}
       <footer className={styles.footer}>
-        <div className={styles.footerGrid}>
-          {/* Brand & Store Presentation */}
-          <div className={styles.footerBrandColumn}>
-            <div className={styles.footerLogoContainer}>
-              <img
-                src="/bagodi-logo.jpg"
-                alt="Bagodi Shopping Mall"
-                className={styles.footerLogoImg}
-              />
-            </div>
-            <div className={styles.footerTagline}>Family Fashion. One Destination.</div>
-            <p className={styles.footerDescription}>
-              Bidar’s landmark multi-brand fashion mall, housing luxury apparel, Raymond bespoke suiting, handpicked bridal silks, and festive ethnic couture.
-            </p>
-            <div className={styles.footerStoreCard}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, color: "var(--color-champagne-gold)", fontSize: "var(--text-xs)", fontWeight: 600, marginBottom: 4 }}>
-                <MapPin size={14} /> Flagship Shopping Mall
+        <div className={styles.footerInner}>
+          <div className={styles.footerGrid}>
+            {/* Column 1: Brand & Socials */}
+            <div className={styles.footerBrandCol}>
+              <div className={styles.footerLogoContainer}>
+                <span className={styles.footerBrandWordmark}>BAGODI</span>
+                <span className={styles.footerBrandSubtitle}>SHOPPING MALL • BIDAR</span>
               </div>
-              <div style={{ fontSize: "11px", color: "var(--color-muted-grey)", lineHeight: 1.6 }}>
-                Near Shivaji Chowk, Main Commercial Road,<br />
-                Bidar, Karnataka - 585401
+              <p className={styles.footerDesc}>
+                A premium multi-brand shopping destination for fashion, lifestyle and more.
+              </p>
+              {/* Social Channels (Unconfigured safe anchors ready for verified links) */}
+              <div className={styles.footerSocialIcons}>
+                <a
+                  href="#instagram"
+                  className={styles.socialCircle}
+                  aria-label="Instagram (Unconfigured pending verified handle)"
+                  title="Instagram"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Instagram size={14} />
+                </a>
+                <a
+                  href="#facebook"
+                  className={styles.socialCircle}
+                  aria-label="Facebook (Unconfigured pending verified handle)"
+                  title="Facebook"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Facebook size={14} />
+                </a>
+                <a
+                  href="#youtube"
+                  className={styles.socialCircle}
+                  aria-label="YouTube (Unconfigured pending verified handle)"
+                  title="YouTube"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Youtube size={14} />
+                </a>
+                <a
+                  href="#twitter"
+                  className={styles.socialCircle}
+                  aria-label="X / Twitter (Unconfigured pending verified handle)"
+                  title="X"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Twitter size={14} />
+                </a>
+              </div>
+            </div>
+
+            {/* Column 2: Shop */}
+            <div className={styles.footerCol}>
+              <h4 className={styles.footerColTitle}>Shop</h4>
+              <ul className={styles.footerLinks}>
+                <li><Link to="/catalogue?category=mens-wear">Men's Wear</Link></li>
+                <li><Link to="/catalogue?category=womens-wear">Women's Wear</Link></li>
+                <li><Link to="/catalogue?category=kids-wear">Kid's Wear</Link></li>
+                <li><Link to="/catalogue?category=sarees">Sarees</Link></li>
+                <li><Link to="/catalogue?category=blazers">Blazers</Link></li>
+                <li><Link to="/catalogue?offers=true">Festive Collection</Link></li>
+              </ul>
+            </div>
+
+            {/* Column 3: Customer Service */}
+            <div className={styles.footerCol}>
+              <h4 className={styles.footerColTitle}>Customer Service</h4>
+              <ul className={styles.footerLinks}>
+                <li><Link to="/account/orders">My Orders</Link></li>
+                <li><Link to="/account/returns">Returns & Replacements</Link></li>
+                <li><Link to="/account/orders">Track Order</Link></li>
+                <li><Link to="/contact">FAQs</Link></li>
+                <li><Link to="/contact">Contact Us</Link></li>
+              </ul>
+            </div>
+
+            {/* Column 4: About Bagodi */}
+            <div className={styles.footerCol}>
+              <h4 className={styles.footerColTitle}>About Bagodi</h4>
+              <ul className={styles.footerLinks}>
+                <li><Link to="/#store-experience">Our Story</Link></li>
+                <li><Link to="/catalogue">Brands</Link></li>
+                <li><Link to="/#store-experience">Store Locator</Link></li>
+                <li><Link to="/contact">Careers</Link></li>
+                <li><Link to="/contact">Partner With Us</Link></li>
+              </ul>
+            </div>
+
+            {/* Column 5: Download Our App */}
+            <div className={styles.footerCol}>
+              <h4 className={styles.footerColTitle}>Download Our App</h4>
+              <div className={styles.appBadges}>
+                <div className={styles.appBadge}>
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M3.609 1.814L13.793 12 3.61 22.186a1.996 1.996 0 0 1-.22-.924V2.738c0-.342.08-.66.219-.924zM15.207 13.414l2.453-2.453-12.83-7.25 10.377 9.703zm0-2.828L4.83 20.289l12.83-7.25-2.453-2.453zm3.873 1.414l2.586-1.462a1.002 1.002 0 0 0 0-1.748L19.08 7.328l-2.166 2.166 2.166 2.166z"/>
+                  </svg>
+                  <div>
+                    <span className={styles.appBadgeSmall}>GET IT ON</span>
+                    <span className={styles.appBadgeLarge}>Google Play</span>
+                  </div>
+                </div>
+
+                <div className={styles.appBadge}>
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.65 1.35-.58.67-.99 1.74-.88 2.76 1.01.08 2.05-.51 2.61-1.26z"/>
+                  </svg>
+                  <div>
+                    <span className={styles.appBadgeSmall}>Download on the</span>
+                    <span className={styles.appBadgeLarge}>App Store</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Curated Categories */}
-          <div>
-            <h4 className={styles.footerColumnTitle}>Departments</h4>
-            <ul className={styles.footerList}>
-              <li><Link to="/catalogue?category=sarees" className={styles.footerLink}>Pure Kanjivaram & Banarasi Sarees</Link></li>
-              <li><Link to="/catalogue?category=men-suiting" className={styles.footerLink}>Raymond Suiting & Shirting</Link></li>
-              <li><Link to="/catalogue?category=wedding" className={styles.footerLink}>Bridal Lehengas & Sherwanis</Link></li>
-              <li><Link to="/catalogue?category=fabrics" className={styles.footerLink}>Unstitched Luxury Fabrics</Link></li>
-              <li><Link to="/catalogue?category=kids" className={styles.footerLink}>Kids Traditional Festive Wear</Link></li>
-            </ul>
-          </div>
-
-          {/* Premium Multi-Brand Portfolio */}
-          <div>
-            <h4 className={styles.footerColumnTitle}>Featured Brands</h4>
-            <ul className={styles.footerList}>
-              <li><Link to="/catalogue?brand=raymond" className={styles.footerLink}>Raymond</Link></li>
-              <li><Link to="/catalogue?brand=park-avenue" className={styles.footerLink}>Park Avenue</Link></li>
-              <li><Link to="/catalogue?brand=parx" className={styles.footerLink}>Parx</Link></li>
-              <li><Link to="/catalogue?brand=colorplus" className={styles.footerLink}>ColorPlus</Link></li>
-              <li><Link to="/catalogue?brand=bagodi-couture" className={styles.footerLink}>Bagodi Heritage Silks</Link></li>
-            </ul>
-            <div className={styles.brandPills}>
-              <span className={styles.brandPill}>Raymond Authorised</span>
-              <span className={styles.brandPill}>Silk Mark Certified</span>
+          {/* Sub-Footer */}
+          <div className={styles.subFooter}>
+            <div className={styles.subFooterLeft}>
+              © 2026 Bagodi. All rights reserved.
             </div>
-          </div>
-
-          {/* Store Care & Policies */}
-          <div>
-            <h4 className={styles.footerColumnTitle}>Customer Services</h4>
-            <ul className={styles.footerList}>
-              <li><Link to="/account/orders" className={styles.footerLink}>Track Store Delivery</Link></li>
-              <li><Link to="/account/returns" className={styles.footerLink}>Returns & Exchanges Policy</Link></li>
-              <li><Link to="/policies/shipping" className={styles.footerLink}>Pan-India Insured Shipping</Link></li>
-              <li><Link to="/contact" className={styles.footerLink}>Boutique Concierge & Alterations</Link></li>
-              <li><Link to="/policies/terms" className={styles.footerLink}>Terms & Conditions</Link></li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className={styles.footerBottom}>
-          <div>
-            © {new Date().getFullYear()} Bagodi Shopping Mall. All rights reserved. Developed by <strong>TechMasters Innovations Private Limited</strong>.
-          </div>
-          <div>
-            Bidar Flagship • Store 01 • GST Compliant Retail Platform
+            <div className={styles.subFooterRight}>
+              <Link to="/policies/privacy">Privacy Policy</Link>
+              <span className={styles.subFooterDivider}>|</span>
+              <Link to="/policies/terms">Terms of Service</Link>
+              <span className={styles.subFooterDivider}>|</span>
+              <Link to="/policies/refund">Refund Policy</Link>
+            </div>
           </div>
         </div>
       </footer>
 
-      {/* 6. Mobile Bottom Navigation Bar (Capacitor & Android Mobile) */}
+      {/* ================================================================
+          5. MOBILE BOTTOM NAVIGATION BAR
+          ================================================================ */}
       <nav className={styles.mobileBottomNav}>
         <Link
           to="/"
@@ -481,9 +565,9 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           />
           <div className={styles.mobileAccountDrawer}>
             <div className={styles.mobileDrawerDragPill} />
-            <div style={{ marginBottom: 16, paddingBottom: 12, borderBottom: "1px solid #F3F1ED" }}>
+            <div style={{ marginBottom: 14, paddingBottom: 10, borderBottom: "1px solid #E5DED3" }}>
               <div className={styles.accountHeaderGreet}>Signed in as</div>
-              <div className={styles.accountHeaderName} style={{ fontSize: 16, marginTop: 2 }}>
+              <div className={styles.accountHeaderName} style={{ fontSize: 15, marginTop: 2 }}>
                 {user.fullName || (user as any)?.display_name || "Valued Customer"}
               </div>
               <div className={styles.accountHeaderContact}>
@@ -496,7 +580,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
                 className={`${styles.accountMenuItem} ${location.pathname === "/account/profile" ? styles.accountMenuItemActive : ""}`}
                 onClick={() => setIsMobileAccountDrawerOpen(false)}
               >
-                <User size={18} />
+                <User size={16} />
                 <span>My Account</span>
               </Link>
               <Link
@@ -504,7 +588,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
                 className={`${styles.accountMenuItem} ${location.pathname === "/account/orders" ? styles.accountMenuItemActive : ""}`}
                 onClick={() => setIsMobileAccountDrawerOpen(false)}
               >
-                <Package size={18} />
+                <Package size={16} />
                 <span>My Orders</span>
               </Link>
               <Link
@@ -512,7 +596,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
                 className={`${styles.accountMenuItem} ${location.pathname === "/account/returns" ? styles.accountMenuItemActive : ""}`}
                 onClick={() => setIsMobileAccountDrawerOpen(false)}
               >
-                <RotateCcw size={18} />
+                <RotateCcw size={16} />
                 <span>Return & Replace</span>
               </Link>
               <button
@@ -520,7 +604,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
                 className={`${styles.accountMenuItem} ${styles.accountMenuItemLogout}`}
                 onClick={handleLogout}
               >
-                <LogOut size={18} />
+                <LogOut size={16} />
                 <span>Logout</span>
               </button>
             </div>

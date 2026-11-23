@@ -55,7 +55,7 @@
 }
 
 .breadcrumbDivider {
-  color: #C5A15B;
+  color: #B69A75;
   font-size: 10px;
 }
 
@@ -123,7 +123,7 @@
 }
 
 .itemCountText span {
-  color: #E31B23;
+  color: #A51F27;
   font-weight: 800;
 }
 
@@ -143,11 +143,11 @@
 }
 
 .mobileFilterBtn:hover {
-  background: #E31B23;
+  background: #A51F27;
 }
 
 .filterBadgeCount {
-  background: #E31B23;
+  background: #A51F27;
   color: #FFFFFF;
   font-size: 10px;
   width: 18px;
@@ -213,7 +213,7 @@
 }
 
 .searchClearBtn:hover {
-  color: #E31B23;
+  color: #A51F27;
 }
 
 /* Luxury Glass Sort Select */
@@ -331,13 +331,13 @@
 }
 
 .removeFilterBtn:hover {
-  color: #E31B23;
+  color: #A51F27;
 }
 
 .clearAllFiltersBtn {
   background: none;
   border: none;
-  color: #E31B23;
+  color: #A51F27;
   font-size: 12px;
   font-weight: 700;
   text-decoration: underline;
@@ -402,7 +402,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #C5A15B;
+  color: #B69A75;
   margin-bottom: var(--space-4);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
@@ -442,8 +442,8 @@ button.emptyResetBtn {
 
 .emptyResetBtn:hover,
 button.emptyResetBtn:hover {
-  background-color: #E31B23 !important;
-  border-color: #E31B23 !important;
+  background-color: #A51F27 !important;
+  border-color: #A51F27 !important;
   color: #FFFFFF !important;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(227, 27, 35, 0.35);

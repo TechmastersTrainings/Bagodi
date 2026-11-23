@@ -245,7 +245,7 @@ export const CataloguePage: React.FC = () => {
           </div>
           <div className={styles.categoryTitleRight}>
             <span className={styles.curatedCounterPill}>
-              <Sparkles size={13} color="#E31B23" />
+              <Sparkles size={13} color="#A51F27" />
               <span>{totalCount} Curated Masterpieces</span>
             </span>
           </div>

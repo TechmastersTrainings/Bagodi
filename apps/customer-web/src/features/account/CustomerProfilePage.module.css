@@ -59,7 +59,7 @@
 }
 
 .cardIcon {
-  color: #6A1A24;
+  color: #A51F27;
 }
 
 .cardTitle {
@@ -130,7 +130,7 @@
 }
 
 .inputControl:focus {
-  border-color: #6A1A24;
+  border-color: #A51F27;
   box-shadow: 0 0 0 3px rgba(106, 26, 36, 0.1);
 }
 
@@ -192,7 +192,7 @@
 }
 
 .addressCardDefault {
-  border-color: #6A1A24;
+  border-color: #A51F27;
   background: #FDFBF9;
 }
 
@@ -218,7 +218,7 @@
 .defaultBadge {
   font-size: 10px;
   font-weight: 700;
-  color: #6A1A24;
+  color: #A51F27;
   background: rgba(106, 26, 36, 0.08);
   padding: 2px 8px;
   border-radius: 9999px;
@@ -262,7 +262,7 @@
   border: none;
   font-size: 12px;
   font-weight: 600;
-  color: #6A1A24;
+  color: #A51F27;
   cursor: pointer;
   padding: 4px 6px;
   border-radius: 4px;

@@ -48,6 +48,11 @@ const NAV_ITEMS: NavItemConfig[] = [
     href: "/catalogue?category=blazers",
   },
   {
+    id: "brands",
+    label: "Brands",
+    href: "/catalogue",
+  },
+  {
     id: "offers",
     label: "Festive Offers",
     href: "/catalogue?offers=true",
