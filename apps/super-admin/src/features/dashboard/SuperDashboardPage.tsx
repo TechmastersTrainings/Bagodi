@@ -45,21 +45,13 @@ export const SuperDashboardPage: React.FC = () => {
     );
   }
 
-  const fallbackServices = [
-    { serviceName: "Auth, Session & RBAC Mutex Engine", status: "HEALTHY" as const, latencyMs: 14, uptimePercentage: 99.99, lastPingAt: new Date().toISOString() },
-    { serviceName: "Catalogue & Fast Search Pipeline", status: "HEALTHY" as const, latencyMs: 22, uptimePercentage: 99.98, lastPingAt: new Date().toISOString() },
-    { serviceName: "Real-Time Inventory & Hardware Barcode Mutex", status: "HEALTHY" as const, latencyMs: 18, uptimePercentage: 99.95, lastPingAt: new Date().toISOString() },
-    { serviceName: "Razorpay Payment Webhook Settlement Listener", status: "HEALTHY" as const, latencyMs: 31, uptimePercentage: 99.99, lastPingAt: new Date().toISOString() },
-    { serviceName: "Multi-Carrier Dispatch & Tracking Bridge", status: "HEALTHY" as const, latencyMs: 45, uptimePercentage: 99.92, lastPingAt: new Date().toISOString() },
-  ];
-
-  const totalMerchants = data?.totalMerchants ?? 3;
-  const activeMerchants = data?.activeMerchants ?? 3;
+  const totalMerchants = data?.totalMerchants ?? 0;
+  const activeMerchants = data?.activeMerchants ?? 0;
   const suspendedMerchants = data?.suspendedMerchants ?? 0;
-  const totalStores = data?.totalStores ?? 4;
-  const platformLifetimeGmv = data?.platformLifetimeGmv ?? 14850000;
-  const totalEndUsers = data?.totalEndUsers ?? 14200;
-  const services = Array.isArray(data?.services) && data.services.length > 0 ? data.services : fallbackServices;
+  const totalStores = data?.totalStores ?? 0;
+  const platformLifetimeGmv = data?.platformLifetimeGmv ?? 0;
+  const totalEndUsers = data?.totalEndUsers ?? 0;
+  const services = Array.isArray(data?.services) ? data.services : [];
 
   const cardStyle: React.CSSProperties = {
     background: "#FFFFFF",
@@ -190,36 +182,44 @@ export const SuperDashboardPage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {services.map((svc, idx) => (
-                <tr
-                  key={idx}
-                  style={{
-                    borderBottom: "1px solid #F0EDE6",
-                    transition: "background 0.15s ease",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F8F7F5")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-                >
-                  <td style={{ padding: "14px", fontWeight: 600, color: "#111412" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <Cpu size={14} color="#C5A15B" />
-                      {svc.serviceName}
-                    </div>
-                  </td>
-                  <td style={{ padding: "14px" }}>
-                    <StatusBadge variant="success" label="Operational" />
-                  </td>
-                  <td style={{ padding: "14px", fontFamily: "var(--font-mono)", color: "#111412", fontWeight: 500 }}>
-                    {svc.latencyMs} ms
-                  </td>
-                  <td style={{ padding: "14px", fontFamily: "var(--font-mono)", color: "#2E7D32", fontWeight: 600 }}>
-                    {svc.uptimePercentage}%
-                  </td>
-                  <td style={{ padding: "14px", fontSize: "11px", color: "#7A807C", fontFamily: "var(--font-mono)" }}>
-                    Just now
+              {services.length === 0 ? (
+                <tr>
+                  <td colSpan={5} style={{ padding: "32px 14px", textAlign: "center", color: "#7A807C", fontStyle: "italic" }}>
+                    No microservice telemetry recorded yet. Active services report live heartbeats automatically.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                services.map((svc, idx) => (
+                  <tr
+                    key={idx}
+                    style={{
+                      borderBottom: "1px solid #F0EDE6",
+                      transition: "background 0.15s ease",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F8F7F5")}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                  >
+                    <td style={{ padding: "14px", fontWeight: 600, color: "#111412" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <Cpu size={14} color="#C5A15B" />
+                        {svc.serviceName}
+                      </div>
+                    </td>
+                    <td style={{ padding: "14px" }}>
+                      <StatusBadge variant="success" label="Operational" />
+                    </td>
+                    <td style={{ padding: "14px", fontFamily: "var(--font-mono)", color: "#111412", fontWeight: 500 }}>
+                      {svc.latencyMs} ms
+                    </td>
+                    <td style={{ padding: "14px", fontFamily: "var(--font-mono)", color: "#2E7D32", fontWeight: 600 }}>
+                      {svc.uptimePercentage}%
+                    </td>
+                    <td style={{ padding: "14px", fontSize: "11px", color: "#7A807C", fontFamily: "var(--font-mono)" }}>
+                      Just now
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
