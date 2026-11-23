@@ -129,6 +129,15 @@ export const PlatformUsersPage: React.FC = () => {
     },
   });
 
+  const deleteUserMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await defaultApiClient.delete(`/platform/users/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["super-admin-users-list"] });
+    },
+  });
+
   const approveMerchantMutation = useMutation({
     mutationFn: async (tenantId: string) => {
       setApprovingTenantId(tenantId);
@@ -287,21 +296,51 @@ export const PlatformUsersPage: React.FC = () => {
     },
     {
       key: "actions",
-      header: "Account Status",
+      header: "Operations",
       render: (row) => (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() =>
-            toggleStatusMutation.mutate({
-              id: row.id,
-              nextStatus: row.status === "active" ? "suspended" : "active",
-            })
-          }
-          style={{ fontSize: "11px", height: 28, padding: "0 10px" }}
-        >
-          {row.status === "active" ? "Suspend" : "Activate"}
-        </Button>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              toggleStatusMutation.mutate({
+                id: row.id,
+                nextStatus: row.status === "active" ? "suspended" : "active",
+              })
+            }
+            style={{
+              fontSize: "11px",
+              height: 28,
+              padding: "0 10px",
+              color: row.status === "active" ? "#B45309" : "#15803D",
+              borderColor: row.status === "active" ? "#FCD34D" : "#86EFAC",
+            }}
+          >
+            {row.status === "active" ? "Suspend" : "Activate"}
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              if (
+                window.confirm(
+                  `Permanently delete user account "${row.displayName || row.email || row.phone}"?\n\nThis will remove all associated user sessions and roles. The deletion event will be logged in the immutable security audit trail.`
+                )
+              ) {
+                deleteUserMutation.mutate(row.id);
+              }
+            }}
+            style={{
+              fontSize: "11px",
+              height: 28,
+              padding: "0 10px",
+              color: "#DC2626",
+            }}
+          >
+            Delete
+          </Button>
+        </div>
       ),
     },
   ];

@@ -110,6 +110,16 @@ export const MerchantUsersPage: React.FC = () => {
     },
   });
 
+  // Delete staff mutation
+  const deleteStaffMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await defaultApiClient.delete(`/merchant/users/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["merchant-staff-list"] });
+    },
+  });
+
   // Add staff mutation
   const addMutation = useMutation({
     mutationFn: async (payload: any) => {
@@ -253,16 +263,46 @@ export const MerchantUsersPage: React.FC = () => {
     },
     {
       key: "actions",
-      header: "Actions",
+      header: "Operations",
       render: (row) => (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => toggleMutation.mutate({ id: row.id, nextStatus: !row.isActive })}
-          style={{ fontSize: "11px", height: 28, padding: "0 10px" }}
-        >
-          {row.isActive ? "Suspend" : "Activate"}
-        </Button>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => toggleMutation.mutate({ id: row.id, nextStatus: !row.isActive })}
+            style={{
+              fontSize: "11px",
+              height: 28,
+              padding: "0 10px",
+              color: row.isActive ? "#B45309" : "#15803D",
+              borderColor: row.isActive ? "#FCD34D" : "#86EFAC",
+            }}
+          >
+            {row.isActive ? "Suspend" : "Activate"}
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              if (
+                window.confirm(
+                  `Permanently delete boutique staff account "${row.fullName || row.email}"?\n\nThis will remove store staff permissions. The deletion event will be logged in the immutable security audit trail.`
+                )
+              ) {
+                deleteStaffMutation.mutate(row.id);
+              }
+            }}
+            style={{
+              fontSize: "11px",
+              height: 28,
+              padding: "0 10px",
+              color: "#DC2626",
+            }}
+          >
+            Delete
+          </Button>
+        </div>
       ),
     },
   ];
