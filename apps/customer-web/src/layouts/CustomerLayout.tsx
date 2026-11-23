@@ -480,6 +480,71 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
             </div>
           </div>
 
+          {/* Streamlined Mobile-Only Footer (Hidden on Desktop) */}
+          <div className={styles.mobileFooterGrid}>
+            <div className={styles.mobileFooterBrand}>
+              <span className={styles.footerBrandWordmark}>BAGODI</span>
+              <span className={styles.footerBrandSubtitle}>SHOPPING MALL • BIDAR</span>
+              <p className={styles.mobileFooterTagline}>
+                Bidar Flagship Atelier • Est. 1968
+              </p>
+            </div>
+
+            <div className={styles.footerSocialIcons}>
+              <a
+                href="#instagram"
+                className={styles.socialCircle}
+                aria-label="Instagram"
+                title="Instagram"
+                onClick={(e) => e.preventDefault()}
+              >
+                <Instagram size={14} />
+              </a>
+              <a
+                href="#facebook"
+                className={styles.socialCircle}
+                aria-label="Facebook"
+                title="Facebook"
+                onClick={(e) => e.preventDefault()}
+              >
+                <Facebook size={14} />
+              </a>
+              <a
+                href="#youtube"
+                className={styles.socialCircle}
+                aria-label="YouTube"
+                title="YouTube"
+                onClick={(e) => e.preventDefault()}
+              >
+                <Youtube size={14} />
+              </a>
+              <a
+                href="#twitter"
+                className={styles.socialCircle}
+                aria-label="X"
+                title="X"
+                onClick={(e) => e.preventDefault()}
+              >
+                <Twitter size={14} />
+              </a>
+            </div>
+
+            {/* Essential Quick Links */}
+            <div className={styles.mobileQuickLinks}>
+              <Link to="/account/orders">My Orders</Link>
+              <span className={styles.mobileLinkDot}>•</span>
+              <Link to="/account/returns">Returns</Link>
+              <span className={styles.mobileLinkDot}>•</span>
+              <Link to="/contact">Contact</Link>
+              <span className={styles.mobileLinkDot}>•</span>
+              <Link to="/#store-experience">Store Info</Link>
+            </div>
+
+            <div className={styles.mobileContactNote}>
+              Meenakshi Tower, Udgir Road, Bidar • Helpline: +91 99720 00805
+            </div>
+          </div>
+
           {/* Sub-Footer */}
           <div className={styles.subFooter}>
             <div className={styles.subFooterLeft}>

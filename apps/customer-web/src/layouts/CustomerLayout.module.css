@@ -649,6 +649,93 @@
   color: rgba(255, 255, 255, 0.25);
 }
 
+/* Streamlined Mobile Footer: Hidden on Desktop */
+.mobileFooterGrid {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 28px 16px calc(76px + env(safe-area-inset-bottom, 0px)) 16px;
+    margin-top: 24px;
+  }
+
+  .footerGrid {
+    display: none !important;
+  }
+
+  .mobileFooterGrid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mobileFooterBrand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .mobileFooterTagline {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 4px 0 0 0;
+  }
+
+  .mobileQuickLinks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 2px;
+  }
+
+  .mobileQuickLinks a {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .mobileQuickLinks a:hover {
+    color: #FFFFFF;
+  }
+
+  .mobileLinkDot {
+    color: var(--bagodi-gold, #B69A75);
+    font-size: 10px;
+    opacity: 0.8;
+  }
+
+  .mobileContactNote {
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.4;
+    max-width: 320px;
+  }
+
+  .subFooter {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    padding-top: 14px;
+    font-size: 10.5px;
+  }
+
+  .subFooterRight {
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
 /* 5. Mobile Bottom Navigation */
 .mobileBottomNav {
   display: none;
