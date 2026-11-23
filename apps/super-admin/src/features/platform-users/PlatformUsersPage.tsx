@@ -19,6 +19,7 @@ import {
   RefreshCw,
   ShieldCheck,
   UserX,
+  Trash2,
 } from "lucide-react";
 
 interface UnifiedUser {
@@ -135,6 +136,22 @@ export const PlatformUsersPage: React.FC = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["super-admin-users-list"] });
+    },
+    onError: (err: any) => {
+      alert(`Could not delete user: ${err?.message || "Internal server error"}`);
+    },
+  });
+
+  const purgeDummyMutation = useMutation({
+    mutationFn: async () => {
+      return defaultApiClient.post<{ status: string; purged_count: number; message: string }>("/platform/users/purge-dummy-data", {});
+    },
+    onSuccess: (res: any) => {
+      alert(res?.message || "All dummy test accounts and R2 traces have been permanently purged.");
+      queryClient.invalidateQueries({ queryKey: ["super-admin-users-list"] });
+    },
+    onError: (err: any) => {
+      alert(`Purge failed: ${err?.message || "Could not complete purge"}`);
     },
   });
 
@@ -385,6 +402,24 @@ export const PlatformUsersPage: React.FC = () => {
             style={{ border: "1px solid #E5E1D8", background: "#FFFFFF", color: "#111412" }}
           >
             Sync
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            leftIcon={<Trash2 size={14} color="#DC2626" />}
+            onClick={() => {
+              if (
+                window.confirm(
+                  "Permanently purge all synthetic/test customer accounts from the user catalogue, PostgreSQL database, and Cloudflare R2?\n\nReal customer accounts and verified administrators will be strictly preserved."
+                )
+              ) {
+                purgeDummyMutation.mutate();
+              }
+            }}
+            style={{ border: "1px solid #FCA5A5", background: "#FEF2F2", color: "#DC2626", fontWeight: 600 }}
+          >
+            Purge Test Accounts
           </Button>
 
           <Button
