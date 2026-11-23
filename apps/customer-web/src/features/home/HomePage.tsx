@@ -129,7 +129,7 @@ export const HomePage: React.FC = () => {
       <section className={styles.heroSection}>
         <div className={styles.heroBanner}>
           <img
-            src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1800&q=85"
+            src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1800&q=85"
             alt="Bagodi Festive Collection"
             className={styles.heroBgImg}
           />

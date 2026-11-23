@@ -45,7 +45,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: right 20%;
 }
 
 .heroGradientOverlay {
@@ -152,9 +152,9 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(229, 222, 211, 0.8);
-  color: #26231F;
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(229, 222, 211, 0.8) !important;
+  color: #26231F !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -165,8 +165,8 @@
 }
 
 .heroNavBtn:hover {
-  background-color: #FFFFFF;
-  color: #A51F27;
+  background-color: #FFFFFF !important;
+  color: #A51F27 !important;
   transform: translateY(-50%) scale(1.08);
 }
 
@@ -470,9 +470,9 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(229, 222, 211, 0.8);
-  color: #5C554E;
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(229, 222, 211, 0.8) !important;
+  color: #5C554E !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -482,8 +482,8 @@
 }
 
 .wishlistBtn:hover {
-  background-color: #FFFFFF;
-  color: #A51F27;
+  background-color: #FFFFFF !important;
+  color: #A51F27 !important;
   transform: scale(1.1);
 }
 
@@ -559,9 +559,9 @@
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  background-color: #A51F27;
-  color: #FFFFFF;
-  border: none;
+  background-color: #A51F27 !important;
+  color: #FFFFFF !important;
+  border: none !important;
   border-radius: 6px;
   padding: 0.55rem;
   font-size: 0.78rem;
@@ -571,7 +571,7 @@
 }
 
 .addToBagBtn:hover:not(:disabled) {
-  background-color: #8E161D;
+  background-color: #8E161D !important;
 }
 
 .addToBagBtn:disabled {
@@ -654,8 +654,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background-color: #FFFFFF;
-  color: #26231F;
+  background-color: #FFFFFF !important;
+  color: #26231F !important;
   text-decoration: none;
   font-size: 0.78rem;
   font-weight: 600;
@@ -667,7 +667,7 @@
 
 .weddingCard .occasionBtn,
 .offersCard .occasionBtn {
-  color: #A51F27;
+  color: #A51F27 !important;
 }
 
 .occasionBtn:hover {
@@ -851,9 +851,9 @@
 }
 
 .subscribeBtn {
-  background-color: #FFFFFF;
-  color: #A51F27;
-  border: none;
+  background-color: #FFFFFF !important;
+  color: #A51F27 !important;
+  border: none !important;
   border-radius: 9999px;
   padding: 0.65rem 1.5rem;
   font-size: 0.84rem;
@@ -863,7 +863,7 @@
 }
 
 .subscribeBtn:hover {
-  background-color: #F6F1E9;
+  background-color: #F6F1E9 !important;
   transform: translateY(-1px);
 }
 
