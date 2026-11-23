@@ -1429,36 +1429,39 @@
     padding: 0 0.85rem;
   }
   .welcomeArchCard {
-    padding: 1.15rem 0.85rem 1rem;
+    padding: 1.15rem 0.5rem 1rem;
     border-radius: 10px;
   }
   .heroWelcomeArch {
-    gap: 4px;
-    flex-wrap: wrap;
+    gap: 3px;
+    flex-wrap: nowrap;
     justify-content: center;
+    width: 100%;
   }
   .archGroup {
-    gap: 2px;
+    gap: 1.5px;
+    flex-shrink: 0;
   }
   .watermarkLetter {
-    font-size: 1.05rem;
-    letter-spacing: 0.06em;
+    font-size: clamp(0.72rem, 3.5vw, 1.05rem);
+    letter-spacing: clamp(0.02em, 0.4vw, 0.05em);
   }
   .primaryBrandLetter {
-    font-size: 1.18rem;
+    font-size: clamp(0.82rem, 4vw, 1.18rem);
   }
   .archDot {
-    margin: 0 4px;
-    width: 4px;
-    height: 4px;
+    margin: 0 2px;
+    width: 3.5px;
+    height: 3.5px;
+    flex-shrink: 0;
   }
   .bookArchivalRule {
     margin-top: 8px;
-    width: min(100%, 280px);
+    width: min(100%, 260px);
   }
   .welcomeSubtitle {
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
   }
 
   /* 3. Category Discovery (Horizontal Scrollable Thumb-Friendly Cards) */
