@@ -11,6 +11,10 @@
     "dev:customer": "npm run dev --workspace=@bagodi/customer-web",
     "dev:admin": "npm run dev --workspace=@bagodi/merchant-admin",
     "dev:super": "npm run dev --workspace=@bagodi/super-admin",
+    "build": "npm run build --workspaces --if-present",
+    "build:customer": "npm run build --workspace=@bagodi/customer-web",
+    "build:admin": "npm run build --workspace=@bagodi/merchant-admin",
+    "build:super": "npm run build --workspace=@bagodi/super-admin",
     "build:all": "npm run build --workspaces --if-present",
     "typecheck:all": "npm run typecheck --workspaces --if-present"
   },

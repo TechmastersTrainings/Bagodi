@@ -14,8 +14,6 @@ import {
   ShoppingBag,
   Heart,
   Star,
-  ChevronLeft,
-  ChevronRight,
   Sparkles,
   MapPin,
   Clock,
@@ -272,30 +270,6 @@ export const HomePage: React.FC = () => {
               />
             ))}
           </div>
-
-          {/* Carousel Arrows */}
-          <button
-            type="button"
-            className={`${styles.heroNavBtn} ${styles.heroPrevBtn}`}
-            aria-label="Previous Slide"
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePrevSlide();
-            }}
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            type="button"
-            className={`${styles.heroNavBtn} ${styles.heroNextBtn}`}
-            aria-label="Next Slide"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleNextSlide();
-            }}
-          >
-            <ChevronRight size={20} />
-          </button>
 
           {/* Luxury Editorial Marquee Ticker */}
           <div className={styles.heroMarqueeStrip}>
