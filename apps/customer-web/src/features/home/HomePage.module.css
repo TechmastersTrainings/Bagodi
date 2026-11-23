@@ -34,9 +34,26 @@
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 12px 35px rgba(38, 35, 31, 0.08);
+  background-color: #E5DED3;
+}
+
+.heroSliderTrack {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.heroSlide {
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  position: relative;
   display: flex;
   align-items: center;
-  background-color: #E5DED3;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 .heroBgImg {
@@ -46,6 +63,11 @@
   height: 100%;
   object-fit: cover;
   object-position: right 20%;
+  transition: transform 5s cubic-bezier(0.1, 1, 0.1, 1);
+}
+
+.heroSlideActive .heroBgImg {
+  transform: scale(1.05);
 }
 
 .heroGradientOverlay {
@@ -125,49 +147,72 @@
 }
 
 .heroDots {
+  position: absolute;
+  bottom: 3.25rem;
+  left: clamp(2rem, 5vw, 4.5rem);
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  margin-top: 2rem;
+  gap: 0.55rem;
+  z-index: 5;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-block;
+  min-width: 9px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background-color: rgba(165, 31, 39, 0.25);
-  transition: all 0.25s ease;
+  background-color: rgba(38, 35, 31, 0.35);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  outline: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dot:hover {
+  background-color: #A51F27;
+  border-color: #FFFFFF;
+  transform: scale(1.2);
 }
 
 .dotActive {
-  background-color: #A51F27;
-  width: 18px;
-  border-radius: 9999px;
+  background-color: #A51F27 !important;
+  border-color: #FFFFFF !important;
+  width: 26px !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 2px 8px rgba(165, 31, 39, 0.45);
 }
 
 .heroNavBtn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.92) !important;
-  border: 1px solid rgba(229, 222, 211, 0.8) !important;
+  background-color: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid rgba(229, 222, 211, 0.9) !important;
   color: #26231F !important;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 3;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 5;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 4px 14px rgba(38, 35, 31, 0.12);
 }
 
 .heroNavBtn:hover {
   background-color: #FFFFFF !important;
   color: #A51F27 !important;
-  transform: translateY(-50%) scale(1.08);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 18px rgba(165, 31, 39, 0.2);
 }
 
 .heroPrevBtn {
@@ -176,6 +221,62 @@
 
 .heroNextBtn {
   right: 1.25rem;
+}
+
+/* ==========================================================================
+   HERO MARQUEE TICKER (SILKY CONTINUOUS SCROLL)
+   ========================================================================== */
+.heroMarqueeStrip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: rgba(38, 35, 31, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 4;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.heroMarqueeTrack {
+  display: flex;
+  white-space: nowrap;
+  animation: heroMarqueeScroll 28s linear infinite;
+  will-change: transform;
+}
+
+.heroMarqueeStrip:hover .heroMarqueeTrack {
+  animation-play-state: paused;
+}
+
+.heroMarqueeContent {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-right: 1.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #F6F1E9;
+}
+
+.marqueeSeparator {
+  color: #C5A15B;
+  font-size: 0.65rem;
+}
+
+@keyframes heroMarqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* ==========================================================================
@@ -1026,10 +1127,41 @@
   .heroBanner {
     height: 380px;
   }
+  .heroGradientOverlay {
+    background: linear-gradient(
+      90deg,
+      rgba(246, 241, 233, 0.95) 0%,
+      rgba(246, 241, 233, 0.88) 55%,
+      rgba(246, 241, 233, 0.45) 80%,
+      rgba(246, 241, 233, 0.15) 100%
+    );
+  }
   .heroContentWrapper {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     max-width: 100%;
+  }
+  .heroDots {
+    bottom: 2.75rem;
+    left: 1.5rem;
+  }
+  .heroNavBtn {
+    width: 34px;
+    height: 34px;
+  }
+  .heroPrevBtn {
+    left: 0.65rem;
+  }
+  .heroNextBtn {
+    right: 0.65rem;
+  }
+  .heroMarqueeStrip {
+    height: 28px;
+  }
+  .heroMarqueeContent {
+    font-size: 0.625rem;
+    gap: 1rem;
+    padding-right: 1rem;
   }
   .valueStripInner {
     grid-template-columns: repeat(2, 1fr);
@@ -1062,10 +1194,27 @@
 
 @media (max-width: 480px) {
   .heroBanner {
-    height: 320px;
+    height: 340px;
   }
   .heroTitle {
-    font-size: 2rem;
+    font-size: 1.85rem;
+  }
+  .heroSubtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+  .heroDots {
+    margin-top: 1.25rem;
+  }
+  .heroNavBtn {
+    width: 30px;
+    height: 30px;
+  }
+  .heroPrevBtn {
+    left: 0.4rem;
+  }
+  .heroNextBtn {
+    right: 0.4rem;
   }
   .valueStripInner {
     grid-template-columns: 1fr;

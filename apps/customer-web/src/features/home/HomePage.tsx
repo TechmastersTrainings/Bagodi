@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
 import { Button, SkeletonCard, EmptyState, ApiErrorCard } from "@bagodi/shared-components";
@@ -24,6 +24,49 @@ import {
 } from "lucide-react";
 import { formatINR } from "@bagodi/utilities";
 
+const HERO_SLIDES = [
+  {
+    id: "festive",
+    superTitle: "THE NEW SEASON",
+    title: "Festive Collection",
+    subtitle: "Tradition Meets Modern Style",
+    ctaText: "Shop The Collection",
+    ctaHref: "/catalogue?offers=true",
+    img: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1800&q=85",
+    alt: "Bagodi Festive Collection",
+  },
+  {
+    id: "sarees",
+    superTitle: "ROYAL HERITAGE SILKS",
+    title: "Pure Silk Sarees",
+    subtitle: "Handcrafted Zari & Banarasi Weaves",
+    ctaText: "Explore Sarees",
+    ctaHref: "/catalogue?category=sarees",
+    img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1800&q=85",
+    alt: "Bagodi Silk Sarees Collection",
+  },
+  {
+    id: "blazers",
+    superTitle: "BESPOKE CEREMONIAL ATELIER",
+    title: "Raymond Royal Blazers",
+    subtitle: "Bespoke Suiting & Elegant Bandhgalas",
+    ctaText: "Discover Blazers",
+    ctaHref: "/catalogue?category=blazers",
+    img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1800&q=85",
+    alt: "Bagodi Royal Blazers and Suiting",
+  },
+  {
+    id: "mens-wear",
+    superTitle: "CONTEMPORARY FESTIVE PRET",
+    title: "Royal Menswear Edit",
+    subtitle: "Embroidered Kurtas, Bandis & Sherwanis",
+    ctaText: "Shop Menswear",
+    ctaHref: "/catalogue?category=mens-wear",
+    img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1800&q=85",
+    alt: "Bagodi Royal Menswear Edit",
+  },
+];
+
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -31,6 +74,46 @@ export const HomePage: React.FC = () => {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
+  const [isAutoPlayPaused, setIsAutoPlayPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+
+  // Auto-advancing moving carousel effect
+  useEffect(() => {
+    if (isAutoPlayPaused) return;
+    const interval = setInterval(() => {
+      setActiveHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [isAutoPlayPaused]);
+
+  const handlePrevSlide = useCallback(() => {
+    setActiveHeroSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  }, []);
+
+  const handleNextSlide = useCallback(() => {
+    setActiveHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const diff = touchStartX.current - touchEndX.current;
+    if (diff > 45) {
+      handleNextSlide();
+    } else if (diff < -45) {
+      handlePrevSlide();
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 
   // 1. Query Real Products from Backend API
   const {
@@ -124,34 +207,66 @@ export const HomePage: React.FC = () => {
   return (
     <div className={styles.homeContainer}>
       {/* ================================================================
-          1. LARGE EDITORIAL CAMPAIGN HERO CAROUSEL
+          1. LARGE EDITORIAL CAMPAIGN HERO CAROUSEL WITH MOVING MARQUEE
           ================================================================ */}
       <section className={styles.heroSection}>
-        <div className={styles.heroBanner}>
-          <img
-            src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1800&q=85"
-            alt="Bagodi Festive Collection"
-            className={styles.heroBgImg}
-          />
-          <div className={styles.heroGradientOverlay} />
+        <div
+          className={styles.heroBanner}
+          onMouseEnter={() => setIsAutoPlayPaused(true)}
+          onMouseLeave={() => setIsAutoPlayPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Sliding Marquee Track */}
+          <div
+            className={styles.heroSliderTrack}
+            style={{ transform: `translateX(-${activeHeroSlide * 100}%)` }}
+          >
+            {HERO_SLIDES.map((slide, idx) => (
+              <div
+                key={slide.id}
+                className={`${styles.heroSlide} ${activeHeroSlide === idx ? styles.heroSlideActive : ""}`}
+              >
+                <img
+                  src={slide.img}
+                  alt={slide.alt}
+                  className={styles.heroBgImg}
+                  loading={idx === 0 ? "eager" : "lazy"}
+                />
+                <div className={styles.heroGradientOverlay} />
 
-          <div className={styles.heroContentWrapper}>
-            <div className={styles.heroContent}>
-              <span className={styles.heroSuperTitle}>THE NEW SEASON</span>
-              <h1 className={styles.heroTitle}>Festive Collection</h1>
-              <p className={styles.heroSubtitle}>Tradition Meets Modern Style</p>
-              <Link to="/catalogue?offers=true" className={styles.heroCtaBtn}>
-                <span>Shop The Collection</span>
-                <ArrowRight size={15} />
-              </Link>
-
-              {/* Carousel Indicators */}
-              <div className={styles.heroDots}>
-                <span className={`${styles.dot} ${styles.dotActive}`} />
-                <span className={styles.dot} />
-                <span className={styles.dot} />
+                <div className={styles.heroContentWrapper}>
+                  <div className={styles.heroContent}>
+                    <span className={styles.heroSuperTitle}>{slide.superTitle}</span>
+                    <h1 className={styles.heroTitle}>{slide.title}</h1>
+                    <p className={styles.heroSubtitle}>{slide.subtitle}</p>
+                    <Link to={slide.ctaHref} className={styles.heroCtaBtn}>
+                      <span>{slide.ctaText}</span>
+                      <ArrowRight size={15} />
+                    </Link>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
+          </div>
+
+          {/* Fixed Carousel Indicators */}
+          <div className={styles.heroDots} role="tablist" aria-label="Hero Carousel Slides">
+            {HERO_SLIDES.map((s, dotIdx) => (
+              <button
+                key={s.id}
+                type="button"
+                role="tab"
+                aria-selected={activeHeroSlide === dotIdx}
+                aria-label={`Go to slide ${dotIdx + 1}: ${s.title}`}
+                className={`${styles.dot} ${activeHeroSlide === dotIdx ? styles.dotActive : ""}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveHeroSlide(dotIdx);
+                }}
+              />
+            ))}
           </div>
 
           {/* Carousel Arrows */}
@@ -159,6 +274,10 @@ export const HomePage: React.FC = () => {
             type="button"
             className={`${styles.heroNavBtn} ${styles.heroPrevBtn}`}
             aria-label="Previous Slide"
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevSlide();
+            }}
           >
             <ChevronLeft size={20} />
           </button>
@@ -166,9 +285,35 @@ export const HomePage: React.FC = () => {
             type="button"
             className={`${styles.heroNavBtn} ${styles.heroNextBtn}`}
             aria-label="Next Slide"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextSlide();
+            }}
           >
             <ChevronRight size={20} />
           </button>
+
+          {/* Luxury Editorial Marquee Ticker */}
+          <div className={styles.heroMarqueeStrip}>
+            <div className={styles.heroMarqueeTrack}>
+              {[...Array(2)].map((_, i) => (
+                <div key={i} className={styles.heroMarqueeContent}>
+                  <span>ESTABLISHED 1968</span>
+                  <span className={styles.marqueeSeparator}>✦</span>
+                  <span>BIDAR FLAGSHIP MALL</span>
+                  <span className={styles.marqueeSeparator}>✦</span>
+                  <span>SILK MARK CERTIFIED 100% PURE SILK</span>
+                  <span className={styles.marqueeSeparator}>✦</span>
+                  <span>RAYMOND MASTER TAILORING ATELIER</span>
+                  <span className={styles.marqueeSeparator}>✦</span>
+                  <span>ROYAL FESTIVE PRET & BRIDAL COUTURE</span>
+                  <span className={styles.marqueeSeparator}>✦</span>
+                  <span>INSURED DOORSTEP DISPATCH</span>
+                  <span className={styles.marqueeSeparator}>✦</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
