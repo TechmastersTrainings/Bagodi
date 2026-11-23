@@ -67,6 +67,10 @@ const HERO_SLIDES = [
   },
 ];
 
+const BRAND_LETTERS = ["B", "A", "G", "O", "D", "I"];
+const WELCOMES_LETTERS = ["W", "E", "L", "C", "O", "M", "E", "S"];
+const YOU_LETTERS = ["Y", "O", "U"];
+
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -318,49 +322,71 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* ================================================================
-          2. FIVE-POINT VALUE & TRUST STRIP
+          2. GRAND WELCOME ARCH ("BAGODI WELCOMES YOU" CALLIGRAPHY INK)
           ================================================================ */}
-      <section className={styles.valueStripSection}>
-        <div className={styles.valueStripInner}>
-          <div className={styles.valueItem}>
-            <Award size={22} className={styles.valueIcon} />
-            <div>
-              <strong className={styles.valueTitle}>Authentic Brands</strong>
-              <span className={styles.valueDesc}>Trusted & Original</span>
+      <section className={styles.welcomeArchSection} aria-label="Bagodi Welcomes You">
+        <div className={styles.welcomeArchCard}>
+          <div className={styles.heroWelcomeArch} aria-hidden="true">
+            {/* Word 1: BAGODI */}
+            <div className={styles.archGroup}>
+              {BRAND_LETTERS.map((char, idx) => (
+                <span
+                  key={`b-${char}-${idx}`}
+                  className={`${styles.watermarkLetter} ${styles.primaryBrandLetter}`}
+                  style={{ "--char-i": idx } as React.CSSProperties}
+                >
+                  {char}
+                </span>
+              ))}
+            </div>
+
+            <span
+              className={styles.archDot}
+              style={{ "--char-i": 6 } as React.CSSProperties}
+            />
+
+            {/* Word 2: WELCOMES */}
+            <div className={styles.archGroup}>
+              {WELCOMES_LETTERS.map((char, idx) => (
+                <span
+                  key={`w-${char}-${idx}`}
+                  className={styles.watermarkLetter}
+                  style={{ "--char-i": 7 + idx } as React.CSSProperties}
+                >
+                  {char}
+                </span>
+              ))}
+            </div>
+
+            <span
+              className={styles.archDot}
+              style={{ "--char-i": 15 } as React.CSSProperties}
+            />
+
+            {/* Word 3: YOU */}
+            <div className={styles.archGroup}>
+              {YOU_LETTERS.map((char, idx) => (
+                <span
+                  key={`y-${char}-${idx}`}
+                  className={styles.watermarkLetter}
+                  style={{ "--char-i": 16 + idx } as React.CSSProperties}
+                >
+                  {char}
+                </span>
+              ))}
             </div>
           </div>
 
-          <div className={styles.valueItem}>
-            <Sparkles size={22} className={styles.valueIcon} />
-            <div>
-              <strong className={styles.valueTitle}>Great Value</strong>
-              <span className={styles.valueDesc}>Best Prices Always</span>
-            </div>
+          {/* Archival Book Ruled Underline */}
+          <div className={styles.bookArchivalRule} aria-hidden="true">
+            <span className={styles.bookRuleLineLeft} />
+            <span className={styles.bookRuleFlourish}>❖</span>
+            <span className={styles.bookRuleLineRight} />
           </div>
 
-          <div className={styles.valueItem}>
-            <RotateCcw size={22} className={styles.valueIcon} />
-            <div>
-              <strong className={styles.valueTitle}>Easy Returns</strong>
-              <span className={styles.valueDesc}>30-Day Policy</span>
-            </div>
-          </div>
-
-          <div className={styles.valueItem}>
-            <ShieldCheck size={22} className={styles.valueIcon} />
-            <div>
-              <strong className={styles.valueTitle}>Secure Payments</strong>
-              <span className={styles.valueDesc}>UPI & COD</span>
-            </div>
-          </div>
-
-          <div className={styles.valueItem}>
-            <Headphones size={22} className={styles.valueIcon} />
-            <div>
-              <strong className={styles.valueTitle}>Customer Support</strong>
-              <span className={styles.valueDesc}>24×7 Assistance</span>
-            </div>
-          </div>
+          <p className={styles.welcomeSubtitle}>
+            Bidar Flagship Atelier &bull; Established 1968 &bull; Heritage Fashion Landmark
+          </p>
         </div>
       </section>
 

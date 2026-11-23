@@ -280,50 +280,273 @@
 }
 
 /* ==========================================================================
-   2. VALUE & TRUST STRIP (5 POINTS)
+   2. GRAND WELCOME ARCH ("BAGODI WELCOMES YOU" CALLIGRAPHY INK ANIMATION)
    ========================================================================== */
-.valueStripSection {
+.welcomeArchSection {
   max-width: 1400px;
   margin: 0 auto 2.5rem;
   padding: 0 1.5rem;
 }
 
-.valueStripInner {
-  background-color: #FFFFFF;
+.welcomeArchCard {
+  background: #FFFFFF;
   border: 1px solid #E5DED3;
-  border-radius: 12px;
-  padding: 1.15rem 1.75rem;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.25rem;
+  border-radius: 14px;
+  padding: 1.75rem 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(38, 35, 31, 0.03);
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(38, 35, 31, 0.04);
+  position: relative;
+  overflow: hidden;
 }
 
-.valueItem {
+.heroWelcomeArch {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  justify-content: center;
+  gap: clamp(6px, 1.4vw, 18px);
+  width: 100%;
+  user-select: none;
+  flex-wrap: nowrap;
 }
 
-.valueIcon {
-  color: #A51F27;
-  flex-shrink: 0;
+.archGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(2px, 0.5vw, 6px);
 }
 
-.valueTitle {
-  display: block;
-  font-size: 0.84rem;
-  font-weight: 700;
-  color: #26231F;
-  line-height: 1.2;
+.archDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C5A15B;
+  box-shadow: 0 0 8px rgba(197, 161, 91, 0.6);
+  margin: 0 clamp(3px, 0.6vw, 10px);
+  opacity: 0;
+  animation: stampInkDot 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--char-i, 0) * 0.11s);
 }
 
-.valueDesc {
-  display: block;
-  font-size: 0.73rem;
+.watermarkLetter {
+  position: relative;
+  display: inline-block;
+  font-family: 'Bodoni Moda', 'Playfair Display', 'Cinzel', serif;
+  font-size: clamp(1.2rem, 2.5vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: clamp(0.08em, 0.16vw, 0.18em);
+  text-transform: uppercase;
+  background: linear-gradient(
+    135deg,
+    #E31B23 0%,
+    #C8141B 35%,
+    #C5A15B 70%,
+    #E31B23 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.2px rgba(227, 27, 35, 0.35);
+  filter: drop-shadow(0 1px 4px rgba(227, 27, 35, 0.15));
+  opacity: 0;
+  animation:
+    bookWriteInk 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite,
+    goldShimmerSweep 5s ease-in-out infinite alternate;
+  animation-delay:
+    calc(var(--char-i, 0) * 0.11s),
+    0s;
+  will-change: clip-path, transform, opacity, filter;
+}
+
+/* Golden Nib Gleam at the Tip of the Writing Stroke */
+.watermarkLetter::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: -2px;
+  width: 4px;
+  height: 80%;
+  background: radial-gradient(circle, #FFF4D0 0%, #E3A835 60%, transparent 100%);
+  border-radius: 9999px;
+  opacity: 0;
+  pointer-events: none;
+  animation: nibWritingGleam 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--char-i, 0) * 0.11s);
+}
+
+.primaryBrandLetter {
+  font-size: clamp(1.35rem, 2.8vw, 2.7rem);
+  font-weight: 900;
+  -webkit-text-stroke: 1.4px rgba(227, 27, 35, 0.45);
+}
+
+.bookArchivalRule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: min(100%, 460px);
+  margin-top: 10px;
+  opacity: 0;
+  animation: bookRuleFadeIn 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: 1.6s;
+  user-select: none;
+}
+
+.bookRuleLineLeft,
+.bookRuleLineRight {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(197, 161, 91, 0.6), transparent);
+}
+
+.bookRuleFlourish {
+  font-size: 11px;
+  color: #C5A15B;
+  opacity: 0.85;
+  text-shadow: 0 0 6px rgba(197, 161, 91, 0.5);
+}
+
+.welcomeSubtitle {
+  margin: 8px 0 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: #7A756D;
-  margin-top: 0.15rem;
+  text-align: center;
+}
+
+/* Calligraphic Book Writing Keyframes */
+@keyframes bookWriteInk {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    -webkit-clip-path: inset(0 100% 0 0);
+    transform: translateY(5px) skewX(-4deg) scale(0.92);
+    filter: blur(3px) brightness(1.3) drop-shadow(0 0 6px rgba(227, 27, 35, 0.7));
+  }
+  1.4% {
+    opacity: 0.95;
+    clip-path: inset(0 30% 0 0);
+    -webkit-clip-path: inset(0 30% 0 0);
+    transform: translateY(2px) skewX(-2deg) scale(0.98);
+    filter: blur(1px) brightness(1.15) drop-shadow(0 0 4px rgba(197, 161, 91, 0.5));
+  }
+  2.8% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(0 0 0 0);
+    transform: translateY(0) skewX(0deg) scale(1);
+    filter: blur(0px) brightness(1) drop-shadow(0 1px 4px rgba(227, 27, 35, 0.18));
+  }
+  72% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(0 0 0 0);
+    transform: translateY(0) skewX(0deg) scale(1);
+    filter: blur(0px) brightness(1) drop-shadow(0 1px 4px rgba(227, 27, 35, 0.18));
+  }
+  82% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(0 0 0 0);
+    transform: translateY(-3px) scale(0.98);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    -webkit-clip-path: inset(0 100% 0 0);
+    transform: translateY(5px) scale(0.92);
+    filter: blur(3px);
+  }
+}
+
+@keyframes nibWritingGleam {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  0.8% {
+    opacity: 1;
+    transform: scale(1.6);
+    box-shadow: 0 0 10px #FFF4D0, 0 0 18px rgba(227, 168, 53, 0.85);
+  }
+  2.4% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes stampInkDot {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+    box-shadow: 0 0 0 rgba(197, 161, 91, 0);
+  }
+  0.6% {
+    opacity: 1;
+    transform: scale(2.2);
+    box-shadow: 0 0 16px rgba(197, 161, 91, 1);
+  }
+  1.8% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(197, 161, 91, 0.6);
+  }
+  72% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(197, 161, 91, 0.6);
+  }
+  82% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes goldShimmerSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes bookRuleFadeIn {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.4);
+  }
+  6% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  72% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  82% {
+    opacity: 0;
+    transform: scaleX(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(0.4);
+  }
 }
 
 /* ==========================================================================
@@ -1200,34 +1423,42 @@
     padding-right: 0.85rem;
   }
 
-  /* 2. Value & Trust Strip (Horizontal Swipe on Mobile) */
-  .valueStripSection {
+  /* 2. Grand Welcome Arch ("Bagodi Welcomes You") */
+  .welcomeArchSection {
     margin: 0 auto 1.5rem;
     padding: 0 0.85rem;
   }
-  .valueStripInner {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    padding: 0.85rem 1rem;
-    gap: 1.15rem;
+  .welcomeArchCard {
+    padding: 1.15rem 0.85rem 1rem;
     border-radius: 10px;
   }
-  .valueStripInner::-webkit-scrollbar {
-    display: none;
+  .heroWelcomeArch {
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
-  .valueItem {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-    gap: 0.65rem;
+  .archGroup {
+    gap: 2px;
   }
-  .valueTitle {
-    font-size: 0.78rem;
+  .watermarkLetter {
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
   }
-  .valueDesc {
-    font-size: 0.7rem;
+  .primaryBrandLetter {
+    font-size: 1.18rem;
+  }
+  .archDot {
+    margin: 0 4px;
+    width: 4px;
+    height: 4px;
+  }
+  .bookArchivalRule {
+    margin-top: 8px;
+    width: min(100%, 280px);
+  }
+  .welcomeSubtitle {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
   }
 
   /* 3. Category Discovery (Horizontal Scrollable Thumb-Friendly Cards) */
