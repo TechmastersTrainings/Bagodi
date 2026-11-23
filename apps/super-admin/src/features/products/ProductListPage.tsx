@@ -14,7 +14,7 @@ import { ProductCreateModal } from "./ProductCreateModal";
 import { VariantManagerModal } from "./VariantManagerModal";
 import { ProductPhotosModal } from "./ProductPhotosModal";
 import { ProductEditModal } from "./ProductEditModal";
-import { Plus, Search, Layers, Archive, RefreshCw, Camera, Edit3, ExternalLink } from "lucide-react";
+import { Plus, Search, Layers, Trash2, RefreshCw, Camera, Edit3, ExternalLink } from "lucide-react";
 import { formatINR, useDebounce } from "@bagodi/utilities";
 
 export const ProductListPage: React.FC = () => {
@@ -53,8 +53,8 @@ export const ProductListPage: React.FC = () => {
     staleTime: 5000,
   });
 
-  // Archive mutation
-  const archiveMutation = useMutation({
+  // Delete mutation
+  const deleteMutation = useMutation({
     mutationFn: (productId: string) => defaultApiClient.delete(`/products/${productId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-products-list"] });
@@ -62,13 +62,15 @@ export const ProductListPage: React.FC = () => {
   });
 
   const rawItems: any[] = Array.isArray(data) ? data : data?.items || [];
-  const allItems: Product[] = rawItems.map((p) => ({
-    ...p,
-    isActive: Boolean(p.isActive ?? (p.status === "active" && p.is_published !== false)),
-    isArchived: Boolean(p.isArchived ?? (p.status === "archived")),
-    currency: p.currency || "INR",
-    basePrice: Number(p.basePrice) || (p.variants?.[0]?.base_price ? Number(p.variants[0].base_price) : 0),
-  }));
+  const allItems: Product[] = rawItems
+    .filter((p) => p.status !== "archived" && !p.isArchived)
+    .map((p) => ({
+      ...p,
+      isActive: Boolean(p.isActive ?? (p.status === "active" && p.is_published !== false)),
+      isArchived: false,
+      currency: p.currency || "INR",
+      basePrice: Number(p.basePrice) || (p.variants?.[0]?.base_price ? Number(p.variants[0].base_price) : 0),
+    }));
   const stagedItems = allItems.filter((p) => !p.isActive && !p.isArchived);
   const liveItems = allItems.filter((p) => p.isActive && !p.isArchived);
 
@@ -223,20 +225,19 @@ export const ProductListPage: React.FC = () => {
           >
             Variants ({r.variants?.length || 0})
           </Button>
-          {!r.isArchived && (
-            <Button
-              size="sm"
-              variant="ghost"
-              leftIcon={<Archive size={13} />}
-              onClick={() => {
-                if (window.confirm(`Archive "${r.name}"? It will be hidden from customer storefront.`)) {
-                  archiveMutation.mutate(r.id);
-                }
-              }}
-            >
-              Archive
-            </Button>
-          )}
+          <Button
+            size="sm"
+            variant="ghost"
+            leftIcon={<Trash2 size={13} color="#C5221F" />}
+            style={{ color: "#C5221F" }}
+            onClick={() => {
+              if (window.confirm(`Delete "${r.name}"? This will permanently remove the garment and all its size variants from the catalogue.`)) {
+                deleteMutation.mutate(r.id);
+              }
+            }}
+          >
+            Delete
+          </Button>
         </div>
       ),
     },
