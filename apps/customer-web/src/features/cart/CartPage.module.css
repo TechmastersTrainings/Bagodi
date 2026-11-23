@@ -299,3 +299,17 @@
   text-align: right;
 }
 
+@media (max-width: 560px) {
+  .cartItemCard {
+    padding: 12px;
+    gap: 12px;
+  }
+  .itemImageWrapper {
+    width: 76px;
+    height: 100px;
+  }
+  .summaryCard {
+    padding: 16px;
+  }
+}
+

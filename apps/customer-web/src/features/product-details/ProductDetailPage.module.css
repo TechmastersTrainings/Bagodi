@@ -382,3 +382,28 @@
     gap: 28px;
   }
 }
+
+@media (max-width: 640px) {
+  .actionsContainer {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .buyNowActionBtn {
+    flex: 1 1 100%;
+    order: 1;
+    height: 48px;
+  }
+
+  .addToBagActionBtn {
+    flex: 1 1 calc(100% - 58px);
+    order: 2;
+    height: 48px;
+  }
+
+  .wishlistBtn {
+    flex: 0 0 48px;
+    order: 3;
+    height: 48px;
+  }
+}

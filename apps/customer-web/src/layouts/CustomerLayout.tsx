@@ -49,6 +49,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [isMobileAccountDrawerOpen, setIsMobileAccountDrawerOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on click outside
@@ -71,6 +72,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
     setIsAccountMenuOpen(false);
     setIsMobileAccountDrawerOpen(false);
     setIsMenuOpen(false);
+    setIsMobileSearchOpen(false);
   }, [location.pathname]);
 
   const handleLogout = async () => {
@@ -140,7 +142,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           ================================================================ */}
       <header className={styles.header}>
         <div className={styles.headerMainRow}>
-          {/* Left: Hamburger Menu & Rounded Search Input */}
+          {/* Left: Hamburger Menu & Search Input */}
           <div className={styles.headerLeft}>
             <button
               type="button"
@@ -150,6 +152,16 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
               title="Menu"
             >
               <Menu size={20} strokeWidth={1.9} />
+            </button>
+
+            <button
+              type="button"
+              className={styles.mobileSearchToggleBtn}
+              onClick={() => setIsMobileSearchOpen((prev) => !prev)}
+              aria-label="Search"
+              title="Search"
+            >
+              <Search size={19} strokeWidth={1.9} />
             </button>
 
             <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
@@ -275,6 +287,33 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
             </Link>
           </div>
         </div>
+
+        {/* Mobile Search Expandable Field */}
+        {isMobileSearchOpen && (
+          <div className={styles.mobileSearchRow}>
+            <form onSubmit={handleSearchSubmit} className={styles.mobileSearchForm}>
+              <Search size={16} className={styles.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search products, brands and collections..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={styles.mobileSearchInput}
+                autoFocus
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className={styles.mobileSearchClearBtn}
+                  onClick={() => setSearchQuery("")}
+                  aria-label="Clear Search"
+                >
+                  <X size={15} />
+                </button>
+              )}
+            </form>
+          </div>
+        )}
 
         {/* Category Navigation Pills */}
         <div className={styles.navBarWrapper}>
@@ -578,15 +617,18 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           onClick={() => triggerHaptic("selection")}
           className={`${styles.mobileNavItem} ${location.pathname.startsWith("/catalogue") ? styles.mobileNavItemActive : ""}`}
         >
-          <Grid size={18} />
-          <span>Catalogue</span>
+          <Grid size={20} strokeWidth={1.8} />
+          <span>Categories</span>
         </Link>
         <Link
           to="/account/wishlist"
           onClick={() => triggerHaptic("selection")}
           className={`${styles.mobileNavItem} ${location.pathname.includes("wishlist") ? styles.mobileNavItemActive : ""}`}
         >
-          <Heart size={18} />
+          <div className={styles.mobileNavIconWrap}>
+            <Heart size={20} strokeWidth={1.8} />
+            {wishlistCount > 0 && <span className={styles.mobileNavBadge}>{wishlistCount}</span>}
+          </div>
           <span>Wishlist</span>
         </Link>
         <Link
@@ -594,8 +636,11 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           onClick={() => triggerHaptic("selection")}
           className={`${styles.mobileNavItem} ${location.pathname === "/cart" ? styles.mobileNavItemActive : ""}`}
         >
-          <ShoppingBag size={18} />
-          <span>Bag {cartCount > 0 ? `(${cartCount})` : ""}</span>
+          <div className={styles.mobileNavIconWrap}>
+            <ShoppingBag size={20} strokeWidth={1.8} />
+            {cartCount > 0 && <span className={styles.mobileNavBadge}>{cartCount}</span>}
+          </div>
+          <span>Bag</span>
         </Link>
         {user ? (
           <button

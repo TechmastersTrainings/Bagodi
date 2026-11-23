@@ -52,15 +52,8 @@
 }
 
 @media (max-width: 768px) {
-  .announcementInner {
-    justify-content: flex-start;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 2px;
-  }
-  .announcementInner::-webkit-scrollbar {
-    display: none;
+  .announcementStrip {
+    display: none !important;
   }
 }
 
@@ -151,6 +144,14 @@
   .searchForm {
     display: none;
   }
+}
+
+.mobileSearchToggleBtn {
+  display: none;
+}
+
+.mobileSearchRow {
+  display: none;
 }
 
 /* Center: Brand Logo */
@@ -752,29 +753,185 @@
 }
 
 @media (max-width: 768px) {
+  /* Hide Desktop Category Pill Bar on Mobile */
+  .navBarWrapper {
+    display: none !important;
+  }
+
+  /* Compact Mobile Header */
+  .headerMainRow {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .headerLeft {
+    gap: 4px;
+    flex: 0 0 auto;
+    max-width: none;
+  }
+
+  .mobileSearchToggleBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    min-height: 38px;
+    border-radius: 50%;
+    color: #26231F;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .mobileSearchToggleBtn:hover {
+    color: var(--bagodi-red, #A51F27);
+  }
+
+  /* Expandable Mobile Search Row */
+  .mobileSearchRow {
+    display: block;
+    padding: 0 14px 10px 14px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E5DED3;
+    animation: fadeIn 0.15s ease;
+  }
+
+  .mobileSearchForm {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #FBF9F6;
+    border: 1px solid #E5DED3;
+    border-radius: 999px;
+    padding: 7px 14px;
+    width: 100%;
+  }
+
+  .mobileSearchInput {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 13px;
+    color: #26231F;
+    width: 100%;
+    font-family: var(--font-sans, sans-serif);
+  }
+
+  .mobileSearchInput::placeholder {
+    color: #8C847A;
+  }
+
+  .mobileSearchClearBtn {
+    background: none;
+    border: none;
+    color: #8C847A;
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .headerCenter {
+    flex: 1;
+    text-align: center;
+  }
+
+  .brandWordmark {
+    font-size: 20px;
+    letter-spacing: 0.14em;
+  }
+
+  .brandSubtitle {
+    font-size: 6.5px;
+    letter-spacing: 0.2em;
+    margin-top: 2px;
+  }
+
+  .headerRight {
+    gap: 4px;
+    flex: 0 0 auto;
+    max-width: none;
+  }
+
+  .headerActionBtn {
+    padding: 6px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  /* Safe bottom padding so fixed bottom nav never covers page content */
+  .mainContent {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 16px));
+  }
+
+  /* Mobile Fixed Bottom Navigation */
   .mobileBottomNav {
     display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(229, 222, 211, 0.9);
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px)) 4px;
+    z-index: 999;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.06);
   }
-}
 
-.mobileNavItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  font-size: 9.5px;
-  font-weight: 500;
-  color: #5C554E;
-  text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-}
+  .mobileNavItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    color: #6B7280;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    min-width: 48px;
+    position: relative;
+    transition: color 0.15s ease;
+  }
 
-.mobileNavItemActive {
-  color: var(--bagodi-red, #A51F27);
-  font-weight: 700;
+  .mobileNavItemActive {
+    color: var(--bagodi-red, #A51F27);
+    font-weight: 700;
+  }
+
+  .mobileNavIconWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobileNavBadge {
+    position: absolute;
+    top: -4px;
+    right: -9px;
+    background-color: var(--bagodi-red, #A51F27);
+    color: #FFFFFF;
+    font-size: 9px;
+    font-weight: 700;
+    min-width: 15px;
+    height: 15px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    border: 1.5px solid #FFFFFF;
+    line-height: 1;
+  }
 }
 
 /* Mobile Account Bottom Drawer */
