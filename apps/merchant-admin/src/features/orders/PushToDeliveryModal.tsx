@@ -33,6 +33,25 @@ export const PushToDeliveryModal: React.FC<PushToDeliveryModalProps> = ({
   const [apiError, setApiError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
+  const selectedCourier = COURIER_OPTIONS.find((c) => c.code === courierCode) || COURIER_OPTIONS[0];
+
+  const pushToDeliveryMutation = useMutation({
+    mutationFn: (payload: any) =>
+      defaultApiClient.patch(`/orders/${order?.id}/status`, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-orders-list"] });
+      setSuccessMsg(
+        `Order #${order?.orderNumber} successfully scheduled and pushed to ${selectedCourier.name} portal!`
+      );
+      setTimeout(() => {
+        onClose();
+      }, 1100);
+    },
+    onError: (err: unknown) => {
+      setApiError(err instanceof Error ? err.message : "Failed to push order to delivery portal.");
+    },
+  });
+
   if (!order || !isOpen) return null;
 
   const handleGenerateTracking = () => {
@@ -44,25 +63,6 @@ export const PushToDeliveryModal: React.FC<PushToDeliveryModalProps> = ({
       setTrackingNumber(`${prefix}-${randomDigits}`);
     }
   };
-
-  const selectedCourier = COURIER_OPTIONS.find((c) => c.code === courierCode) || COURIER_OPTIONS[0];
-
-  const pushToDeliveryMutation = useMutation({
-    mutationFn: (payload: any) =>
-      defaultApiClient.patch(`/orders/${order.id}/status`, payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-orders-list"] });
-      setSuccessMsg(
-        `Order #${order.orderNumber} successfully scheduled and pushed to ${selectedCourier.name} portal!`
-      );
-      setTimeout(() => {
-        onClose();
-      }, 1100);
-    },
-    onError: (err: unknown) => {
-      setApiError(err instanceof Error ? err.message : "Failed to push order to delivery portal.");
-    },
-  });
 
   const handleConfirm = () => {
     const finalTracking = trackingNumber.trim() || `BD-${Math.floor(100000000 + Math.random() * 900000000)}`;
