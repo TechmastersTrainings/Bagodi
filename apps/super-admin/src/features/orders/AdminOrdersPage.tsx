@@ -123,10 +123,10 @@ export const AdminOrdersPage: React.FC = () => {
       header: "Order Reference",
       render: (row) => (
         <div>
-          <div style={{ fontWeight: 600, color: "#FFFFFF", fontFamily: "var(--font-mono)", fontSize: "13px" }}>
+          <div style={{ fontWeight: 700, color: "#111412", fontFamily: "var(--font-mono)", fontSize: "13px" }}>
             {row.orderNumber}
           </div>
-          <div style={{ fontSize: "11px", color: "var(--color-muted-grey)" }}>
+          <div style={{ fontSize: "11px", color: "#7A756D", marginTop: 2 }}>
             {row.items?.length || 0} item{row.items?.length === 1 ? "" : "s"}
           </div>
         </div>
@@ -137,9 +137,11 @@ export const AdminOrdersPage: React.FC = () => {
       header: "Customer",
       render: (row) => (
         <div>
-          <div style={{ fontWeight: 500, color: "#FFFFFF" }}>{row.customerName}</div>
-          <div style={{ fontSize: "11px", color: "var(--color-muted-grey)" }}>
-            {row.shippingAddress?.phone || row.shippingAddress?.city || "Retail Client"}
+          <div style={{ fontWeight: 600, color: "#111412", fontSize: "13px" }}>
+            {row.customerName || "Retail Client"}
+          </div>
+          <div style={{ fontSize: "11.5px", color: "#6B655D", marginTop: 2 }}>
+            {row.shippingAddress?.phone || row.shippingAddress?.city || "Direct Store Client"}
           </div>
         </div>
       ),
@@ -148,7 +150,7 @@ export const AdminOrdersPage: React.FC = () => {
       key: "createdAt",
       header: "Order Date",
       render: (row) => (
-        <span style={{ fontSize: "12px", color: "var(--color-muted-grey)" }}>
+        <span style={{ fontSize: "12px", color: "#4A4E4B", fontWeight: 500 }}>
           {formatDateTime(row.createdAt)}
         </span>
       ),
@@ -159,7 +161,7 @@ export const AdminOrdersPage: React.FC = () => {
       render: (row) => (
         <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
           {getPaymentBadge(row.paymentStatus)}
-          <span style={{ fontSize: "10px", color: "var(--color-muted-grey)" }}>
+          <span style={{ fontSize: "10.5px", color: "#7A756D", fontWeight: 600, textTransform: "uppercase" }}>
             {row.paymentMethod}
           </span>
         </div>
@@ -174,7 +176,7 @@ export const AdminOrdersPage: React.FC = () => {
       key: "grandTotal",
       header: "Grand Total",
       render: (row) => (
-        <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, color: "var(--color-champagne-gold)" }}>
+        <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, color: "#111412", fontSize: "13.5px" }}>
           {formatINR(row.grandTotal)}
         </div>
       ),
