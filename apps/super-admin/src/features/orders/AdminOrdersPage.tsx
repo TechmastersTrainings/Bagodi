@@ -91,10 +91,18 @@ export const AdminOrdersPage: React.FC = () => {
         return <StatusBadge variant="success" label="Delivered" />;
       case "SHIPPED":
         return <StatusBadge variant="info" label="In-Transit" />;
+      case "DISPATCHED":
+        return <StatusBadge variant="info" label="Dispatched" />;
+      case "OUT_FOR_DELIVERY":
+        return <StatusBadge variant="info" label="Out For Delivery" />;
       case "PACKED":
         return <StatusBadge variant="warning" label="Packed" />;
       case "CONFIRMED":
         return <StatusBadge variant="neutral" label="Confirmed" />;
+      case "PROCESSING":
+        return <StatusBadge variant="neutral" label="Processing" />;
+      case "PENDING_PAYMENT":
+        return <StatusBadge variant="warning" label="Pending Payment" />;
       case "CANCELLED":
         return <StatusBadge variant="danger" label="Cancelled" />;
       default:

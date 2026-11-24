@@ -45,6 +45,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   const [trackingNumber, setTrackingNumber] = useState("");
   const [cancellationReason, setCancellationReason] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   React.useEffect(() => {
     if (!order) return;
@@ -56,6 +57,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
     setCourierPartner(order.courierPartner || "");
     setTrackingNumber(order.trackingNumber || "");
     setFormError(null);
+    setSuccessMsg(null);
   }, [order?.id, order?.status]);
 
   // Status Mutation
@@ -64,7 +66,11 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       defaultApiClient.patch<Order>(`/orders/${order?.id}/status`, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-orders-list"] });
-      onClose();
+      setSuccessMsg(`Order status successfully updated to ${targetStatus}!`);
+      setTimeout(() => {
+        setSuccessMsg(null);
+        onClose();
+      }, 950);
     },
     onError: (err: any) => {
       setFormError(err.message || "Failed to update order status");
@@ -755,6 +761,27 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
             <CheckCircle2 size={15} color="#8E7238" />
             Update Fulfillment State
           </h4>
+
+          {successMsg && (
+            <div
+              style={{
+                color: "#166534",
+                background: "#DCFCE7",
+                border: "1px solid #86EFAC",
+                borderRadius: "6px",
+                padding: "8px 12px",
+                fontSize: "12px",
+                marginTop: "10px",
+                marginBottom: "12px",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                fontWeight: 600,
+              }}
+            >
+              <CheckCircle2 size={14} color="#166534" /> {successMsg}
+            </div>
+          )}
 
           {formError && (
             <div
