@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { defaultApiClient } from "@bagodi/api-client";
 import { Order } from "@bagodi/shared-types";
 import { Modal, Button } from "@bagodi/shared-components";
-import { Send, CheckCircle, MessageSquare, Mail, Phone } from "lucide-react";
+import { Send, CheckCircle, MessageSquare, Mail, Phone, AlertTriangle } from "lucide-react";
 
 export interface NotifyCustomerModalProps {
   order: Order | null;
@@ -14,12 +16,29 @@ export const NotifyCustomerModal: React.FC<NotifyCustomerModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const queryClient = useQueryClient();
   const [channel, setChannel] = useState<"WHATSAPP" | "SMS" | "EMAIL">("WHATSAPP");
   const [customNote, setCustomNote] = useState<string>(
     "Your luxury garment has passed final artisan inspection and is packed at our flagship store. Delivery is being scheduled."
   );
   const [isSent, setIsSent] = useState<boolean>(false);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const notifyMutation = useMutation({
+    mutationFn: (payload: { channel: string; customNote: string }) =>
+      defaultApiClient.post(`/orders/${order?.id}/notify`, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-orders-list"] });
+      setIsSent(true);
+      setTimeout(() => {
+        setIsSent(false);
+        onClose();
+      }, 1400);
+    },
+    onError: (err: any) => {
+      setApiError(err.message || "Failed to dispatch notification to customer");
+    },
+  });
 
   if (!order || !isOpen) return null;
 
@@ -28,15 +47,8 @@ export const NotifyCustomerModal: React.FC<NotifyCustomerModalProps> = ({
   const customerEmail = order.customerEmail || "client@bagodi.in";
 
   const handleSend = () => {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSent(true);
-      setTimeout(() => {
-        setIsSent(false);
-        onClose();
-      }, 1200);
-    }, 600);
+    setApiError(null);
+    notifyMutation.mutate({ channel, customNote });
   };
 
   return (
@@ -47,6 +59,26 @@ export const NotifyCustomerModal: React.FC<NotifyCustomerModalProps> = ({
       maxWidth="620px"
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        {apiError && (
+          <div
+            style={{
+              padding: "10px 14px",
+              background: "#FEE2E2",
+              border: "1px solid #FCA5A5",
+              borderRadius: 8,
+              color: "#B91C1C",
+              fontSize: "12px",
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <AlertTriangle size={16} />
+            {apiError}
+          </div>
+        )}
+
         {isSent && (
           <div
             style={{
@@ -220,7 +252,7 @@ export const NotifyCustomerModal: React.FC<NotifyCustomerModalProps> = ({
           <Button
             type="button"
             size="sm"
-            isLoading={isSubmitting}
+            isLoading={notifyMutation.isPending}
             onClick={handleSend}
             style={{ background: "#2E7D32", color: "#FFFFFF" }}
           >

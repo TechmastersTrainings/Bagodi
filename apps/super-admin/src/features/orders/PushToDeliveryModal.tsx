@@ -12,6 +12,7 @@ export interface PushToDeliveryModalProps {
 }
 
 const COURIER_OPTIONS: { id: string; name: string; code: string; sla: string }[] = [
+  { id: "c-internal", name: "Bagodi Internal Fleet (Bidar)", code: "INTERNAL", sla: "Within 2 Hours (Rider App + OTP + UPI QR)" },
   { id: "c-bluedart", name: "Blue Dart Express Air", code: "BLUEDART", sla: "1-2 Days Express" },
   { id: "c-delhivery", name: "Delhivery Surface & Air", code: "DELHIVERY", sla: "2-3 Days Standard" },
   { id: "c-dtdc", name: "DTDC Premium Express", code: "DTDC", sla: "2 Days Express" },
@@ -24,9 +25,10 @@ export const PushToDeliveryModal: React.FC<PushToDeliveryModalProps> = ({
   onClose,
 }) => {
   const queryClient = useQueryClient();
-  const [courierCode, setCourierCode] = useState<string>("BLUEDART");
-  const [trackingNumber, setTrackingNumber] = useState<string>("");
-  const [pickupSlot, setPickupSlot] = useState<string>("TODAY_EVENING");
+  const [courierCode, setCourierCode] = useState<string>("INTERNAL");
+  const [selectedRider, setSelectedRider] = useState<string>("DEL-BID-001");
+  const [trackingNumber, setTrackingNumber] = useState<string>("BAGODI-BID-10024");
+  const [pickupSlot, setPickupSlot] = useState<string>("IMMEDIATE_DISPATCH");
   const [weightKg, setWeightKg] = useState<number>(1.2);
   const [apiError, setApiError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -34,9 +36,13 @@ export const PushToDeliveryModal: React.FC<PushToDeliveryModalProps> = ({
   if (!order || !isOpen) return null;
 
   const handleGenerateTracking = () => {
-    const randomDigits = Math.floor(100000000 + Math.random() * 900000000);
-    const prefix = courierCode === "BLUEDART" ? "BD" : courierCode === "DELHIVERY" ? "DEL" : "DTDC";
-    setTrackingNumber(`${prefix}-${randomDigits}`);
+    const randomDigits = Math.floor(100000 + Math.random() * 900000);
+    if (courierCode === "INTERNAL") {
+      setTrackingNumber(`BAGODI-BID-${randomDigits}`);
+    } else {
+      const prefix = courierCode === "BLUEDART" ? "BD" : courierCode === "DELHIVERY" ? "DEL" : "DTDC";
+      setTrackingNumber(`${prefix}-${randomDigits}`);
+    }
   };
 
   const selectedCourier = COURIER_OPTIONS.find((c) => c.code === courierCode) || COURIER_OPTIONS[0];
@@ -170,6 +176,48 @@ export const PushToDeliveryModal: React.FC<PushToDeliveryModalProps> = ({
             ))}
           </div>
         </div>
+
+        {/* Dedicated Internal Rider Selector */}
+        {courierCode === "INTERNAL" && (
+          <div
+            style={{
+              padding: "12px 14px",
+              background: "#F0FDF4",
+              border: "1px solid #BBF7D0",
+              borderRadius: 8,
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: "11px", fontWeight: 700, color: "#166534", textTransform: "uppercase" }}>
+                Dedicated Delivery Agent (Bidar Fleet)
+              </span>
+              <span style={{ fontSize: "11px", fontWeight: 600, color: "#15803D" }}>
+                Dynamic UPI QR & OTP Handover Active
+              </span>
+            </div>
+            <select
+              value={selectedRider}
+              onChange={(e) => setSelectedRider(e.target.value)}
+              style={{
+                width: "100%",
+                height: 38,
+                padding: "0 10px",
+                borderRadius: 6,
+                border: "1px solid #86EFAC",
+                background: "#FFFFFF",
+                fontSize: "12px",
+                fontWeight: 600,
+                color: "#14532D",
+              }}
+            >
+              <option value="DEL-BID-001">Vikram Jadhav • Hero Splendor KA-38-EA-1024 (On-Duty • Bidar Central)</option>
+              <option value="DEL-BID-002">Mohammed Zeeshan • Honda Activa KA-38-EA-2048 (On-Duty • Mailoor / Fort)</option>
+            </select>
+          </div>
+        )}
 
         {/* Tracking Number & Weight */}
         <div style={{ display: "grid", gridTemplateColumns: "1.4fr auto 1fr", gap: 10, alignItems: "flex-end" }}>

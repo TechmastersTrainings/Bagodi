@@ -46,6 +46,18 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   const [cancellationReason, setCancellationReason] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
 
+  React.useEffect(() => {
+    if (!order) return;
+    if (order.status === "PENDING_PAYMENT") setTargetStatus("CONFIRMED");
+    else if (order.status === "CONFIRMED") setTargetStatus("PACKED");
+    else if (order.status === "PACKED") setTargetStatus("SHIPPED");
+    else if (order.status === "SHIPPED") setTargetStatus("DELIVERED");
+    else setTargetStatus(order.status);
+    setCourierPartner(order.courierPartner || "");
+    setTrackingNumber(order.trackingNumber || "");
+    setFormError(null);
+  }, [order?.id, order?.status]);
+
   // Status Mutation
   const updateStatusMutation = useMutation({
     mutationFn: (payload: UpdateOrderStatusPayload) =>
