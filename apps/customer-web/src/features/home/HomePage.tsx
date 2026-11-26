@@ -21,41 +21,10 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { formatINR } from "@bagodi/utilities";
+import heroBandhgalaSuitImg from "../../assets/hero-bandhgala-suit.jpg";
+import heroFestiveSilksImg from "../../assets/hero-festive-silks.jpg";
 
 const HERO_SLIDES = [
-  {
-    id: "festive",
-    superTitle: "THE NEW SEASON",
-    title: "Festive Collection",
-    subtitle: "Tradition Meets Modern Style",
-    ctaText: "Shop The Collection",
-    ctaHref: "/catalogue?offers=true",
-    img: "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/14ead1c2d388489794c70e945413f7df.jpg",
-    imgPosition: "center 6%",
-    alt: "Bagodi Festive Collection",
-  },
-  {
-    id: "mens-wear",
-    superTitle: "CONTEMPORARY FESTIVE PRET",
-    title: "Royal Menswear Edit",
-    subtitle: "Tailored Suits, Bandis & Ceremonial Wear",
-    ctaText: "Shop Menswear",
-    ctaHref: "/catalogue?category=mens-wear",
-    img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=2400&q=92",
-    imgPosition: "center 28%",
-    alt: "Bagodi Royal Menswear Edit",
-  },
-  {
-    id: "womens-wear",
-    superTitle: "ARTISANAL HERITAGE COUTURE",
-    title: "Signature Women's Edit",
-    subtitle: "Embroidered Festive Ensembles & Fine Silks",
-    ctaText: "Explore Women's",
-    ctaHref: "/catalogue?category=womens-wear",
-    img: "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/27487cc39d0b4ec780a7c09f5f17e5f0.webp",
-    imgPosition: "center 4%",
-    alt: "Bagodi Signature Women's Collection",
-  },
   {
     id: "blazers",
     superTitle: "BESPOKE CEREMONIAL ATELIER",
@@ -66,6 +35,39 @@ const HERO_SLIDES = [
     img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=2400&q=92",
     imgPosition: "center 24%",
     alt: "Bagodi Royal Blazers and Suiting",
+  },
+  {
+    id: "festive-silks",
+    superTitle: "THE NEW SEASON",
+    title: "Festive Silk Couture",
+    subtitle: "Handwoven Kanjeevaram & Banarasi Weaves",
+    ctaText: "Shop The Collection",
+    ctaHref: "/catalogue?category=sarees",
+    img: heroFestiveSilksImg,
+    imgPosition: "center 35%",
+    alt: "Bagodi Festive Silk Sarees Boutique Display",
+  },
+  {
+    id: "mens-wear",
+    superTitle: "CONTEMPORARY FORMAL PRET",
+    title: "Royal Menswear Edit",
+    subtitle: "Tailored Suits, Waistcoats & Ceremonial Wear",
+    ctaText: "Shop Menswear",
+    ctaHref: "/catalogue?category=mens-wear",
+    img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=2400&q=92",
+    imgPosition: "center 28%",
+    alt: "Bagodi Royal Menswear Edit",
+  },
+  {
+    id: "bandhgala-atelier",
+    superTitle: "HERITAGE CEREMONIAL ATELIER",
+    title: "Royal Bandhgala Edit",
+    subtitle: "Handcrafted Silk Suiting & Regal Tailoring",
+    ctaText: "Explore Ethnic Suiting",
+    ctaHref: "/catalogue?offers=true",
+    img: heroBandhgalaSuitImg,
+    imgPosition: "center 22%",
+    alt: "Bagodi Tailored Emerald Bandhgala Suit",
   },
 ];
 
