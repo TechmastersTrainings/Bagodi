@@ -609,7 +609,14 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           {/* Sub-Footer */}
           <div className={styles.subFooter}>
             <div className={styles.subFooterLeft}>
-              © 2026 Bagodi. All rights reserved.
+              <span>© 2026 Bagodi. All rights reserved.</span>
+              <span className={styles.subFooterLeftDot} aria-hidden="true">•</span>
+              <span className={styles.subFooterCredit}>
+                Developed by{" "}
+                <strong className={styles.subFooterCompany}>
+                  TechMasters Innovations Private Limited
+                </strong>
+              </span>
             </div>
             <div className={styles.subFooterRight}>
               <Link to="/policies/privacy">Privacy Policy</Link>

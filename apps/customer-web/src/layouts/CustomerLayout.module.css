@@ -630,6 +630,26 @@
   gap: 12px;
 }
 
+.subFooterLeft {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.subFooterLeftDot {
+  color: rgba(182, 154, 117, 0.7);
+}
+
+.subFooterCredit {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.subFooterCompany {
+  color: var(--bagodi-gold, #B69A75);
+  font-weight: 600;
+}
+
 .subFooterRight {
   display: flex;
   align-items: center;
@@ -729,6 +749,16 @@
     gap: 8px;
     padding-top: 14px;
     font-size: 10.5px;
+  }
+
+  .subFooterLeft {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .subFooterLeftDot {
+    display: none;
   }
 
   .subFooterRight {
