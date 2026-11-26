@@ -37,8 +37,8 @@ const LUXURY_PRESETS = [
     url: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80",
   },
   {
-    name: "Powder Blue Silk",
-    url: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80",
+    name: "Emerald Heritage Kurta",
+    url: "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/27487cc39d0b4ec780a7c09f5f17e5f0.webp",
   },
 ];
 

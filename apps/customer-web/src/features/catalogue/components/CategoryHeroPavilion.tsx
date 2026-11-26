@@ -45,7 +45,7 @@ export const CategoryHeroPavilion: React.FC<CategoryHeroPavilionProps> = ({
       title = "Designer Women's Ethnic Couture";
       subtitle =
         "Chic Anarkalis, flared shararas, and silk kurta sets crafted for celebratory festivities with comfortable modern tailoring.";
-      bgImage = "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=2400&q=85";
+      bgImage = "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/14ead1c2d388489794c70e945413f7df.jpg";
     } else if (activeCategory.slug === "western") {
       title = "Modern Cosmopolitan Western";
       subtitle =

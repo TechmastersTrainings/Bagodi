@@ -65,7 +65,7 @@ const RUNWAY_MODELS: FashionModel[] = [
     categoryName: "Festive Ethnic",
     link: "/catalogue?category=sarees",
     imageUrl:
-      "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=85",
+      "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/27487cc39d0b4ec780a7c09f5f17e5f0.webp",
     alt: "Festive Kurta & Anarkali Ensembles",
   },
 ];

@@ -30,38 +30,42 @@ const HERO_SLIDES = [
     subtitle: "Tradition Meets Modern Style",
     ctaText: "Shop The Collection",
     ctaHref: "/catalogue?offers=true",
-    img: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1800&q=85",
+    img: "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/14ead1c2d388489794c70e945413f7df.jpg",
+    imgPosition: "center 6%",
     alt: "Bagodi Festive Collection",
-  },
-  {
-    id: "sarees",
-    superTitle: "ROYAL HERITAGE SILKS",
-    title: "Pure Silk Sarees",
-    subtitle: "Handcrafted Zari & Banarasi Weaves",
-    ctaText: "Explore Sarees",
-    ctaHref: "/catalogue?category=sarees",
-    img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1800&q=85",
-    alt: "Bagodi Silk Sarees Collection",
-  },
-  {
-    id: "blazers",
-    superTitle: "BESPOKE CEREMONIAL ATELIER",
-    title: "Raymond Royal Blazers",
-    subtitle: "Bespoke Suiting & Elegant Bandhgalas",
-    ctaText: "Discover Blazers",
-    ctaHref: "/catalogue?category=blazers",
-    img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1800&q=85",
-    alt: "Bagodi Royal Blazers and Suiting",
   },
   {
     id: "mens-wear",
     superTitle: "CONTEMPORARY FESTIVE PRET",
     title: "Royal Menswear Edit",
-    subtitle: "Embroidered Kurtas, Bandis & Sherwanis",
+    subtitle: "Tailored Suits, Bandis & Ceremonial Wear",
     ctaText: "Shop Menswear",
     ctaHref: "/catalogue?category=mens-wear",
-    img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1800&q=85",
+    img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=2400&q=92",
+    imgPosition: "center 28%",
     alt: "Bagodi Royal Menswear Edit",
+  },
+  {
+    id: "womens-wear",
+    superTitle: "ARTISANAL HERITAGE COUTURE",
+    title: "Signature Women's Edit",
+    subtitle: "Embroidered Festive Ensembles & Fine Silks",
+    ctaText: "Explore Women's",
+    ctaHref: "/catalogue?category=womens-wear",
+    img: "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/27487cc39d0b4ec780a7c09f5f17e5f0.webp",
+    imgPosition: "center 4%",
+    alt: "Bagodi Signature Women's Collection",
+  },
+  {
+    id: "blazers",
+    superTitle: "BESPOKE CEREMONIAL ATELIER",
+    title: "Raymond Royal Blazers",
+    subtitle: "Bespoke Suiting & Fine Unstitched Fabrics",
+    ctaText: "Discover Blazers",
+    ctaHref: "/catalogue?category=blazers",
+    img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=2400&q=92",
+    imgPosition: "center 24%",
+    alt: "Bagodi Royal Blazers and Suiting",
   },
 ];
 
@@ -87,7 +91,7 @@ export const HomePage: React.FC = () => {
       setActiveHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length);
     }, 4500);
     return () => clearInterval(interval);
-  }, [isAutoPlayPaused]);
+  }, [isAutoPlayPaused, activeHeroSlide]);
 
   const handlePrevSlide = useCallback(() => {
     setActiveHeroSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
@@ -177,32 +181,32 @@ export const HomePage: React.FC = () => {
     {
       name: "Men's Wear",
       href: "/catalogue?category=mens-wear",
-      img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=85",
+      img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90",
     },
     {
       name: "Women's Wear",
       href: "/catalogue?category=womens-wear",
-      img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=600&q=85",
+      img: "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/27487cc39d0b4ec780a7c09f5f17e5f0.webp",
     },
     {
       name: "Kid's Wear",
       href: "/catalogue?category=kids-wear",
-      img: "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=600&q=85",
+      img: "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=1200&q=90",
     },
     {
       name: "Sarees",
       href: "/catalogue?category=sarees",
-      img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=85",
+      img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=90",
     },
     {
       name: "Blazers",
       href: "/catalogue?category=blazers",
-      img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=85",
+      img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1200&q=90",
     },
     {
       name: "Festive Collection",
       href: "/catalogue?offers=true",
-      img: "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=85",
+      img: "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/14ead1c2d388489794c70e945413f7df.jpg",
     },
   ];
 
@@ -234,6 +238,7 @@ export const HomePage: React.FC = () => {
                   src={slide.img}
                   alt={slide.alt}
                   className={styles.heroBgImg}
+                  style={{ objectPosition: slide.imgPosition }}
                   loading={idx === 0 ? "eager" : "lazy"}
                 />
                 <div className={styles.heroGradientOverlay} />

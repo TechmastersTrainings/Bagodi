@@ -50,7 +50,25 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [isMobileAccountDrawerOpen, setIsMobileAccountDrawerOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState<boolean>(() =>
+    typeof window !== "undefined" ? window.matchMedia("(max-width: 768px)").matches : false
+  );
   const accountMenuRef = useRef<HTMLDivElement>(null);
+
+  // Sync mobile viewport detection so top-right header actions are completely disabled on mobile
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const handleViewportChange = (e: MediaQueryListEvent) => {
+      setIsMobileViewport(e.matches);
+      if (e.matches) {
+        setIsAccountMenuOpen(false);
+      }
+    };
+    setIsMobileViewport(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleViewportChange);
+    return () => mediaQuery.removeEventListener("change", handleViewportChange);
+  }, []);
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -184,108 +202,112 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
             </Link>
           </div>
 
-          {/* Right: Account, Wishlist, Shopping Bag */}
-          <div className={styles.headerRight}>
-            {user ? (
-              <div className={styles.accountMenuWrapper} ref={accountMenuRef}>
-                <button
-                  type="button"
-                  className={`${styles.headerActionBtn} ${isAccountMenuOpen ? styles.headerActionBtnActive : ""}`}
-                  onClick={() => setIsAccountMenuOpen((prev) => !prev)}
-                  aria-label="Customer Account Menu"
-                  title="My Account"
-                  aria-expanded={isAccountMenuOpen}
+          {/* Right: Account, Wishlist, Shopping Bag (Desktop only — mobile uses bottom navigation) */}
+          {!isMobileViewport ? (
+            <div className={styles.headerRight}>
+              {user ? (
+                <div className={styles.accountMenuWrapper} ref={accountMenuRef}>
+                  <button
+                    type="button"
+                    className={`${styles.headerActionBtn} ${isAccountMenuOpen ? styles.headerActionBtnActive : ""}`}
+                    onClick={() => setIsAccountMenuOpen((prev) => !prev)}
+                    aria-label="Customer Account Menu"
+                    title="My Account"
+                    aria-expanded={isAccountMenuOpen}
+                  >
+                    <User size={20} strokeWidth={1.8} />
+                  </button>
+
+                  {isAccountMenuOpen && (
+                    <div className={styles.accountDropdown} role="menu">
+                      <div className={styles.accountDropdownHeader}>
+                        <div className={styles.accountHeaderGreet}>Signed In As</div>
+                        <div className={styles.accountHeaderName}>
+                          {user.fullName || (user as any)?.display_name || "Valued Customer"}
+                        </div>
+                        <div className={styles.accountHeaderContact}>
+                          {user.phone || (user as any)?.phone_e164 || user.email || ""}
+                        </div>
+                      </div>
+
+                      <div className={styles.accountMenuList}>
+                        <Link
+                          to="/account/profile"
+                          className={`${styles.accountMenuItem} ${location.pathname === "/account/profile" ? styles.accountMenuItemActive : ""}`}
+                          role="menuitem"
+                          onClick={() => setIsAccountMenuOpen(false)}
+                        >
+                          <User size={15} />
+                          <span>My Account</span>
+                        </Link>
+
+                        <Link
+                          to="/account/orders"
+                          className={`${styles.accountMenuItem} ${location.pathname === "/account/orders" ? styles.accountMenuItemActive : ""}`}
+                          role="menuitem"
+                          onClick={() => setIsAccountMenuOpen(false)}
+                        >
+                          <Package size={15} />
+                          <span>My Orders</span>
+                        </Link>
+
+                        <Link
+                          to="/account/returns"
+                          className={`${styles.accountMenuItem} ${location.pathname === "/account/returns" ? styles.accountMenuItemActive : ""}`}
+                          role="menuitem"
+                          onClick={() => setIsAccountMenuOpen(false)}
+                        >
+                          <RotateCcw size={15} />
+                          <span>Return & Replace</span>
+                        </Link>
+
+                        <button
+                          type="button"
+                          className={`${styles.accountMenuItem} ${styles.accountMenuItemLogout}`}
+                          role="menuitem"
+                          onClick={handleLogout}
+                        >
+                          <LogOut size={15} />
+                          <span>Logout</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className={styles.headerActionBtn}
+                  aria-label="Customer Account"
+                  title="Sign In"
                 >
                   <User size={20} strokeWidth={1.8} />
-                </button>
+                </Link>
+              )}
 
-                {isAccountMenuOpen && (
-                  <div className={styles.accountDropdown} role="menu">
-                    <div className={styles.accountDropdownHeader}>
-                      <div className={styles.accountHeaderGreet}>Signed In As</div>
-                      <div className={styles.accountHeaderName}>
-                        {user.fullName || (user as any)?.display_name || "Valued Customer"}
-                      </div>
-                      <div className={styles.accountHeaderContact}>
-                        {user.phone || (user as any)?.phone_e164 || user.email || ""}
-                      </div>
-                    </div>
-
-                    <div className={styles.accountMenuList}>
-                      <Link
-                        to="/account/profile"
-                        className={`${styles.accountMenuItem} ${location.pathname === "/account/profile" ? styles.accountMenuItemActive : ""}`}
-                        role="menuitem"
-                        onClick={() => setIsAccountMenuOpen(false)}
-                      >
-                        <User size={15} />
-                        <span>My Account</span>
-                      </Link>
-
-                      <Link
-                        to="/account/orders"
-                        className={`${styles.accountMenuItem} ${location.pathname === "/account/orders" ? styles.accountMenuItemActive : ""}`}
-                        role="menuitem"
-                        onClick={() => setIsAccountMenuOpen(false)}
-                      >
-                        <Package size={15} />
-                        <span>My Orders</span>
-                      </Link>
-
-                      <Link
-                        to="/account/returns"
-                        className={`${styles.accountMenuItem} ${location.pathname === "/account/returns" ? styles.accountMenuItemActive : ""}`}
-                        role="menuitem"
-                        onClick={() => setIsAccountMenuOpen(false)}
-                      >
-                        <RotateCcw size={15} />
-                        <span>Return & Replace</span>
-                      </Link>
-
-                      <button
-                        type="button"
-                        className={`${styles.accountMenuItem} ${styles.accountMenuItemLogout}`}
-                        role="menuitem"
-                        onClick={handleLogout}
-                      >
-                        <LogOut size={15} />
-                        <span>Logout</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
               <Link
-                to="/login"
+                to="/account/wishlist"
                 className={styles.headerActionBtn}
-                aria-label="Customer Account"
-                title="Sign In"
+                aria-label="Wishlist"
+                title="Wishlist"
               >
-                <User size={20} strokeWidth={1.8} />
+                <Heart size={20} strokeWidth={1.8} />
+                {wishlistCount > 0 && <span className={styles.badge}>{wishlistCount}</span>}
               </Link>
-            )}
 
-            <Link
-              to="/account/wishlist"
-              className={styles.headerActionBtn}
-              aria-label="Wishlist"
-              title="Wishlist"
-            >
-              <Heart size={20} strokeWidth={1.8} />
-              {wishlistCount > 0 && <span className={styles.badge}>{wishlistCount}</span>}
-            </Link>
-
-            <Link
-              to="/cart"
-              className={styles.headerActionBtn}
-              aria-label="Shopping Bag"
-              title="Shopping Bag"
-            >
-              <ShoppingBag size={20} strokeWidth={1.8} />
-              {cartCount > 0 && <span className={styles.badge}>{cartCount}</span>}
-            </Link>
-          </div>
+              <Link
+                to="/cart"
+                className={styles.headerActionBtn}
+                aria-label="Shopping Bag"
+                title="Shopping Bag"
+              >
+                <ShoppingBag size={20} strokeWidth={1.8} />
+                {cartCount > 0 && <span className={styles.badge}>{cartCount}</span>}
+              </Link>
+            </div>
+          ) : (
+            <div className={styles.mobileHeaderSpacer} aria-hidden="true" />
+          )}
         </div>
 
         {/* Mobile Search Expandable Field */}

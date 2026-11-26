@@ -760,6 +760,9 @@
 
   /* Compact Mobile Header */
   .headerMainRow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
     padding: 8px 12px;
     gap: 8px;
   }
@@ -768,6 +771,7 @@
     gap: 4px;
     flex: 0 0 auto;
     max-width: none;
+    justify-self: start;
   }
 
   .mobileSearchToggleBtn {
@@ -836,6 +840,7 @@
   .headerCenter {
     flex: 1;
     text-align: center;
+    justify-self: center;
   }
 
   .brandWordmark {
@@ -850,15 +855,14 @@
   }
 
   .headerRight {
-    gap: 4px;
-    flex: 0 0 auto;
-    max-width: none;
+    display: none !important;
   }
 
-  .headerActionBtn {
-    padding: 6px;
-    min-width: 36px;
-    min-height: 36px;
+  .mobileHeaderSpacer {
+    justify-self: end;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
   }
 
   /* Safe bottom padding so fixed bottom nav never covers page content */
