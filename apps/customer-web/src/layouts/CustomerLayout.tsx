@@ -160,7 +160,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           ================================================================ */}
       <header className={styles.header}>
         <div className={styles.headerMainRow}>
-          {/* Left: Hamburger Menu (Mobile) & Desktop Search Input */}
+          {/* Left: Hamburger Menu & Search Input */}
           <div className={styles.headerLeft}>
             <button
               type="button"
@@ -170,6 +170,16 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
               title="Menu"
             >
               <Menu size={20} strokeWidth={1.9} />
+            </button>
+
+            <button
+              type="button"
+              className={styles.mobileSearchToggleBtn}
+              onClick={() => setIsMobileSearchOpen((prev) => !prev)}
+              aria-label="Search"
+              title="Search"
+            >
+              <Search size={19} strokeWidth={1.9} />
             </button>
 
             <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
@@ -296,15 +306,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
               </Link>
             </div>
           ) : (
-            <button
-              type="button"
-              className={styles.mobileSearchToggleBtn}
-              onClick={() => setIsMobileSearchOpen((prev) => !prev)}
-              aria-label="Search"
-              title="Search"
-            >
-              <Search size={19} strokeWidth={1.9} />
-            </button>
+            <div className={styles.mobileHeaderSpacer} aria-hidden="true" />
           )}
         </div>
 
