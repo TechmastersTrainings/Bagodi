@@ -453,8 +453,8 @@
 .footer {
   background: #1A1816;
   color: #FFFFFF;
-  padding: 48px 24px 28px 24px;
-  margin-top: 40px;
+  padding: 22px 24px 14px 24px;
+  margin-top: 0;
   border-top: 1px solid rgba(182, 154, 117, 0.25);
 }
 
@@ -466,8 +466,8 @@
 .footerGrid {
   display: grid;
   grid-template-columns: 1.5fr repeat(4, 1fr);
-  gap: 36px;
-  padding-bottom: 36px;
+  gap: 24px;
+  padding-bottom: 18px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -488,7 +488,7 @@
 .footerBrandCol {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .footerLogoContainer {
@@ -498,7 +498,7 @@
 
 .footerBrandWordmark {
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
-  font-size: 26px;
+  font-size: 23px;
   font-weight: 700;
   letter-spacing: 0.16em;
   color: #FFFFFF;
@@ -551,12 +551,12 @@
 .footerCol {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .footerColTitle {
   font-family: var(--font-sans, "Inter", sans-serif);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
@@ -569,11 +569,11 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
 }
 
 .footerLinks a {
-  font-size: 12px;
+  font-size: 11.5px;
   color: rgba(255, 255, 255, 0.65);
   text-decoration: none;
   transition: color 0.15s ease;
@@ -587,17 +587,17 @@
 .appBadges {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .appBadge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: #2A2622;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
-  padding: 6px 12px;
+  border-radius: 7px;
+  padding: 4px 10px;
   color: #FFFFFF;
   text-decoration: none;
   width: fit-content;
@@ -623,11 +623,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 20px;
+  padding-top: 12px;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.55);
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
 }
 
 .subFooterLeft {
@@ -677,8 +677,8 @@
 
 @media (max-width: 768px) {
   .footer {
-    padding: 28px 16px calc(76px + env(safe-area-inset-bottom, 0px)) 16px;
-    margin-top: 24px;
+    padding: 14px 14px calc(64px + env(safe-area-inset-bottom, 0px)) 14px;
+    margin-top: 0;
   }
 
   .footerGrid {
@@ -690,8 +690,8 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 14px;
-    padding-bottom: 18px;
+    gap: 8px;
+    padding-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
@@ -702,10 +702,19 @@
     gap: 2px;
   }
 
+  .mobileFooterGrid .footerBrandWordmark {
+    font-size: 20px;
+  }
+
+  .mobileFooterGrid .socialCircle {
+    width: 26px;
+    height: 26px;
+  }
+
   .mobileFooterTagline {
-    font-size: 11px;
+    font-size: 10.5px;
     color: rgba(255, 255, 255, 0.65);
-    margin: 4px 0 0 0;
+    margin: 2px 0 0 0;
   }
 
   .mobileQuickLinks {
@@ -713,12 +722,12 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 2px;
+    gap: 8px;
+    margin-top: 0;
   }
 
   .mobileQuickLinks a {
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
@@ -736,9 +745,9 @@
   }
 
   .mobileContactNote {
-    font-size: 10.5px;
+    font-size: 10px;
     color: rgba(255, 255, 255, 0.5);
-    line-height: 1.4;
+    line-height: 1.35;
     max-width: 320px;
   }
 
@@ -746,15 +755,15 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 8px;
-    padding-top: 14px;
-    font-size: 10.5px;
+    gap: 4px;
+    padding-top: 10px;
+    font-size: 10px;
   }
 
   .subFooterLeft {
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
   }
 
   .subFooterLeftDot {
@@ -895,9 +904,9 @@
     pointer-events: none;
   }
 
-  /* Safe bottom padding so fixed bottom nav never covers page content */
+  /* Footer already provides bottom clearance above fixed mobileBottomNav */
   .mainContent {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 16px));
+    padding-bottom: 0;
   }
 
   /* Mobile Fixed Bottom Navigation */
