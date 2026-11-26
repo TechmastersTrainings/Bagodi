@@ -21,50 +21,69 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { formatINR } from "@bagodi/utilities";
+import heroEthnicKurtaImg from "../../assets/hero/hero-ethnic-kurta.jpg";
+import heroBespokeSuitImg from "../../assets/hero/hero-bespoke-suit.webp";
 
-const HERO_SLIDES = [
+interface HeroSlide {
+  id: string;
+  superTitle: string;
+  title: string;
+  subtitle: string;
+  ctaText: string;
+  ctaHref: string;
+  img: string;
+  imgPosition: string;
+  layout: "portrait" | "wide";
+  alt: string;
+}
+
+const HERO_SLIDES: HeroSlide[] = [
   {
     id: "festive",
     superTitle: "THE NEW SEASON",
     title: "Festive Collection",
-    subtitle: "Tradition Meets Modern Style",
+    subtitle: "Handcrafted Ethnic Prints & Contemporary Drapes",
     ctaText: "Shop The Collection",
     ctaHref: "/catalogue?offers=true",
-    img: "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/14ead1c2d388489794c70e945413f7df.jpg",
-    imgPosition: "center 6%",
+    img: heroEthnicKurtaImg,
+    imgPosition: "center top",
+    layout: "portrait",
     alt: "Bagodi Festive Collection",
   },
   {
-    id: "mens-wear",
-    superTitle: "CONTEMPORARY FESTIVE PRET",
+    id: "bespoke-suiting",
+    superTitle: "BESPOKE TAILORING ATELIER",
     title: "Royal Menswear Edit",
-    subtitle: "Tailored Suits, Bandis & Ceremonial Wear",
+    subtitle: "Precision-Crafted Suits & Custom Alterations",
     ctaText: "Shop Menswear",
     ctaHref: "/catalogue?category=mens-wear",
-    img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=2400&q=92",
-    imgPosition: "center 28%",
-    alt: "Bagodi Royal Menswear Edit",
+    img: heroBespokeSuitImg,
+    imgPosition: "center top",
+    layout: "portrait",
+    alt: "Bagodi Bespoke Navy Suiting Collection",
   },
   {
-    id: "womens-wear",
-    superTitle: "ARTISANAL HERITAGE COUTURE",
-    title: "Signature Women's Edit",
-    subtitle: "Embroidered Festive Ensembles & Fine Silks",
-    ctaText: "Explore Women's",
-    ctaHref: "/catalogue?category=womens-wear",
-    img: "https://pub-03ae4e5c962b409a94ad6b59adcef912.r2.dev/products/27487cc39d0b4ec780a7c09f5f17e5f0.webp",
-    imgPosition: "center 4%",
-    alt: "Bagodi Signature Women's Collection",
+    id: "executive-suits",
+    superTitle: "SIGNATURE FORMAL WEAR",
+    title: "Executive Suiting",
+    subtitle: "Timeless Silhouettes for Every Milestone",
+    ctaText: "Explore Formal Wear",
+    ctaHref: "/catalogue?category=mens-wear",
+    img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=2400&q=92",
+    imgPosition: "center 26%",
+    layout: "wide",
+    alt: "Bagodi Executive Menswear Edit",
   },
   {
     id: "blazers",
     superTitle: "BESPOKE CEREMONIAL ATELIER",
     title: "Raymond Royal Blazers",
-    subtitle: "Bespoke Suiting & Fine Unstitched Fabrics",
+    subtitle: "Fine Worsted Suiting & Elegant Bandhgalas",
     ctaText: "Discover Blazers",
     ctaHref: "/catalogue?category=blazers",
     img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=2400&q=92",
-    imgPosition: "center 24%",
+    imgPosition: "center 22%",
+    layout: "portrait",
     alt: "Bagodi Royal Blazers and Suiting",
   },
 ];
@@ -232,16 +251,51 @@ export const HomePage: React.FC = () => {
             {HERO_SLIDES.map((slide, idx) => (
               <div
                 key={slide.id}
-                className={`${styles.heroSlide} ${activeHeroSlide === idx ? styles.heroSlideActive : ""}`}
+                className={`${styles.heroSlide} ${activeHeroSlide === idx ? styles.heroSlideActive : ""} ${slide.layout === "portrait" ? styles.heroSlidePortraitMode : ""}`}
               >
-                <img
-                  src={slide.img}
-                  alt={slide.alt}
-                  className={styles.heroBgImg}
-                  style={{ objectPosition: slide.imgPosition }}
-                  loading={idx === 0 ? "eager" : "lazy"}
-                />
-                <div className={styles.heroGradientOverlay} />
+                {slide.layout === "portrait" ? (
+                  <>
+                    {/* Desktop Ambient Color-Matched Atmosphere */}
+                    <img
+                      src={slide.img}
+                      alt=""
+                      aria-hidden="true"
+                      className={styles.heroAmbientBg}
+                      loading={idx === 0 ? "eager" : "lazy"}
+                    />
+                    <div className={styles.heroGradientOverlay} />
+
+                    {/* Mobile Full-Bleed Image (Portrait Ratio Fits Naturally) */}
+                    <img
+                      src={slide.img}
+                      alt={slide.alt}
+                      className={`${styles.heroBgImg} ${styles.heroMobileOnlyImg}`}
+                      style={{ objectPosition: slide.imgPosition }}
+                      loading={idx === 0 ? "eager" : "lazy"}
+                    />
+
+                    {/* Desktop Crisp Uncropped Editorial Portrait Showcase */}
+                    <div className={styles.heroPortraitShowcase}>
+                      <img
+                        src={slide.img}
+                        alt={slide.alt}
+                        className={styles.heroPortraitImg}
+                        loading={idx === 0 ? "eager" : "lazy"}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={slide.img}
+                      alt={slide.alt}
+                      className={styles.heroBgImg}
+                      style={{ objectPosition: slide.imgPosition }}
+                      loading={idx === 0 ? "eager" : "lazy"}
+                    />
+                    <div className={styles.heroGradientOverlay} />
+                  </>
+                )}
 
                 <div className={styles.heroContentWrapper}>
                   <div className={styles.heroContent}>
