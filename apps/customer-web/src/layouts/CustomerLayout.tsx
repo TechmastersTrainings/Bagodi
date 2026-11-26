@@ -160,7 +160,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           ================================================================ */}
       <header className={styles.header}>
         <div className={styles.headerMainRow}>
-          {/* Left: Hamburger Menu & Search Input */}
+          {/* Left: Hamburger Menu */}
           <div className={styles.headerLeft}>
             <button
               type="button"
@@ -171,27 +171,6 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
             >
               <Menu size={20} strokeWidth={1.9} />
             </button>
-
-            <button
-              type="button"
-              className={styles.mobileSearchToggleBtn}
-              onClick={() => setIsMobileSearchOpen((prev) => !prev)}
-              aria-label="Search"
-              title="Search"
-            >
-              <Search size={19} strokeWidth={1.9} />
-            </button>
-
-            <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
-              <Search size={15} className={styles.searchIcon} />
-              <input
-                type="text"
-                placeholder="Search for products, brands and more..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={styles.searchInput}
-              />
-            </form>
           </div>
 
           {/* Center: Bagodi Wordmark & Subtitle */}
@@ -202,9 +181,20 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
             </Link>
           </div>
 
-          {/* Right: Account, Wishlist, Shopping Bag (Desktop only — mobile uses bottom navigation) */}
+          {/* Right: Desktop Search & Actions | Mobile Search Toggle (no duplicate account/bag icons on mobile) */}
           {!isMobileViewport ? (
             <div className={styles.headerRight}>
+              <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+                <Search size={15} className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Search for products, brands and more..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className={styles.searchInput}
+                />
+              </form>
+
               {user ? (
                 <div className={styles.accountMenuWrapper} ref={accountMenuRef}>
                   <button
@@ -306,7 +296,17 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
               </Link>
             </div>
           ) : (
-            <div className={styles.mobileHeaderSpacer} aria-hidden="true" />
+            <div className={styles.mobileHeaderActions}>
+              <button
+                type="button"
+                className={styles.mobileSearchToggleBtn}
+                onClick={() => setIsMobileSearchOpen((prev) => !prev)}
+                aria-label="Search"
+                title="Search"
+              >
+                <Search size={19} strokeWidth={1.9} />
+              </button>
+            </div>
           )}
         </div>
 

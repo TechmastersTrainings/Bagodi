@@ -68,22 +68,21 @@
 }
 
 .headerMainRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   max-width: 1360px;
   margin: 0 auto;
   padding: 10px 24px;
   gap: 20px;
 }
 
-/* Left: Hamburger & Search Form */
+/* Left: Hamburger Menu */
 .headerLeft {
   display: flex;
   align-items: center;
+  justify-self: start;
   gap: 14px;
-  flex: 1;
-  max-width: 380px;
 }
 
 .menuIconBtn {
@@ -111,7 +110,10 @@
   border: 1px solid #E5DED3;
   border-radius: 999px;
   padding: 7px 14px;
+  flex: 1 1 260px;
   width: 100%;
+  max-width: 300px;
+  min-width: 0;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
@@ -133,6 +135,7 @@
   font-size: 12px;
   color: #26231F;
   width: 100%;
+  min-width: 0;
   font-family: var(--font-sans, sans-serif);
 }
 
@@ -144,6 +147,10 @@
   .searchForm {
     display: none;
   }
+}
+
+.mobileHeaderActions {
+  display: none;
 }
 
 .mobileSearchToggleBtn {
@@ -159,6 +166,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-self: center;
 }
 
 .logoContainer {
@@ -187,18 +195,19 @@
   margin-top: 3px;
 }
 
-/* Right: Action Icons */
+/* Right: Search Bar & Action Icons */
 .headerRight {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 16px;
-  flex: 1;
-  max-width: 380px;
+  justify-self: stretch;
+  gap: 14px;
+  min-width: 0;
 }
 
 .headerActionBtn {
   position: relative;
+  flex-shrink: 0;
   background: none;
   border: none;
   color: #26231F;
@@ -791,6 +800,23 @@
   align-items: center;
 }
 
+@media (max-width: 1024px) {
+  .headerMainRow {
+    padding: 10px 16px;
+    gap: 12px;
+  }
+
+  .headerRight {
+    gap: 10px;
+  }
+
+  .searchForm {
+    flex-basis: 260px;
+    max-width: 280px;
+    padding: 6px 12px;
+  }
+}
+
 @media (max-width: 768px) {
   /* Hide Desktop Category Pill Bar on Mobile */
   .navBarWrapper {
@@ -811,6 +837,13 @@
     flex: 0 0 auto;
     max-width: none;
     justify-self: start;
+  }
+
+  .mobileHeaderActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    justify-self: end;
   }
 
   .mobileSearchToggleBtn {
@@ -895,13 +928,6 @@
 
   .headerRight {
     display: none !important;
-  }
-
-  .mobileHeaderSpacer {
-    justify-self: end;
-    width: 1px;
-    height: 1px;
-    pointer-events: none;
   }
 
   /* Footer already provides bottom clearance above fixed mobileBottomNav */
