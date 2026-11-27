@@ -1,5 +1,7 @@
 import React, { ReactNode, useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { defaultApiClient } from "@bagodi/api-client";
 import styles from "./CustomerLayout.module.css";
 import {
   ShoppingBag,
@@ -39,12 +41,30 @@ export interface CustomerLayoutProps {
 
 export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
   children,
-  cartCount = 0,
-  wishlistCount = 0,
+  cartCount: cartCountProp,
+  wishlistCount: wishlistCountProp,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+
+  const { data: liveCart } = useQuery<{ total_items?: number; itemCount?: number }>({
+    queryKey: ["customer-cart"],
+    queryFn: () => defaultApiClient.get("/cart"),
+    retry: false,
+    staleTime: 15000,
+  });
+
+  const { data: liveWishlist = [] } = useQuery<any[]>({
+    queryKey: ["customer-wishlist"],
+    queryFn: () => defaultApiClient.get("/wishlist"),
+    enabled: Boolean(user),
+    retry: false,
+    staleTime: 15000,
+  });
+
+  const cartCount = cartCountProp ?? (liveCart?.itemCount ?? liveCart?.total_items ?? 0);
+  const wishlistCount = wishlistCountProp ?? (Array.isArray(liveWishlist) ? liveWishlist.length : 0);
   const [searchQuery, setSearchQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);

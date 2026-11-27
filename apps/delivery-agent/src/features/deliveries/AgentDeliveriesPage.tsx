@@ -64,84 +64,34 @@ export const AgentDeliveriesPage: React.FC = () => {
   const fetchDeliveries = async () => {
     setIsLoading(true);
     try {
-      const resp = await defaultApiClient.get<any[]>("/delivery-staff/my-deliveries");
-      if (Array.isArray(resp) && resp.length > 0) {
+      const resp = await defaultApiClient.get<any[]>("/delivery-staff/me/assigned-shipments");
+      if (Array.isArray(resp)) {
         setShipments(
           resp.map((s) => ({
             id: s.id,
             shipment_number: s.shipment_number || `SHP-${s.id.slice(0, 8)}`,
             order_id: s.order_id,
-            order_number: s.order_number || s.shipment_number || "ORD-2026-11-0012",
-            status: s.status || "assigned",
-            recipient_name: s.recipient_name || s.destination_address?.split(",")[0] || "Sunita Kulkarni",
-            recipient_phone: s.recipient_phone || "+919777766666",
-            destination_address:
-              s.destination_address || "House #4-2-88, Guru Nanak Colony, Fort Road, Bidar - 585401",
-            store_name: s.store_name || "Bagodi Flagship Store (Bidar Mall)",
-            store_address: s.store_address || "Store #104, Ground Floor, Bidar Mall, Bidar - 585401",
-            item_summary: s.item_summary || "1x Handwoven Bidar Kanjeevaram Saree",
-            amount_payable: s.amount_payable || 4500,
-            payment_status: s.payment_status || "cod",
+            order_number: s.order_number || s.shipment_number || s.order_id,
+            status: (String(s.status || "assigned").toLowerCase() as DeliveryShipment["status"]),
+            recipient_name: s.recipient_name || "Customer",
+            recipient_phone: s.recipient_phone || "",
+            destination_address: s.destination_address || "",
+            store_name: s.store_name || "Bagodi Flagship Store",
+            store_address: s.store_address || "",
+            item_summary: s.item_summary || `${s.items?.length || 1} package(s)`,
+            amount_payable: Number(s.cod_amount ?? s.amount_payable ?? 0),
+            payment_status: s.is_cod ? "cod" : "captured",
             created_at: s.created_at || new Date().toISOString(),
           }))
         );
-        return;
+      } else {
+        setShipments([]);
       }
     } catch {
-      // Fallback local realistic orders for Bidar last-mile fulfillment
+      setShipments([]);
+    } finally {
+      setIsLoading(false);
     }
-
-    setShipments([
-      {
-        id: "shp-bid-01",
-        shipment_number: "SHP-BID-88910",
-        order_id: "ord-bid-01",
-        order_number: "ORD-2026-11-0012",
-        status: "assigned",
-        recipient_name: "Sunita Kulkarni",
-        recipient_phone: "+919777766666",
-        destination_address: "House #4-2-88, Guru Nanak Colony, Fort Road, Bidar - 585401",
-        store_name: "Bagodi Flagship Store (Bidar Mall)",
-        store_address: "Store #104, Ground Floor, Bidar Mall, Bidar - 585401",
-        item_summary: "1x Handcrafted Bidar Kanjeevaram Pure Silk Saree (Crimson & Gold)",
-        amount_payable: 4500,
-        payment_status: "cod",
-        created_at: "2026-11-19T03:30:00Z",
-      },
-      {
-        id: "shp-bid-02",
-        shipment_number: "SHP-BID-88911",
-        order_id: "ord-bid-02",
-        order_number: "ORD-2026-11-0013",
-        status: "out_for_delivery",
-        recipient_name: "Pooja Patil",
-        recipient_phone: "+919845112233",
-        destination_address: "Plot 14, Behind District Court, Shiva Nagar, Bidar - 585403",
-        store_name: "Bagodi Flagship Store (Bidar Mall)",
-        store_address: "Store #104, Ground Floor, Bidar Mall, Bidar - 585401",
-        item_summary: "1x Royal Paithani Heritage Silk Saree",
-        amount_payable: 6200,
-        payment_status: "cod",
-        created_at: "2026-11-19T02:15:00Z",
-      },
-      {
-        id: "shp-bid-03",
-        shipment_number: "SHP-BID-88909",
-        order_id: "ord-bid-00",
-        order_number: "ORD-2026-11-0010",
-        status: "delivered",
-        recipient_name: "Mohammed Farhan",
-        recipient_phone: "+919844223344",
-        destination_address: "Flat 202, Al-Madina Heights, Mailoor Road, Bidar - 585402",
-        store_name: "Bagodi Flagship Store (Bidar Mall)",
-        store_address: "Store #104, Ground Floor, Bidar Mall, Bidar - 585401",
-        item_summary: "1x Banarasi Brocade Bridal Silk Saree",
-        amount_payable: 8900,
-        payment_status: "captured",
-        created_at: "2026-11-19T01:00:00Z",
-      },
-    ]);
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -154,8 +104,8 @@ export const AgentDeliveriesPage: React.FC = () => {
     const interval = setInterval(async () => {
       try {
         await defaultApiClient.put("/delivery-staff/me/location", {
-          current_latitude: 17.9104 + (Math.random() - 0.5) * 0.005,
-          current_longitude: 77.5199 + (Math.random() - 0.5) * 0.005,
+          latitude: 17.9104 + (Math.random() - 0.5) * 0.005,
+          longitude: 77.5199 + (Math.random() - 0.5) * 0.005,
         });
       } catch {
         // silent heartbeat
@@ -174,7 +124,7 @@ export const AgentDeliveriesPage: React.FC = () => {
       });
       setDutyStatus(nextStatus);
     } catch {
-      setDutyStatus(nextStatus);
+      // keep previous status when update fails
     } finally {
       setIsUpdatingDuty(false);
     }
@@ -182,30 +132,18 @@ export const AgentDeliveriesPage: React.FC = () => {
 
   // Step 1: Pickup from Store
   const handlePickupPackage = async (shipmentId: string) => {
-    try {
-      await defaultApiClient.post(`/delivery-staff/shipments/${shipmentId}/pickup`, {});
-      setShipments((prev) =>
-        prev.map((s) => (s.id === shipmentId ? { ...s, status: "picked_up" } : s))
-      );
-    } catch {
-      setShipments((prev) =>
-        prev.map((s) => (s.id === shipmentId ? { ...s, status: "picked_up" } : s))
-      );
-    }
+    await defaultApiClient.post(`/delivery-staff/shipments/${shipmentId}/pickup`, {});
+    setShipments((prev) =>
+      prev.map((s) => (s.id === shipmentId ? { ...s, status: "picked_up" } : s))
+    );
   };
 
   // Step 2: Mark Out For Delivery
   const handleOutForDelivery = async (shipmentId: string) => {
-    try {
-      await defaultApiClient.post(`/delivery-staff/shipments/${shipmentId}/out-for-delivery`, {});
-      setShipments((prev) =>
-        prev.map((s) => (s.id === shipmentId ? { ...s, status: "out_for_delivery" } : s))
-      );
-    } catch {
-      setShipments((prev) =>
-        prev.map((s) => (s.id === shipmentId ? { ...s, status: "out_for_delivery" } : s))
-      );
-    }
+    await defaultApiClient.post(`/delivery-staff/shipments/${shipmentId}/out-for-delivery`, {});
+    setShipments((prev) =>
+      prev.map((s) => (s.id === shipmentId ? { ...s, status: "out_for_delivery" } : s))
+    );
   };
 
   // Handle Payment Capture Success

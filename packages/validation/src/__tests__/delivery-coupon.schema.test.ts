@@ -1,5 +1,4 @@
-import { describe, it } from "node:test";
-import assert from "node:assert";
+import { describe, expect, it } from "vitest";
 import {
   createShipmentSchema,
   updateShipmentStatusSchema,
@@ -23,7 +22,7 @@ describe("Phase 7: Delivery Logistics Validation Schemas", () => {
       heightCm: 10,
       specialInstructions: "Handover to driver with sealed Bagodi security tape",
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
   });
 
   it("should reject non-positive weight or short tracking number", () => {
@@ -33,7 +32,7 @@ describe("Phase 7: Delivery Logistics Validation Schemas", () => {
       trackingNumber: "BD", // too short
       weightGrams: 0, // non-positive
     });
-    assert.strictEqual(invalid.success, false);
+    expect(invalid.success).toBe(false);
   });
 
   it("should validate shipment status checkpoint update", () => {
@@ -42,14 +41,14 @@ describe("Phase 7: Delivery Logistics Validation Schemas", () => {
       location: "Bidar Sorting Hub",
       activityDescription: "Package processed and bagged for outbound transit",
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
 
     const invalid = updateShipmentStatusSchema.safeParse({
       status: "INVALID_STATUS" as any,
       location: "B",
       activityDescription: "No",
     });
-    assert.strictEqual(invalid.success, false);
+    expect(invalid.success).toBe(false);
   });
 });
 
@@ -66,7 +65,7 @@ describe("Phase 7: Promotional Coupon Validation Schemas", () => {
       validUntil: "2026-11-30",
       isActive: true,
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
   });
 
   it("should reject percentage discount exceeding 90%", () => {
@@ -78,7 +77,7 @@ describe("Phase 7: Promotional Coupon Validation Schemas", () => {
       validFrom: "2026-11-01",
       validUntil: "2026-11-30",
     });
-    assert.strictEqual(invalid.success, false);
+    expect(invalid.success).toBe(false);
   });
 
   it("should accept flat fixed amount coupon", () => {
@@ -91,7 +90,7 @@ describe("Phase 7: Promotional Coupon Validation Schemas", () => {
       validFrom: "2026-11-01",
       validUntil: "2026-12-31",
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
   });
 
   it("should validate coupon application payload", () => {
@@ -99,13 +98,13 @@ describe("Phase 7: Promotional Coupon Validation Schemas", () => {
       code: "BAGODI10",
       cartTotal: 5999,
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
 
     const invalid = validateCouponSchema.safeParse({
       code: "",
       cartTotal: -100,
     });
-    assert.strictEqual(invalid.success, false);
+    expect(invalid.success).toBe(false);
   });
 });
 

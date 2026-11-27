@@ -1,5 +1,4 @@
-import { describe, it } from "node:test";
-import assert from "node:assert";
+import { describe, expect, it } from "vitest";
 import {
   orderStatusTransitionSchema,
   refundProcessSchema,
@@ -11,34 +10,34 @@ describe("Phase 6: Order Status Transition Validation", () => {
     const result = orderStatusTransitionSchema.safeParse({
       status: "PACKED",
     });
-    assert.strictEqual(result.success, true);
+    expect(result.success).toBe(true);
   });
 
   it("should enforce courier partner and tracking number when marking SHIPPED", () => {
     const invalid = orderStatusTransitionSchema.safeParse({
       status: "SHIPPED",
     });
-    assert.strictEqual(invalid.success, false);
+    expect(invalid.success).toBe(false);
 
     const valid = orderStatusTransitionSchema.safeParse({
       status: "SHIPPED",
       courierPartner: "BlueDart Express",
       trackingNumber: "BD982348234IN",
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
   });
 
   it("should enforce cancellation reason when marking CANCELLED", () => {
     const invalid = orderStatusTransitionSchema.safeParse({
       status: "CANCELLED",
     });
-    assert.strictEqual(invalid.success, false);
+    expect(invalid.success).toBe(false);
 
     const valid = orderStatusTransitionSchema.safeParse({
       status: "CANCELLED",
       cancellationReason: "Customer requested cancellation prior to packing",
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
   });
 });
 
@@ -52,7 +51,7 @@ describe("Phase 6: Refund Processing Validation", () => {
       reason: "Garment size exchange unavailable, issuing source refund",
       refundMethod: "ORIGINAL_SOURCE",
     });
-    assert.strictEqual(result.success, true);
+    expect(result.success).toBe(true);
   });
 
   it("should reject non-positive amounts and short reasons", () => {
@@ -61,14 +60,14 @@ describe("Phase 6: Refund Processing Validation", () => {
       amount: -100,
       reason: "Invalid",
     });
-    assert.strictEqual(invalidAmount.success, false);
+    expect(invalidAmount.success).toBe(false);
 
     const shortReason = refundProcessSchema.safeParse({
       orderId: validUuid,
       amount: 500,
       reason: "No",
     });
-    assert.strictEqual(shortReason.success, false);
+    expect(shortReason.success).toBe(false);
   });
 });
 
@@ -83,7 +82,7 @@ describe("Phase 6: Return Inspection Validation", () => {
       inspectionNotes: "Security tags intact, pristine showroom condition verified",
       resolutionAction: "APPROVE_REFUND",
     });
-    assert.strictEqual(result.success, true);
+    expect(result.success).toBe(true);
   });
 
   it("should require replacementVariantId when DISPATCH_EXCHANGE is selected", () => {
@@ -93,7 +92,7 @@ describe("Phase 6: Return Inspection Validation", () => {
       inspectionNotes: "Tags intact, approving exchange to larger size",
       resolutionAction: "DISPATCH_EXCHANGE",
     });
-    assert.strictEqual(missingReplacement.success, false);
+    expect(missingReplacement.success).toBe(false);
 
     const withReplacement = returnInspectionSchema.safeParse({
       returnRequestId: validReturnId,
@@ -102,7 +101,7 @@ describe("Phase 6: Return Inspection Validation", () => {
       resolutionAction: "DISPATCH_EXCHANGE",
       replacementVariantId: validVariantId,
     });
-    assert.strictEqual(withReplacement.success, true);
+    expect(withReplacement.success).toBe(true);
   });
 
   it("should accept REJECT_RETURN with detailed inspection notes", () => {
@@ -112,6 +111,6 @@ describe("Phase 6: Return Inspection Validation", () => {
       inspectionNotes: "Garment has fragrance odor and security tags were detached",
       resolutionAction: "REJECT_RETURN",
     });
-    assert.strictEqual(result.success, true);
+    expect(result.success).toBe(true);
   });
 });

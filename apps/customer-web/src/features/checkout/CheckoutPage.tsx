@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { defaultApiClient } from "@bagodi/api-client";
@@ -26,8 +26,22 @@ import {
 import { formatINR } from "@bagodi/utilities";
 import styles from "./CheckoutPage.module.css";
 
+function loadRazorpayScript(): Promise<boolean> {
+  if (typeof window === "undefined") return Promise.resolve(false);
+  if ((window as any).Razorpay) return Promise.resolve(true);
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
 export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { user } = useAuth();
 
   // Selected State
@@ -124,7 +138,10 @@ export const CheckoutPage: React.FC = () => {
         is_default: data.isDefault,
       }),
     onSuccess: (newAddress) => {
-      refetchAddresses();
+      queryClient.setQueryData<Address[]>(["customer-addresses"], (prev = []) => [
+        newAddress,
+        ...prev.filter((addr) => addr.id !== newAddress.id),
+      ]);
       setSelectedAddressId(newAddress.id);
       setIsAddingNewAddress(false);
       resetAddressForm();
@@ -134,12 +151,62 @@ export const CheckoutPage: React.FC = () => {
     },
   });
 
-  // Authoritative Order Placement Mutation
+  // Authoritative Order Placement Mutation (with Razorpay capture flow for prepaid orders)
   const placeOrderMutation = useMutation({
     mutationFn: async (payload: CreateOrderPayload) => {
       return await defaultApiClient.post<CreateOrderResponse>("/orders", payload);
     },
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
+      const rp = res.razorpay;
+      if (
+        paymentMethod !== "COD" &&
+        rp &&
+        rp.gatewayProvider === "razorpay" &&
+        rp.keyId &&
+        !rp.keyId.startsWith("rzp_test_bagodi")
+      ) {
+        const loaded = await loadRazorpayScript();
+        if (loaded && (window as any).Razorpay) {
+          const rzpInstance = new (window as any).Razorpay({
+            key: rp.keyId,
+            amount: rp.amount,
+            currency: rp.currency || "INR",
+            order_id: rp.razorpayOrderId || rp.orderId,
+            name: "Bagodi Retail",
+            description: `Order #${res.order.orderNumber}`,
+            prefill: {
+              name: user?.fullName || "",
+              email: user?.email || "",
+              contact: user?.phone || "",
+            },
+            handler: async (rzpResponse: any) => {
+              try {
+                await defaultApiClient.post("/payments/verify", {
+                  transaction_id: rp.transactionId,
+                  gateway_order_id: rzpResponse.razorpay_order_id,
+                  gateway_payment_id: rzpResponse.razorpay_payment_id,
+                  gateway_signature: rzpResponse.razorpay_signature,
+                });
+                navigate(`/order-success/${res.order.id}`);
+              } catch (verifyErr: any) {
+                setCheckoutError(
+                  verifyErr?.message ||
+                    "Payment capture could not be verified. Check your order status before retrying."
+                );
+              }
+            },
+            modal: {
+              ondismiss: () => {
+                setCheckoutError(
+                  "Payment popup closed before completion. Your items are reserved for 15 minutes — complete payment from My Orders or retry."
+                );
+              },
+            },
+          });
+          rzpInstance.open();
+          return;
+        }
+      }
       navigate(`/order-success/${res.order.id}`);
     },
     onError: (err: any) => {
@@ -191,7 +258,12 @@ export const CheckoutPage: React.FC = () => {
 
         const payload: CreateOrderPayload = {
           shippingAddressId: saved.id,
-          newShippingAddress: formData,
+          newShippingAddress: {
+            ...formData,
+            phone: formData.phoneNumber,
+            pincode: formData.postalCode,
+            isDefault: Boolean(formData.isDefault),
+          },
           paymentMethod: paymentMethod as any,
           deliverySpeed,
           couponCode: appliedCoupon?.code,
@@ -212,7 +284,7 @@ export const CheckoutPage: React.FC = () => {
           const defaultAddr = savedAddresses.find((a) => a.isDefault) || savedAddresses[0];
           setSelectedAddressId(defaultAddr.id);
         }
-      } else {
+      } else if (!selectedAddressId) {
         setIsAddingNewAddress(true);
       }
     }

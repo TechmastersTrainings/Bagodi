@@ -94,13 +94,11 @@ export const PaymentCollectionModal: React.FC<PaymentCollectionModalProps> = ({
         setTimeout(() => {
           onPaymentSuccess();
         }, 1200);
+      } else {
+        setErrorMsg("UPI payment has not been confirmed yet. Please verify payment receipt before proceeding.");
       }
-    } catch {
-      // Mock verification for local sandbox execution
-      setPaymentVerified(true);
-      setTimeout(() => {
-        onPaymentSuccess();
-      }, 1200);
+    } catch (err: any) {
+      setErrorMsg(err?.message || "Failed to verify UPI payment with server. Retry before completing handover.");
     } finally {
       setIsVerifyingUpi(false);
     }
@@ -120,11 +118,8 @@ export const PaymentCollectionModal: React.FC<PaymentCollectionModalProps> = ({
       setTimeout(() => {
         onPaymentSuccess();
       }, 1000);
-    } catch {
-      setPaymentVerified(true);
-      setTimeout(() => {
-        onPaymentSuccess();
-      }, 1000);
+    } catch (err: any) {
+      setErrorMsg(err?.message || "Failed to record cash collection with server.");
     } finally {
       setIsCashSubmitting(false);
     }

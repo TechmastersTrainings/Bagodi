@@ -83,17 +83,13 @@ export const DeliveryOtpModal: React.FC<DeliveryOtpModalProps> = ({
         onClose();
       }, 1200);
     } catch (err: any) {
-      const detail = err?.response?.data?.detail || err?.message;
-      if (typeof detail === "string" && detail.includes("OTP")) {
-        setErrorMsg("Incorrect OTP code. Please ask the customer to check their Bagodi app / SMS.");
-      } else {
-        // In local mock or offline mode, accept completion
-        setIsSuccess(true);
-        setTimeout(() => {
-          onDeliverySuccess();
-          onClose();
-        }, 1200);
-      }
+      const detail = err?.response?.data?.detail;
+      const msg =
+        (typeof detail === "object" && detail?.message) ||
+        (typeof detail === "string" && detail) ||
+        err?.message ||
+        "Delivery OTP verification failed. Please ask the customer for the valid 6-digit handover OTP.";
+      setErrorMsg(String(msg));
     } finally {
       setIsSubmitting(false);
     }

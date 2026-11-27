@@ -9,6 +9,7 @@ export type OrderStatus =
   | "PROCESSING"
   | "CONFIRMED"
   | "PACKED"
+  | "DISPATCHED"
   | "SHIPPED"
   | "OUT_FOR_DELIVERY"
   | "DELIVERED"
@@ -41,10 +42,15 @@ export interface OrderItem {
 }
 
 export interface RazorpayOrderDetails {
+  transactionId?: string;
+  transactionReference?: string;
+  gatewayProvider?: string;
   razorpayOrderId: string;
+  orderId?: string;
   amount: number;
   currency: string;
   keyId: string;
+  checkoutUrl?: string | null;
 }
 
 export interface Order {

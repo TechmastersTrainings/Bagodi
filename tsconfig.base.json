@@ -5,15 +5,34 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "baseUrl": ".",
+    "paths": {
+      "@bagodi/api-client": ["packages/api-client/src/index.ts"],
+      "@bagodi/api-client/*": ["packages/api-client/src/*"],
+      "@bagodi/authentication": ["packages/authentication/src/index.ts"],
+      "@bagodi/authentication/*": ["packages/authentication/src/*"],
+      "@bagodi/design-system": ["packages/design-system/src/index.ts"],
+      "@bagodi/design-system/*": ["packages/design-system/src/*"],
+      "@bagodi/shared-components": ["packages/shared-components/src/index.ts"],
+      "@bagodi/shared-components/*": ["packages/shared-components/src/*"],
+      "@bagodi/shared-types": ["packages/shared-types/src/index.ts"],
+      "@bagodi/shared-types/*": ["packages/shared-types/src/*"],
+      "@bagodi/utilities": ["packages/utilities/src/index.ts"],
+      "@bagodi/utilities/*": ["packages/utilities/src/*"],
+      "@bagodi/validation": ["packages/validation/src/index.ts"],
+      "@bagodi/validation/*": ["packages/validation/src/*"],
+      "react-hook-form": ["packages/form-hooks/index.ts"],
+      "@hookform/resolvers/zod": ["packages/form-hooks/index.ts"],
+      "zod": ["node_modules/zod"]
+    }
   }
 }

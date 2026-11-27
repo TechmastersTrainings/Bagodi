@@ -4,6 +4,9 @@
   "description": "Bagodi Shared Reusable React + Plain CSS Component Library with 3D Depth",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "exports": {
     ".": "./src/index.ts"
   },

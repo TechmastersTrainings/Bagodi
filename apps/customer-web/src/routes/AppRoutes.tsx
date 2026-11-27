@@ -11,7 +11,8 @@ import { OrderSuccessPage } from "../features/orders/OrderSuccessPage";
 import { CustomerAuthPage } from "../features/authentication/CustomerAuthPage";
 import { CustomerProfilePage } from "../features/account/CustomerProfilePage";
 import { CustomerReturnsPage } from "../features/account/CustomerReturnsPage";
-import { PrivacyPolicyPage, TermsOfServicePage, RefundPolicyPage } from "../features/policies";
+import { WishlistPage } from "../features/account/WishlistPage";
+import { PrivacyPolicyPage, TermsOfServicePage, RefundPolicyPage, ContactPage } from "../features/policies";
 import { useAuth } from "@bagodi/authentication";
 import { LoadingSpinner } from "@bagodi/shared-components";
 
@@ -69,11 +70,21 @@ export const AppRoutes: React.FC = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/account/wishlist"
+          element={
+            <ProtectedRoute>
+              <WishlistPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Customer Account Aliases & Redirects */}
         <Route path="/account" element={<Navigate to="/account/profile" replace />} />
         <Route path="/orders" element={<Navigate to="/account/orders" replace />} />
         <Route path="/returns" element={<Navigate to="/account/returns" replace />} />
+        <Route path="/wishlist" element={<Navigate to="/account/wishlist" replace />} />
+        <Route path="/contact" element={<ContactPage />} />
 
         {/* Legal & Compliance Policy Routes (2026 E-Commerce Compliance) */}
         <Route path="/policies/privacy" element={<PrivacyPolicyPage />} />

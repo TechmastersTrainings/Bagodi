@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
 import { Button, SkeletonCard, EmptyState, ApiErrorCard } from "@bagodi/shared-components";
 import { defaultApiClient } from "@bagodi/api-client";
+import { useAuth } from "@bagodi/authentication";
 import { Product, PaginatedResponse } from "@bagodi/shared-types";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -78,6 +79,26 @@ const YOU_LETTERS = ["Y", "O", "U"];
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { isAuthenticated } = useAuth();
+  const { data: wishlistItems = [] } = useQuery<{ productId: string }[]>({
+    queryKey: ["customer-wishlist"],
+    queryFn: () => defaultApiClient.get<{ productId: string }[]>("/wishlist"),
+    enabled: isAuthenticated,
+    retry: false,
+  });
+  const wishlistedIds = new Set(wishlistItems.map((item) => item.productId));
+  const toggleWishlistMutation = useMutation({
+    mutationFn: async (productId: string) => {
+      if (wishlistedIds.has(productId)) {
+        await defaultApiClient.delete(`/wishlist/items/${productId}`);
+      } else {
+        await defaultApiClient.post(`/wishlist/items/${productId}`, {});
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["customer-wishlist"] });
+    },
+  });
   const [activeEditTab, setActiveEditTab] = useState<"TRENDING" | "NEW" | "BESTSELLERS" | "OFFERS">("TRENDING");
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
@@ -485,10 +506,21 @@ export const HomePage: React.FC = () => {
                     <button
                       type="button"
                       className={styles.wishlistBtn}
-                      aria-label="Add to Wishlist"
-                      onClick={() => navigate("/account/wishlist")}
+                      aria-label={wishlistedIds.has(prod.id) ? "Remove from Wishlist" : "Add to Wishlist"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (!isAuthenticated) {
+                          navigate("/login");
+                          return;
+                        }
+                        toggleWishlistMutation.mutate(prod.id);
+                      }}
                     >
-                      <Heart size={15} />
+                      <Heart
+                        size={15}
+                        fill={wishlistedIds.has(prod.id) ? "currentColor" : "none"}
+                        color={wishlistedIds.has(prod.id) ? "#c81d25" : "currentColor"}
+                      />
                     </button>
                   </div>
 

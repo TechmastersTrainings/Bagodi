@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { User, Package, RotateCcw } from "lucide-react";
+import { User, Package, RotateCcw, Heart } from "lucide-react";
 import styles from "./AccountNavTabs.module.css";
 
 export const AccountNavTabs: React.FC = () => {
@@ -21,6 +21,13 @@ export const AccountNavTabs: React.FC = () => {
       label: "My Orders",
       icon: <Package size={16} />,
       isActive: currentPath === "/account/orders",
+    },
+    {
+      id: "wishlist",
+      path: "/account/wishlist",
+      label: "Wishlist",
+      icon: <Heart size={16} />,
+      isActive: currentPath === "/account/wishlist",
     },
     {
       id: "returns",

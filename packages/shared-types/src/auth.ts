@@ -5,6 +5,7 @@
 
 export type UserRole =
   | "CUSTOMER"
+  | "MERCHANT_OWNER"
   | "MERCHANT_ADMIN"
   | "STORE_MANAGER"
   | "INVENTORY_STAFF"
@@ -65,6 +66,8 @@ export interface SendOtpResponse {
   referenceId: string;
   expiresInSeconds: number;
   maskedDestination: string;
+  devOtp?: string;
+  dev_otp?: string;
 }
 
 export interface VerifyOtpPayload {

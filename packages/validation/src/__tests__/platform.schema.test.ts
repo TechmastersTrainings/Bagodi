@@ -1,5 +1,4 @@
-import { describe, it } from "node:test";
-import assert from "node:assert";
+import { describe, expect, it } from "vitest";
 import {
   merchantOnboardSchema,
   platformUserCreateSchema,
@@ -31,7 +30,7 @@ describe("Phase 8: Platform Governance Validation Schemas", () => {
         password: "MasterSecurePassword2026!",
       },
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
   });
 
   it("should reject invalid slug format and bad GSTIN", () => {
@@ -56,7 +55,7 @@ describe("Phase 8: Platform Governance Validation Schemas", () => {
         phoneNumber: "123",
       },
     });
-    assert.strictEqual(invalid.success, false);
+    expect(invalid.success).toBe(false);
   });
 
   it("should validate platform user creation payload", () => {
@@ -65,14 +64,14 @@ describe("Phase 8: Platform Governance Validation Schemas", () => {
       email: "anand@techmasters.in",
       role: "SECURITY_AUDITOR",
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
 
     const invalid = platformUserCreateSchema.safeParse({
       fullName: "A",
       email: "not-an-email",
       role: "UNKNOWN_ROLE" as any,
     });
-    assert.strictEqual(invalid.success, false);
+    expect(invalid.success).toBe(false);
   });
 
   it("should validate system configuration dials", () => {
@@ -83,7 +82,7 @@ describe("Phase 8: Platform Governance Validation Schemas", () => {
       webhookSecret: "super_secret_webhook_key_123456",
       maxUploadSizeMb: 25,
     });
-    assert.strictEqual(valid.success, true);
+    expect(valid.success).toBe(true);
 
     const invalidTimeout = systemConfigSchema.safeParse({
       maintenanceMode: false,
@@ -92,7 +91,7 @@ describe("Phase 8: Platform Governance Validation Schemas", () => {
       webhookSecret: "short",
       maxUploadSizeMb: -1,
     });
-    assert.strictEqual(invalidTimeout.success, false);
+    expect(invalidTimeout.success).toBe(false);
   });
 });
 

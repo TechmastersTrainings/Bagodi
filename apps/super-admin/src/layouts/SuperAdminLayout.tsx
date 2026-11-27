@@ -28,7 +28,12 @@ export const SuperAdminLayout: React.FC<SuperAdminLayoutProps> = ({ children }) 
   const location = useLocation();
   const { user, logout } = useAuth();
 
-  const navItems = [
+  const navItems: {
+    label: string;
+    path: string;
+    icon: ReactNode;
+    badge?: string | number;
+  }[] = [
     {
       label: "Platform Cockpit",
       path: "/dashboard",

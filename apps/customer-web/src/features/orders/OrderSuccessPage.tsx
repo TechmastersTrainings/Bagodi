@@ -66,6 +66,8 @@ export const OrderSuccessPage: React.FC = () => {
   const subtotal = (order as any).subtotal ?? grandTotal;
   const pMethod = (order as any).payment_method || order.paymentMethod || "COD";
   const pMethodDisplay = pMethod.toUpperCase() === "COD" ? "Cash on Delivery" : "Instant UPI / Online";
+  const orderStatus = String(order.status || "CONFIRMED").toUpperCase();
+  const isPendingPayment = orderStatus === "PENDING_PAYMENT";
 
   const shippingAddr: any = order.shippingAddress || (order as any).shipping_address;
   const recipientName = shippingAddr?.full_name || shippingAddr?.fullName || (order as any).customer_name || "Valued Customer";
@@ -93,15 +95,18 @@ export const OrderSuccessPage: React.FC = () => {
             </div>
             <div className={styles.atelierBadge}>
               <Sparkles size={13} />
-              BAGODI ATELIER CONFIRMED
+              {isPendingPayment ? "ORDER CREATED — AWAITING PAYMENT" : "BAGODI ATELIER CONFIRMED"}
             </div>
           </div>
 
           <h1 className={styles.mainTitle}>
-            Thank You for Shopping at Bagodi
+            {isPendingPayment ? "Complete Your Order Payment" : "Thank You for Shopping at Bagodi"}
           </h1>
           <p className={styles.subtitle}>
-            Your luxury order has been registered and forwarded to our master tailors and artisans at the <strong>Bidar Flagship Store</strong>.
+            {isPendingPayment
+              ? "Your items are reserved for 15 minutes. Please complete online payment verification from My Orders to confirm dispatch from our "
+              : "Your luxury order has been registered and forwarded to our master tailors and artisans at the "}
+            <strong>Bidar Flagship Store</strong>.
           </p>
 
           {/* Monospace Order Reference */}

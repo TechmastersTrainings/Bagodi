@@ -54,7 +54,7 @@ export const customerRegisterSchema = z.object({
     .regex(/[0-9]/, "Include at least one digit"),
   confirmPassword: z.string(),
   acceptTerms: z.literal(true, {
-    errorMap: () => ({ message: "You must accept the Bagodi Store terms" }),
+    message: "You must accept the Bagodi Store terms",
   }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords do not match",

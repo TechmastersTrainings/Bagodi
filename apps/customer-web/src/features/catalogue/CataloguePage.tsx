@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@bagodi/authentication";
 import styles from "./CataloguePage.module.css";
 import { defaultApiClient } from "@bagodi/api-client";
 import {
@@ -25,6 +26,9 @@ import {
 import { useDebounce } from "@bagodi/utilities";
 
 export const CataloguePage: React.FC = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { isAuthenticated } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Read URL query parameters (supporting both category slug and categoryId)
@@ -44,7 +48,31 @@ export const CataloguePage: React.FC = () => {
   const debouncedSearch = useDebounce(searchInput, 400);
   const [gridCols, setGridCols] = useState<"four" | "three">("four");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  const [wishlistedIds, setWishlistedIds] = useState<string[]>([]);
+
+  const { data: wishlistEntries = [] } = useQuery<{ productId: string }[]>({
+    queryKey: ["customer-wishlist"],
+    queryFn: () => defaultApiClient.get<{ productId: string }[]>("/wishlist"),
+    enabled: isAuthenticated,
+    retry: false,
+  });
+
+  const wishlistedIds = useMemo(
+    () => wishlistEntries.map((item) => item.productId),
+    [wishlistEntries]
+  );
+
+  const wishlistToggleMutation = useMutation({
+    mutationFn: async ({ id, saved }: { id: string; saved: boolean }) => {
+      if (saved) {
+        await defaultApiClient.delete(`/wishlist/items/${id}`);
+      } else {
+        await defaultApiClient.post(`/wishlist/items/${id}`, {});
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["customer-wishlist"] });
+    },
+  });
 
   // Sync debounced search to URL
   useEffect(() => {
@@ -200,7 +228,11 @@ export const CataloguePage: React.FC = () => {
   };
 
   const handleWishlistToggle = (id: string) => {
-    setWishlistedIds((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
+    if (!isAuthenticated) {
+      navigate("/login", { state: { from: "/catalogue" } });
+      return;
+    }
+    wishlistToggleMutation.mutate({ id, saved: wishlistedIds.includes(id) });
   };
 
   // Active filters calculation

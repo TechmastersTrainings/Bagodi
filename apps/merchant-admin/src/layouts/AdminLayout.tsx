@@ -30,7 +30,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onOpenBarcod
   const { user, activeStore, logout, hasPermission, hasRole } = useAuth();
 
   // Navigation module buttons
-  const navItems = [
+  const navItems: {
+    label: string;
+    path: string;
+    icon: ReactNode;
+    visible: boolean;
+    badge?: string | number;
+  }[] = [
     {
       label: "Dashboard",
       path: "/dashboard",

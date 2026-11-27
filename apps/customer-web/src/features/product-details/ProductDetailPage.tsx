@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "./ProductDetailPage.module.css";
 import { defaultApiClient } from "@bagodi/api-client";
 import { Product, ProductVariant } from "@bagodi/shared-types";
+import { useAuth } from "@bagodi/authentication";
 import { ProductGallery } from "./components/ProductGallery";
 import { SizeChartModal } from "./components/SizeChartModal";
 import {
@@ -30,12 +31,32 @@ export const ProductDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const { isAuthenticated } = useAuth();
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [isSizeChartOpen, setIsSizeChartOpen] = useState<boolean>(false);
-  const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [cartSuccessNotice, setCartSuccessNotice] = useState<boolean>(false);
   const [isBuyingNow, setIsBuyingNow] = useState<boolean>(false);
+
+  const { data: wishlistItems = [] } = useQuery<{ productId: string }[]>({
+    queryKey: ["customer-wishlist"],
+    queryFn: () => defaultApiClient.get<{ productId: string }[]>("/wishlist"),
+    enabled: isAuthenticated,
+    retry: false,
+  });
+
+  const wishlistToggleMutation = useMutation({
+    mutationFn: async ({ productId, currentlyWishlisted }: { productId: string; currentlyWishlisted: boolean }) => {
+      if (currentlyWishlisted) {
+        await defaultApiClient.delete(`/wishlist/items/${productId}`);
+      } else {
+        await defaultApiClient.post(`/wishlist/items/${productId}`, {});
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["customer-wishlist"] });
+    },
+  });
 
   // 1. Fetch Authoritative Product & Variant Data
   const {
@@ -52,6 +73,9 @@ export const ProductDetailPage: React.FC = () => {
 
   // Resolve authoritative product from backend
   const product = productData;
+  const isWishlisted = Boolean(
+    product?.id && wishlistItems.some((item) => item.productId === product.id)
+  );
 
   // Extract unique sizes and colors from product variants
   const variants = product?.variants || [];
@@ -300,7 +324,18 @@ export const ProductDetailPage: React.FC = () => {
               type="button"
               className={styles.wishlistBtn}
               aria-label="Save to Wishlist"
-              onClick={() => setIsWishlisted(!isWishlisted)}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  navigate("/login", { state: { from: `/product/${id}` } });
+                  return;
+                }
+                if (product?.id) {
+                  wishlistToggleMutation.mutate({
+                    productId: product.id,
+                    currentlyWishlisted: isWishlisted,
+                  });
+                }
+              }}
             >
               <Heart
                 size={20}

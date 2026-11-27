@@ -22,13 +22,45 @@ export interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+function readCachedAuthUser(): AuthUser | null {
+  if (typeof window === "undefined" || !window.localStorage) return null;
+  try {
+    const raw = window.localStorage.getItem("bagodi_auth_user");
+    return raw ? (JSON.parse(raw) as AuthUser) : null;
+  } catch {
+    return null;
+  }
+}
+
+// Register token getters immediately so child queries mounting alongside AuthProvider
+// always carry valid Bearer credentials on first render / browser reload.
+defaultApiClient.updateConfig({
+  getAccessToken: () => {
+    const token = tokenStorage.getAccessToken();
+    return typeof token === "string" ? token : null;
+  },
+  getRefreshToken: () => {
+    const token = tokenStorage.getRefreshToken();
+    return typeof token === "string" ? token : null;
+  },
+  onTokenRefreshed: (newToken, newRefreshToken) => {
+    tokenStorage.setAccessToken(newToken);
+    if (newRefreshToken) {
+      tokenStorage.setRefreshToken(newRefreshToken);
+    }
+  },
+});
+
 export interface AuthProviderProps {
   children: ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [activeStore, setActiveStore] = useState<StoreContext | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(() => readCachedAuthUser());
+  const [activeStore, setActiveStore] = useState<StoreContext | null>(() => {
+    const cached = readCachedAuthUser();
+    return cached?.activeStore || cached?.availableStores?.[0] || null;
+  });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const logout = useCallback(async () => {

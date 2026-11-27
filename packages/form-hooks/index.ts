@@ -33,7 +33,11 @@ export interface UseFormReturn<T extends Record<string, any>> {
     isDirty?: boolean;
   };
   reset: (values?: Partial<T>) => void;
-  setValue: (name: keyof T, value: any) => void;
+  setValue: (
+    name: keyof T,
+    value: any,
+    options?: { shouldValidate?: boolean; shouldDirty?: boolean; shouldTouch?: boolean }
+  ) => void;
   getValues: (name?: keyof T) => any;
   watch: (name?: keyof T) => any;
 }
@@ -49,7 +53,12 @@ export function useForm<T extends Record<string, any> = Record<string, any>>(
   const [errors, setErrors] = useState<FieldErrors<T>>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const setValue = useCallback((name: keyof T, value: any) => {
+  const setValue = useCallback(
+    (
+      name: keyof T,
+      value: any,
+      _options?: { shouldValidate?: boolean; shouldDirty?: boolean; shouldTouch?: boolean }
+    ) => {
     setValues((prev) => {
       const next = { ...prev, [name]: value };
       valuesRef.current = next;
