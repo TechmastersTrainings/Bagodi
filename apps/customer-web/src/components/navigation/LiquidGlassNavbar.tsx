@@ -135,12 +135,12 @@ const FRAGMENT_SHADER_SRC = `
     float spec = pow(max(dot(normal, halfVec), 0.0), 32.0);
     float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 4.0);
 
-    // Subtle transparent ruby blush caustic dispersion matching Bagodi text
-    vec3 bagodiRed = vec3(0.89, 0.11, 0.14);
-    vec3 rubyGlint = bagodiRed * (spec * 0.28);
-    vec3 whiteHighlight = vec3(1.0, 1.0, 1.0) * (spec * 0.55 + fresnel * 0.25);
+    // Subtle champagne-gold & imperial wine caustic dispersion
+    vec3 bagodiGold = vec3(0.84, 0.67, 0.34);
+    vec3 goldGlint = bagodiGold * (spec * 0.34);
+    vec3 whiteHighlight = vec3(1.0, 0.985, 0.94) * (spec * 0.52 + fresnel * 0.24);
 
-    vec3 finalLight = whiteHighlight + rubyGlint;
+    vec3 finalLight = whiteHighlight + goldGlint;
     float alpha = clamp(spec * 0.65 + fresnel * 0.28 + abs(waveSum) * 6.0, 0.0, 0.55);
 
     gl_FragColor = vec4(finalLight, alpha);

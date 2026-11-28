@@ -10,11 +10,11 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: #FFFFFF;
-  border-radius: 14px;
-  border: 1px solid #EAEAEA;
+  background: #FFFDF8;
+  border-radius: 16px;
+  border: 1px solid #DFD1B8;
   padding: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 6px 20px rgba(24, 18, 12, 0.05);
 }
 
 .filterHeader {
@@ -22,7 +22,7 @@
   align-items: center;
   justify-content: space-between;
   padding-bottom: 14px;
-  border-bottom: 1px solid #EAEAEA;
+  border-bottom: 1px solid #EDE4D3;
 }
 
 .filterTitleRow {
@@ -32,33 +32,36 @@
 }
 
 .filterIcon {
-  color: #A51F27;
+  color: #8C6825;
 }
 
 .filterTitle {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: #0A0A0A;
+  letter-spacing: 0.1em;
+  color: #1A1511;
+  white-space: nowrap;
 }
 
 .clearButton {
   font-family: var(--font-sans);
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
-  color: #A51F27;
+  color: #8C6825;
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: all 0.2s ease;
 }
 
 .clearButton:hover {
-  background: rgba(227, 27, 35, 0.08);
+  background: rgba(196, 154, 75, 0.14);
 }
 
 .filterSection {
@@ -112,23 +115,23 @@
 }
 
 .categoryItemActive {
-  background: rgba(227, 27, 35, 0.06);
-  color: #A51F27;
+  background: rgba(196, 154, 75, 0.15);
+  color: #1A1511;
   font-weight: 700;
-  border-left: 3px solid #A51F27;
+  border-left: 3px solid #C49A4B;
 }
 
 .categoryCountBadge {
   font-size: 10.5px;
-  color: #888888;
+  color: #756B5E;
   padding: 1px 6px;
-  background: #F2F2F2;
+  background: #EFE6D5;
   border-radius: 9999px;
 }
 
 .categoryItemActive .categoryCountBadge {
-  background: rgba(227, 27, 35, 0.14);
-  color: #A51F27;
+  background: #1A1511;
+  color: #F4DFB0;
 }
 
 /* Brand Pills */
@@ -145,18 +148,18 @@
   padding: 6px 8px;
   border-radius: 8px;
   font-size: 12.5px;
-  color: #444444;
+  color: #544B42;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .brandCheckItem:hover {
-  background: #F8F8F8;
+  background: #FAF3E6;
 }
 
 .brandCheckItemActive {
-  background: rgba(227, 27, 35, 0.06);
-  color: #A51F27;
+  background: rgba(196, 154, 75, 0.15);
+  color: #1A1511;
   font-weight: 700;
 }
 
@@ -175,24 +178,24 @@
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
-  color: #333333 !important;
-  background-color: #FAFAFA !important;
-  border: 1px solid #EAEAEA !important;
+  color: #3E352B !important;
+  background-color: #FAF3E6 !important;
+  border: 1px solid #DFD1B8 !important;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .priceBracketPill:hover {
-  border-color: #A51F27 !important;
-  color: #A51F27 !important;
-  background-color: #FFFFFF !important;
+  border-color: #C49A4B !important;
+  color: #1A1511 !important;
+  background-color: #FFFDF8 !important;
 }
 
 .priceBracketPillActive,
 button.priceBracketPillActive {
-  background-color: #0A0A0A !important;
-  color: #FFFFFF !important;
-  border-color: #0A0A0A !important;
+  background: linear-gradient(135deg, #1A1511 0%, #2C221A 100%) !important;
+  color: #F4DFB0 !important;
+  border-color: #C49A4B !important;
 }
 
 .priceInputsRow {
@@ -248,9 +251,9 @@ button.priceBracketPillActive {
 .sizeChipBtn {
   height: 34px;
   border-radius: 6px;
-  border: 1px solid #DDDDDD !important;
-  background-color: #FFFFFF !important;
-  color: #111111 !important;
+  border: 1px solid #DFD1B8 !important;
+  background-color: #FAF3E6 !important;
+  color: #1A1511 !important;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -261,15 +264,15 @@ button.priceBracketPillActive {
 }
 
 .sizeChipBtn:hover {
-  border-color: #A51F27 !important;
-  color: #A51F27 !important;
+  border-color: #C49A4B !important;
+  color: #8C6825 !important;
 }
 
 .sizeChipBtnActive,
 button.sizeChipBtnActive {
-  background-color: #0A0A0A !important;
-  color: #FFFFFF !important;
-  border-color: #0A0A0A !important;
+  background: linear-gradient(135deg, #1A1511 0%, #2C221A 100%) !important;
+  color: #F4DFB0 !important;
+  border-color: #C49A4B !important;
 }
 
 /* In Stock iOS Switch */
@@ -285,7 +288,7 @@ button.sizeChipBtnActive {
 .stockLabel {
   font-size: 13px;
   font-weight: 600;
-  color: #111111;
+  color: #1A1511;
 }
 
 button.iosToggle,
@@ -293,8 +296,8 @@ button.iosToggle,
   width: 44px;
   height: 24px;
   border-radius: 9999px;
-  background-color: #D1D5DB !important;
-  border: 1px solid #9CA3AF !important;
+  background-color: #DFD1B8 !important;
+  border: 1px solid #B8A586 !important;
   position: relative;
   transition: background-color 0.25s ease, border-color 0.25s ease;
   cursor: pointer;
@@ -305,19 +308,19 @@ button.iosToggle,
 
 button.iosToggle:hover,
 .iosToggle:hover {
-  background-color: #9CA3AF !important;
+  background-color: #CBB794 !important;
 }
 
 button.iosToggleChecked,
 .iosToggleChecked {
-  background-color: #A51F27 !important;
-  border-color: #A51F27 !important;
+  background-color: #1A2E24 !important;
+  border-color: #C49A4B !important;
 }
 
 button.iosToggleChecked:hover,
 .iosToggleChecked:hover {
-  background-color: #C41219 !important;
-  border-color: #C41219 !important;
+  background-color: #244032 !important;
+  border-color: #DFBE78 !important;
 }
 
 .iosThumb {

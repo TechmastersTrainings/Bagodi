@@ -29,7 +29,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #d4af37 0%, #e31b23 50%, #d4af37 100%);
+  background: linear-gradient(90deg, #C49A4B 0%, #18130F 50%, #C49A4B 100%);
 }
 
 .sealContainer {
@@ -120,7 +120,7 @@
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 700;
-  color: #e31b23;
+  color: #8C6825;
   letter-spacing: 0.04em;
 }
 
@@ -161,9 +161,9 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: rgba(227, 27, 35, 0.12);
-  border: 2px solid #e31b23;
-  color: #e31b23;
+  background: rgba(196, 154, 75, 0.16);
+  border: 2px solid #C49A4B;
+  color: #8C6825;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -326,7 +326,7 @@
 }
 
 .totalAmount {
-  color: #e31b23;
+  color: #1A1511;
   font-size: var(--text-lg);
   font-weight: 800;
 }
@@ -363,18 +363,20 @@
 }
 
 .primaryTrackBtn {
-  background: linear-gradient(135deg, #e31b23 0%, #b8131a 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(212, 175, 55, 0.45) !important;
-  box-shadow: 0 8px 20px -4px rgba(227, 27, 35, 0.35) !important;
+  background: linear-gradient(135deg, #1E1813 0%, #2D231B 100%) !important;
+  color: #F4DFB0 !important;
+  border: 1px solid #C49A4B !important;
+  box-shadow: 0 8px 20px -4px rgba(24, 18, 12, 0.28) !important;
   font-weight: 600 !important;
   padding: 12px 24px !important;
   border-radius: var(--radius-lg) !important;
 }
 
 .primaryTrackBtn:hover {
-  background: linear-gradient(135deg, #f0232b 0%, #c8141b 100%) !important;
-  box-shadow: 0 12px 24px -4px rgba(227, 27, 35, 0.5) !important;
+  background: linear-gradient(135deg, #59121C 0%, #3E0B12 100%) !important;
+  color: #FFFDF8 !important;
+  border-color: #DFBE78 !important;
+  box-shadow: 0 12px 24px -4px rgba(89, 18, 28, 0.36) !important;
   transform: translateY(-1px);
 }
 

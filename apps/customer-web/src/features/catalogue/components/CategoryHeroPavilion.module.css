@@ -5,8 +5,8 @@
 .heroRoot {
   position: relative;
   width: 100%;
-  background: #FFFFFF;
-  border-bottom: 1px solid #ECEAE5;
+  background: linear-gradient(135deg, #18130F 0%, #261D17 60%, #14100C 100%);
+  border-bottom: 1px solid rgba(196, 154, 75, 0.45);
   overflow: hidden;
   padding: var(--space-8) var(--space-6) var(--space-6);
 }
@@ -24,8 +24,8 @@
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  opacity: 0.16;
-  filter: saturate(1.1) contrast(1.04);
+  opacity: 0.26;
+  filter: saturate(1.15) contrast(1.06);
 }
 
 .heroBackgroundMask {
@@ -34,12 +34,10 @@
   background:
     radial-gradient(
       ellipse 70% 60% at 50% 45%,
-      rgba(255, 255, 255, 0.98) 0%,
-      rgba(255, 255, 255, 0.88) 50%,
-      rgba(255, 255, 255, 0.45) 85%,
-      #FFFFFF 100%
-    ),
-    linear-gradient(to bottom, #FFFFFF 0%, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.2) 80%, #FFFFFF 100%);
+      rgba(24, 19, 15, 0.72) 0%,
+      rgba(24, 19, 15, 0.86) 55%,
+      rgba(20, 15, 11, 0.96) 100%
+    );
 }
 
 .heroContent {
@@ -60,27 +58,27 @@
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #777777;
+  color: rgba(232, 213, 174, 0.72);
   margin-bottom: 14px;
 }
 
 .breadcrumbLink {
-  color: #555555;
+  color: rgba(232, 213, 174, 0.85);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .breadcrumbLink:hover {
-  color: #A51F27;
+  color: #DFBE78;
 }
 
 .breadcrumbDivider {
-  color: #B69A75;
+  color: #C49A4B;
   font-size: 10px;
 }
 
 .breadcrumbCurrent {
-  color: #111111;
+  color: #FFFDF8;
   font-weight: 700;
 }
 
@@ -90,12 +88,12 @@
   font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.15;
-  color: #0A0A0A;
+  color: #FFFDF8;
   margin: 0 0 12px 0;
 }
 
 .crimsonAccent {
-  background: linear-gradient(135deg, #A51F27 0%, #D0161E 60%, #B8131A 100%);
+  background: linear-gradient(135deg, #FFF0C4 0%, #DFBE78 55%, #B48634 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 900;
@@ -104,7 +102,7 @@
 .categorySubtitle {
   font-family: var(--font-sans);
   font-size: clamp(0.95rem, 1.2vw, 1.08rem);
-  color: #4A4A4A;
+  color: rgba(244, 237, 224, 0.86);
   max-width: 720px;
   line-height: 1.6;
   margin: 0 0 var(--space-6) 0;
@@ -131,46 +129,46 @@
   font-size: 12.5px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #333333;
-  background: #FFFFFF;
-  border: 1px solid #E5E0D8;
+  color: #F4EDE0;
+  background: rgba(255, 250, 240, 0.08);
+  border: 1px solid rgba(196, 154, 75, 0.35);
   text-decoration: none;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   white-space: nowrap;
 }
 
 .categoryPill:hover {
-  border-color: #0A0A0A;
-  color: #0A0A0A;
+  border-color: #DFBE78;
+  color: #FFFDF8;
+  background: rgba(196, 154, 75, 0.18);
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
 .categoryPillActive {
-  background: #0A0A0A;
-  color: #FFFFFF;
-  border-color: #0A0A0A;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  background: linear-gradient(135deg, #E8CA82 0%, #C49A4B 100%);
+  color: #16120D;
+  border-color: #F5E1B6;
+  box-shadow: 0 6px 18px rgba(196, 154, 75, 0.35);
 }
 
 .categoryPillActive:hover {
-  background: #A51F27;
-  color: #FFFFFF;
-  border-color: #A51F27;
+  background: linear-gradient(135deg, #F3D998 0%, #D4AA56 100%);
+  color: #16120D;
+  border-color: #FFF5DC;
 }
 
 .pillBadgeCount {
   font-size: 10px;
-  opacity: 0.75;
+  opacity: 0.85;
   padding: 1px 6px;
   border-radius: 9999px;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .categoryPillActive .pillBadgeCount {
-  background: rgba(255, 255, 255, 0.22);
-  color: #FFFFFF;
+  background: rgba(22, 18, 13, 0.16);
+  color: #16120D;
   opacity: 1;
 }
 
@@ -182,7 +180,7 @@
   width: 100%;
   max-width: 1100px;
   padding-top: var(--space-4);
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid rgba(196, 154, 75, 0.25);
 }
 
 .pillarCard {
@@ -192,8 +190,8 @@
   gap: 10px;
   padding: 10px 14px;
   border-radius: 12px;
-  background: rgba(250, 248, 245, 0.85);
-  border: 1px solid #ECE7DE;
+  background: rgba(255, 250, 240, 0.06);
+  border: 1px solid rgba(196, 154, 75, 0.28);
   font-family: var(--font-sans);
   text-align: left;
 }
@@ -205,9 +203,9 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: #FFFFFF;
-  color: #A51F27;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  background: rgba(196, 154, 75, 0.16);
+  border: 1px solid rgba(223, 190, 120, 0.38);
+  color: #DFBE78;
   flex-shrink: 0;
 }
 
@@ -219,13 +217,13 @@
 .pillarTitle {
   font-size: 11.5px;
   font-weight: 700;
-  color: #121212;
+  color: #FFFDF8;
   letter-spacing: -0.01em;
 }
 
 .pillarDesc {
   font-size: 10px;
-  color: #666666;
+  color: rgba(232, 213, 174, 0.78);
 }
 
 @media (max-width: 960px) {

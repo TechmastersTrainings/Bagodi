@@ -4,8 +4,8 @@
 
 .pageRoot {
   width: 100%;
-  background-color: #FBF9F6;
-  color: #26231F;
+  background: linear-gradient(180deg, #F4EDE0 0%, #EFE5D3 100%);
+  color: #1A1511;
   min-height: calc(100vh - 120px);
   padding: 2rem 1.5rem 4rem 1.5rem;
 }
@@ -21,33 +21,33 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8125rem;
-  color: #7A756D;
+  color: #756B5E;
   margin-bottom: 1.5rem;
 }
 
 .breadcrumbLink {
-  color: #7A756D;
+  color: #756B5E;
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
 .breadcrumbLink:hover {
-  color: #A51F27;
+  color: #8C6825;
 }
 
 .breadcrumbCurrent {
-  color: #26231F;
+  color: #1A1511;
   font-weight: 600;
 }
 
 /* Header Banner */
 .policyHeader {
-  background: #FFFFFF;
-  border: 1px solid #E5DED3;
+  background: #FFFDF8;
+  border: 1px solid #DFD1B8;
   border-radius: 16px;
   padding: 2.5rem 2.25rem 2rem 2.25rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(38, 35, 31, 0.04);
+  box-shadow: 0 6px 24px rgba(24, 18, 12, 0.06);
   position: relative;
   overflow: hidden;
 }
@@ -59,16 +59,16 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #B69A75 0%, #A51F27 50%, #B69A75 100%);
+  background: linear-gradient(90deg, #C49A4B 0%, #18130F 50%, #C49A4B 100%);
 }
 
 .complianceBadge {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: rgba(165, 31, 39, 0.08);
-  border: 1px solid rgba(165, 31, 39, 0.2);
-  color: #A51F27;
+  background: rgba(196, 154, 75, 0.14);
+  border: 1px solid rgba(196, 154, 75, 0.45);
+  color: #75551B;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -134,9 +134,9 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.65rem 1.25rem;
-  background: #FFFFFF;
-  border: 1px solid #E5DED3;
-  color: #5C554E;
+  background: #FFFDF8;
+  border: 1px solid #DFD1B8;
+  color: #544B42;
   font-size: 0.84rem;
   font-weight: 600;
   border-radius: 9999px;
@@ -146,16 +146,16 @@
 }
 
 .tabBtn:hover {
-  border-color: #B69A75;
-  color: #26231F;
-  background: #F6F1E9;
+  border-color: #C49A4B;
+  color: #1A1511;
+  background: #FAF3E6;
 }
 
 .tabBtnActive {
-  background: #A51F27 !important;
-  border-color: #A51F27 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 4px 14px rgba(165, 31, 39, 0.25);
+  background: linear-gradient(135deg, #1E1813 0%, #2D231B 100%) !important;
+  border-color: #C49A4B !important;
+  color: #F4DFB0 !important;
+  box-shadow: 0 4px 14px rgba(24, 18, 12, 0.2);
 }
 
 /* Two-column layout: Sidebar TOC + Main Content */
@@ -170,11 +170,11 @@
 .tocSidebar {
   position: sticky;
   top: 90px;
-  background: #FFFFFF;
-  border: 1px solid #E5DED3;
+  background: #FFFDF8;
+  border: 1px solid #DFD1B8;
   border-radius: 14px;
   padding: 1.25rem 1.25rem;
-  box-shadow: 0 2px 10px rgba(38, 35, 31, 0.03);
+  box-shadow: 0 4px 16px rgba(24, 18, 12, 0.04);
 }
 
 .tocTitle {
@@ -216,11 +216,11 @@
 
 /* Main Content Article */
 .mainArticle {
-  background: #FFFFFF;
-  border: 1px solid #E5DED3;
+  background: #FFFDF8;
+  border: 1px solid #DFD1B8;
   border-radius: 16px;
   padding: 2.5rem;
-  box-shadow: 0 4px 20px rgba(38, 35, 31, 0.04);
+  box-shadow: 0 6px 24px rgba(24, 18, 12, 0.05);
 }
 
 .sectionBlock {
@@ -236,17 +236,17 @@
   font-family: var(--font-serif, "Playfair Display", Georgia, serif);
   font-size: 1.35rem;
   font-weight: 700;
-  color: #26231F;
+  color: #1A1511;
   margin: 0 0 1rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #F0EAE1;
+  border-bottom: 1px solid #EDE4D3;
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
 
 .sectionIcon {
-  color: #A51F27;
+  color: #8C6825;
   flex-shrink: 0;
 }
 
@@ -461,3 +461,4 @@
     padding: 1.15rem;
   }
 }
+

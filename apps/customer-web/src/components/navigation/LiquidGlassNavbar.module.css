@@ -14,7 +14,7 @@
   z-index: 40;
 }
 
-/* Apple Floating Liquid Glass Dock with Subtle Transparent Bagodi Red Tint */
+/* Apple Floating Champagne Quartz & Liquid Gold Glass Dock */
 .liquidGlassPill {
   position: relative;
   display: flex;
@@ -24,18 +24,18 @@
   border-radius: 9999px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.8) 0%,
-    rgba(255, 246, 247, 0.68) 45%,
-    rgba(254, 239, 241, 0.6) 100%
+    rgba(255, 253, 248, 0.9) 0%,
+    rgba(247, 239, 224, 0.82) 48%,
+    rgba(239, 227, 206, 0.78) 100%
   );
-  backdrop-filter: blur(28px) saturate(210%) contrast(102%);
-  -webkit-backdrop-filter: blur(28px) saturate(210%) contrast(102%);
-  border: 1px solid rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(28px) saturate(185%) contrast(102%);
+  -webkit-backdrop-filter: blur(28px) saturate(185%) contrast(102%);
+  border: 1px solid rgba(196, 154, 75, 0.42);
   box-shadow:
-    0 12px 32px -6px rgba(32, 35, 33, 0.06),
-    0 4px 16px -2px rgba(227, 27, 35, 0.08),
+    0 10px 28px -6px rgba(24, 18, 12, 0.08),
+    0 4px 14px -2px rgba(196, 154, 75, 0.14),
     inset 0 1.25px 0 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 0 rgba(227, 27, 35, 0.12);
+    inset 0 -1px 0 0 rgba(196, 154, 75, 0.18);
   overflow: hidden;
   transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.35s ease,
@@ -44,12 +44,12 @@
 }
 
 .liquidGlassPill:hover {
-  border-color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(196, 154, 75, 0.65);
   box-shadow:
-    0 16px 40px -8px rgba(32, 35, 33, 0.09),
-    0 6px 20px -2px rgba(227, 27, 35, 0.12),
+    0 14px 36px -8px rgba(24, 18, 12, 0.12),
+    0 6px 18px -2px rgba(196, 154, 75, 0.2),
     inset 0 1.5px 0 0 rgba(255, 255, 255, 1),
-    inset 0 -1px 0 0 rgba(227, 27, 35, 0.18);
+    inset 0 -1px 0 0 rgba(196, 154, 75, 0.26);
 }
 
 /* WebGL Background Shader Canvas */
@@ -111,36 +111,36 @@
   border-radius: 9999px;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.94) 0%,
-    rgba(255, 245, 246, 0.82) 100%
+    rgba(255, 253, 248, 0.98) 0%,
+    rgba(244, 232, 208, 0.92) 100%
   );
   box-shadow:
-    0 3px 12px rgba(227, 27, 35, 0.12),
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.98),
-    inset 0 -1px 2px 0 rgba(227, 27, 35, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+    0 3px 12px rgba(196, 154, 75, 0.22),
+    0 1px 3px rgba(24, 18, 12, 0.06),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 2px 0 rgba(196, 154, 75, 0.22);
+  border: 1px solid rgba(196, 154, 75, 0.55);
   pointer-events: none;
   will-change: transform, left, width, height;
   transition: opacity 0.2s ease;
 }
 
-/* Real Crystal Clear Water Droplet with Delicate Ruby Glint */
+/* Real Crystal Clear Water Droplet with Champagne Gold Glint */
 .crystalWaterDrop {
   position: absolute;
   border-radius: 50%;
   background: radial-gradient(
     circle at 32% 28%,
     rgba(255, 255, 255, 0.98) 0%,
-    rgba(255, 255, 255, 0.72) 22%,
-    rgba(255, 242, 244, 0.45) 50%,
-    rgba(227, 27, 35, 0.16) 80%,
-    rgba(180, 20, 28, 0.08) 100%
+    rgba(255, 252, 244, 0.78) 22%,
+    rgba(245, 232, 205, 0.48) 52%,
+    rgba(196, 154, 75, 0.2) 80%,
+    rgba(140, 104, 37, 0.1) 100%
   );
   box-shadow:
-    0 3px 8px rgba(32, 35, 33, 0.12),
+    0 3px 8px rgba(24, 18, 12, 0.12),
     inset 0 1.5px 2px rgba(255, 255, 255, 0.95),
-    inset 0 -1px 2px rgba(227, 27, 35, 0.18);
+    inset 0 -1px 2px rgba(196, 154, 75, 0.26);
   pointer-events: none;
   will-change: transform, left, top;
   transform-origin: center center;
@@ -284,15 +284,15 @@
 
 /* Active Link State */
 .navLinkActive {
-  color: var(--bagodi-red, #A51F27);
+  color: #18130F;
   font-weight: 700;
-  border-bottom: 2px solid var(--bagodi-red, #A51F27);
-  border-radius: 4px;
+  border-bottom: 2px solid #C49A4B;
+  border-radius: 9999px;
 }
 
 /* Featured / Festive Accent Link */
 .navLinkFeatured {
-  color: var(--bagodi-red, #A51F27);
+  color: #7D1620;
   font-weight: 700;
 }
 

@@ -1,19 +1,19 @@
 /* Bagodi Luxury Customer Storefront - Royal Animated Silk Pavilion */
 
 .authPageWrapper {
-  --bg-canvas: #FAF8F5;
-  --bg-card: #FFFFFF;
-  --text-primary: #121413;
-  --text-secondary: #484D49;
-  --text-muted: #7E8580;
-  --border-default: #E6E2D9;
-  --border-subtle: #F0ECE4;
-  --brand-crimson: #A51F27;
-  --brand-crimson-hover: #C5131A;
-  --brand-crimson-subtle: rgba(227, 27, 35, 0.08);
-  --color-gold: #C5A15B;
-  --color-gold-light: #E8DAC2;
-  --color-gold-subtle: rgba(197, 161, 91, 0.12);
+  --bg-canvas: #F4EDE0;
+  --bg-card: #FFFDF8;
+  --text-primary: #1A1511;
+  --text-secondary: #544B42;
+  --text-muted: #84786A;
+  --border-default: #D9C7A3;
+  --border-subtle: #EDE4D3;
+  --brand-crimson: #8B1A24;
+  --brand-crimson-hover: #59121C;
+  --brand-crimson-subtle: rgba(196, 154, 75, 0.14);
+  --color-gold: #C49A4B;
+  --color-gold-light: #E8D5AE;
+  --color-gold-subtle: rgba(196, 154, 75, 0.14);
 
   width: 100%;
   min-height: calc(100vh - 110px);
@@ -22,7 +22,7 @@
   justify-content: center;
   padding: clamp(10px, 1.8vh, 18px) clamp(16px, 2.5vw, 32px);
   box-sizing: border-box;
-  background: var(--bg-canvas);
+  background: linear-gradient(135deg, #F4EDE0 0%, #EAE0CE 100%);
   position: relative;
   overflow-x: hidden;
 }
@@ -35,7 +35,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border-default);
   border-radius: 18px;
-  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 18px 48px rgba(24, 18, 12, 0.12), 0 2px 8px rgba(24, 18, 12, 0.04);
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   position: relative;
@@ -245,7 +245,7 @@
    ===================================================================== */
 
 .formPanel {
-  background: #FFFFFF;
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF3E6 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -322,20 +322,23 @@
 }
 
 .crimsonPrimaryBtn {
-  background: linear-gradient(135deg, var(--brand-crimson) 0%, var(--brand-crimson-hover) 100%) !important;
-  color: #FFFFFF !important;
-  border: none !important;
+  background: linear-gradient(135deg, #1E1813 0%, #2D231B 100%) !important;
+  color: #F4DFB0 !important;
+  border: 1px solid #C49A4B !important;
   border-radius: 9px !important;
   font-weight: 600 !important;
   letter-spacing: 0.02em !important;
   padding: 10px 16px !important;
-  box-shadow: 0 4px 16px rgba(227, 27, 35, 0.28) !important;
-  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+  box-shadow: 0 6px 18px rgba(24, 18, 12, 0.24) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease !important;
 }
 
 .crimsonPrimaryBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #59121C 0%, #3E0B12 100%) !important;
+  color: #FFFDF8 !important;
+  border-color: #DFBE78 !important;
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(227, 27, 35, 0.35) !important;
+  box-shadow: 0 8px 22px rgba(89, 18, 28, 0.32) !important;
 }
 
 .crimsonPrimaryBtn:active:not(:disabled) {

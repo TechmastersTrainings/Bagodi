@@ -160,7 +160,7 @@ export const OrderSuccessPage: React.FC = () => {
                   return (
                     <div key={item.id || idx} className={styles.itemRow}>
                       <div className={styles.itemName}>
-                        <ShoppingBag size={14} color="#e31b23" />
+                        <ShoppingBag size={14} color="#C49A4B" />
                         <span>
                           {pName} <span className={styles.itemVariant}>({vName}) × {qty}</span>
                         </span>
@@ -178,7 +178,7 @@ export const OrderSuccessPage: React.FC = () => {
             <div className={styles.detailsGrid}>
               <div className={styles.detailBlock}>
                 <div className={styles.detailLabel}>
-                  <MapPin size={13} color="#e31b23" />
+                  <MapPin size={13} color="#C49A4B" />
                   Delivery Destination
                 </div>
                 <div className={styles.detailValue}>

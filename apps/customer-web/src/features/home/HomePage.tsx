@@ -519,7 +519,7 @@ export const HomePage: React.FC = () => {
                       <Heart
                         size={15}
                         fill={wishlistedIds.has(prod.id) ? "currentColor" : "none"}
-                        color={wishlistedIds.has(prod.id) ? "#c81d25" : "currentColor"}
+                        color={wishlistedIds.has(prod.id) ? "#8B1A24" : "currentColor"}
                       />
                     </button>
                   </div>

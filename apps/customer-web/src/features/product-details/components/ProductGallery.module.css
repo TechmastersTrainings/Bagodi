@@ -19,8 +19,8 @@
   width: 76px;
   height: 96px;
   border-radius: 10px;
-  border: 1.5px solid #EAE6DF;
-  background: #F9F8F6;
+  border: 1.5px solid #DFD1B8;
+  background: #ECE2CF;
   overflow: hidden;
   cursor: pointer;
   padding: 0;
@@ -28,12 +28,12 @@
 }
 
 .thumbButton:hover {
-  border-color: #0A0A0A;
+  border-color: #C49A4B;
 }
 
 .thumbActive {
-  border: 2px solid #A51F27;
-  box-shadow: 0 0 0 1px #A51F27;
+  border: 2px solid #C49A4B;
+  box-shadow: 0 0 0 2px rgba(196, 154, 75, 0.28);
 }
 
 .thumbImg {
@@ -46,15 +46,15 @@
   flex: 1;
   max-height: 580px;
   aspect-ratio: 3 / 4;
-  background: #F9F8F6;
-  border: 1px solid #ECE7DE;
+  background: #ECE2CF;
+  border: 1px solid #D9C7A3;
   border-radius: 20px;
   overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 14px 36px rgba(24, 18, 12, 0.1);
 }
 
 .mainImage {

@@ -35,12 +35,13 @@
 
 /* Card Shell */
 .cardShell {
-  background: #FFFFFF;
-  border: 1px solid #ECEAE6;
+  background: #FFFDF8;
+  border: 1px solid #DFD1B8;
+  border-top: 2px solid #C49A4B;
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   margin-bottom: var(--space-8);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 6px 22px rgba(24, 18, 12, 0.05);
 }
 
 .cardHeader {
@@ -49,7 +50,7 @@
   justify-content: space-between;
   margin-bottom: var(--space-6);
   padding-bottom: var(--space-4);
-  border-bottom: 1px solid #F3F1ED;
+  border-bottom: 1px solid #EDE4D3;
 }
 
 .cardTitleArea {
@@ -59,7 +60,7 @@
 }
 
 .cardIcon {
-  color: #A51F27;
+  color: #8C6825;
 }
 
 .cardTitle {
@@ -192,8 +193,8 @@
 }
 
 .addressCardDefault {
-  border-color: #A51F27;
-  background: #FDFBF9;
+  border-color: #C49A4B;
+  background: #FAF3E6;
 }
 
 .addressHeader {
@@ -206,7 +207,7 @@
 .recipientName {
   font-size: 14px;
   font-weight: 700;
-  color: #111827;
+  color: #1A1511;
 }
 
 .badgeRow {
@@ -218,11 +219,11 @@
 .defaultBadge {
   font-size: 10px;
   font-weight: 700;
-  color: #A51F27;
-  background: rgba(106, 26, 36, 0.08);
+  color: #75551B;
+  background: rgba(196, 154, 75, 0.16);
   padding: 2px 8px;
   border-radius: 9999px;
-  border: 1px solid rgba(106, 26, 36, 0.2);
+  border: 1px solid rgba(196, 154, 75, 0.45);
 }
 
 .typeBadge {

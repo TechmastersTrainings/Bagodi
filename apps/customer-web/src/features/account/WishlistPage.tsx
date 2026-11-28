@@ -76,7 +76,7 @@ export const WishlistPage: React.FC = () => {
   }
 
   return (
-    <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 var(--space-4) var(--space-10)" }}>
+    <div style={{ maxWidth: 960, margin: "0 auto", padding: "var(--space-6) var(--space-4) var(--space-10)" }}>
       <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "var(--text-2xl)", marginBottom: "var(--space-4)" }}>
         Saved Wishlist
       </h1>
@@ -114,7 +114,7 @@ export const WishlistPage: React.FC = () => {
                 flexDirection: "column",
               }}
             >
-              <Link to={`/product/${item.slug || item.productId}`} style={{ display: "block", aspectRatio: "4/5", background: "#F5F2EC" }}>
+              <Link to={`/product/${item.slug || item.productId}`} style={{ display: "block", aspectRatio: "4/5", background: "#ECE2CF" }}>
                 <img
                   src={item.imageUrl || "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=85"}
                   alt={item.name}
@@ -123,14 +123,14 @@ export const WishlistPage: React.FC = () => {
               </Link>
               <div style={{ padding: "var(--space-4)", flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
                 {item.categoryName && (
-                  <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-tertiary)" }}>
+                  <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.08em", color: "#8C6825", fontWeight: 700 }}>
                     {item.categoryName}
                   </span>
                 )}
                 <Link to={`/product/${item.slug || item.productId}`} style={{ fontWeight: 600, color: "var(--text-primary)", textDecoration: "none", fontSize: "var(--text-sm)" }}>
                   {item.name}
                 </Link>
-                <div style={{ fontWeight: 700, color: "#A51F27", fontSize: "var(--text-base)" }}>
+                <div style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: "var(--text-base)" }}>
                   {formatINR(item.basePrice)}
                 </div>
                 <div style={{ display: "flex", gap: 8, marginTop: "auto", paddingTop: 8 }}>

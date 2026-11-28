@@ -44,14 +44,15 @@
 
 /* Variants */
 .primary {
-  background: var(--accent-primary);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, #2C231B 100%);
   color: var(--accent-contrast);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(196, 154, 75, 0.45);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 245, 224, 0.22);
 }
 
 .primary:hover:not(:disabled) {
-  background: var(--accent-primary-hover);
+  background: linear-gradient(135deg, var(--accent-primary-hover) 0%, #420D14 100%);
+  border-color: rgba(223, 190, 120, 0.65);
   box-shadow: var(--shadow-md), var(--shadow-glow-accent);
 }
 

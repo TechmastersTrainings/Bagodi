@@ -91,7 +91,7 @@ export const OrdersPage: React.FC = () => {
   }
 
   return (
-    <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 var(--space-4)" }}>
+    <div style={{ maxWidth: 800, margin: "0 auto", padding: "var(--space-6) var(--space-4)" }}>
       <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "var(--text-2xl)", marginBottom: "var(--space-4)" }}>
         Order History
       </h1>

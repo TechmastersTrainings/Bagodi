@@ -59,8 +59,8 @@
 .brandName {
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: #A51F27;
+  letter-spacing: 0.14em;
+  color: #8C6825;
   font-weight: 700;
 }
 
@@ -68,10 +68,10 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  background: rgba(197, 161, 91, 0.12);
-  border: 1px solid rgba(197, 161, 91, 0.3);
-  color: #8C6A1E;
-  padding: 2px 8px;
+  background: rgba(196, 154, 75, 0.16);
+  border: 1px solid rgba(196, 154, 75, 0.45);
+  color: #75551B;
+  padding: 2px 9px;
   border-radius: 9999px;
   font-weight: 700;
 }
@@ -80,7 +80,7 @@
   font-family: var(--font-serif);
   font-size: clamp(1.4rem, 2.2vw, 1.95rem);
   font-weight: 800;
-  color: #0A0A0A;
+  color: #1A1511;
   line-height: 1.25;
   margin: 0;
   letter-spacing: -0.01em;
@@ -96,13 +96,13 @@
 .sellingPrice {
   font-size: clamp(1.75rem, 2.5vw, 2.2rem);
   font-weight: 800;
-  color: #0A0A0A;
+  color: #1A1511;
   font-family: var(--font-mono);
 }
 
 .mrp {
   font-size: 14px;
-  color: #9CA3AF;
+  color: #8E8272;
   text-decoration: line-through;
   font-family: var(--font-mono);
 }
@@ -110,9 +110,9 @@
 .discountPill {
   font-size: 11px;
   font-weight: 800;
-  color: #DC2626;
-  background: #FEF2F2;
-  border: 1px solid #FEE2E2;
+  color: #1E5B3E;
+  background: rgba(30, 91, 62, 0.12);
+  border: 1px solid rgba(30, 91, 62, 0.3);
   padding: 3px 10px;
   border-radius: 9999px;
 }
@@ -147,7 +147,7 @@
 .sizeChartTrigger {
   font-size: 11.5px;
   font-weight: 600;
-  color: #A51F27;
+  color: #8C6825;
   background: none;
   border: none;
   cursor: pointer;
@@ -171,9 +171,9 @@
   height: 42px;
   padding: 0 14px;
   border-radius: 10px;
-  background: #FFFFFF;
-  border: 1.5px solid #D8D2C7;
-  color: #111111;
+  background: #FFFDF8;
+  border: 1.5px solid #DFD1B8;
+  color: #1A1511;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -184,14 +184,14 @@
 }
 
 .sizeButton:hover:not(:disabled) {
-  border-color: #0A0A0A;
+  border-color: #C49A4B;
 }
 
 .sizeButtonActive {
-  background: #0A0A0A !important;
-  color: #FFFFFF !important;
-  border-color: #0A0A0A !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #1E1813 0%, #2D231B 100%) !important;
+  color: #F4DFB0 !important;
+  border-color: #C49A4B !important;
+  box-shadow: 0 4px 14px rgba(24, 18, 12, 0.2);
 }
 
 .sizeButtonDisabled {
@@ -248,9 +248,9 @@
 .buyNowActionBtn {
   flex: 1;
   height: 50px;
-  background: #A51F27 !important;
-  color: #FFFFFF !important;
-  border: none !important;
+  background: linear-gradient(135deg, #E8CA82 0%, #C49A4B 60%, #A57C2E 100%) !important;
+  color: #16120D !important;
+  border: 1px solid rgba(255, 245, 222, 0.55) !important;
   border-radius: 12px !important;
   font-size: 14px !important;
   font-weight: 700 !important;
@@ -260,19 +260,20 @@
   justify-content: center !important;
   gap: 8px !important;
   cursor: pointer !important;
-  box-shadow: 0 6px 20px rgba(165, 31, 39, 0.32) !important;
+  box-shadow: 0 8px 22px rgba(196, 154, 75, 0.34) !important;
   transition: all 0.2s ease !important;
 }
 
 .buyNowActionBtn:hover:not(:disabled) {
-  background: #8E161D !important;
+  background: linear-gradient(135deg, #F3D998 0%, #D4AA56 60%, #B38836 100%) !important;
   transform: translateY(-2px);
-  box-shadow: 0 8px 26px rgba(165, 31, 39, 0.42) !important;
+  box-shadow: 0 10px 28px rgba(196, 154, 75, 0.44) !important;
 }
 
 .buyNowActionBtn:disabled {
-  background: #E5E7EB !important;
-  color: #9CA3AF !important;
+  background: #E3D6BF !important;
+  color: #9A8F82 !important;
+  border-color: transparent !important;
   cursor: not-allowed !important;
   box-shadow: none !important;
 }
@@ -280,9 +281,9 @@
 .addToBagActionBtn {
   flex: 1;
   height: 50px;
-  background: #111111 !important;
-  color: #FFFFFF !important;
-  border: 1px solid #222222 !important;
+  background: linear-gradient(135deg, #1E1813 0%, #2D231B 100%) !important;
+  color: #F6E8CA !important;
+  border: 1px solid rgba(196, 154, 75, 0.5) !important;
   border-radius: 12px !important;
   font-size: 14px !important;
   font-weight: 700 !important;
@@ -292,19 +293,22 @@
   justify-content: center !important;
   gap: 8px !important;
   cursor: pointer !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
+  box-shadow: 0 6px 18px rgba(24, 18, 12, 0.22) !important;
   transition: all 0.2s ease !important;
 }
 
 .addToBagActionBtn:hover:not(:disabled) {
-  background: #252525 !important;
+  background: linear-gradient(135deg, #59121C 0%, #3E0B12 100%) !important;
+  color: #FFFDF8 !important;
+  border-color: #DFBE78 !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28) !important;
+  box-shadow: 0 8px 22px rgba(89, 18, 28, 0.32) !important;
 }
 
 .addToBagActionBtn:disabled {
-  background: #E5E7EB !important;
-  color: #9CA3AF !important;
+  background: #E3D6BF !important;
+  color: #9A8F82 !important;
+  border-color: transparent !important;
   cursor: not-allowed !important;
   box-shadow: none !important;
 }
@@ -313,9 +317,9 @@
   width: 50px;
   height: 50px;
   border-radius: 12px;
-  border: 1.5px solid #D8D2C7;
-  background: #FFFFFF;
-  color: #111111;
+  border: 1.5px solid #DFD1B8;
+  background: #FFFDF8;
+  color: #1A1511;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -325,7 +329,8 @@
 }
 
 .wishlistBtn:hover {
-  border-color: #0A0A0A;
+  border-color: #C49A4B;
+  color: #8C6825;
 }
 
 .assuranceList {
@@ -333,11 +338,11 @@
   grid-template-columns: 1fr;
   gap: 10px;
   padding: 16px;
-  background: #FAF9F6;
-  border: 1px solid #ECE7DE;
+  background: #FFFDF8;
+  border: 1px solid #DFD1B8;
   border-radius: 14px;
   font-size: 12px;
-  color: #374151;
+  color: #544B42;
 }
 
 .assuranceItem {
@@ -347,8 +352,8 @@
 }
 
 .accordionSection {
-  border: 1px solid #ECE7DE;
-  background: #FFFFFF;
+  border: 1px solid #DFD1B8;
+  background: #FFFDF8;
   border-radius: 14px;
   padding: 18px 20px;
   display: flex;
