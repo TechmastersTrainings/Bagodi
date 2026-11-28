@@ -18,9 +18,9 @@ export const ContactPage: React.FC = () => {
         </header>
 
         <div className={styles.mainContent} style={{ display: "grid", gap: "1.5rem" }}>
-          <section style={{ padding: "1.5rem", background: "#FBF9F6", border: "1px solid #E5DED3", borderRadius: 14 }}>
+          <section style={{ padding: "1.5rem", background: "#FFFFFF", border: "1px solid #E5E0D5", borderRadius: 14 }}>
             <h2 style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 0 }}>
-              <MapPin size={18} color="#A51F27" /> Flagship Store Address
+              <MapPin size={18} color="#C49A4B" /> Flagship Store Address
             </h2>
             <p>
               <strong>Bagodi Shopping Mall</strong>

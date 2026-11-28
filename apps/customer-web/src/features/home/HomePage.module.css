@@ -11,7 +11,7 @@
 
 .homeContainer {
   width: 100%;
-  background: linear-gradient(180deg, #F4EDE0 0%, #EFE5D3 52%, #F4EDE0 100%);
+  background: #FFFFFF;
   color: var(--bagodi-charcoal, #1A1511);
   font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
   overflow-x: hidden;
@@ -738,8 +738,8 @@
 }
 
 .editTabBtn {
-  background: rgba(255, 253, 248, 0.78);
-  border: 1px solid #DFD1B8;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D5;
   color: #544B42;
   font-size: 0.84rem;
   font-weight: 600;
@@ -753,7 +753,7 @@
 .editTabBtn:hover {
   color: #1A1511;
   border-color: #C49A4B;
-  background-color: #FFFDF8;
+  background-color: #FFFFFF;
 }
 
 .editTabActive {
@@ -770,13 +770,13 @@
 }
 
 .productCard {
-  background-color: #FFFDF8;
-  border: 1px solid #DFD1B8;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E0D5;
   border-radius: 14px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 16px rgba(24, 18, 12, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 16px rgba(24, 18, 12, 0.05);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
@@ -790,7 +790,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
-  background-color: #ECE2CF;
+  background-color: #F8F8F6;
   overflow: hidden;
 }
 
@@ -1058,14 +1058,14 @@
 }
 
 .testimonialCard {
-  background: linear-gradient(180deg, #FFFDF8 0%, #FBF4E7 100%);
-  border: 1px solid #DFD1B8;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D5;
   border-top: 2px solid #C49A4B;
   border-radius: 14px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 6px 20px rgba(24, 18, 12, 0.06);
+  box-shadow: 0 6px 20px rgba(24, 18, 12, 0.05);
 }
 
 .testimonialHeader {
@@ -1247,8 +1247,8 @@
 }
 
 .storeExperienceInner {
-  background: linear-gradient(135deg, #FFFDF8 0%, #F4EAD8 100%);
-  border: 1px solid #D9C7A3;
+  background: #FFFFFF;
+  border: 1px solid #E2DDD2;
   border-top: 3px solid #C49A4B;
   border-radius: 16px;
   padding: 2.25rem 2.5rem;
@@ -1256,7 +1256,7 @@
   grid-template-columns: 1.2fr 1fr;
   gap: 2.5rem;
   align-items: center;
-  box-shadow: 0 10px 30px rgba(24, 18, 12, 0.08);
+  box-shadow: 0 10px 30px rgba(24, 18, 12, 0.06);
 }
 
 .storeExperienceText {
@@ -1301,8 +1301,8 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background-color: #EFE4D0;
-  border: 1px solid #CEBA92;
+  background-color: #FAFAFA;
+  border: 1px solid #DFD1B8;
   color: #3E3326;
   padding: 0.35rem 0.75rem;
   border-radius: 6px;
@@ -1605,8 +1605,8 @@
   .productCard {
     border-radius: 12px;
     overflow: hidden;
-    background-color: #FFFDF8;
-    border: 1px solid #DFD1B8;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E0D5;
     display: flex;
     flex-direction: column;
   }
@@ -1616,7 +1616,7 @@
     height: 195px;
     aspect-ratio: auto;
     overflow: hidden;
-    background-color: #ECE2CF;
+    background-color: #F8F8F6;
   }
   .productImg {
     width: 100%;

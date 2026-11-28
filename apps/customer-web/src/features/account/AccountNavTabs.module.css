@@ -26,8 +26,8 @@
   font-size: 13.5px;
   font-weight: 500;
   color: #544B42;
-  background: rgba(255, 253, 248, 0.72);
-  border: 1px solid #DFD1B8;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D5;
   text-decoration: none;
   border-radius: 9999px;
   transition: all 0.2s ease;
@@ -37,7 +37,7 @@
 .tabLink:hover {
   color: #1A1511;
   border-color: #C49A4B;
-  background: #FFFDF8;
+  background: #FFFFFF;
 }
 
 .tabLinkActive {

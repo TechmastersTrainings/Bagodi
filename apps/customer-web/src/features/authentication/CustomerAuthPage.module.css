@@ -1,13 +1,13 @@
 /* Bagodi Luxury Customer Storefront - Royal Animated Silk Pavilion */
 
 .authPageWrapper {
-  --bg-canvas: #F4EDE0;
-  --bg-card: #FFFDF8;
+  --bg-canvas: #FFFFFF;
+  --bg-card: #FFFFFF;
   --text-primary: #1A1511;
   --text-secondary: #544B42;
   --text-muted: #84786A;
-  --border-default: #D9C7A3;
-  --border-subtle: #EDE4D3;
+  --border-default: #E2DDD2;
+  --border-subtle: #F0EFEA;
   --brand-crimson: #8B1A24;
   --brand-crimson-hover: #59121C;
   --brand-crimson-subtle: rgba(196, 154, 75, 0.14);
@@ -22,7 +22,7 @@
   justify-content: center;
   padding: clamp(10px, 1.8vh, 18px) clamp(16px, 2.5vw, 32px);
   box-sizing: border-box;
-  background: linear-gradient(135deg, #F4EDE0 0%, #EAE0CE 100%);
+  background: #FFFFFF;
   position: relative;
   overflow-x: hidden;
 }
@@ -245,7 +245,7 @@
    ===================================================================== */
 
 .formPanel {
-  background: linear-gradient(180deg, #FFFDF8 0%, #FAF3E6 100%);
+  background: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;

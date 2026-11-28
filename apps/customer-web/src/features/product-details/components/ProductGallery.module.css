@@ -19,8 +19,8 @@
   width: 76px;
   height: 96px;
   border-radius: 10px;
-  border: 1.5px solid #DFD1B8;
-  background: #ECE2CF;
+  border: 1.5px solid #E5E0D5;
+  background: #F8F8F6;
   overflow: hidden;
   cursor: pointer;
   padding: 0;
@@ -46,15 +46,15 @@
   flex: 1;
   max-height: 580px;
   aspect-ratio: 3 / 4;
-  background: #ECE2CF;
-  border: 1px solid #D9C7A3;
+  background: #F8F8F6;
+  border: 1px solid #E5E0D5;
   border-radius: 20px;
   overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 14px 36px rgba(24, 18, 12, 0.1);
+  box-shadow: 0 14px 36px rgba(24, 18, 12, 0.08);
 }
 
 .mainImage {

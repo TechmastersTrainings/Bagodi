@@ -53,13 +53,13 @@
   --status-info-bg: rgba(26, 21, 17, 0.08);
   --status-info-border: rgba(26, 21, 17, 0.2);
 
-  /* Editorial Multi-Tonal Silk Canvas & Satin Alabaster Surfaces */
-  --bg-primary: #F4EDE0;
-  --bg-surface: #FFFDF8;
-  --bg-secondary: #ECE2CF;
-  --bg-tertiary: #E3D6BF;
-  --bg-elevated: #FFFDF8;
-  --bg-surface-glass: rgba(255, 252, 245, 0.92);
+  /* Pure Gallery White Canvas with Warm Neutral Supports */
+  --bg-primary: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --bg-secondary: #F8F8F6;
+  --bg-tertiary: #F2F0EC;
+  --bg-elevated: #FFFFFF;
+  --bg-surface-glass: rgba(255, 255, 255, 0.96);
   --bg-overlay: rgba(20, 15, 11, 0.68);
   --bg-obsidian: #18130F;
   --bg-olive: #1A2E24;
@@ -68,15 +68,15 @@
   --text-primary: #1A1511;
   --text-secondary: #544B42;
   --text-tertiary: #84786A;
-  --text-inverse: #FFFDF8;
+  --text-inverse: #FFFFFF;
   --text-gold: #C49A4B;
   --text-burgundy: #59121C;
   --text-red: #8B1A24;
 
   /* Borders & Highlights */
-  --border-subtle: #EDE4D3;
-  --border-default: #DFD1B8;
-  --border-prominent: #B8924A;
+  --border-subtle: #F0EFEA;
+  --border-default: #E5E0D5;
+  --border-prominent: #C49A4B;
   --border-dark: rgba(232, 213, 174, 0.22);
 
   /* Accents */
@@ -84,7 +84,7 @@
   --accent-primary-hover: #59121C;
   --accent-primary-glow: rgba(196, 154, 75, 0.35);
   --accent-subtle: rgba(196, 154, 75, 0.12);
-  --accent-contrast: #FFFDF8;
+  --accent-contrast: #FFFFFF;
   --accent-burgundy: #59121C;
   --accent-red: #8B1A24;
   --brand-crimson: #8B1A24;

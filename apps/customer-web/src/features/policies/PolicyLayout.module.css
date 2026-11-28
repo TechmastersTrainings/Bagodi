@@ -4,7 +4,7 @@
 
 .pageRoot {
   width: 100%;
-  background: linear-gradient(180deg, #F4EDE0 0%, #EFE5D3 100%);
+  background: #FFFFFF;
   color: #1A1511;
   min-height: calc(100vh - 120px);
   padding: 2rem 1.5rem 4rem 1.5rem;
@@ -42,12 +42,12 @@
 
 /* Header Banner */
 .policyHeader {
-  background: #FFFDF8;
-  border: 1px solid #DFD1B8;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D5;
   border-radius: 16px;
   padding: 2.5rem 2.25rem 2rem 2.25rem;
   margin-bottom: 2rem;
-  box-shadow: 0 6px 24px rgba(24, 18, 12, 0.06);
+  box-shadow: 0 6px 24px rgba(24, 18, 12, 0.05);
   position: relative;
   overflow: hidden;
 }
@@ -134,8 +134,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.65rem 1.25rem;
-  background: #FFFDF8;
-  border: 1px solid #DFD1B8;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D5;
   color: #544B42;
   font-size: 0.84rem;
   font-weight: 600;
@@ -148,7 +148,7 @@
 .tabBtn:hover {
   border-color: #C49A4B;
   color: #1A1511;
-  background: #FAF3E6;
+  background: #FFFFFF;
 }
 
 .tabBtnActive {
@@ -170,8 +170,8 @@
 .tocSidebar {
   position: sticky;
   top: 90px;
-  background: #FFFDF8;
-  border: 1px solid #DFD1B8;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D5;
   border-radius: 14px;
   padding: 1.25rem 1.25rem;
   box-shadow: 0 4px 16px rgba(24, 18, 12, 0.04);
@@ -209,15 +209,15 @@
 }
 
 .tocLink:hover {
-  background: #F6F1E9;
-  color: #A51F27;
+  background: #F6F6F4;
+  color: #8C6825;
   padding-left: 0.85rem;
 }
 
 /* Main Content Article */
 .mainArticle {
-  background: #FFFDF8;
-  border: 1px solid #DFD1B8;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D5;
   border-radius: 16px;
   padding: 2.5rem;
   box-shadow: 0 6px 24px rgba(24, 18, 12, 0.05);
@@ -277,9 +277,9 @@
 
 /* Callout Box (Statutory Alert / Highlight) */
 .calloutBox {
-  background: #FBF9F6;
-  border: 1px solid #E5DED3;
-  border-left: 4px solid #A51F27;
+  background: #FAFAFA;
+  border: 1px solid #E5E0D5;
+  border-left: 4px solid #C49A4B;
   border-radius: 0 10px 10px 0;
   padding: 1.15rem 1.25rem;
   margin: 1.25rem 0;
@@ -328,16 +328,16 @@
 }
 
 .policyTable th {
-  background: #F6F1E9;
-  color: #26231F;
+  background: #F8F8F6;
+  color: #1A1511;
   font-weight: 700;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #E5DED3;
+  border-bottom: 1px solid #E5E0D5;
 }
 
 .policyTable td {
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #F0EAE1;
+  border-bottom: 1px solid #F0EFEA;
   color: #4A453F;
 }
 
@@ -347,12 +347,13 @@
 
 /* Grievance Redressal Statutory Card */
 .grievanceCard {
-  background: linear-gradient(135deg, #FBF9F6 0%, #F6F1E9 100%);
-  border: 1px solid #D8D0C3;
+  background: #FFFFFF;
+  border: 1px solid #E2DDD2;
+  border-top: 2px solid #C49A4B;
   border-radius: 14px;
   padding: 1.5rem 1.75rem;
   margin-top: 2rem;
-  box-shadow: 0 2px 8px rgba(38, 35, 31, 0.03);
+  box-shadow: 0 4px 14px rgba(24, 18, 12, 0.04);
 }
 
 .grievanceHeader {

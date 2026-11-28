@@ -37,8 +37,8 @@
 .subTabSwitch {
   display: flex;
   gap: 8px;
-  background: #ECE2CF;
-  border: 1px solid #DFD1B8;
+  background: #F4F3F0;
+  border: 1px solid #E5E0D5;
   padding: 4px;
   border-radius: var(--radius-lg);
   margin-bottom: var(--space-6);
@@ -68,13 +68,13 @@
 
 /* Card Shell */
 .cardShell {
-  background: #FFFDF8;
-  border: 1px solid #DFD1B8;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D5;
   border-top: 2px solid #C49A4B;
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   margin-bottom: var(--space-6);
-  box-shadow: 0 6px 20px rgba(24, 18, 12, 0.05);
+  box-shadow: 0 6px 20px rgba(24, 18, 12, 0.04);
 }
 
 .cardHeader {

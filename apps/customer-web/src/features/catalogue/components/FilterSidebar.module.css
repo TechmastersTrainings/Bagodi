@@ -10,11 +10,11 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: #FFFDF8;
+  background: #FFFFFF;
   border-radius: 16px;
-  border: 1px solid #DFD1B8;
+  border: 1px solid #E5E0D5;
   padding: 16px;
-  box-shadow: 0 6px 20px rgba(24, 18, 12, 0.05);
+  box-shadow: 0 6px 20px rgba(24, 18, 12, 0.04);
 }
 
 .filterHeader {
@@ -154,7 +154,7 @@
 }
 
 .brandCheckItem:hover {
-  background: #FAF3E6;
+  background: #F8F8F6;
 }
 
 .brandCheckItemActive {
@@ -179,8 +179,8 @@
   font-size: 12px;
   font-weight: 600;
   color: #3E352B !important;
-  background-color: #FAF3E6 !important;
-  border: 1px solid #DFD1B8 !important;
+  background-color: #FAFAFA !important;
+  border: 1px solid #E5E0D5 !important;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -188,7 +188,7 @@
 .priceBracketPill:hover {
   border-color: #C49A4B !important;
   color: #1A1511 !important;
-  background-color: #FFFDF8 !important;
+  background-color: #FFFFFF !important;
 }
 
 .priceBracketPillActive,
@@ -251,8 +251,8 @@ button.priceBracketPillActive {
 .sizeChipBtn {
   height: 34px;
   border-radius: 6px;
-  border: 1px solid #DFD1B8 !important;
-  background-color: #FAF3E6 !important;
+  border: 1px solid #E5E0D5 !important;
+  background-color: #FFFFFF !important;
   color: #1A1511 !important;
   font-size: 12px;
   font-weight: 700;

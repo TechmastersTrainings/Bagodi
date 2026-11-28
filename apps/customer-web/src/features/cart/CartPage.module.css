@@ -202,8 +202,8 @@
 
 /* Authoritative Summary Card */
 .summaryCard {
-  background: linear-gradient(180deg, #FFFDF8 0%, #FAF3E6 100%);
-  border: 1px solid #D9C7A3;
+  background: #FFFFFF;
+  border: 1px solid #E2DDD2;
   border-top: 3px solid #C49A4B;
   border-radius: var(--radius-2xl);
   padding: var(--space-6);

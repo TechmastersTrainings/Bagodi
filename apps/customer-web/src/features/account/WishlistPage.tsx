@@ -114,7 +114,7 @@ export const WishlistPage: React.FC = () => {
                 flexDirection: "column",
               }}
             >
-              <Link to={`/product/${item.slug || item.productId}`} style={{ display: "block", aspectRatio: "4/5", background: "#ECE2CF" }}>
+              <Link to={`/product/${item.slug || item.productId}`} style={{ display: "block", aspectRatio: "4/5", background: "#F8F8F6" }}>
                 <img
                   src={item.imageUrl || "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=85"}
                   alt={item.name}
