@@ -32,6 +32,8 @@ import {
   triggerHaptic,
 } from "@bagodi/utilities";
 import { LiquidGlassNavbar } from "../components/navigation/LiquidGlassNavbar";
+import bagodiLogoLight from "../assets/bagodi-logo-light.svg";
+import bagodiLogoDark from "../assets/bagodi-logo-dark.svg";
 
 export interface CustomerLayoutProps {
   children: ReactNode;
@@ -193,11 +195,14 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
             </button>
           </div>
 
-          {/* Center: Bagodi Wordmark & Subtitle */}
+          {/* Center: Bagodi Full Brand Logo */}
           <div className={styles.headerCenter}>
             <Link to="/" className={styles.logoContainer} aria-label="Bagodi Shopping Mall Home">
-              <span className={styles.brandWordmark}>BAGODI</span>
-              <span className={styles.brandSubtitle}>SHOPPING MALL • BIDAR</span>
+              <img
+                src={bagodiLogoLight}
+                alt="Bagodi Shopping Mall — ಬಾಗೋಡಿ"
+                className={styles.brandLogoImg}
+              />
             </Link>
           </div>
 
@@ -369,8 +374,11 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           <div className={styles.drawerContent} onClick={(e) => e.stopPropagation()}>
             <div className={styles.drawerHeader}>
               <div className={styles.drawerLogoWrap}>
-                <span className={styles.brandWordmark}>BAGODI</span>
-                <span className={styles.brandSubtitle}>SHOPPING MALL • BIDAR</span>
+                <img
+                  src={bagodiLogoLight}
+                  alt="Bagodi Shopping Mall — ಬಾಗೋಡಿ"
+                  className={styles.drawerLogoImg}
+                />
               </div>
               <button
                 type="button"
@@ -450,8 +458,11 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
             {/* Column 1: Brand & Socials */}
             <div className={styles.footerBrandCol}>
               <div className={styles.footerLogoContainer}>
-                <span className={styles.footerBrandWordmark}>BAGODI</span>
-                <span className={styles.footerBrandSubtitle}>SHOPPING MALL • BIDAR</span>
+                <img
+                  src={bagodiLogoDark}
+                  alt="Bagodi Shopping Mall — ಬಾಗೋಡಿ"
+                  className={styles.footerLogoImg}
+                />
               </div>
               <p className={styles.footerDesc}>
                 A premium multi-brand shopping destination for fashion, lifestyle and more.
@@ -564,8 +575,11 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({
           {/* Streamlined Mobile-Only Footer (Hidden on Desktop) */}
           <div className={styles.mobileFooterGrid}>
             <div className={styles.mobileFooterBrand}>
-              <span className={styles.footerBrandWordmark}>BAGODI</span>
-              <span className={styles.footerBrandSubtitle}>SHOPPING MALL • BIDAR</span>
+              <img
+                src={bagodiLogoDark}
+                alt="Bagodi Shopping Mall — ಬಾಗೋಡಿ"
+                className={styles.mobileFooterLogoImg}
+              />
               <p className={styles.mobileFooterTagline}>
                 Bidar Flagship Atelier • Est. 1968
               </p>

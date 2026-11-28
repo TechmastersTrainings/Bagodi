@@ -23,8 +23,13 @@ function openTaxInvoicePrintWindow(order: any) {
     )
     .join("");
   win.document.write(`<!doctype html><html><head><title>Tax Invoice #${orderNumber}</title></head><body style="font-family:Inter,Arial,sans-serif;padding:32px;color:#1b1917">
-    <h2 style="margin:0;color:#A51F27">BAGODI SHOPPING MALL • TAX INVOICE</h2>
-    <p style="margin:4px 0 16px;font-size:12px;color:#555">Meenakshi Tower, Udgir Road, Bidar, Karnataka 585401 | GSTIN: 29AABCB1234F1Z1</p>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+      <img src="/bagodi-logo.jpg" alt="Bagodi Shopping Mall" style="height:56px;width:auto;" />
+      <div>
+        <h2 style="margin:0;color:#A51F27">BAGODI SHOPPING MALL • TAX INVOICE</h2>
+        <p style="margin:4px 0 0;font-size:12px;color:#555">Meenakshi Tower, Udgir Road, Bidar, Karnataka 585401 | GSTIN: 29AABCB1234F1Z1</p>
+      </div>
+    </div>
     <p><strong>Order:</strong> #${orderNumber} &nbsp;|&nbsp; <strong>Customer:</strong> ${order.customerName || order.customer_name || ""} (${order.customerPhone || order.customer_phone || ""})</p>
     <table style="width:100%;border-collapse:collapse;margin:16px 0"><thead><tr style="background:#f6f1e9;text-align:left"><th style="padding:8px">Item</th><th style="padding:8px">Qty</th><th style="padding:8px">Unit Rate</th><th style="padding:8px">Total (Incl. GST)</th></tr></thead><tbody>${itemsHtml}</tbody></table>
     <div style="text-align:right;font-size:14px;line-height:1.7">

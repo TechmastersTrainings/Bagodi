@@ -20,6 +20,7 @@ import {
   SendOtpResponse,
 } from "@bagodi/shared-types";
 import { LuxurySilkCanvas } from "./LuxurySilkCanvas";
+import bagodiLogoLight from "../../assets/bagodi-logo-light.svg";
 import {
   Smartphone,
   Mail,
@@ -217,10 +218,11 @@ export const CustomerAuthPage: React.FC = () => {
           <div className={styles.formCard}>
             {/* Header */}
             <div className={styles.authHeader}>
-              <div className={styles.brandMicroTag}>
-                <span className={styles.brandMicroDot} />
-                <span>BAGODI SHOPPING MALL</span>
-              </div>
+              <img
+                src={bagodiLogoLight}
+                alt="Bagodi Shopping Mall — ಬಾಗೋಡಿ"
+                style={{ height: 64, width: "auto", marginBottom: 10, display: "block" }}
+              />
               <h1 className={styles.title}>Welcome Back</h1>
               <p className={styles.subtitle}>
                 Enter your mobile number or email address. We'll send an instant verification code to access your account.
